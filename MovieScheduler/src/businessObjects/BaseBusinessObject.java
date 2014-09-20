@@ -88,8 +88,11 @@ public class BaseBusinessObject {
      * @param errorMessage::String ~ A description of the error
      * @param passesTest::boolean ~ Whether or not the test for this error has
      * been passed
+     * Note: Class is marked final because, though it needs to be accessed by
+     * derived classes, it should never be overridden.
+     * see http://en.wikipedia.org/wiki/Fragile_base_class for justification.
      */
-    void updateError(String errorMessage, boolean passesTest)
+    final void updateError(String errorMessage, boolean passesTest)
     {
         //ToDo: Implement
     }
@@ -108,9 +111,12 @@ public class BaseBusinessObject {
      *      name = newName;
      *      setHasChanged()
      * }
+     * Note: Class is marked final because, though it needs to be accessed by
+     * derived classes, it should never be overridden.
+     * see http://en.wikipedia.org/wiki/Fragile_base_class for justification.
      * @param changedState::boolean ~ The new changed state of the object
      */
-    void setHasChanged(boolean changedState)
+    final void setHasChanged(boolean changedState)
     {
         //ToDo: Implement
     }
