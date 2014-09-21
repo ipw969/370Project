@@ -7,6 +7,9 @@ Product Description
 
 Business Case
 
+A significant amount of the responsibility for the organisation of a movie project falls to the producer, once a shooting begins. It is up to them to decide when each scene should be shot, keep track of progress on the film, inform the required cast and crew of when they will be required, ensure that all the necessary equipment (lighting, cameras, microphones, generators) is present for any given scene, and keep everything flowing on any given day of filming. This workload is increased significantly when producing a movie which is reliant of volunteers or volunteered equipment and has, to some extent, to work itself around their schedules. 
+
+In order to ease the complexity of this task of orginaization our firm will design and build a piece of software which will assist in the collection of all the information needed to build a shooting itinerary for an entire movie project, including the scenes to be shot, the volunteers who will form the cast and crew, the equipment needed to be shot and the volunteer/equipment requirements of the scenes. With this information the producer will have a visual and automatic means of bringing together this information into a workable itinerary. The system will also facilitiate communication between the producer and the volunteers by allowing the emailing of all relevant parties required for given scenes (in the case, for instance, of an unworkable itinerary), and will feature a web applet that will allow the volunteers to update their information from across the web, should their availability or contact info change.
 
 User Level Goals
 
