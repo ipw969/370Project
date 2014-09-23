@@ -28,3 +28,11 @@ Branches:
 Only other Git things:
 git pull origin master: It updates to the most recent version, always do this before starting to work
 commit after you're done, but only push if it's tested
+
+We decided on pair programming:
+Matt <=> John
+Matt=>Ryan
+Ryan=>John 
+Iain<=>Mitchell
+
+We distributed the workload 
