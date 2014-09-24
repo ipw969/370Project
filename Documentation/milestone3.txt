@@ -22,28 +22,44 @@ In our project we have identified one major use case and one minor use case. The
 
 Use Case: Enter new volunteer/equipment information
 Actors: Producers
-Goal: To enter new information into the database regarding equipment and volunteer availabilities
-Activity: A producer receives a form with the volunteer's skills as they relate to the film, their availability and contact information. They also receive equipment rental information time availability They then are able to quickly enter it in large quantities. 
+Goal: To enter new information into the database regarding volunteer availabilities
+Activity: A producer receives a form with the volunteer's skills as they relate to the film, their availability and contact information. They then are able to quickly enter it in large quantities. 
 Quality: Must be efficient, and accurate
+
+Use Case: Enter new equipment information
+Actors: Producers
+Goal: TO enter new equipment information into the database
+Activity:The producer receives equipment rental information time availability, and they enter the attributes and times for the equipment. Should be efficient
+Quality: Efficient and accurate
 
 Use Case: Enter/Edit scene requirements 
 Actors: Producers
-Goal: Allow the producers to check off what type of people and equipment is needed for a particular scene, so that a schedule can be generated. It should also allow the editing of requirements.
+Goal: Create and edit what each scene needs.
+Activity: Allow the producers to check off what type of people and equipment is needed for a particular scene, so that a schedule can be generated. It should also allow the editing of requirements.
 Quality: Efficient and simple
 
 Use Case: Edit/Update Information
 Actors: Producers/Volunteers
-Goal: Allow the editing of volunteer/equipment availbility by the producer or the Volunteers through the web service
+Goal: Edit information of the volunteer/equipment information
+Activity: Allow the editing of volunteer/equipment availbility by the producer or the Volunteers through the web service
 Quality: Reliable, simple, and consistent
 
-Use Case: Schedule Generation
+Use Case: View Schedule
 Actors: Producers
-Goal: Once the volunteer availability and scene requirements are input, allow a spreadsheet or other document to be produced that shows what time different scenes will be filmed at.
+Goal: Examine the current schedule
+Activity: Once the volunteer availability and scene requirements are input, allow the producer to have an 'at a glance' view of the schedule.
 Quality: Must 100% correct, concise as possible and reliable.
+
+Use Case: Export schedule
+Actors: Producers 
+Goal: Get a file containing the schedule
+Activity: Allow the producer to export the schedule data into a xls, or similar format that would allow printing the schedule.
+Quality: Must be easily human readable.
 
 Use Case: Conflict resolution
 Actors: Producers
-Goal: Allow the producers to view conflicts, and make decisions, such as to send everyone involved emails, or to generate a list of their phone numbers.
+Goal: Resolve conflicts in the schedule
+Activity: Allow the producers to view conflicts, and make decisions, such as to send everyone involved emails, or to generate a list of their phone numbers.
 Quality:  Reliable and simple (For the user)
 
 
