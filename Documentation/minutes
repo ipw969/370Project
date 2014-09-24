@@ -1,0 +1,38 @@
+Minutes
+Achievatron Unlimited
+Sept 23rd: 5:00PM
+Present: Iain, John, Ryan, Mitchell
+Absent: Matt
+
+Agenda:
+1. Conventions of all varieties
+2. Milestone 3
+3. Others
+
+1.
+ Coding conventions
+ Iain expressed his annoyance with the get/set ideas.
+ We should use the Java style guides:
+ Classes: SomeClass INterfaces the same
+ Methods should be verbs, in mixed case with the first letter lowercase,
+ with the first letter of each internal word capitalized.
+ Variables: All have meaning, camel case. 
+ 0Except loop counters: 
+  vector<widgets> widgetCollection
+  for (widget currentWidget:widgetCollection) 
+Unless unavoidable
+Git Conventions:
+Branches: 
+  Iain has in the past used a 1:1 ratio with issues and branches, but that might not work while we're building 
+ In dicussing the conventions it was suggested that we do the web applet as a prototype for the localO
+Only other Git things:
+git pull origin master: It updates to the most recent version, always do this before starting to work
+commit after you're done, but only push if it's tested
+
+We decided on pair programming:
+Matt <=> John
+Matt=>Ryan
+Ryan=>John 
+Iain<=>Mitchell
+
+We distributed the workload 

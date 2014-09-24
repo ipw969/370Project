@@ -17,6 +17,38 @@ User Level Goals
 User Scenarios
 
 
+In our project we have identified one major use case and one minor use case. The primary users will be one or more producers who's primary uses of the software will be to organize scheduling and resolving conflicts involving volunteers/equipment. The secondary use of the software will be for volunteers to easily edit contact info and availability to resolve conflicts.
+
+Use Case: Enter new volunteer/equipment information
+Actors: Producers
+Goal: To enter new information into the database regarding equipment and volunteer availabilities
+Activity: A producer receives a form with the volunteer's skills as they relate to the film, their availability and contact information. They also receive equipment rental information time availability They then are able to quickly enter it in large quantities. 
+Quality: Must be efficient, and accurate
+
+Use Case: Enter/Edit scene requirements 
+Actors: Producers
+Goal: Allow the producers to check off what type of people and equipment is needed for a particular scene, so that a schedule can be generated. It should also allow the editing of requirements.
+Quality: Efficient and simple
+
+Use Case: Edit/Update Information
+Actors: Producers/Volunteers
+Goal: Allow the editing of volunteer/equipment availbility by the producer or the Volunteers through the web service
+Quality: Reliable, simple, and consistent
+
+Use Case: Schedule Generation
+Actors: Producers
+Goal: Once the volunteer availability and scene requirements are input, allow a spreadsheet or other document to be produced that shows what time different scenes will be filmed at.
+Quality: Must 100% correct, concise as possible and reliable.
+
+Use Case: Conflict resolution
+Actors: Producers
+Goal: Allow the producers to view conflicts, and make decisions, such as to send everyone involved emails, or to generate a list of their phone numbers.
+Quality:  Reliable and simple (For the user)
+
+
+
+
+
 Project Scope
 
 
