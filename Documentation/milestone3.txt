@@ -4,6 +4,7 @@ by Achieveatron Unlimited
 
 Product Description
 
+Our company, Achievatron Unlimited, will create a piece of software designed to assist the Producer of a small-scale film production company. These companies rely heavily on volunteer cast or crew members as well as volunteered equipment in order to film the scenes. Producers of such companies are expected to efficiently schedule filming around the time constraints of the available volunteers and equipment in order to produce the film in the shortest amount of time possible.  Our software aims to make the producer’s job easier by keeping records of all cast/crew members and equipment as well as the times they are available, the scenes which are required for the movie (both completed and yet to be shot), and what each scene requires. This will save the producer time by allowing him or her to easily create a schedule, or even automatically generate an appropriate schedule given all of the time constraints. 
 
 Business Case
 
