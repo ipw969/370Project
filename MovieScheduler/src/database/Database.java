@@ -11,6 +11,6 @@ import java.sql.*;
  *
  * @author iain
  */
-public class database {
+public class Database {
     
 }
