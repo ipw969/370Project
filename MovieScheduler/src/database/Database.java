@@ -5,7 +5,8 @@
  */
 package database;
 
-import java.sql.*;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 
 /**
  * A interface which defines a standard API for saving to and loading from the
@@ -64,8 +65,7 @@ public abstract class Database {
      * The abstract method which base classes will override in order to provide
      * an implementation for executeSelect method to call. This should ensure
      * that the query string meets the requirement of the particular database
-     * implementation, open a connection to the database, execute the query,
-     * build ResultSet, close the connection to the database, then return the
+     * implementation, execute the query, build ResultSet, then return the
      * built ResultSet.
      * @param queryText::String ~ The select query text to execute
      * @return The ResultSet returned by the database
@@ -78,8 +78,8 @@ public abstract class Database {
      * The abstract method which base classes will override in order to provide
      * an implementation for executeInsert method to call. This should ensure
      * that the query string meets the requirement of the particular database
-     * implementation, open a connection to the database, execute the query,
-     * then return the id of the inserted record
+     * implementation, executes the query, then returns the id of the inserted 
+     * record.
      * @param queryText::String ~ The insert query to execute
      * @return The id of the inserted item
      * @throws SQLException 
@@ -91,8 +91,7 @@ public abstract class Database {
      * The abstract method which base classes will override in order to provide
      * an implementation for executeUpdate method to call. This should ensure
      * that the query string meets the requirement of the particular database
-     * implementation, open a connection to the database, execute the query and
-     * then close the connection to the database
+     * implementation then executes the query
      * @param queryText::String ~ The update query to execute
      * @throws SQLException 
      */
