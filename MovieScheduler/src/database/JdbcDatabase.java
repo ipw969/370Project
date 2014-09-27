@@ -10,9 +10,12 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 /**
  * A class which provides a JDBC specific implementation of the Database
- * interface.
+ * interface. The JDBC driver must be registered with the system before any call
+ * to this class can be made, using:
+ * Class.forName("DRIVER_NAME");
  */
 public class JdbcDatabase extends Database {
     
@@ -26,9 +29,9 @@ public class JdbcDatabase extends Database {
     }
     
     /**
-     * 
-     * @param queryText
-     * @return
+     * Executes the given query statement, and returns the result set given
+     * @param queryText::String ~ The query statement to execute
+     * @return The ResultSet returned by the database
      * @throws SQLException 
      */
     @Override
@@ -53,29 +56,74 @@ public class JdbcDatabase extends Database {
     }
     
     /**
-     * 
-     * @param queryText
-     * @return
+     * Inserts into the database using the provided query text
+     * @param queryText::String ~ The query statement to execute
+     * @return The id of the item inserted into the database
      * @throws SQLException 
      */
     @Override
     protected int executeInsertImplementation(String queryText)
             throws SQLException
     {
-        return 0;
+        PreparedStatement statement = null;
+
+        try{
+            statement = connection.prepareStatement(queryText, 
+                    Statement.RETURN_GENERATED_KEYS);
+            
+            boolean success = (statement.executeUpdate() == 0);
+            
+            if(!success)
+                throw new SQLException("Object could not be inserted");
+            
+            ResultSet generatedIds = statement.getGeneratedKeys();
+            
+            if(generatedIds.next())
+                return generatedIds.getInt(1);
+            else
+                throw new SQLException("Object not inserted, did not receive " +
+                        "return id");
+        } catch (SQLException ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            if(statement != null && !statement.isClosed())
+                statement.close();
+        }       
     }
     
     /**
-     * 
-     * @param queryText
+     * Updates data in the database according to the provided query
+     * @param queryText::String ~ The update query to execute
      * @throws SQLException 
      */
     @Override
     protected void executeUpdateImplementation(String queryText)
             throws SQLException
     {
-        
+        Statement statement = null;
+        try
+        {
+            statement = connection.createStatement();
+            int updatedResults = statement.executeUpdate(queryText);
+            if(updatedResults == 0)
+                throw new SQLException("Update failed to alter any data");
+        }
+        catch (SQLException ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            if(statement!= null && !statement.isClosed())
+                statement.close();
+        }
     }
     
-    private Connection connection;
+    /**
+     * The connection to the JDBC database
+     */
+    private final Connection connection;
 }
