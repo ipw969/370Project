@@ -7,6 +7,8 @@ package moviescheduler;
 
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
+import java.sql.SQLException;
+import ui.MainMenu;
 /**
  *
  *
@@ -22,7 +24,7 @@ public class MovieScheduler {
         // initializedProperly is set to false
         boolean initializedProperly = true;
         // Each time an init action fails, add an error message to this list
-        ArrayList<String> errorsEncountered = new ArrayList();
+        ArrayList<String> errorsEncountered = new ArrayList<>();
         
         // Attempt initialization of database driver
         try {
@@ -33,6 +35,16 @@ public class MovieScheduler {
                 initializedProperly = false;
                 errorsEncountered.add("Could not load database driver with "
                         + "message: " + ex.toString());
+        }
+        
+        try{
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.setVisible(true);
+        } catch (SQLException ex)
+        {
+            initializedProperly = false;
+            errorsEncountered.add("Could not load main menu with message: " +
+                    ex.toString());
         }
         
         // One of this inits failed. Display an error message and exit

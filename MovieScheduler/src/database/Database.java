@@ -28,7 +28,10 @@ public abstract class Database {
     
     /**
      * Selects from the database using the provided query text, then returns
-     * the results as a ResultSet
+     * the results as a ResultSet. Note that the statement from which the
+     * ResultSet was obtained may still be open. When you've done with the
+     * ResultsSet test is its statement is not null and not closed. If both are
+     * true, close the statement.
      * @param queryText::String ~ The select query to execute
      * @return A ResultSet containing all the results returned by the database
      * @throws SQLException

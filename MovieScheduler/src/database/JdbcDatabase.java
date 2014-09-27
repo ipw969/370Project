@@ -45,12 +45,10 @@ public class JdbcDatabase extends Database {
             returnResults = selectStatement.executeQuery(queryText);
         } catch (SQLException ex)
         {
-            throw ex;
-        }
-        finally
-        {
             if(selectStatement != null && !selectStatement.isClosed())
                 selectStatement.close();
+            throw ex;
+            
         }
         return returnResults;
     }
@@ -91,7 +89,7 @@ public class JdbcDatabase extends Database {
         {
             if(statement != null && !statement.isClosed())
                 statement.close();
-        }       
+        }
     }
     
     /**
