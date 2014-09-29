@@ -73,43 +73,29 @@ Project Plan and Time Estimates
 
 
 User Involvement Plan
+Dead Prairies Productions is a movie company located in Swiftcurrent, SK who one of our group members worked with a few summers ago. A volunteer producer and various cast/crew members from this production group have  agreed to help test our Movie Scheduler product. This will occur over three phases during the development of the project.
 
-  Dead Prairies Productions is a movie company located in Swiftcurrent, SK who one of our group members worked
-  with a few summers ago. A volunteer producer and various cast/crew members from this production group have 
-  agreed to help test our Movie Scheduler product. This will occur over three phases during the development 
-  of the project.
+ 
+Phase 1: Prototype
 
-  Phase 1: Prototype
-  This phase involves testing the usability and flow of a basic GUI with the prototype movie scheduler. 
-  The producer and a few cast or crew members will test out the prototype. The main benefit of this phase is that
-  the volunteers will be able to offer suggestions towards the look and feel of the interface which will aid in
-  improving overall user experience as we continue to develop.
+This phase involves testing the usability and flow of a basic GUI with the prototype movie scheduler. The producer and a few cast or crew members will test out the prototype. The main benefit of this phase is that the volunteers will be able to offer suggestions towards the look and feel of the interface. This feedback will will aid in improving overall user experience as we continue to develop our product.
+Users: 1 Producer, 2-3 cast / crew members
+Time required: 15-30 minutes.
+Date: Early October upon completion of a prototype with basic functionality.
+ 
+Phase 2: Implementation
 
-  Users: 1 Producer, 2-3 cast / crew members
-  Time required: 15-30 minutes.
-  Date: Early October upon completion of a prototype with basic functionality.
+This phase involves users testing some major features of the project during the implementation. The Producer and various cast/crew will be asked to use the movie scheduler and cast/crew availability interfaces. This will allow us to catch any major issues that we may have overlooked during the early phases of our development.
+Users: 1 Producer, 5-6 cast / crew members
+Time required: 30-60 minutes for the producer, 15-30 minutes for each cast/crew member
+Date: Early - Mid November, upon completion of some major features before actual realization and   deployment of our product. 
+ 
+Phase 3: Finished Product
 
-
-  Phase 2: Implementation
-  This phase involves users testing some major features of the project during the implementation. The Producer and various
-  cast/crew will be asked to use the movie scheduler and cast/crew availability interfaces. This will allow us to catch
-  any major issues that we may have overlooked.
-
-  Users: 1 Producer, 5-6 cast / crew members
-  Time required: 30-60 minutes for the producer, 15-30 minutes for each cast/crew member
-  Date: Early - Mid November, upon completion of major features, before actual completion and deployment of our product. 
-
-  Phase 3: Finished Product
-  This phase involves a trial run - Dead Prairie Productions has agreed to use our Movie Scheduler for a short film.
-  This will allow us to evaluate the product before the development process is over, as we will work with users to 
-  fine-tune the product - with the user input we can make slight tweaks to the interface to improve the overall flow 
-  and feel of the program.   [REWRITE THIS PARAGRAPH FOR SURE, IT COULD USE SOME WORK - OR -  SCRATCH PHASE 3 AND CHANGE PHASE 2]
-
-  Users: 1 Producer, a number of cast / crew.
-  Time required: The length of the filming of a short film (3-14 days). [DOES THIS SEEM REASONABLE?]
-  Date: Late November - Early December, before deployment of our product. [CHANGE THIS?]
-    [A problem with this proposed phase 3 is the idea that we'd be the... *support specialists* for the course of a film production. The risk is that this will
-    take a lot of our time]
+This phase involves a trial run - Dead Prairie Productions has agreed to use our Movie Scheduler for a short film. This will allow us to evaluate the product before the development process is over, as we will work with users to fine-tune the product - with the user input we can make slight tweaks to the interface to improve the overall flow and feel of the program.   
+Users: 1 Producer, a number of cast / crew.
+Time required: The length of the filming of a short film (3-14 days). 
+Date: Late November - Early December, before deployment of our product. 
 
 
 Low-Fi Prototypes
