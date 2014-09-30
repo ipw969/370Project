@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package businessObjects;
+package businessobjects;
 
 /**
  * A base class from which all business object classes in the system will be

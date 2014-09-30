@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package actions;
-import businessObjects.BaseBusinessObject;
+import businessobjects.BaseBusinessObject;
 /**
  * A base class from which all actions in the system will be derived.
  * Provides a standard interface for performing a given action on a business
