@@ -7,16 +7,15 @@ package ui;
 
 import database.JdbcDatabase;
 import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
+import java.sql.ResultSet;
+import javax.swing.DefaultListModel;
 /**
  *
  * @author iain
  */
-public class MainMenu extends java.awt.Frame {
+public class MainMenu extends javax.swing.JFrame {
 
     /**
      * 
@@ -24,39 +23,82 @@ public class MainMenu extends java.awt.Frame {
      */
     public MainMenu() throws SQLException {
         initComponents();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Just testing the database connection right now. Later this will
         // be moved up one level, and the main menu will be passed the database
         // via DI
-        JdbcDatabase database = new JdbcDatabase(
-                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
-                "cmpt370_group06",
-                "mu5jd8m1ae");
-        
+        ResultSet volunteerResults = null;
+        ResultSet equipmentResults = null;
+        ResultSet sceneResults = null;
         try{
-            ResultSet results = database.executeSelect("SELECT * FROM volunteer;");
-            ResultSetMetaData metaData = results.getMetaData();
-            
-            DefaultTableModel currentTableModel = (DefaultTableModel)resultsTable.getModel();
-            String[] headers = new String[metaData.getColumnCount()];
-            
+            JdbcDatabase database = new JdbcDatabase(
+                    "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                    "cmpt370_group06",
+                    "mu5jd8m1ae");
             
             
-            for(int iColumn = 0, columnCount = metaData.getColumnCount();
-                    iColumn < columnCount; iColumn++)
+            // Do some static loading. Again, this isn't how it will happen in
+            // production, but it gives an idea of where we're starting from.
+            
+            volunteerResults = database.executeSelect("SELECT * FROM volunteer");
+            DefaultListModel<String> volunteerListModel = new DefaultListModel<>();
+            
+            while (volunteerResults.next())
             {
-                // Seriously!? JDBC indexes its header columns from 1!!
-                headers[iColumn] = metaData.getColumnName(iColumn+1);
+                String firstname = volunteerResults.getString("vol_firstname");
+                String secondname = volunteerResults.getString("vol_surname");
+                
+                volunteerListModel.addElement(secondname + ", " + firstname);
             }
             
-            currentTableModel.setColumnIdentifiers(headers);
+            volunteersList.setModel(volunteerListModel);
             
-            resultsTable.setModel(currentTableModel);
-        } catch (SQLException ex)
-        {
-           throw ex; 
+            equipmentResults = database.executeSelect("SELECT * FROM equipment");
+            DefaultListModel<String> equipmentListModel = new DefaultListModel<>();
+            
+            while (equipmentResults.next())
+            {
+                String itemname = equipmentResults.getString("eqp_itemname");
+                
+                equipmentListModel.addElement(itemname);
+            }
+            
+            equipmentList.setModel(equipmentListModel);
+            
+            sceneResults = database.executeSelect("SELECT * FROM scene");
+            DefaultListModel<String> sceneListModel = new DefaultListModel<>();
+            
+            while (sceneResults.next())
+            {
+                String scenename = sceneResults.getString("scn_name");
+                sceneListModel.addElement(scenename);
+            }
+            
+            sceneList.setModel(sceneListModel);
         }
-        
-        
+        catch (SQLException ex)
+        {
+            
+        }
+        finally
+        {
+            if(volunteerResults != null 
+                    && volunteerResults.getStatement() != null
+                    && !volunteerResults.getStatement().isClosed())
+                volunteerResults.getStatement().close();
+            
+            if(equipmentResults != null 
+                    && equipmentResults.getStatement() != null
+                    && !equipmentResults.getStatement().isClosed())
+                equipmentResults.getStatement().close();
+            
+            if(sceneResults != null 
+                    && sceneResults.getStatement() != null
+                    && !sceneResults.getStatement().isClosed())
+                sceneResults.getStatement().close();
+            
+        }
+    
     }
 
     /**
@@ -67,8 +109,18 @@ public class MainMenu extends java.awt.Frame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        resultsTable = new javax.swing.JTable();
+        mainPanel = new javax.swing.JPanel();
+        topMenuPanel = new javax.swing.JPanel();
+        leftMenuPanel = new javax.swing.JPanel();
+        voluteerLabel = new javax.swing.JLabel();
+        volunteersScrollPane = new javax.swing.JScrollPane();
+        volunteersList = new javax.swing.JList();
+        equipmentLabel = new javax.swing.JLabel();
+        equipmentScrollPane = new javax.swing.JScrollPane();
+        equipmentList = new javax.swing.JList();
+        sceneLabel = new javax.swing.JLabel();
+        sceneScrollPanel = new javax.swing.JScrollPane();
+        sceneList = new javax.swing.JList();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -77,20 +129,51 @@ public class MainMenu extends java.awt.Frame {
             }
         });
 
-        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(resultsTable);
+        mainPanel.setBackground(new java.awt.Color(255, 153, 153));
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        topMenuPanel.setBackground(new java.awt.Color(153, 153, 255));
+        getContentPane().add(topMenuPanel, java.awt.BorderLayout.PAGE_START);
+
+        leftMenuPanel.setLayout(new javax.swing.BoxLayout(leftMenuPanel, javax.swing.BoxLayout.PAGE_AXIS));
+
+        voluteerLabel.setText("Volunteers");
+        leftMenuPanel.add(voluteerLabel);
+
+        volunteersList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        volunteersScrollPane.setViewportView(volunteersList);
+
+        leftMenuPanel.add(volunteersScrollPane);
+
+        equipmentLabel.setText("Equipment");
+        leftMenuPanel.add(equipmentLabel);
+
+        equipmentList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        equipmentScrollPane.setViewportView(equipmentList);
+
+        leftMenuPanel.add(equipmentScrollPane);
+
+        sceneLabel.setText("Scenes");
+        leftMenuPanel.add(sceneLabel);
+
+        sceneList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        sceneScrollPanel.setViewportView(sceneList);
+
+        leftMenuPanel.add(sceneScrollPanel);
+
+        getContentPane().add(leftMenuPanel, java.awt.BorderLayout.LINE_START);
 
         pack();
         setLocationRelativeTo(null);
@@ -122,7 +205,17 @@ public class MainMenu extends java.awt.Frame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable resultsTable;
+    private javax.swing.JLabel equipmentLabel;
+    private javax.swing.JList equipmentList;
+    private javax.swing.JScrollPane equipmentScrollPane;
+    private javax.swing.JPanel leftMenuPanel;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel sceneLabel;
+    private javax.swing.JList sceneList;
+    private javax.swing.JScrollPane sceneScrollPanel;
+    private javax.swing.JPanel topMenuPanel;
+    private javax.swing.JList volunteersList;
+    private javax.swing.JScrollPane volunteersScrollPane;
+    private javax.swing.JLabel voluteerLabel;
     // End of variables declaration//GEN-END:variables
 }

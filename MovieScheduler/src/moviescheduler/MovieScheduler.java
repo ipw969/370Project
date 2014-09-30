@@ -53,6 +53,6 @@ public class MovieScheduler {
                     " with errors:\n" + errorsEncountered.toString(),
                     "Error Loading System!", 0);
         
-        //ToDo: Load main window here.
+        
     }    
 }
