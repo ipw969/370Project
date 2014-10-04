@@ -6,6 +6,7 @@
 package businessobjects;
 
 import java.util.HashSet;
+import java.util.ArrayList;
 /**
  * A base class from which all business object classes in the system will be
  * derived. The base class includes a validation mechanism, which reports, in
@@ -29,8 +30,9 @@ public class BaseBusinessObject {
     public BaseBusinessObject()
     {
         errorMessages = new HashSet<>();
+        listeners = new ArrayList<>();
         hasChanged = false;
-        isNew = true;
+        isNew = true;        
     }
     
     // Public methods
@@ -80,6 +82,32 @@ public class BaseBusinessObject {
         return isNew;
     }
     
+    /**
+     * Adds a BusinessObjectListener to this BusinessObject's list of listeners.
+     * Whenever the changed state, or valid state of the BusinessObject changes
+     * all the listeners will be notified.
+     * @param listener::BusinessObjectListener ~ The object to be added to the
+     * notified listeners list
+     */
+    public void addListener(BusinessObjectListener listener)
+    {
+        if(!listeners.contains(listener))
+            listeners.add(listener);
+    }
+    
+     /**
+     * Removes a BusinessObjectListener to this BusinessObject's list of 
+     * listeners. Whenever the changed state, or valid state of the 
+     * BusinessObject changes all the listeners will be notified.
+     * @param listener::BusinessObjectListener ~ The object to be removed from
+     * the list of notified listeners.
+     */
+    public void removeListener(BusinessObjectListener listener)
+    {
+        if(listeners.contains(listener))
+            listeners.remove(listener);
+    }
+    
     //Protected Methods
     /**
      * Method which updates a particular error associated with this business
@@ -105,10 +133,15 @@ public class BaseBusinessObject {
      */
     protected final void updateError(String errorMessage, boolean passesTest)
     {
+        boolean validStateBefore = isValid();
         if(passesTest)
             errorMessages.remove(errorMessage);
         else
             errorMessages.add(errorMessage);
+        boolean validStateAfter = isValid();
+        
+        if(validStateBefore != validStateAfter)
+            notifyListenersOfValidStateAltered();        
     }
     
     /**
@@ -132,9 +165,37 @@ public class BaseBusinessObject {
      */
     protected final void setHasChanged(boolean changedState)
     {
-        hasChanged = changedState;
+        if(hasChanged != changedState)
+        {
+            hasChanged = changedState;
+            notifyListenersOfChangedStateAltered();
+        }
     }
     
+    // Private Methods
+    
+    /**
+     * Notifies all the listeners that the valid state of the BusinessObject
+     * has been changed
+     */
+    private void notifyListenersOfValidStateAltered()
+    {
+        for (BusinessObjectListener listener : listeners)
+        {
+            if(listener != null)
+                listener.validStateAltered(hasChanged);
+        }
+    }
+
+    private void notifyListenersOfChangedStateAltered()
+    {
+        for (BusinessObjectListener listener : listeners)
+        {
+            if(listener != null)
+                listener.changedStateAltered();
+        }
+    }
+
     // Private Member Variables
     /**
      * A Set of all the error messages associated with the BusinessObject. The
@@ -142,6 +203,12 @@ public class BaseBusinessObject {
      * currently in a valid state to be saved to the database.
      */
     private final HashSet<String> errorMessages;
+    
+    /**
+     * A collection of all the objects which are currently listening to changes
+     * to this BusinessObject.
+     */
+    private final ArrayList<BusinessObjectListener> listeners; 
     
     /**
      * Flag indicating that some data element of the BusinessObject has been 
