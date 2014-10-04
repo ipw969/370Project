@@ -5,6 +5,7 @@
  */
 package businessobjects;
 
+import java.util.HashSet;
 /**
  * A base class from which all business object classes in the system will be
  * derived. The base class includes a validation mechanism, which reports, in
@@ -23,13 +24,13 @@ public class BaseBusinessObject {
     // Constructor
     
     /**
-     * Creates an instance of a BaseBusinessObject with the provided id to be
-     * used as the primary key identifier.
-     * @param id::int ~ The primary key identifier of the constructed object
+     * Creates an instance of a BaseBusinessObject
      */
-    public BaseBusinessObject(int id)
+    public BaseBusinessObject()
     {
-        //ToDo: Implement
+        errorMessages = new HashSet<>();
+        hasChanged = false;
+        isNew = true;
     }
     
     // Public methods
@@ -39,10 +40,9 @@ public class BaseBusinessObject {
      * @return True if the business object has no associated errors, false 
      * otherwise
      */
-    boolean isValid()
+    public final boolean isValid()
     {
-        //ToDo: Implement
-        return false;
+        return errorMessages.isEmpty();
     }
     
     /**
@@ -51,22 +51,33 @@ public class BaseBusinessObject {
      * @return True if changes have been made to this business object, false
      * otherwise
      */
-    boolean hasChanged()
+    public final boolean hasChanged()
     {
-        //ToDo: Implement
-        return false;
+        return hasChanged;
     }
     
     /**
-     * The unique identifier of this business object. If this object is newly
-     * created, and not yet saved, this value will be -1
-     * @return The unique identifier of this business object, or -1 if it is 
-     * newly created and as yet unsaved.
+     * Sets whether the BusinessObject is considered new to the database or not.
+     * This value should be set to false after an action loads an the 
+     * BusinessObject from the database, or after an action successfully INSERTS 
+     * a BusinessObject to the database.
+     * @param newState::boolean ~ The state to indicate whether the 
+     * BusinessObject is new or not
      */
-    int id() 
+    public final void setIsNew(boolean newState)
     {
-        //ToDo: Implement
-        return -1;
+        isNew = newState;
+    }
+    
+    /**
+     * Indicates whether or not the BusinessObject is new to the DataBase, or
+     * whether it is loaded an represents an item which already exists in the
+     * database
+     * @return True if the item has never been saved, false otherwise.
+     */
+    public final boolean isNew()
+    {
+        return isNew;
     }
     
     //Protected Methods
@@ -92,9 +103,12 @@ public class BaseBusinessObject {
      * derived classes, it should never be overridden.
      * see http://en.wikipedia.org/wiki/Fragile_base_class for justification.
      */
-    final void updateError(String errorMessage, boolean passesTest)
+    protected final void updateError(String errorMessage, boolean passesTest)
     {
-        //ToDo: Implement
+        if(passesTest)
+            errorMessages.remove(errorMessage);
+        else
+            errorMessages.add(errorMessage);
     }
     
     /**
@@ -116,8 +130,30 @@ public class BaseBusinessObject {
      * see http://en.wikipedia.org/wiki/Fragile_base_class for justification.
      * @param changedState::boolean ~ The new changed state of the object
      */
-    final void setHasChanged(boolean changedState)
+    protected final void setHasChanged(boolean changedState)
     {
-        //ToDo: Implement
+        hasChanged = changedState;
     }
+    
+    // Private Member Variables
+    /**
+     * A Set of all the error messages associated with the BusinessObject. The
+     * existence of any errorMessages indicates that the BusinessObject is not
+     * currently in a valid state to be saved to the database.
+     */
+    private final HashSet<String> errorMessages;
+    
+    /**
+     * Flag indicating that some data element of the BusinessObject has been 
+     * altered since it was initially loaded from the database.
+     */
+    private boolean hasChanged;
+    
+    /**
+     * Flag indicating that the BusinessObject has never been saved to the 
+     * database. If isNew == true, then the database will run an INSERT rather
+     * than an UPDATE when saving.
+     */
+    private boolean isNew;
+    
 }

@@ -26,7 +26,7 @@ public abstract class BaseAction {
     BaseBusinessObject businessObject()
     {
         //ToDo: Implement
-        return new BaseBusinessObject(-1);
+        return null;
     }
     
     /**
