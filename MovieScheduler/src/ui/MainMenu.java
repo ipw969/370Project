@@ -27,77 +27,79 @@ public class MainMenu extends javax.swing.JFrame {
         // Just testing the database connection right now. Later this will
         // be moved up one level, and the main menu will be passed the database
         // via DI
-        ResultSet volunteerResults = null;
-        ResultSet equipmentResults = null;
-        ResultSet sceneResults = null;
-        try{
-            JdbcDatabase database = new JdbcDatabase(
-                    "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
-                    "cmpt370_group06",
-                    "mu5jd8m1ae");
-            
-            
-            // Do some static loading. Again, this isn't how it will happen in
-            // production, but it gives an idea of where we're starting from.
-            
-            volunteerResults = database.executeSelect("SELECT * FROM volunteer");
-            DefaultListModel<String> volunteerListModel = new DefaultListModel<>();
-            
-            while (volunteerResults.next())
-            {
-                String firstname = volunteerResults.getString("vol_firstname");
-                String secondname = volunteerResults.getString("vol_surname");
-                
-                volunteerListModel.addElement(secondname + ", " + firstname);
-            }
-            
-            volunteersList.setModel(volunteerListModel);
-            
-            equipmentResults = database.executeSelect("SELECT * FROM equipment");
-            DefaultListModel<String> equipmentListModel = new DefaultListModel<>();
-            
-            while (equipmentResults.next())
-            {
-                String itemname = equipmentResults.getString("eqp_itemname");
-                
-                equipmentListModel.addElement(itemname);
-            }
-            
-            equipmentList.setModel(equipmentListModel);
-            
-            sceneResults = database.executeSelect("SELECT * FROM scene");
-            DefaultListModel<String> sceneListModel = new DefaultListModel<>();
-            
-            while (sceneResults.next())
-            {
-                String scenename = sceneResults.getString("scn_name");
-                sceneListModel.addElement(scenename);
-            }
-            
-            sceneList.setModel(sceneListModel);
-        }
-        catch (SQLException ex)
-        {
-            
-        }
-        finally
-        {
-            if(volunteerResults != null 
-                    && volunteerResults.getStatement() != null
-                    && !volunteerResults.getStatement().isClosed())
-                volunteerResults.getStatement().close();
-            
-            if(equipmentResults != null 
-                    && equipmentResults.getStatement() != null
-                    && !equipmentResults.getStatement().isClosed())
-                equipmentResults.getStatement().close();
-            
-            if(sceneResults != null 
-                    && sceneResults.getStatement() != null
-                    && !sceneResults.getStatement().isClosed())
-                sceneResults.getStatement().close();
-            
-        }
+        BusinessObjectPanel panel = new BusinessObjectPanel();
+        mainPanel.add(panel);
+//        ResultSet volunteerResults = null;
+//        ResultSet equipmentResults = null;
+//        ResultSet sceneResults = null;
+//        try{
+//            JdbcDatabase database = new JdbcDatabase(
+//                    "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+//                    "cmpt370_group06",
+//                    "mu5jd8m1ae");
+//            
+//            
+//            // Do some static loading. Again, this isn't how it will happen in
+//            // production, but it gives an idea of where we're starting from.
+//            
+//            volunteerResults = database.executeSelect("SELECT * FROM volunteer");
+//            DefaultListModel<String> volunteerListModel = new DefaultListModel<>();
+//            
+//            while (volunteerResults.next())
+//            {
+//                String firstname = volunteerResults.getString("vol_firstname");
+//                String secondname = volunteerResults.getString("vol_surname");
+//                
+//                volunteerListModel.addElement(secondname + ", " + firstname);
+//            }
+//            
+//            volunteersList.setModel(volunteerListModel);
+//            
+//            equipmentResults = database.executeSelect("SELECT * FROM equipment");
+//            DefaultListModel<String> equipmentListModel = new DefaultListModel<>();
+//            
+//            while (equipmentResults.next())
+//            {
+//                String itemname = equipmentResults.getString("eqp_itemname");
+//                
+//                equipmentListModel.addElement(itemname);
+//            }
+//            
+//            equipmentList.setModel(equipmentListModel);
+//            
+//            sceneResults = database.executeSelect("SELECT * FROM scene");
+//            DefaultListModel<String> sceneListModel = new DefaultListModel<>();
+//            
+//            while (sceneResults.next())
+//            {
+//                String scenename = sceneResults.getString("scn_name");
+//                sceneListModel.addElement(scenename);
+//            }
+//            
+//            sceneList.setModel(sceneListModel);
+//        }
+//        catch (SQLException ex)
+//        {
+//            
+//        }
+//        finally
+//        {
+//            if(volunteerResults != null 
+//                    && volunteerResults.getStatement() != null
+//                    && !volunteerResults.getStatement().isClosed())
+//                volunteerResults.getStatement().close();
+//            
+//            if(equipmentResults != null 
+//                    && equipmentResults.getStatement() != null
+//                    && !equipmentResults.getStatement().isClosed())
+//                equipmentResults.getStatement().close();
+//            
+//            if(sceneResults != null 
+//                    && sceneResults.getStatement() != null
+//                    && !sceneResults.getStatement().isClosed())
+//                sceneResults.getStatement().close();
+//            
+//        }
     
     }
 

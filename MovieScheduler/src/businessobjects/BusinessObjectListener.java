@@ -19,14 +19,16 @@ public interface BusinessObjectListener {
     /**
      * Indicates that the BusinessObject being listened to has moved from an
      * invalid state to a valid state, or vice-versa.
-     * @param newState::boolean ~ The new valid state that the object has moved 
-     * to
+     * @param newState::boolean ~ The new valid state that the BusinessObject
+     * has moved to
      */
     public void validStateAltered(boolean newState);
     
     /**
      * Indicates that the BusinessObject data has been changed since it was
      * loaded from the database
+     * @param newState::boolean ~ The new hasChanged state that the 
+     * BusinessObject has moved to.
      */
-    public void changedStateAltered();
+    public void changedStateAltered(boolean newState);
 }

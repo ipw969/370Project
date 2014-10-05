@@ -83,6 +83,29 @@ public class BaseBusinessObject {
     }
     
     /**
+     * Returns all the error messages currently associated with the 
+     * BusinessObject, appended together with a new line after each message. If
+     * the BusinessObject is currently valid, then an empty string is returned
+     * @return The error messages associated with the BusinessObject, one to
+     * a line
+     */
+    public String errorMessage()
+    {
+        StringBuilder errorMessageStringBuilder = new StringBuilder();
+        for(String currentErrorMessage : errorMessages)
+        {
+            errorMessageStringBuilder.append(currentErrorMessage);
+            errorMessageStringBuilder.append('\n');
+        }
+        
+        if(errorMessageStringBuilder.length() > 0)
+            errorMessageStringBuilder.deleteCharAt(
+                    errorMessageStringBuilder.length() - 1);
+        
+        return errorMessageStringBuilder.toString();
+    }
+    
+    /**
      * Adds a BusinessObjectListener to this BusinessObject's list of listeners.
      * Whenever the changed state, or valid state of the BusinessObject changes
      * all the listeners will be notified.
@@ -183,7 +206,7 @@ public class BaseBusinessObject {
         for (BusinessObjectListener listener : listeners)
         {
             if(listener != null)
-                listener.validStateAltered(hasChanged);
+                listener.validStateAltered(isValid());
         }
     }
 
@@ -192,7 +215,7 @@ public class BaseBusinessObject {
         for (BusinessObjectListener listener : listeners)
         {
             if(listener != null)
-                listener.changedStateAltered();
+                listener.changedStateAltered(hasChanged);
         }
     }
 
