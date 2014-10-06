@@ -5,18 +5,25 @@
  */
 package ui;
 
+import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 /**
- *
- * @author iain
+ * A class representing a Ui element displaying a single month of a calendar
  */
 public class CalendarMonth extends JPanel {
     
     // Constructor
+    /**
+     * Creates an instance of a calendar month displaying the given year and 
+     * month
+     * @param year::int ~ The AD year the calendar is displaying
+     * @param month ::int ~ The month the year is displaying
+     * NOTE: (0=Jan, 1=Feb, 2=Mar, ..., 10 = Nov, 11 = Dec) because Java
+     */
     public CalendarMonth(int year, int month)
     {
         setLayout(new GridLayout(0,7));
@@ -31,7 +38,9 @@ public class CalendarMonth extends JPanel {
         // at the start of the month we want
         while(calendarDate.get(Calendar.MONTH) != month)
         {
-            calendarDays.add(new CalendarDay(calendarDate));
+            CalendarDay currentCalendarDay = new CalendarDay(calendarDate);
+            currentCalendarDay.setForeground(Color.LIGHT_GRAY);
+            calendarDays.add(currentCalendarDay);
             calendarDate.add(Calendar.DAY_OF_WEEK, 1);
         }
         
@@ -47,7 +56,9 @@ public class CalendarMonth extends JPanel {
         // left in this week
         while(calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek())
         {
-            calendarDays.add(new CalendarDay(calendarDate));
+            CalendarDay currentCalendarDay = new CalendarDay(calendarDate);
+            currentCalendarDay.setForeground(Color.LIGHT_GRAY);
+            calendarDays.add(currentCalendarDay);
             calendarDate.add(Calendar.DAY_OF_WEEK, 1);
         }
         
@@ -55,6 +66,9 @@ public class CalendarMonth extends JPanel {
     }
     
     // Private Methods
+    /**
+     * Initializes and positions all the components of the calendar month
+     */
     private void initComponents()
     {
         for(CalendarDay day : calendarDays)
@@ -64,9 +78,16 @@ public class CalendarMonth extends JPanel {
     }
     
     // Private Member Variables
+    /**
+     * A list of all the days that will be displayed
+     */
     ArrayList<CalendarDay> calendarDays;
     // Static Methods
     
+    /**
+     * Method which just allows us to see the design displayed on a JFrame
+     * @param args::String[] ~ Run arguments (ignored)
+     */
     public static void main(String[] args)
     {
                 javax.swing.JFrame testFrame = new javax.swing.JFrame();

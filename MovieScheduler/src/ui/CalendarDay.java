@@ -15,20 +15,42 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 /**
- *
+ * A class representing a Ui element for displaying a single day of a calendar
  */
 public class CalendarDay extends JPanel{
     
     // Constructor
+    /**
+     * Creates an instance of a calendar day with the provided calendar storing
+     * the date
+     * @param date::Calendar ~ The date of the day to display 
+     */
     public CalendarDay(Calendar date)
     {
-        this.date = date;
+        this.date = (GregorianCalendar)date.clone();
         this.setBackground(Color.WHITE);
         setBorder(new LineBorder(new Color(240,240,240)));
         initComponents();
     }
     
+    // Public methods
+    /**
+     * Sets the foreground color of the CalendarDay. This sets the color of the
+     * text label, and then calls the super version.
+     * @param color 
+     */
+    @Override
+    public void setForeground(Color color)
+    {
+        if(dateLabel != null)
+            dateLabel.setForeground(color);
+        super.setForeground(color);
+    }
+    
     // Private methods
+    /**
+     * Initializes and positions the components of the CalendarDay
+     */
     private void initComponents()
     {
         setLayout(new BorderLayout());
@@ -48,11 +70,23 @@ public class CalendarDay extends JPanel{
     }
     
     // Private Member Variables
+    /**
+     * The date which this CalendarDay displays
+     */
     Calendar date;
+    /**
+     * Scroll are in which the data will sit
+     */
     JScrollPane dataAreaScrollPane;
+    /**
+     * A label which displays the date in a human readable form
+     */
     JLabel dateLabel;
     
     // Static Methods
+    /** Method which just allows us to see the design displayed on a JFrame
+    * @param args::String[] ~ Run arguments (ignored)
+    */
     public static void main(String[] args)
     {
         javax.swing.JFrame testFrame = new javax.swing.JFrame();
