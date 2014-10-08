@@ -1,0 +1,4 @@
+Glossary: 
+Volunteer - Any Actor, technical crew or administrative member that is involved with the project and will have a role in a scene.
+Scene - A scene in the film. It requires a set of volunteers 
+Producer - THe person on the film time who's job it is to coordinate the schedule of the filming
