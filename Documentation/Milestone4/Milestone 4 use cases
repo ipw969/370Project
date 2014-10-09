@@ -1,0 +1,26 @@
+CMPT 370 Milestone 4 Script/Scene Use cases
+
+Producer creating the script
+  	The clicks the create script button with the intention of putting a new script into production. The producer provides the name of the script, and the system saves it into the database. The producer is then returned to the main menu and given a message indicating success. 
+
+Producer creating a scene: 
+ 	The producer looks in the script menu and clicks on the create a scene button with the intention of adding a new scene into production.  The producer is then asked for the name of that scene, the names of the required volunteers and equipment, and a small description regarding the scene. The system then saves the scene information into the database. The producer is then sent back to the previous menu and given a message indicating whether or not the scene has been successfully added. 
+
+Producer removing a scene from a script: 
+ 	The producer wishes to remove a scene from a script and presses the remove button next to the scene he or she wishes to remove. The producer is then prompted with a message that asks if he or she is certain of the decision. If the producer presses yes, they are given a message prompting them of the successful removal of the scene from the script, the system removes the scene information from the database, and the producer is returned to the previous menu. If the producer presses cancel, he or she is returned to the previous screen and the scene is removed from the database.
+
+Removing a script: 
+ 	To a remove a script it must be empty or all scenes within the script must be marked as completed. The producer presses the remove script button with the intention of removing the script. The system then performs a quick check is done to ensure that the above requirements are met. The producer is then presented with a menu that asks whether or not he or she is certain of the decision. If the producer presses yes, system removes the script and all of its scenes from the database. If the producer presses no, the script is not removed.
+
+Completion of a scene: 
+ 	The producer wants to indicate that a scene has been completed. He or she must then click the checkbox next to the scene. The system then removes the scene from consideration when generating a schedule, but keeps it in the database as a reference.  
+
+Adding volunteer/equipment to a scene:
+ 	The producer wishes to edit the requirements of a scene and presses the edit button next to the scene. The producer is then presented with a list of the scenes requirements. The producer must then click the add requirement button to add a required volunteer or piece of equipment to the scene. Once the producer has indicated the volunteer or piece of equipment, the requirement is added to the scenes requirements. The system then performs a conflict check to ensure that the newly added volunteer or piece of equipment is available when that scene is scheduled to be shot. If no conflict is detected, the producer is returned to the previous screen and given a message indicating the successful addition of the requirement. If a conflict is detected, the producer is informed that the scene can no longer be filmed at its scheduled time. 
+
+Removing a volunteer/equipment from a scene: 
+The producer wishes to edit the requirements of a scene and presses the edit button next to the scene. The producer is then presented with a list of the scenes requirements. The producer must then click the remove requirement button. The producer is then asked whether or not he or she is certain of her decision. If the producer presses yes, the requirement is removed from the screen and the producer is brought back to the previous menu. If the producer selects no, then the requirement is not removed from the scene. 
+
+
+
+
