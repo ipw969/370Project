@@ -1,0 +1,66 @@
+Milestone 4 Supplementary Specifications
+Functionality
+User Differentiation
+ 	In order to protect the integrity of the system, producers and volunteers will have different privileges, which is achieved by having one main, localized, system with a separate login for the volunteer’s system. 
+
+Modifiability
+ 	Through the main system, the producer can make changes to the script, change the schedule, and access the contact information of all volunteers and equipment.  Through the volunteer’s system, the volunteers will only be able to view the schedule and change their own contact information.
+
+
+Usability
+Easy to Navigate 
+ 	The project should be easy to understand and navigate. This will be achieved through accurate descriptions of the actions to be performed, and an easy to use interface. 
+
+Easy to Correct
+ 	The project should allow for an easy correction of mistakes. It should be easy to back out of every action before it becomes permanent. 
+
+Consistency
+ 	The user should only be able to create and add volunteers and equipment that don’t already exist within the database (i.e. no duplicates).  
+
+Quick generation
+ 	The generation of the schedule should be as quick as possible and not result in a temporary freeze. The schedule should also attempt to find the schedule that allows for the filming of all of the scenes as quickly as possible. 
+
+Easy to modify
+ 	It should be easy to add, remove, and modify information regarding scenes, volunteers, and equipment. 
+
+Quick conflict detection
+ 	Conflict detection will occur every time something in the system changes; for example,  a time availability of a volunteer changes. Any new conflicts should be immediately reported to the producer and suggested solutions should be readily available.
+Error information
+ 	Any error that occurs should provide a sufficient description for the user to be able to resolve the issue. 
+
+
+Supportability
+Adaptability
+ 	The system will be compartmentalized to allow for changes to occur without affecting the entire system.
+
+Future Proof
+ 	The system should be made to allow for increased future functionality. These may include, but are not limited to, multiple scripts, and different teams of volunteers for different scripts.
+
+
+
+Implementation constraints 
+Language Tool
+ 	Achievatron Unlimited is using Java technologies solution. This will facilitate portability, ease of use, support, and modifiability. 
+
+Database Management System
+ 	Achievatron Unlimited Will be using the object relational database management system PostgreSQL to meet the needs of the project. This will allow for a reduction in data redundancy, fast and efficient storage and retrieval of information, efficient organization of data, and a stable foundation for the organization of data
+
+
+Legal issues
+ Lost/ stolen/ damaged equipment
+ 	Any loss of, or damage to, equipment should be removed from scheduling and documented to allow the producer to give an accurate report to the equipment owner.
+ 
+
+Application specific rules
+Scene cooperation
+ 	The volunteers and equipment selected for a scene must all share a time availability, otherwise visual feedback will be provided to indicate that this scene cannot be shot with the current time constraints. 
+
+Information in domain of interest
+Scheduling
+ 	We need to maintain the integrity of the schedule. If a change occurs that results in a conflict with the current schedule, the producer is notified immediately. Also, to increase security and consistency, the producer is the only person allowed to change the equipment availabilities.
+ 
+
+Time
+ 	The system should be able to handle different date formats as well as both military and standard time. 
+
+
