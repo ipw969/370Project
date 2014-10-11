@@ -5,6 +5,8 @@
  */
 package ui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Mitchell
@@ -28,37 +30,92 @@ public class ConflictResolution extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jTable1 = new javax.swing.JTable();
+        conflictSceneScrollPane = new javax.swing.JScrollPane();
+        conflictSceneListPane = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        conflictVolunteerLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        conflictConflictLabel = new javax.swing.JLabel();
+        conflictEditSceneButton = new javax.swing.JButton();
+        conflictIgnoreButton = new javax.swing.JButton();
+        conflictContactAllButton = new javax.swing.JButton();
+        conflictCancel = new javax.swing.JButton();
+        conflictReccomendationLabel = new javax.swing.JLabel();
+        conflictInternalFrame = new javax.swing.JInternalFrame();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
         setName("conflict"); // NOI18N
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Scene 1-1", "Scene 4-3" };
+        conflictSceneListPane.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "4-3", "1-4", "2-5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jList1.setName("conflictListSelect"); // NOI18N
-        jScrollPane1.setViewportView(jList1);
+        conflictSceneListPane.setName("conflictListSelect"); // NOI18N
+        conflictSceneScrollPane.setViewportView(conflictSceneListPane);
 
         jLabel1.setText("Scene:");
 
-        jLabel2.setText("THis Is a volunteer");
-        jLabel2.setName("volunteerListLabel"); // NOI18N
+        conflictVolunteerLabel.setText("THis Is a volunteer");
+        conflictVolunteerLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        conflictVolunteerLabel.setName("volunteerListLabel"); // NOI18N
 
         jLabel3.setText("Volunteers/Equipment");
 
         jLabel4.setText("Conflict:");
 
-        jLabel5.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel5.setText("jLabel5");
-        jLabel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        conflictConflictLabel.setText("This is a conflict");
+        conflictConflictLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        conflictConflictLabel.setName(""); // NOI18N
+
+        conflictEditSceneButton.setText("Edit Scene");
+        conflictEditSceneButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                conflictEditSceneButtonMouseClicked(evt);
+            }
+        });
+
+        conflictIgnoreButton.setText("Ignore");
+        conflictIgnoreButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                conflictIgnoreButtonMouseClicked(evt);
+            }
+        });
+
+        conflictContactAllButton.setText("Contact All");
+
+        conflictCancel.setText("Cancel");
+
+        conflictReccomendationLabel.setText("Reccomendation");
+
+        conflictInternalFrame.setVisible(false);
+
+        javax.swing.GroupLayout conflictInternalFrameLayout = new javax.swing.GroupLayout(conflictInternalFrame.getContentPane());
+        conflictInternalFrame.getContentPane().setLayout(conflictInternalFrameLayout);
+        conflictInternalFrameLayout.setHorizontalGroup(
+            conflictInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        conflictInternalFrameLayout.setVerticalGroup(
+            conflictInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -67,40 +124,85 @@ public class ConflictResolution extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(conflictSceneScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(110, 110, 110)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                    .addComponent(conflictContactAllButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(conflictReccomendationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(conflictConflictLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(conflictCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel3)
-                        .addGap(110, 110, 110)
-                        .addComponent(jLabel4)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addComponent(conflictEditSceneButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(conflictIgnoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(conflictInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel1))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(196, Short.MAX_VALUE))
+                    .addComponent(conflictSceneScrollPane)
+                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(conflictConflictLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(conflictReccomendationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(conflictEditSceneButton)
+                    .addComponent(conflictIgnoreButton)
+                    .addComponent(conflictContactAllButton)
+                    .addComponent(conflictCancel))
+                .addGap(30, 30, 30))
+            .addComponent(conflictInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void conflictIgnoreButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictIgnoreButtonMouseClicked
+        int ignoreResult;
+        ignoreResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to ignore?",
+                "Conflict",
+                JOptionPane.YES_NO_OPTION);
+        if(ignoreResult == 1){
+        }
+        else {
+            ignoreCurrentConflict();
+        }
+              
+    }//GEN-LAST:event_conflictIgnoreButtonMouseClicked
+
+    private void conflictEditSceneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictEditSceneButtonMouseClicked
+       /* Lock main window from editing
+        * Set ConflictResolution to always on top
+        * Render internal frame
+        */
+    }//GEN-LAST:event_conflictEditSceneButtonMouseClicked
+
+    private Boolean ignoreCurrentConflict(){
+        
+        return false;
+    }
     /**
      * @param args the command line arguments
      */
@@ -137,12 +239,20 @@ public class ConflictResolution extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton conflictCancel;
+    private javax.swing.JLabel conflictConflictLabel;
+    private javax.swing.JButton conflictContactAllButton;
+    private javax.swing.JButton conflictEditSceneButton;
+    private javax.swing.JButton conflictIgnoreButton;
+    private javax.swing.JInternalFrame conflictInternalFrame;
+    private javax.swing.JLabel conflictReccomendationLabel;
+    private javax.swing.JList conflictSceneListPane;
+    private javax.swing.JScrollPane conflictSceneScrollPane;
+    private javax.swing.JLabel conflictVolunteerLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
