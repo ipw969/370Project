@@ -1,10 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class contains all information relevent to the script. 
+*This class encapsulates the Scene class to prevent scenes from being created anywhere else. This ensures that
+*-The scenes are strongly correlated with the script(there will be no cross-referencing if we decide to support multiple scripts
+*-Ensures that every scene is automatically put into the script. 
 
 TODO: add a way to keep the scenes in order?
-TODO: 
+TODO: Ensure this class complies with the businessObject class definition.
+TODO: Add a method of retrieving all of the date from the database when the application starts. 
+TODO: Change the general exceptions into proper exceptions. 
+TODO: Create a test scaffold for the class
+TODO: Add a way for the script to listen to the scenes for a valid state. 
  */
 package businessobjects;
 import datatypes.Equipment;
@@ -17,19 +22,12 @@ import java.util.List;
 /**
  *
  * @author ryan
- * TODO: Create methods for adding,removing, and iterating over scenes. 
- * add,hasNexthasPrevious,next,nextIndex,previous,previousIndex,remove,set
+ * 
  */
 public class Script extends BaseBusinessObject {
     //The list of scenes. scenes will be a synchronized ArrayList. 
    protected List<Scene> scenes; 
-   protected String name; 
-   
-   
-   //A cursor for iterating over the scenes in the script
-   private int currentScene;
-   private int previousScene;
-   
+   protected String name;  
    /**The constructor for the script
      * @param name - the name of the script
     * 
@@ -39,50 +37,9 @@ public class Script extends BaseBusinessObject {
        super();
        this.name = name;
        scenes = Collections.synchronizedList(new ArrayList<Scene>());
-       currentScene = 0;
-       previousScene = -1;
+
    }
-   
-/** Traverse to the first scene in the list   
- * */
- public void goFirst()
- {
-     currentScene = 0;
-     previousScene = -1;
- }
-  
-/** Traverse to the next scene in the list
- public void goForth()
- {
-          previousScene = currentScene;
-          currentScene = currentScene + 1;
- }
- 
- * /**Traverse to the previous scene in the list.**/
- public void goBack()
- {
-     currentScene = previousScene;
-     previousScene = previousScene-1;
- }
- 
- /**Go to the last scene in the list**/
- public void goLast()
- {
-     currentScene = scenes.size() -1;
-     previousScene = currentScene -1;
- }
- 
- /**checks to see if the cursor is before the list of scenes**/
- public boolean isBefore()
- {
-     return currentScene < 0;
- }
- 
- /**Checks to see if the cursor is after the list of scenes**/
- public boolean isAfter()
- {
-     return currentScene >= scenes.size();
- }
+
  
  /**Creates a scene with the specified name and description and adds it to the script. 
      * @throws java.lang.Exception
@@ -181,7 +138,10 @@ public class Script extends BaseBusinessObject {
    }
    
    
-   
+   private void loadFromDatabase()
+   {
+       throw new RuntimeException("Command not operational yet -Script loadFromDatabase");
+   }
    
    
    
@@ -219,7 +179,7 @@ TODO: I may make this an interior class of the script class. This is because the
  *
  * @author ryan
  */
-public class Scene {
+public class Scene extends BaseBusinessObject{
     private final String name;
     private final String description;
     private final HashSet<Volunteer> necessaryVolunteers;
@@ -229,6 +189,7 @@ public class Scene {
     
     private Scene(String name, String description)
     {
+        super();
         this.name = name;
         this.description = description;
         
@@ -237,36 +198,57 @@ public class Scene {
         
     }
 
+    /**@return the name of the scene**/
     public String name()
     {
         return this.name;
     }
     
+    /**@return the description of the scene**/
     public String description()
     {
         return this.description;
     }
     
+    /**@return true if the scene is scheduled, false if not**/
     public boolean scheduled()
     {
         return scheduled;
     }
     
+    /**@return true if the scene has been filmed, false otherwise**/
     public boolean complete()
     {
         return complete;
     }
     
-    
+    /**Sets whether the scene is scheduled or not
+     * @param isScheduled whether or not the scene is scheduled
+     */
     public void setScheduled(boolean isScheduled)
     {
         scheduled = isScheduled;
     }
     
+    /**Sets whether the scene has been filmed or not
+     * (The producer may want to change the status if a mistake was found)
+     * @param isComplete whether or no the scene was filmed. 
+     */
     public void setComplete(boolean isComplete)
     {
         complete = isComplete;
     }
+    
+    /**@return true if the scene has volunteers associated with it, false if not**/
+    public boolean hasVolunteers()
+    {
+        return !necessaryVolunteers.isEmpty();
+    }
+    
+    /**@precon the list of volunteers must not be empty
+     * @return an iterator for the necessary volunteers of the scene
+     * @throws Exception 
+     */
     public Iterator<Volunteer> volunteerIterator() throws Exception
     {
         if (necessaryVolunteers.isEmpty())
@@ -276,6 +258,20 @@ public class Scene {
         return necessaryVolunteers.iterator();
     }
 
+    /**@return true if the scene has equipment associated with it, false if not
+     * 
+     * 
+     */
+    public boolean hasEquipment()
+    {
+        return !necessaryEquipment.isEmpty();
+    }
+    
+    /**@precon the scene must have equipment associated with it.
+     * 
+     * @return an iterator for the list of equipment. 
+     * @throws Exception 
+     */
     public Iterator<Equipment> equipmentIterator() throws Exception
     {
         if (necessaryEquipment.isEmpty())
@@ -285,6 +281,11 @@ public class Scene {
         return necessaryEquipment.iterator();
     }
 
+    /** Adds the given volunteer to the list of volunteers
+     * @precon the volunteer must be in the scene's list of volunteers
+     * @param newVolunteer the new volunteer to add to the list of volunteers.
+     * @throws Exception 
+     */
     public void addVolunteer(Volunteer newVolunteer) throws Exception
     {
         if (necessaryVolunteers.contains(newVolunteer))
@@ -294,6 +295,11 @@ public class Scene {
         necessaryVolunteers.add(newVolunteer);
     }
     
+    /**Adds the given equipment to the list of equipment
+     * @precon the equipment must not already be in the list of equipment.
+     * @param newEquipment thew new equipment to list of equipment. 
+     * @throws Exception 
+     */
      public void addEquipment(Equipment newEquipment) throws Exception
     {
         if (necessaryEquipment.contains(newEquipment))
@@ -303,7 +309,11 @@ public class Scene {
         necessaryEquipment.add(newEquipment);
     }
     
-     
+     /**Removes the given volunteer from the list of volunteers for this scene
+      * @precon The volunteer must be in the list of volunteers associated with this scene.
+      * @param oldVolunteer the volunteer to remove from the list of volunteers for this scene
+      * @throws Exception 
+      */
     public void removeVolunteer(Volunteer oldVolunteer) throws Exception
     {
         if (!necessaryVolunteers.contains(oldVolunteer))
@@ -313,6 +323,11 @@ public class Scene {
         necessaryVolunteers.remove(oldVolunteer);
     }
     
+    /**Removes the given equipment from the list of equipment for this scene
+     * @precon The equipment must be in the list of equipment for this scene.
+     * @param oldEquipment the equipment to remove from the list of equipment for this scene
+     * @throws Exception 
+     */
     public void removeEquipment(Equipment oldEquipment) throws Exception
     {
         if (!necessaryEquipment.contains(oldEquipment))
