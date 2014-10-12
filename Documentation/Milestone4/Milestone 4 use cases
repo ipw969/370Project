@@ -21,6 +21,16 @@ Adding volunteer/equipment to a scene:
 Removing a volunteer/equipment from a scene: 
 The producer wishes to edit the requirements of a scene and presses the edit button next to the scene. The producer is then presented with a list of the scenes requirements. The producer must then click the remove requirement button. The producer is then asked whether or not he or she is certain of her decision. If the producer presses yes, the requirement is removed from the screen and the producer is brought back to the previous menu. If the producer selects no, then the requirement is not removed from the scene. 
 
+Schedule/Conflict management Use cases
+
+Producer creating a schedule
+The producer wants to begin the process of scheduling scenes. The producer opens the schedule tab and views the current schedule at a glance. The scenes that have not yet been scheduled will appear on the left in a list, and the producer will click the scene and assign it to a date, and if the scene can get scheduled there (There's no conflict) then it is.
+
+Conflict  Resolution
+The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. Ignore means that the scene will be scheduled anyway, and the producer will be prompted to confirm this. The other basic option will be to contact all those involved in the scene through e-mail.
+
+Producer "Printing" The schedule
+once all conflicts have been resolved and every scene schedule the producer wishes to create a tangible document in the form of an xls or a pdf of the schedule. On the schedule scene, the producer will have a button that says print schedule, which will only be available if the schedule is not in conflict. 
 
 
 
