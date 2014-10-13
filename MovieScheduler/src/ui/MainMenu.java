@@ -45,7 +45,7 @@ public class MainMenu extends javax.swing.JFrame {
         equipmentListLabel = new javax.swing.JLabel();
         equipmentList = new java.awt.List();
         mainSchedulePanel = new javax.swing.JPanel();
-        sceneTabPanel = new javax.swing.JPanel();
+        scheduleTabPanel = new javax.swing.JPanel();
         sideScenePanel = new javax.swing.JPanel();
         sceneListLabel = new javax.swing.JLabel();
         sceneList = new java.awt.List();
@@ -75,7 +75,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(volunteerListPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(volunteerListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(volunteerListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(volunteerListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                     .addComponent(volunteerList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -106,7 +106,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(equipmentList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(equipmentListPanelLayout.createSequentialGroup()
                         .addComponent(equipmentListLabel)
-                        .addGap(0, 303, Short.MAX_VALUE)))
+                        .addGap(0, 53, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         equipmentListPanelLayout.setVerticalGroup(
@@ -126,7 +126,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         mainTab.addTab("Script", scriptTabPanel);
 
-        sceneTabPanel.setLayout(new java.awt.BorderLayout());
+        scheduleTabPanel.setLayout(new java.awt.BorderLayout());
 
         sideScenePanel.setMaximumSize(new java.awt.Dimension(150, 32767));
         sideScenePanel.setPreferredSize(new java.awt.Dimension(150, 610));
@@ -142,7 +142,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sideScenePanelLayout.createSequentialGroup()
                         .addComponent(sceneListLabel)
-                        .addGap(0, 327, Short.MAX_VALUE))
+                        .addGap(0, 77, Short.MAX_VALUE))
                     .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -156,10 +156,10 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        sceneTabPanel.add(sideScenePanel, java.awt.BorderLayout.LINE_START);
-        sceneTabPanel.add(mainScenePanel, java.awt.BorderLayout.CENTER);
+        scheduleTabPanel.add(sideScenePanel, java.awt.BorderLayout.LINE_START);
+        scheduleTabPanel.add(mainScenePanel, java.awt.BorderLayout.CENTER);
 
-        mainTab.addTab("Scenes", sceneTabPanel);
+        mainTab.addTab("Schedule", scheduleTabPanel);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -229,7 +229,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTabbedPane mainTab;
     private java.awt.List sceneList;
     private javax.swing.JLabel sceneListLabel;
-    private javax.swing.JPanel sceneTabPanel;
+    private javax.swing.JPanel scheduleTabPanel;
     private javax.swing.JPanel scriptTabPanel;
     private javax.swing.JPanel sideScenePanel;
     private javax.swing.JPanel sideSchedulePanel;

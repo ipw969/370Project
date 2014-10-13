@@ -198,11 +198,11 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="sceneTabPanel">
+            <Container class="javax.swing.JPanel" name="scheduleTabPanel">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Scenes">
-                    <Property name="tabTitle" type="java.lang.String" value="Scenes"/>
+                  <JTabbedPaneConstraints tabName="Schedule">
+                    <Property name="tabTitle" type="java.lang.String" value="Schedule"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
