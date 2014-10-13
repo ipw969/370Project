@@ -1,4 +1,6 @@
-CMPT 370 Milestone 4 Script/Scene Use cases
+CMPT 370 Milestone 4 
+
+Script/Scene Use cases
 
 Producer creating the script
   	The clicks the create script button with the intention of putting a new script into production. The producer provides the name of the script, and the system saves it into the database. The producer is then returned to the main menu and given a message indicating success. 
@@ -31,6 +33,17 @@ The producer has a conflict, after trying to schedule a scene, So they're brough
 
 Producer "Printing" The schedule
 once all conflicts have been resolved and every scene schedule the producer wishes to create a tangible document in the form of an xls or a pdf of the schedule. On the schedule scene, the producer will have a button that says print schedule, which will only be available if the schedule is not in conflict. 
+
+Schedule Use Cases
+Use Case Name: Add Scene To Schedule
+Actors: Producer
+
+Desciption: The Producer wishes to schedule the date and time which a scene will be filmed. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month, which displays the current shooting schedule. The Producer then Right-Clicks the appropriate date on the calendar and selects 'Schedule Scene' from the context menu which appears. This will open a small dialog window, defaulting to the date which was under focus when the Producer Right-Clicked. The Producer can then select a Scene from a list, and alter the date-time when it will be shot. The Producer can then click 'Okay' which will add the scene to that date in the schedule, or 'Cancel' to back out of the operation. After the scene is added to the schedule, the schedule is then validated to ensure that no conflicts of availability have arisen from the change in the schedule.
+
+Use Case Name: Remove Scene From Schedule
+Actors: Producer
+
+Description: The Producer wishes to remove a scene from its current scheduled time. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month, which displays the current shooting schedule. The Producer then Right-Clicks on the appropriate scheduled scene that they wish to delete and selects 'Delete Scene <Scene_Name>' from the context menu which appears. A message dialog window then appears asking the Producer to confirm deleting the scene from the schedule. If they click 'Yes' on the dialog then the Scene is removed from the schedule, otherwise no action is taken.
 
 
 
