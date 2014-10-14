@@ -10,8 +10,10 @@ import java.util.Collection;
  * A Class representing a collection of Business Objects. 
  * BusinessObjectListeners can be registered with the collection and will be
  * notified if any of the contained BusinessObjects change state.
+ * @param <T extends BaseBusinessObject> ~ The type to store
  */
-public class BusinessObjectList extends ArrayList<BaseBusinessObject>
+public class BusinessObjectList<T extends BaseBusinessObject> extends 
+        ArrayList<T>
                 implements BusinessObjectListener {
     
     // Constructor
@@ -89,12 +91,12 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
     
     /**
      * Adds the provided BusinessObject to the end of the List
-     * @param businessObject::BaseBusinessObject ~ The BusinessObject to add
+     * @param businessObject::T ~ The BusinessObject to add
      * to the list
      * @return true (as specified by Collection.add(E))
      */
     @Override
-    public boolean add(BaseBusinessObject businessObject)
+    public boolean add(T businessObject)
     {
         if(businessObject != null)
             businessObject.addListener(this);
@@ -107,10 +109,10 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
      * any subsequent BusinessObject to the right (adds one to their indices)
      * @param index::int ~ index at which the specified BusinessObject is to be 
      * inserted
-     * @param businessObject::BaseBusinessObject ~ BusinessObject to be inserted 
+     * @param businessObject::T ~ BusinessObject to be inserted 
      */
     @Override
-    public void add(int index, BaseBusinessObject businessObject)
+    public void add(int index, T businessObject)
     {
         if(businessObject != null)
             businessObject.addListener(this);
@@ -125,9 +127,9 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
      * @return The BusinessObject that was removed from the list
      */
     @Override
-    public BaseBusinessObject remove(int index)
+    public T remove(int index)
     {
-        BaseBusinessObject retrievedBusinessObject = super.remove(index);
+        T retrievedBusinessObject = super.remove(index);
         if(retrievedBusinessObject != null)
             retrievedBusinessObject.removeListener(this);
         return retrievedBusinessObject;
@@ -159,9 +161,10 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
      * Removes all of the BusinessObjects from this list. The list will be empty
      * after this call returns.
      */
+    @Override
     public void clear()
     {
-        for(BaseBusinessObject currentBusinessObject : this)
+        for(T currentBusinessObject : this)
         {
             if(currentBusinessObject != null)
                 currentBusinessObject.removeListener(this);
@@ -181,7 +184,7 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
      * @return true if this list changed as a result of the call
      */
     @Override
-    public boolean addAll(Collection<? extends BaseBusinessObject> collection)
+    public boolean addAll(Collection<? extends T> collection)
     {
         for (BaseBusinessObject currentBusinessObject : collection)
         {
@@ -207,7 +210,7 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
      */
     @Override
     public boolean addAll(int index,
-             Collection<? extends BaseBusinessObject> collection)
+             Collection<? extends T> collection)
     {
         for(BaseBusinessObject currentBusinessObject : collection)
             currentBusinessObject.addListener(this);
@@ -222,6 +225,7 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
      * removed from this list
      * @return true if this list changed as a result of the call
      */
+    @Override
     public boolean removeAll(Collection<?> collection)
     {
         boolean returnResult = false;
@@ -230,8 +234,8 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
         {
             if(obj instanceof BaseBusinessObject)
             {
-                BaseBusinessObject currentBusinessObject = 
-                        (BaseBusinessObject)obj;
+                T currentBusinessObject = 
+                        (T)obj;
                 
                 returnResult |= remove(currentBusinessObject);
             }
@@ -257,8 +261,8 @@ public class BusinessObjectList extends ArrayList<BaseBusinessObject>
             if (obj instanceof BaseBusinessObject)
             {
                 returnResult = true;
-                BaseBusinessObject currentBusinessObject =
-                        (BaseBusinessObject)obj;
+                T currentBusinessObject =
+                        (T)obj;
                 
                 currentBusinessObject.addListener(this);
                 add(currentBusinessObject);
