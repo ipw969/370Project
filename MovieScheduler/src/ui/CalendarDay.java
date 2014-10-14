@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+import businessobjects.ScriptSchedule;
+import java.util.ArrayList;
 /**
  * A class representing a Ui element for displaying a single day of a calendar
  */
@@ -82,6 +84,10 @@ public class CalendarDay extends JPanel{
      * A label which displays the date in a human readable form
      */
     private JLabel dateLabel;
+    /**
+     * The items scheduled to be shot on this day
+     */
+    private ArrayList<ScriptSchedule> scheduledItems;
     
     // Static Methods
     /** Method which just allows us to see the design displayed on a JFrame
