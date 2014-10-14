@@ -1,32 +1,24 @@
 package businessobjects;
+
 import java.util.GregorianCalendar;
 /**
  * Class which represents the time interval that a scene is scheduled to
  * filmed in 
  */
-public class ScriptSchedule extends BaseBusinessObject {
+public class SceneSchedule extends BaseBusinessObject {
     // Constructor
-    public ScriptSchedule() {}
+    /**
+     * Creates a new instance of a SceneSchedule with no scene or shooting
+     * interval.
+     */
+    public SceneSchedule() 
+    {
+        updateError("Scene cannot be null", scene != null);
+        updateError("Shooting interval cannot be null", 
+                    sceneShootingInterval != null);
+    }
     
     // Public methods
-    
-    /**
-     * Returns the start datetime that the scene is scheduled to be shot
-     * @return The start datetime that the scene is scheduled to be shot
-     */
-    public GregorianCalendar scheduledStart()
-    {
-        return scheduledStart;
-    }
-    
-    /**
-     * Returns the end datetime that the scene is scheduled to be shot
-     * @return The end datetime that the scene is scheduled to be shot
-     */
-    public GregorianCalendar scheduledEnd()
-    {
-        return scheduledEnd;
-    }
     
     /**
      * Returns the scene that is scheduled to be filmed in this time interval
@@ -36,37 +28,40 @@ public class ScriptSchedule extends BaseBusinessObject {
     {
         return scene;
     }
-    
+
     /**
-     * Sets the starting datetime that the scene will be filmed
-     * @param newStart::GregorianCalendar ~ The start datetime that the scene
-     * will be filmed
+     * Returns the TimeInterval during which the scene is scheduled to be shot
+     * @return The TimeInterval during which the scene is scheduled to be shot
      */
-    public void setScheduledStart(GregorianCalendar newStart)
+    public TimeInterval sceneShootingInterval()
     {
-        scheduledStart = newStart;
-        updateError("Start Date cannot be null", scheduledStart != null);
-        if(scheduledEnd != null)
-            updateError("Start Date cannot be before End Date",
-                    scheduledStart.compareTo(scheduledEnd) <=0);
-        setHasChanged(true);
+        return sceneShootingInterval;
     }
     
     /**
-     * Sets the ending datetime that the scene will be filmed
-     * @param newEnd::GregorianCalendar ~ The end datetime that the scene will
-     * be filmed
+     * Helper function which returns the start time that the scene will begin
+     * shooting
+     * @return The start time that the scene will begin shooting
      */
-    public void setScheduledEnd(GregorianCalendar newEnd)
+    public GregorianCalendar sceneShootingStart()
     {
-        scheduledEnd = newEnd;
-        updateError("End Date cannot be null", scheduledEnd != null);
-        if(scheduledStart != null)
-            updateError("Start Date cannot be before End Date",
-                    scheduledStart.compareTo(scheduledEnd) <= 0);
-        setHasChanged(true);
+        return sceneShootingInterval.start();
     }
     
+    /**
+     * Helper function which returns the end time that the scene is scheduled
+     * to be finished shooting
+     * @return The end time that the scene is scheduled to be finished shooting
+     */
+    public GregorianCalendar sceneShootingEnd()
+    {
+        return sceneShootingInterval.end();
+    }
+    
+    /**
+     * Sets the scene which will be scheduled to be shot in this time interval
+     * @param newScene::Scene ~ The scene to be shot
+     */
     public void setScene(Script.Scene newScene)
     {
         scene = newScene;
@@ -74,22 +69,35 @@ public class ScriptSchedule extends BaseBusinessObject {
         setHasChanged(true);
     }
     
+    /**
+     * Sets the TimeInterval during which the scene will be shot
+     * @param shootingInterval::TimeInterval ~ The TimeInterval during which the
+     * scene will be shot
+     */
+    public void setSceneShootingInterval(TimeInterval shootingInterval)
+    {
+        sceneShootingInterval = shootingInterval;
+        updateError("Shooting interval cannot be null",
+                    sceneShootingInterval != null);
+        
+        if(sceneShootingInterval != null)
+            updateError("Shooting interval is not valid", 
+                        sceneShootingInterval.isValid());
+        
+        setHasChanged(true);
+    }
+    
     // Private methods
     
     // Private member vairables
-    
+    /**
+     * The TimeInterval during which the scene will be shot
+     */
+    TimeInterval sceneShootingInterval;
     /**
      * The scene which is scheduled
      */
     private Script.Scene scene;
+
     
-    /**
-     * The scheduled start date that the scene will be filmed
-     */
-    private GregorianCalendar scheduledStart;
-    
-    /**
-     * The scheduled end date that the scene will be filmed
-     */
-    private GregorianCalendar scheduledEnd;
 }
