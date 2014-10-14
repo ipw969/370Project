@@ -73,15 +73,15 @@ public class CalendarDay extends JPanel{
     /**
      * The date which this CalendarDay displays
      */
-    Calendar date;
+    private Calendar date;
     /**
      * Scroll are in which the data will sit
      */
-    JScrollPane dataAreaScrollPane;
+    private JScrollPane dataAreaScrollPane;
     /**
      * A label which displays the date in a human readable form
      */
-    JLabel dateLabel;
+    private JLabel dateLabel;
     
     // Static Methods
     /** Method which just allows us to see the design displayed on a JFrame
