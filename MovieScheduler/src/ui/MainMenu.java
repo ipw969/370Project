@@ -5,6 +5,7 @@
  */
 package ui;
 
+import java.awt.Frame;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,7 +21,8 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() throws SQLException {
         initComponents();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -31,71 +33,161 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        label1 = new java.awt.Label();
         mainPanel = new javax.swing.JPanel();
-        topMenuPanel = new javax.swing.JPanel();
-        leftMenuPanel = new javax.swing.JPanel();
-        voluteerLabel = new javax.swing.JLabel();
-        volunteersScrollPane = new javax.swing.JScrollPane();
-        volunteersList = new javax.swing.JList();
-        equipmentLabel = new javax.swing.JLabel();
-        equipmentScrollPane = new javax.swing.JScrollPane();
-        equipmentList = new javax.swing.JList();
-        sceneLabel = new javax.swing.JLabel();
-        sceneScrollPanel = new javax.swing.JScrollPane();
-        sceneList = new javax.swing.JList();
+        mainTab = new javax.swing.JTabbedPane();
+        scriptTabPanel = new javax.swing.JPanel();
+        sideSchedulePanel = new javax.swing.JPanel();
+        volunteerListPanel = new javax.swing.JPanel();
+        volunteerListLabel = new javax.swing.JLabel();
+        volunteerList = new java.awt.List();
+        equipmentListPanel = new javax.swing.JPanel();
+        equipmentListLabel = new javax.swing.JLabel();
+        equipmentList = new java.awt.List();
+        mainSchedulePanel = new javax.swing.JPanel();
+        scheduleTabPanel = new javax.swing.JPanel();
+        sideScenePanel = new javax.swing.JPanel();
+        sceneListLabel = new javax.swing.JLabel();
+        sceneList = new java.awt.List();
+        mainScenePanel = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        label1.setText("label1");
+
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);
             }
         });
 
-        mainPanel.setBackground(new java.awt.Color(255, 153, 153));
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+        scriptTabPanel.setLayout(new java.awt.BorderLayout());
 
-        topMenuPanel.setBackground(new java.awt.Color(153, 153, 255));
-        getContentPane().add(topMenuPanel, java.awt.BorderLayout.PAGE_START);
+        sideSchedulePanel.setLayout(new java.awt.GridLayout(2, 0, 10, 10));
 
-        leftMenuPanel.setLayout(new javax.swing.BoxLayout(leftMenuPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        volunteerListPanel.setMaximumSize(new java.awt.Dimension(150, 32767));
+        volunteerListPanel.setPreferredSize(new java.awt.Dimension(150, 300));
 
-        voluteerLabel.setText("Volunteers");
-        leftMenuPanel.add(voluteerLabel);
+        volunteerListLabel.setText("Volunteers");
 
-        volunteersList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        volunteersScrollPane.setViewportView(volunteersList);
+        javax.swing.GroupLayout volunteerListPanelLayout = new javax.swing.GroupLayout(volunteerListPanel);
+        volunteerListPanel.setLayout(volunteerListPanelLayout);
+        volunteerListPanelLayout.setHorizontalGroup(
+            volunteerListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(volunteerListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(volunteerListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(volunteerListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(volunteerList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        volunteerListPanelLayout.setVerticalGroup(
+            volunteerListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(volunteerListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(volunteerListLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(volunteerList, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        leftMenuPanel.add(volunteersScrollPane);
+        sideSchedulePanel.add(volunteerListPanel);
 
-        equipmentLabel.setText("Equipment");
-        leftMenuPanel.add(equipmentLabel);
+        equipmentListPanel.setMaximumSize(new java.awt.Dimension(150, 32767));
+        equipmentListPanel.setPreferredSize(new java.awt.Dimension(150, 300));
 
-        equipmentList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        equipmentScrollPane.setViewportView(equipmentList);
+        equipmentListLabel.setText("Equipment");
 
-        leftMenuPanel.add(equipmentScrollPane);
+        javax.swing.GroupLayout equipmentListPanelLayout = new javax.swing.GroupLayout(equipmentListPanel);
+        equipmentListPanel.setLayout(equipmentListPanelLayout);
+        equipmentListPanelLayout.setHorizontalGroup(
+            equipmentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(equipmentListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(equipmentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(equipmentList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(equipmentListPanelLayout.createSequentialGroup()
+                        .addComponent(equipmentListLabel)
+                        .addGap(0, 53, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        equipmentListPanelLayout.setVerticalGroup(
+            equipmentListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(equipmentListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(equipmentListLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(equipmentList, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        sceneLabel.setText("Scenes");
-        leftMenuPanel.add(sceneLabel);
+        sideSchedulePanel.add(equipmentListPanel);
 
-        sceneList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        sceneScrollPanel.setViewportView(sceneList);
+        scriptTabPanel.add(sideSchedulePanel, java.awt.BorderLayout.LINE_START);
+        scriptTabPanel.add(mainSchedulePanel, java.awt.BorderLayout.CENTER);
 
-        leftMenuPanel.add(sceneScrollPanel);
+        mainTab.addTab("Script", scriptTabPanel);
 
-        getContentPane().add(leftMenuPanel, java.awt.BorderLayout.LINE_START);
+        scheduleTabPanel.setLayout(new java.awt.BorderLayout());
+
+        sideScenePanel.setMaximumSize(new java.awt.Dimension(150, 32767));
+        sideScenePanel.setPreferredSize(new java.awt.Dimension(150, 610));
+
+        sceneListLabel.setText("Scenes");
+
+        javax.swing.GroupLayout sideScenePanelLayout = new javax.swing.GroupLayout(sideScenePanel);
+        sideScenePanel.setLayout(sideScenePanelLayout);
+        sideScenePanelLayout.setHorizontalGroup(
+            sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sideScenePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sideScenePanelLayout.createSequentialGroup()
+                        .addComponent(sceneListLabel)
+                        .addGap(0, 77, Short.MAX_VALUE))
+                    .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        sideScenePanelLayout.setVerticalGroup(
+            sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sideScenePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sceneListLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        scheduleTabPanel.add(sideScenePanel, java.awt.BorderLayout.LINE_START);
+        scheduleTabPanel.add(mainScenePanel, java.awt.BorderLayout.CENTER);
+
+        mainTab.addTab("Schedule", scheduleTabPanel);
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainTab, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainTab)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -127,17 +219,22 @@ public class MainMenu extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel equipmentLabel;
-    private javax.swing.JList equipmentList;
-    private javax.swing.JScrollPane equipmentScrollPane;
-    private javax.swing.JPanel leftMenuPanel;
+    private java.awt.List equipmentList;
+    private javax.swing.JLabel equipmentListLabel;
+    private javax.swing.JPanel equipmentListPanel;
+    private java.awt.Label label1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JLabel sceneLabel;
-    private javax.swing.JList sceneList;
-    private javax.swing.JScrollPane sceneScrollPanel;
-    private javax.swing.JPanel topMenuPanel;
-    private javax.swing.JList volunteersList;
-    private javax.swing.JScrollPane volunteersScrollPane;
-    private javax.swing.JLabel voluteerLabel;
+    private javax.swing.JPanel mainScenePanel;
+    private javax.swing.JPanel mainSchedulePanel;
+    private javax.swing.JTabbedPane mainTab;
+    private java.awt.List sceneList;
+    private javax.swing.JLabel sceneListLabel;
+    private javax.swing.JPanel scheduleTabPanel;
+    private javax.swing.JPanel scriptTabPanel;
+    private javax.swing.JPanel sideScenePanel;
+    private javax.swing.JPanel sideSchedulePanel;
+    private java.awt.List volunteerList;
+    private javax.swing.JLabel volunteerListLabel;
+    private javax.swing.JPanel volunteerListPanel;
     // End of variables declaration//GEN-END:variables
 }

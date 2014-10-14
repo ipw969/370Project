@@ -114,7 +114,7 @@ public class BaseBusinessObject {
      */
     public void addListener(BusinessObjectListener listener)
     {
-        if(!listeners.contains(listener))
+        if(listener != null && !listeners.contains(listener))
             listeners.add(listener);
     }
     
@@ -127,7 +127,7 @@ public class BaseBusinessObject {
      */
     public void removeListener(BusinessObjectListener listener)
     {
-        if(listeners.contains(listener))
+        if(listener != null && listeners.contains(listener))
             listeners.remove(listener);
     }
     
@@ -206,7 +206,7 @@ public class BaseBusinessObject {
         for (BusinessObjectListener listener : listeners)
         {
             if(listener != null)
-                listener.validStateAltered(isValid());
+                listener.validStateAltered(isValid(), this);
         }
     }
 
@@ -215,7 +215,7 @@ public class BaseBusinessObject {
         for (BusinessObjectListener listener : listeners)
         {
             if(listener != null)
-                listener.changedStateAltered(hasChanged);
+                listener.changedStateAltered(hasChanged, this);
         }
     }
 

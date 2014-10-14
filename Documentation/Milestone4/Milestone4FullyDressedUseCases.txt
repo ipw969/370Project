@@ -1,0 +1,27 @@
+Use Case Name: Add Scene To Schedule 
+
+Summary: The Producer wishes to schedule the date and time which a scene will be filmed. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month, which displays the current shooting schedule. The Producer then Right-Clicks the appropriate date on the calendar and selects 'Schedule Scene' from the context menu which appears. This will open a small dialog window, defaulting to the date which was under focus when the Producer Right-Clicked. The Producer can then select a Scene from a list, and alter the date-time when it will be shot. The Producer can then click 'Okay' which will add the scene to that date in the schedule, or 'Cancel' to back out of the operation. After the scene is added to the schedule, the schedule is then validated to ensure that no conflicts of availability have arisen from the change in the schedule.
+
+Actors: Producer 
+
+Preconditions: 
+- The script which the scene belongs to has been created
+- The scene the producer wishes to schedule has been created
+- The scene has been added to the relevant script
+- The scene has not already been scheduled for another date
+- The scene has not already been shot
+
+Description:
+- The producer clicks on the 'Scheduling' tab
+- The producer right-clicks on the date they wish to schedule the scene
+- The dialog window for adding a scene to the schedule appears, with the date defaulted to the date on which they right clicked
+- The producer selects the scene they wish to schedule and alters the date/time
+- The producer clicks the 'Okay' button in order to add the scene to the schedule
+- The scene is added to the schedule on the date specified [Exception: Not all requirements for scene are available on selected date]
+
+Exceptions:
+Not all requirements for scene are available on selected date:
+Raised when not all volunteers or equipment which are added to the scene are available during the date/time that the scene is scheduled to be shot. The Producer is then warned via a colour change to the scene in the Calendar, as well as warning icon at the top of the screen indicating a conflict in general. The Producer is then able to use the conflict management subsystem to attempt to resolve the scheduling conflict, or remove this scene from this date and schedule it for another date.
+
+Postconditions:
+The scene is scheduled to be filmed on the date which the Producer has chosen.

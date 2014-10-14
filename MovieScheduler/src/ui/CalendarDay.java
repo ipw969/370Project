@@ -6,7 +6,6 @@
 package ui;
 
 import javax.swing.JPanel;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
@@ -14,19 +13,26 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+import businessobjects.SceneSchedule;
+import businessobjects.BusinessObjectList;
+import businessobjects.BusinessObjectListener;
+import businessobjects.BaseBusinessObject;
+import java.awt.List;
 /**
  * A class representing a Ui element for displaying a single day of a calendar
  */
-public class CalendarDay extends JPanel{
+public class CalendarDay extends JPanel implements BusinessObjectListener{
     
     // Constructor
     /**
      * Creates an instance of a calendar day with the provided calendar storing
      * the date
-     * @param date::Calendar ~ The date of the day to display 
+     * @param date::GregorianCalendar ~ The date of the day to display 
      */
-    public CalendarDay(Calendar date)
+    public CalendarDay(GregorianCalendar date)
     {
+        filmingSchedule = new BusinessObjectList<>();
+        filmingSchedule.addListener(this);
         this.date = (GregorianCalendar)date.clone();
         this.setBackground(Color.WHITE);
         setBorder(new LineBorder(new Color(240,240,240)));
@@ -46,8 +52,65 @@ public class CalendarDay extends JPanel{
             dateLabel.setForeground(color);
         super.setForeground(color);
     }
+     
+    // Public methods
     
-    // Private methods
+    public void addSceneSchedule(SceneSchedule sceneSchedule)
+    {
+        filmingSchedule.add(sceneSchedule);
+        updateList();
+    }
+    
+    public void removeSceneSchedule(SceneSchedule sceneSchedule)
+    {
+        if(filmingSchedule.remove(sceneSchedule))
+            updateList();
+    }
+    
+    @Override
+    public void changedStateAltered(boolean currentState, 
+                                    BaseBusinessObject sender)
+    {
+        if(sender instanceof SceneSchedule)
+        {
+            SceneSchedule sendingSceneSchedule = (SceneSchedule)sender;
+            if(!sendingSceneSchedule.sceneShootingInterval().overlaps(date))
+            {
+                filmingSchedule.remove(sendingSceneSchedule);
+                updateList();
+            }
+        }
+    }
+    
+    @Override
+    public void validStateAltered(boolean currentState,
+                                  BaseBusinessObject sender)
+    {
+        if(sender instanceof SceneSchedule)
+        {
+            updateList();
+        }
+    }
+    // Private Methods
+    
+    private void updateList()
+    {
+        if(filmingSchedule == null)
+            return;
+        
+        sceneList.setBackground(Color.WHITE);
+        
+        sceneList.removeAll();
+        
+        for (SceneSchedule currentScheduledScene : filmingSchedule)
+        {
+            if(currentScheduledScene.sceneShootingInterval().overlaps(date))
+                sceneList.add(currentScheduledScene.toString());
+            if(!currentScheduledScene.isValid())
+                setBackground(new Color(232, 125, 148));
+        }
+    }
+    
     /**
      * Initializes and positions the components of the CalendarDay
      */
@@ -67,21 +130,32 @@ public class CalendarDay extends JPanel{
         dataAreaScrollPane.setBorder(null);
         add(dataAreaScrollPane, BorderLayout.CENTER);
         
+        // init sceneList
+        sceneList = new List();
+        dataAreaScrollPane.add(sceneList);
     }
     
     // Private Member Variables
     /**
      * The date which this CalendarDay displays
      */
-    Calendar date;
+    private GregorianCalendar date;
     /**
      * Scroll are in which the data will sit
      */
-    JScrollPane dataAreaScrollPane;
+    private JScrollPane dataAreaScrollPane;
+    /**
+     * A List UI element which displays the scenes for this day
+     */
+    private List sceneList;
     /**
      * A label which displays the date in a human readable form
      */
-    JLabel dateLabel;
+    private JLabel dateLabel;
+    /**
+     * The entire schedule
+     */
+    private BusinessObjectList<SceneSchedule> filmingSchedule;
     
     // Static Methods
     /** Method which just allows us to see the design displayed on a JFrame
@@ -92,8 +166,9 @@ public class CalendarDay extends JPanel{
         javax.swing.JFrame testFrame = new javax.swing.JFrame();
         testFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         testFrame.setSize(100, 100);
+        CalendarDay testCalendarDay = new CalendarDay(new GregorianCalendar());
         
-        testFrame.add(new CalendarDay(new GregorianCalendar()));
+        testFrame.add(testCalendarDay);
         testFrame.setVisible(true);
     }
 }
