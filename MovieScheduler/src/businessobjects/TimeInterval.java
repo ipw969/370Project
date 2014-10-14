@@ -1,39 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package datatypes;
+package businessobjects;
 
 import java.util.GregorianCalendar;
 /**
  * Class representing a set interval of time
  */
-public class TimeInterval implements Comparable<TimeInterval>{
+public class TimeInterval 
+            extends BaseBusinessObject
+            implements Comparable<TimeInterval>{
     // Constructor
     /**
      * Creates an instance of a TimeInterval from newStart to newEnd
      * @param newStart::GregorianCalendar ~ The start of the time interval
      * @param newEnd::GregorianCalendar ~ The end of the time interval
-     * @throws IllegalArgumentException
      */
     public TimeInterval(GregorianCalendar newStart, GregorianCalendar newEnd)
-            throws IllegalArgumentException
     {
-        if(newStart == null)
-            throw new IllegalArgumentException("TimeInterval::TimeInterval ~ "
-                    + "start cannot be null");
-        
-        if (newEnd == null)
-            throw new IllegalArgumentException("TimeInterval::TimeInterval ~ "
-                    + "end cannot be null");
-        
-        if(newStart.compareTo(newEnd) > 0)
-            throw new IllegalArgumentException("TimeInterval::TimeInterval ~ "
-                    + "start cannot be before end");
-        
+      
         start = newStart;
         end = newEnd;
+        
+        updateError("Start cannot be null", start != null);
+        updateError("End cannot be null", end != null);
+        updateError("Start cannot be before end", start.compareTo(end) < 0);
     }
     
     // Public Methods
@@ -58,37 +46,31 @@ public class TimeInterval implements Comparable<TimeInterval>{
     /**
      * Sets the start date/time of the TimeInterval
      * @param newStart::GregorianCalendar ~ The new start date/time of the 
-     * TimeInterval
-     * @throws IllegalArgumentException 
+     * TimeInterval 
      */
     public void setStart(GregorianCalendar newStart) 
             throws IllegalArgumentException
     {
-        if(newStart == null)
-            throw new IllegalArgumentException("TimeInterval::setStart ~ "
-                    + "start cannot be null");
-        
         start = newStart;
+        updateError("Start cannot be null", start!= null);
+        if(start != null && end != null)
+            updateError("Start cannot be before end", start.compareTo(end) < 0);
+        setHasChanged(true);
     }
     
     /**
      * Sets the end date/time of the TimeInterval
      * @param newEnd::GregorianCalendar ~ The new end date/time of the 
      * TimeInterval
-     * @throws IllegalArgumentException 
      */
     public void setEnd(GregorianCalendar newEnd)
             throws IllegalArgumentException
     {
-        if(newEnd == null)
-            throw new IllegalArgumentException("TimeInterval::setEnd ~ "
-                    + "end cannot be null");
-        
-        if(newEnd.compareTo(start) < 0)
-            throw new IllegalArgumentException("TimeInterval::setEnd ~ "
-                    + "end cannot be before start");
-        
         end = newEnd;
+        updateError("End cannot be null", end != null);
+        if(start != null && end != null)
+            updateError("Start cannot be before end", start.compareTo(end) < 0);
+        setHasChanged(true);
     }
     
     /**
