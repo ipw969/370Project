@@ -72,6 +72,7 @@ public class ConflictResolution extends javax.swing.JFrame {
 
         jLabel1.setText("Scene:");
 
+        conflictVolunteerLabel.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         conflictVolunteerLabel.setText("THis Is a volunteer");
         conflictVolunteerLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         conflictVolunteerLabel.setName("volunteerListLabel"); // NOI18N

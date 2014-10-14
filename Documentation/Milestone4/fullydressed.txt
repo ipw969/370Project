@@ -1,0 +1,27 @@
+
+Fully Dressed use cases
+
+The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. Ignore means that the scene will be scheduled anyway, and the producer will be prompted to confirm this. The other basic option will be to contact all those involved in the scene through e-mail.
+
+Resolving Schedule Conflicts
+Scope: Volunteer Film schedule manager
+Level: User-goal
+Primary Actor: Producer
+Stakeholders and Interests:
+-Producer: Wants to view all of the information regarding a schedule conflict: The Volunteers and equipment involved, and their respective availabilities, and the reason for the conflict
+-Volunteers: Have accurate representation of their availability  	
+-Director: Ensure the system allows the producer makes accurate scheduling decisions.
+Preconditions: A conflict in the schedule has been identified and associated with a scene
+Success Guarantees
+
+Main Success Scenario
+
+Extensions
+
+Special Requirements
+
+Technology and Data variations LIst
+
+Frequency of occurence
+
+Misc
