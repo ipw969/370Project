@@ -11,10 +11,15 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import businessobjects.BusinessObjectList;
+import businessobjects.SceneSchedule;
+import businessobjects.BusinessObjectListener;
+import businessobjects.BaseBusinessObject;
+import businessobjects.TimeInterval;
 /**
  * A class representing a Ui element displaying a single month of a calendar
  */
-public class CalendarMonth extends JPanel {
+public class CalendarMonth extends JPanel implements BusinessObjectListener{
     
     // Constructor
     /**
@@ -28,7 +33,11 @@ public class CalendarMonth extends JPanel {
     {
         setLayout(new GridLayout(0,7));
         calendarDays = new ArrayList<>();
+        // date used just to build the ui elements, date is saved as a calendar
+        // for use for the rest of the lifetime of the class as the bottom of
+        // the constructor
         GregorianCalendar calendarDate = new GregorianCalendar(year, month, 01);
+        
         
         // First we need to iterate back to the first day of the week
         while(calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek())
@@ -61,8 +70,86 @@ public class CalendarMonth extends JPanel {
             calendarDays.add(currentCalendarDay);
             calendarDate.add(Calendar.DAY_OF_WEEK, 1);
         }
+        startOfMonth = new GregorianCalendar(year, month, 01);
         
+        scheduledScenes = new BusinessObjectList<>();
+
         initComponents();
+        
+
+    }
+    
+    // Public Methods
+
+    /**
+     * Adds the provided SceneSchedule to this month
+     * @param sceneSchedule::SceneSchedule ~ The SceneSchedule to add
+     */
+    public void add(SceneSchedule sceneSchedule)
+    {
+        for(CalendarDay currentCalendarDay: calendarDays)
+        {
+            if(sceneSchedule.sceneShootingInterval().overlaps(
+                currentCalendarDay.date()))
+                currentCalendarDay.addSceneSchedule(sceneSchedule);
+        }       
+    }
+    
+    /**
+     * Method to react to one of our containing SceneSchedules notifying us
+     * that is has changed. If it has changed to be outside this month then
+     * we remove it from the list, otherwise we iterate through calendar days
+     * and add it to all the ones which it overlaps
+     * @param currentState::boolean ~ The current changed state of the 
+     * SceneSchedule (unused)
+     * @param sender::BaseBusinessObject ~ The sender of the notification
+     */
+    @Override
+    public void changedStateAltered(boolean currentState, 
+            BaseBusinessObject sender)
+    {
+        if(!(sender instanceof SceneSchedule))
+        {
+            return;
+        }
+        
+        SceneSchedule sendingSceneSchedule = (SceneSchedule)sender;
+        
+        // Calendar days cope with removing stuff from themselves, so
+        // all we need to do here is remove it from our collection if it's
+        // changed month, and add it to the correct day(s) otherwise
+        
+        if(!sceneScheduleIsThisMonth(sendingSceneSchedule))
+        {
+            scheduledScenes.remove(sendingSceneSchedule);
+        }
+        else
+        {
+            // Todo: Iterate over all days and add to each on that it overlaps
+            // with.
+            for(CalendarDay currentCalendarDay: calendarDays)
+            {
+                if(sendingSceneSchedule.sceneShootingInterval().overlaps(
+                    currentCalendarDay.date()))
+                    currentCalendarDay.addSceneSchedule(sendingSceneSchedule);
+            }
+        }
+        
+    }
+    
+    /**
+     * Method which deals with being notified that one of the contained 
+     * SceneSchedules has altered its valid state. As we're not editing the
+     * data associated with a scene schedule here, we don't need to do anything
+     * @param currentState
+     * @param sender 
+     */
+    @Override
+    public void validStateAltered(boolean currentState, 
+            BaseBusinessObject sender)
+    {
+        // We're not editing the SceneSchedules here, so we don't need to do
+        // anything
     }
     
     // Private Methods
@@ -75,13 +162,44 @@ public class CalendarMonth extends JPanel {
         {
             add(day);
         }
+        
+        scheduledScenes.addListener(this);
+    }
+    
+    /**
+     * Function to check if the provided SceneSchedule overlaps this month
+     * @param sceneSchedule::SceneSchedule ~ The SceneSchedule to check if it
+     * overlaps this month
+     * @return True if SceneSchedule overlaps this month, false otherwise
+     */
+    private boolean sceneScheduleIsThisMonth(SceneSchedule sceneSchedule)
+    {
+        GregorianCalendar endOfMonth = (GregorianCalendar)startOfMonth.clone();
+        endOfMonth.add(Calendar.MONTH, 1);
+        endOfMonth.add(Calendar.DAY_OF_MONTH, -1);
+        
+        TimeInterval wholeMonth = new TimeInterval(startOfMonth, endOfMonth);
+        
+        return sceneSchedule.sceneShootingInterval().compareTo(wholeMonth) == 0;
     }
     
     // Private Member Variables
     /**
      * A list of all the days that will be displayed
      */
-    ArrayList<CalendarDay> calendarDays;
+    private ArrayList<CalendarDay> calendarDays;
+    
+    /**
+     * A List of all the scheduled scene shooting dates
+     */
+    private BusinessObjectList<SceneSchedule> scheduledScenes;
+    
+    /**
+     * The first day of the month
+     */
+    private GregorianCalendar startOfMonth;
+
+
     // Static Methods
     
     /**
@@ -95,6 +213,37 @@ public class CalendarMonth extends JPanel {
         testFrame.setSize(640, 480);
         CalendarMonth testCalendarMonth = new CalendarMonth(2014, 9);
         
+        // Add some SceneSchedules
+        SceneSchedule testSchedule1 = new SceneSchedule();
+        testSchedule1.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
+        
+        SceneSchedule testSchedule2 = new SceneSchedule();
+        testSchedule2.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
+        
+        SceneSchedule testSchedule3 = new SceneSchedule();
+        testSchedule3.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 3)));
+        
+        SceneSchedule testSchedule4 = new SceneSchedule();
+        testSchedule4.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
+        
+        SceneSchedule testSchedule5 = new SceneSchedule();
+        testSchedule5.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
+        
+        SceneSchedule testSchedule6 = new SceneSchedule();
+        testSchedule6.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
+        
+        SceneSchedule testSchedule7 = new SceneSchedule();
+        testSchedule7.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
+        
+        
+        testCalendarMonth.add(testSchedule1);
+        testCalendarMonth.add(testSchedule2);
+        testCalendarMonth.add(testSchedule3);
+        testCalendarMonth.add(testSchedule4);
+        testCalendarMonth.add(testSchedule5);
+        testCalendarMonth.add(testSchedule6);
+        testCalendarMonth.add(testSchedule7);
+
         testFrame.add(testCalendarMonth);
         testFrame.setVisible(true);
     }

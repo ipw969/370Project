@@ -87,6 +87,16 @@ public class SceneSchedule extends BaseBusinessObject {
         setHasChanged(true);
     }
     
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public String toString()
+    {
+        return "BLAH BLAH";
+    }
+    
     // Private methods
     
     // Private member vairables

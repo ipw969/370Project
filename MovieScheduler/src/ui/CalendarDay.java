@@ -32,7 +32,6 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
     public CalendarDay(GregorianCalendar date)
     {
         filmingSchedule = new BusinessObjectList<>();
-        filmingSchedule.addListener(this);
         this.date = (GregorianCalendar)date.clone();
         this.setBackground(Color.WHITE);
         setBorder(new LineBorder(new Color(240,240,240)));
@@ -52,11 +51,23 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
             dateLabel.setForeground(color);
         super.setForeground(color);
     }
+    
+    /**
+     * Returns the date this Calendar day represents
+     * @return The date this Calendar day represents 
+     */
+    public GregorianCalendar date()
+    {
+        return date;
+    }
      
     // Public methods
     
     public void addSceneSchedule(SceneSchedule sceneSchedule)
     {
+        if(filmingSchedule.contains(sceneSchedule))
+            return;
+        
         filmingSchedule.add(sceneSchedule);
         updateList();
     }
@@ -64,7 +75,9 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
     public void removeSceneSchedule(SceneSchedule sceneSchedule)
     {
         if(filmingSchedule.remove(sceneSchedule))
+        {
             updateList();
+        }
     }
     
     @Override
@@ -86,10 +99,7 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
     public void validStateAltered(boolean currentState,
                                   BaseBusinessObject sender)
     {
-        if(sender instanceof SceneSchedule)
-        {
-            updateList();
-        }
+        // We're not editing the object, so it shouldn't ever be invalid.
     }
     // Private Methods
     
@@ -104,10 +114,7 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
         
         for (SceneSchedule currentScheduledScene : filmingSchedule)
         {
-            if(currentScheduledScene.sceneShootingInterval().overlaps(date))
-                sceneList.add(currentScheduledScene.toString());
-            if(!currentScheduledScene.isValid())
-                setBackground(new Color(232, 125, 148));
+            sceneList.add(currentScheduledScene.toString());
         }
     }
     
@@ -132,7 +139,8 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
         
         // init sceneList
         sceneList = new List();
-        dataAreaScrollPane.add(sceneList);
+        dataAreaScrollPane.setViewportView(sceneList);
+        filmingSchedule.addListener(this);
     }
     
     // Private Member Variables
@@ -168,6 +176,7 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
         testFrame.setSize(100, 100);
         CalendarDay testCalendarDay = new CalendarDay(new GregorianCalendar());
         
+        testCalendarDay.sceneList.add("TEST");
         testFrame.add(testCalendarDay);
         testFrame.setVisible(true);
     }
