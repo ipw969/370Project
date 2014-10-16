@@ -25,3 +25,84 @@ Raised when not all volunteers or equipment which are added to the scene are ava
 
 Postconditions:
 The scene is scheduled to be filmed on the date which the Producer has chosen.
+
+
+
+Use Case: Create and add a scene to the script.
+scope: primary volunteer scheduling application
+level: user goal
+Primary Actor: producer
+Stakeholders: 
+ Producer – wishes to store scenes in the script and be able to access them in an  organized way. 
+
+Preconditions: The producer has created a script and is looking at the script menu.
+ 		The script has been created. 
+ 		
+Postconditions(success guarantee): The scene is saved to the script
+ 				      The scheduling system is notified of the addition.
+Exceptions: 
+-A scene does not contain any requirements. 
+
+Main Success Scenario:
+1. Producer clicks on the add a scene button.
+2. Producer enters scene information and clicks ok.
+3. The scene information is added to the script.
+4. The scheduling system is notified of the addition.
+5. The producer is returned to the previous menu.
+
+Extensions:
+2a. The scene information is invalid.
+     1.The system displays the error message to the producer.
+     2.The producer clicks ok and is redirected to the create and add a scene menu.
+
+2b. The producer does not wish to save the scene.
+     1. The producer clicks cancel.
+     2. The producer is returned to the previous menu.
+
+3a. A scene with that name is already in the script.
+     1. The producer is presented with both copies.
+      2.The user responds to the error.
+ 	 1. The producer wishes to overwrite the scene and clicks overwrite.
+ 	2a. The scene in the database is already completed.
+ 		1. The producer is notified of the previous scenes completion.
+  			1a. The producer wishes to overwrite anyway and presses overwrite.
+ 				2. The old scene info is overwritten with the new scene info.
+ 				3. The scheduler is notified of the change.
+ 			1b. The producer does not wish to overwrite and clicks cancel.
+ 				1. The producer is returned to the create and add scene menu.
+ 	2b.  The scene in the database is not complete.
+ 		1. The old scene information is overwritten with the new scene information.
+ 		2. The producer is returned to the previous menu.
+
+
+ Frequency of occurrence: Continuous at the beginning, sparse during production.
+
+Use Case: Producer add requirement to a scene.
+ 	- The word requirement will refer to either a volunteer or piece of equipment.
+Scope: Primary volunteer scheduling application
+Primary Actor: Producer
+Stakeholder:
+ 	Producer- wants a way of storing scene requirements. 
+
+precondition: Producer is creating or editing a scene.
+Postcondition(success guarantee): The volunteer/equipment is added to the scene.
+
+Exceptions: 
+-The added volunteers and equipment have no time availability. 
+
+Main Success Scenario:	
+1. The producer clicks the add requirement button.
+2. The producer enters the volunteer/equipment information.
+3. The producer clicks ok.
+4. The requirement is saved to the scene.
+5. The scheduler is notified of a change.
+
+Extensions:
+2a. The producer does not wish to add the requirement.
+ 	1. The producer clicks cancel.
+	2. The producer is returned to the previous screen.
+3a. The requirement information is invalid.
+ 	1. The producer is notified of the error.
+ 	2. The producer is sent back to the add a requirement menu. 
+
+Frequency of occurrence: Several times for every scene that is created
