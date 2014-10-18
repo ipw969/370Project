@@ -1,11 +1,12 @@
 
 package datatypes;
+import businessobjects.BaseBusinessObject;
 
 /**
  * Equipment data class
  * @author johnmason
  */
-public class Equipment 
+public class Equipment extends BaseBusinessObject
 {
     String equipmentType; 
     int stock;   //the amount of equipment we currently have
@@ -13,7 +14,7 @@ public class Equipment
     float rentalCost;
     
     //empty constructor
-    public Equipment(){}
+    public Equipment(){setIsNew(true);}
     
     //full constructor for when the equipment is a rental
     public Equipment(String equipmentType, int stock, boolean isRental, float cost)
@@ -22,6 +23,7 @@ public class Equipment
         this.stock = stock;
         this.isRental = isRental;
         this.rentalCost = cost;    //sets the cost of rentals (per unit *NOT* total cost)
+        setIsNew(true);
 
     }
     
@@ -31,26 +33,35 @@ public class Equipment
         this.equipmentType = equipmentType;
         this.stock = stock;
         this.isRental = isRental;
+        setIsNew(true);
+
     }    
     
     public void setEquipmentType(String equipmentType)
     {
         this.equipmentType = equipmentType;
+        setHasChanged(true);
     }
     
     public void setStock(int amount)
     {
         this.stock = amount;
+        setHasChanged(true);
+
     }
     
     public void setIsRental(boolean isRental)
     {
         this.isRental = isRental;
+        setHasChanged(true);
+
     }
     
     public void setCost(float cost)
     {
         this.rentalCost = cost;
+        setHasChanged(true);
+
     }
 
     

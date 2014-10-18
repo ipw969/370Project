@@ -1,11 +1,11 @@
 
 package datatypes;
-
+import businessobjects.BaseBusinessObject;
 /**
  * volunteer data class
  * @author johnmason
  */
-public class Volunteer 
+public class Volunteer extends BaseBusinessObject
 {
     String firstName;
     String lastName;
@@ -14,7 +14,7 @@ public class Volunteer
     
     
     //empty constructor
-    public Volunteer(){}
+    public Volunteer(){setIsNew(true);}
     
     //general constructor
     public Volunteer(String fName, String lName, String email, String phone)
@@ -23,26 +23,31 @@ public class Volunteer
         this.lastName = lName;
         this.email = email;
         this.phone = phone;
+        setIsNew(true);
     }
 
     public void setFirstName(String name)
     {
         this.firstName = name;
+        setHasChanged(true);
     }
     
     public void setLastName(String name)
     {
         this.lastName = name;
+        setHasChanged(true);
     }
     
     public void setEmail(String email)
     {
         this.email = email;
+        setHasChanged(true);
     }
 
     public void setPhone(String phone)
     {
         this.phone = phone;
+        setHasChanged(true);
     } 
  
     public String getFirstName()
