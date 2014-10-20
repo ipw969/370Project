@@ -5,8 +5,11 @@
 This JFrame should only be used if it is the first time the project is opened, or there is no script in the database. 
  */
 package ui;
-
+import java.sql.SQLException;
 import businessobjects.Script;
+import java.awt.Dimension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +22,7 @@ public class StartMenu extends javax.swing.JFrame {
      */
     public StartMenu() {
         initComponents();
+        scriptNameField.setMinimumSize(new Dimension(50,23));
     }
 
     /**
@@ -141,13 +145,29 @@ public class StartMenu extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        Script script = new Script(scriptNameField.getText());        // TODO add your handling code here:
-        if (!script.isValid());
+        Script script = new Script(scriptNameField.getText());        
+     
+        if (!script.isValid())
         {
             
+             ErrorDisplay displayError = new ErrorDisplay(this, script.errorMessage());
+             displayError.setVisible(true);
+             
         }
-        
+        else
+        {
+            try {
+                this.setVisible(false);
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(StartMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }  
+        scriptNameField.setText("name here");
+        this.repaint();
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**

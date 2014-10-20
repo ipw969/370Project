@@ -2,10 +2,6 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
-
-
-This clas is used to display the error messages to the user. Simply 
-pass on the errormessages to the constructor. 
  */
 package ui;
 
@@ -13,15 +9,19 @@ package ui;
  *
  * @author ryan
  */
-public class ErrorDisplay extends javax.swing.JFrame {
+public class ErrorDisplay extends javax.swing.JDialog {
 
+    String errorMessages;
     /**
-     * Creates new form NewJFrame
-     * @param errorMessages the error messages to be displayed.
+     * Creates new form NewJDialog
+     * @param parent the parent JFrame
+     * @param errorMessages the errorMessages to display
      */
-    public ErrorDisplay(String errorMessages) {
+    public ErrorDisplay(java.awt.Frame parent, String errorMessages) {
+        super(parent, true);
+        this.errorMessages = errorMessages;
         initComponents();
-        errorBody.setText(errorMessages);
+          errorBody.setText(errorMessages);
     }
 
     /**
@@ -39,13 +39,14 @@ public class ErrorDisplay extends javax.swing.JFrame {
         okButton = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setBorder(new javax.swing.border.MatteBorder(new javax.swing.ImageIcon(getClass().getResource("/resources/ErrorIcon.png")))); // NOI18N
 
         errorBody.setColumns(20);
         errorBody.setRows(5);
+        errorBody.setFocusable(false);
         jScrollPane1.setViewportView(errorBody);
 
         okButton.setText("Ok");
@@ -70,7 +71,7 @@ public class ErrorDisplay extends javax.swing.JFrame {
                 .addComponent(okButton)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextField1)
@@ -105,7 +106,6 @@ public class ErrorDisplay extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
@@ -118,7 +118,7 @@ public class ErrorDisplay extends javax.swing.JFrame {
         {
             System.exit(0);
         }
-        
+
     }//GEN-LAST:event_okButtonActionPerformed
 
     /**
@@ -148,17 +148,18 @@ public class ErrorDisplay extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ErrorDisplay("This is the default message when run through main.").setVisible(true);
+                ErrorDisplay dialog = new ErrorDisplay(new javax.swing.JFrame(), "Default error message");
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
