@@ -19,6 +19,13 @@ import database.JdbcDatabase;
 public class SaveSceneScheduleAction extends BaseAction {
     
     // Constructor
+    /**
+     * Creates an instance of a SaveSceneScheduleAction, prepared to run
+     * the provided SceneSchedule on the provided Database
+     * @param database::Database ~ The Database on which to run the action
+     * @param sceneSchedule::SceneSchedule ~ The SceneSchedule that will be 
+     * saved.
+     */
     public SaveSceneScheduleAction(Database database, 
                                    SceneSchedule sceneSchedule)
     {
@@ -32,6 +39,7 @@ public class SaveSceneScheduleAction extends BaseAction {
      * - The database passed is valid and a connection can be reached
      * - The SceneSchedule is valid
      */
+    @Override
     protected void runImplementation()
     {
         if(database() == null)
@@ -94,6 +102,10 @@ public class SaveSceneScheduleAction extends BaseAction {
     
     // Private Methods
     
+    /**
+     * Creates an SQL UPDATE string for the current SceneSchedule
+     * @return An SQL UPDATE string for the current SceneSchedule
+     */
     private String buildUpdateQueryString()
     {
         String returnString = 
@@ -107,6 +119,10 @@ public class SaveSceneScheduleAction extends BaseAction {
         return returnString;
     }
     
+    /**
+     * Creates an SQL INSERT string for the current SceneSchedule
+     * @return An SQL INSERT string for the current SceneSchedule
+     */
     private String buildInsertQueryString()
     {
         
@@ -124,6 +140,10 @@ public class SaveSceneScheduleAction extends BaseAction {
         return returnString;
     }
     
+    /**
+     * Returns the SceneSchedule associated with this action
+     * @return The SceneSchedule associated with this action
+     */
     private SceneSchedule sceneSchedule()
     {
         if(businessObject() == null)
@@ -133,6 +153,11 @@ public class SaveSceneScheduleAction extends BaseAction {
     }
     
     // Static Methods
+    
+    /**
+     * Simple demonstration method. NOTE: THIS IS NOT A UNIT TEST.
+     * @param args 
+     */
     public static void main(String[] args)
     {
         Scene testScene1 = new Scene("Test Scene 1", "");
