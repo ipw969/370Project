@@ -24,7 +24,7 @@ public class SceneSchedule extends BaseBusinessObject {
      * Returns the scene that is scheduled to be filmed in this time interval
      * @return The scene that is scheduled to be filmed in this time interval
      */
-    public Script.Scene scene()
+    public Scene scene()
     {
         return scene;
     }
@@ -62,7 +62,7 @@ public class SceneSchedule extends BaseBusinessObject {
      * Sets the scene which will be scheduled to be shot in this time interval
      * @param newScene::Scene ~ The scene to be shot
      */
-    public void setScene(Script.Scene newScene)
+    public void setScene(Scene newScene)
     {
         scene = newScene;
         updateError("Scene cannot be null", scene != null);
@@ -107,7 +107,7 @@ public class SceneSchedule extends BaseBusinessObject {
     /**
      * The scene which is scheduled
      */
-    private Script.Scene scene;
+    private Scene scene;
 
     
 }

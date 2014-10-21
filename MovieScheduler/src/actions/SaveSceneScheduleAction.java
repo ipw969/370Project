@@ -6,7 +6,7 @@
 package actions;
 import database.Database;
 import businessobjects.SceneSchedule;
-import businessobjects.Script;
+import businessobjects.Scene;
 import java.sql.SQLException;
 import businessobjects.TimeInterval;
 import java.util.Calendar;
@@ -135,15 +135,7 @@ public class SaveSceneScheduleAction extends BaseAction {
     // Static Methods
     public static void main(String[] args)
     {
-        Script script = new Script("Iain Test Script 1");
-        Script.Scene testScene1 = null;
-        try{
-            testScene1 = script.createAndAddScene("Iain Test Scene 1", "");
-        }
-        catch(Exception ex)
-        {
-            return;
-        }
+        Scene testScene1 = new Scene("Test Scene 1", "");
         SceneSchedule testSchedule1 = new SceneSchedule();
         testSchedule1.setScene(testScene1);
         GregorianCalendar start = new GregorianCalendar();
