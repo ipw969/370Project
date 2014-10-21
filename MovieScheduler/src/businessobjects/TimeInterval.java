@@ -1,6 +1,7 @@
 package businessobjects;
 
 import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
 /**
  * Class representing a set interval of time
  */
@@ -18,6 +19,7 @@ public class TimeInterval
       
         start = newStart;
         end = newEnd;
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         
         updateError("Start cannot be null", start != null);
         updateError("End cannot be null", end != null);
@@ -41,6 +43,27 @@ public class TimeInterval
     public GregorianCalendar end()
     {
         return end;
+    }
+    
+    /**
+     * Returns an ISO8601 compliant string for the start datetime
+     * @return An ISO8601 compliant string for the start datetime
+     * http://en.wikipedia.org/wiki/ISO_8601
+     */
+    public String startISODate()
+    {
+        return dateFormatter.format(start.getTime());
+    }
+    
+    
+    /**
+     * Returns an ISO8601 compliant string for the end datetime
+     * @return An ISO8601 compliant string for the end datetime
+     * http://en.wikipedia.org/wiki/ISO_8601
+     */
+    public String endISODate()
+    {
+        return dateFormatter.format(end.getTime());
     }
     
     /**
@@ -116,6 +139,8 @@ public class TimeInterval
     }
     
     // Private Methods
+    
+    // Private Member Variables
     /**
      * The start of the interval
      */
@@ -126,6 +151,10 @@ public class TimeInterval
      */
     private GregorianCalendar end;
     
-    // Private Member Variables
+    /**
+     * Formats the dates to be output in ISO standard form
+     * http://en.wikipedia.org/wiki/ISO_8601
+     */
+    private SimpleDateFormat dateFormatter;
     
 }

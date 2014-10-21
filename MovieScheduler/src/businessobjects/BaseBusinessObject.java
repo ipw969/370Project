@@ -131,6 +131,34 @@ public class BaseBusinessObject {
             listeners.remove(listener);
     }
     
+        /**
+     * Sets the changed state of the object to the provided changedState
+     * This should be called in all setters for derived classes. This flag is
+     * then used as an indicator that the object needs to be saved.
+     * Usage in derived classes:
+     * Let's say we have a class Cat, which contains a field name. Whenever
+     * the setter for this member variable is called, we will need to call 
+     * setHasChanged() to ensure that the ui knows that the object is unsaved,
+     * and needs to warn the user before they exit a dialog.
+     * void setName(string newName)
+     * {
+     *      name = newName;
+     *      setHasChanged()
+     * }
+     * Note: Class is marked final because, though it needs to be accessed by
+     * derived classes, it should never be overridden.
+     * see http://en.wikipedia.org/wiki/Fragile_base_class for justification.
+     * @param changedState::boolean ~ The new changed state of the object
+     */
+    public void setHasChanged(boolean changedState)
+    {
+        if(hasChanged != changedState)
+        {
+            hasChanged = changedState;
+            notifyListenersOfChangedStateAltered();
+        }
+    }
+    
     //Protected Methods
     /**
      * Method which updates a particular error associated with this business
@@ -167,33 +195,6 @@ public class BaseBusinessObject {
             notifyListenersOfValidStateAltered();        
     }
     
-    /**
-     * Sets the changed state of the object to the provided changedState
-     * This should be called in all setters for derived classes. This flag is
-     * then used as an indicator that the object needs to be saved.
-     * Usage in derived classes:
-     * Let's say we have a class Cat, which contains a field name. Whenever
-     * the setter for this member variable is called, we will need to call 
-     * setHasChanged() to ensure that the ui knows that the object is unsaved,
-     * and needs to warn the user before they exit a dialog.
-     * void setName(string newName)
-     * {
-     *      name = newName;
-     *      setHasChanged()
-     * }
-     * Note: Class is marked final because, though it needs to be accessed by
-     * derived classes, it should never be overridden.
-     * see http://en.wikipedia.org/wiki/Fragile_base_class for justification.
-     * @param changedState::boolean ~ The new changed state of the object
-     */
-    protected final void setHasChanged(boolean changedState)
-    {
-        if(hasChanged != changedState)
-        {
-            hasChanged = changedState;
-            notifyListenersOfChangedStateAltered();
-        }
-    }
     
     // Private Methods
     

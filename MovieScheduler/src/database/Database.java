@@ -42,15 +42,13 @@ public abstract class Database {
     }
     
     /**
-     * Inserts a new value into the database using the provided query text, then
-     * returns the id of the newly inserted record.
+     * Inserts a new value into the database using the provided query text
      * @param queryText::String ~ The insert query to execute
-     * @return The id of the inserted record
      * @throws SQLException 
      */
-    public int executeInsert(String queryText) throws SQLException
+    public void executeInsert(String queryText) throws SQLException
     {
-        return executeInsertImplementation(queryText);
+        executeInsertImplementation(queryText);
     }    
     
     /**
@@ -84,10 +82,9 @@ public abstract class Database {
      * implementation, executes the query, then returns the id of the inserted 
      * record.
      * @param queryText::String ~ The insert query to execute
-     * @return The id of the inserted item
      * @throws SQLException 
      */
-    protected abstract int executeInsertImplementation(String queryText)
+    protected abstract void executeInsertImplementation(String queryText)
             throws SQLException;
 
     /**

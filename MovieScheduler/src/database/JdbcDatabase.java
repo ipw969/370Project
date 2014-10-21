@@ -56,11 +56,10 @@ public class JdbcDatabase extends Database {
     /**
      * Inserts into the database using the provided query text
      * @param queryText::String ~ The query statement to execute
-     * @return The id of the item inserted into the database
      * @throws SQLException 
      */
     @Override
-    protected int executeInsertImplementation(String queryText)
+    protected void executeInsertImplementation(String queryText)
             throws SQLException
     {
         PreparedStatement statement = null;
@@ -74,13 +73,6 @@ public class JdbcDatabase extends Database {
             if(!success)
                 throw new SQLException("Object could not be inserted");
             
-            ResultSet generatedIds = statement.getGeneratedKeys();
-            
-            if(generatedIds.next())
-                return generatedIds.getInt(1);
-            else
-                throw new SQLException("Object not inserted, did not receive " +
-                        "return id");
         } catch (SQLException ex)
         {
             throw ex;
