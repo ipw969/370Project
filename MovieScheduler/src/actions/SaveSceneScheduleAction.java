@@ -62,7 +62,7 @@ public class SaveSceneScheduleAction extends BaseAction {
             return;
         }
         
-        String queryString = null;
+        String queryString;
         
         if(sceneSchedule().isNew())
         {

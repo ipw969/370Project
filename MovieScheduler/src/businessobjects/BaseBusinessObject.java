@@ -26,6 +26,10 @@ public class BaseBusinessObject {
     
     /**
      * Creates an instance of a BaseBusinessObject
+     * @postcond ~
+     * isValid() == true
+     * isNew() == true
+     * hasChanged() == false
      */
     public BaseBusinessObject()
     {
