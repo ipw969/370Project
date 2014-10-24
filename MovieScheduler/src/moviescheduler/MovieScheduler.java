@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import ui.MainMenu;
+import ui.StartMenu;
 /**
  *
  *
@@ -37,15 +38,8 @@ public class MovieScheduler {
                         + "message: " + ex.toString());
         }
         
-        try{
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.setVisible(true);
-        } catch (SQLException ex)
-        {
-            initializedProperly = false;
-            errorsEncountered.add("Could not load main menu with message: " +
-                    ex.toString());
-        }
+        StartMenu startMenu = new StartMenu();
+        startMenu.setVisible(true);
         
         // One of this inits failed. Display an error message and exit
         if(!initializedProperly)

@@ -160,7 +160,7 @@ public class StartMenu extends javax.swing.JFrame {
         {
             try {
                 this.setVisible(false);
-                MainMenu mainMenu = new MainMenu();
+                MainMenu mainMenu = new MainMenu(script);
                 mainMenu.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(StartMenu.class.getName()).log(Level.SEVERE, null, ex);
