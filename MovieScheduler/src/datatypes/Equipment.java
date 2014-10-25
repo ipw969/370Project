@@ -1,5 +1,6 @@
 
 package datatypes;
+import businessobjects.*;
 import businessobjects.BaseBusinessObject;
 
 /**
