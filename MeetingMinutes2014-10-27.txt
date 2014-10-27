@@ -1,0 +1,30 @@
+Meeting Minutes 27th October 2014
+Present: Matt, Iain, Ryan, John
+Not Present: Mitchell
+
+Item 1 - The sprint for milestone 4
+Documentation
+Iain is going to update his fully dressed use case to be inline with the form specified in lecture/text book.
+Matt is going to work on his fully dressed use case today
+Ryan’s fully dressed use case is already in line
+
+Matt is going to work on the user manual, talked about having details on requirements for the system (JDBCDiver for postgres, Java version 1.8)
+
+Already detailed the Domain Diagram in a flash meeting on Friday, just needs drawing up properly
+
+System Sequence Diagrams. Because operational contracts is reliant on the completion of we need to complete these first. Considered that it would be a better idea for each of us to do these for a fully dressed use case, and take it off mitch’s shoulders.
+
+John has his Fully Dressed use case done, but still has to do his summary use case
+
+Glossary. Talked about maybe mitch doing this if we decide to lighten his load otherwise
+
+Implementation
+Success Scenarios: Creating the script is already done. Adding a volunteer will be the second primary success scenario.
+
+Skeleton Implementation: Have function stubs for all the mentioned operation which check for the contract preconditions.
+
+Meeting with group 8
+Got an extension!
+Further on with implementation than document, slightly. Are meeting on Friday. Have real world potential test client lined up
+Use Cases: Login and insert med have been identified as the critical success scenarios.
+Risks/Challenges: Getting the simulator for IOS working for development. Risks are the security, mentioned they’re double hash and salting the sensitive data, and sending in packets small enough to not be able to identify the data if not part of the session. 

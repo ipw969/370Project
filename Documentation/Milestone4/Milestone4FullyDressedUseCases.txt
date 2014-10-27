@@ -1,15 +1,55 @@
-Use Case Name: Add Scene To Schedule 
-
-Summary: The Producer wishes to schedule the date and time which a scene will be filmed. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month, which displays the current shooting schedule. The Producer then Right-Clicks the appropriate date on the calendar and selects 'Schedule Scene' from the context menu which appears. This will open a small dialog window, defaulting to the date which was under focus when the Producer Right-Clicked. The Producer can then select a Scene from a list, and alter the date-time when it will be shot. The Producer can then click 'Okay' which will add the scene to that date in the schedule, or 'Cancel' to back out of the operation. After the scene is added to the schedule, the schedule is then validated to ensure that no conflicts of availability have arisen from the change in the schedule.
-
-Actors: Producer 
-
-Preconditions: 
+Use Case Name: Producer Adds Scene To Schedule 
+Scope: Primary Volunteer Scheduling Application
+Primary Actor: Producer
+Stakeholders and Interests: 
+- Producer: Wants to be able to schedule to scene to be shot in an appropriate time for all their volunteers. They want access to all the information on when the scene can be shot, fitting around the limited availabilities of the volunteers and equipment which the scene requires. The resposibility of the producer is to ensure that the film is fully shot in as short a time period as possible, so having access to information and feedback on the times which scenes can be shot is imperative.
+- Volunteer: Wants to be involved in the filming process at times that suit them. Is invested in the success of the film and as such wishes to see the film completed. Is giving over their own free time, so wishes to see the film completed in a short a window of time as possible, so as not to have the film unduly interfere with their daily lives.
+- Film Company: Outside of the producer and the volunteers there are also a number of people involved in the creation of the film (writers, executive producers etc.), who might not be listed specifically as volunteers for the purpose of the system, but are still heavily invested in the success of the film.
+Preconditions:
 - The script which the scene belongs to has been created
-- The scene the producer wishes to schedule has been created
-- The scene has been added to the relevant script
-- The scene has not already been scheduled for another date
+- The scene the producer wishes to schedule has been created and added to the script
 - The scene has not already been shot
+Postconditions:
+- The script is added to the schedule at the time specified
+- The producer is provided with feedback regarding whether or not the scene can be filmed at this date, given the availabilities of the volunteers and equipment it contains
+Summary: The Producer wishes to schedule the date and time which a scene will be filmed. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month, which displays the current shooting schedule. The Producer then Right-Clicks the appropriate date on the calendar and selects 'Schedule Scene' from the context menu which appears. This will open a small dialog window, defaulting to the date which was under focus when the Producer Right-Clicked. The Producer can then select a Scene from a list, and alter the date-time when it will be shot. The Producer can then click 'Okay' which will add the scene to that date in the schedule, or 'Cancel' to back out of the operation. After the scene is added to the schedule, the schedule is then validated to ensure that no conflicts of availability have arisen from the change in the schedule.
+Main Success Scenario:
+1. The producer starts the system
+2. The producer clicks on the 'Scheduling' tab
+3. The producer right-click on the date they wish to schedule the scene
+4. The dialog window for adding a scene to the schedule appears, with the date defaulted to the date on which the producer right-clicked
+5. The producer selects the scene they wish to schedule
+6. The producer clicks the 'Okay' button in order to add the scene to the schedule
+7. The scene is added to the schedule on the date the producer originally right-clicked on. 
+Extensions:
+1.a. The script is not within the system yet:
+	1. The producer is presented with a dialog on starting the system asking them to enter a name for the script
+	2. The producer enters the name of the script in the dialog
+	3.a. The producer clicks 'Okay'
+		1.a. The name the user added is empty
+			1. The system presents an error dialog, explaining that the script name is a required field.
+		1.b The name the user added is valid.
+			1. The script is added to the system
+	3.b. The producer clicks 'Cancel'
+		1. The system presents a dialog informing the user that a script is required
+		2. The system closes
+4.a. The producer wishes to schedule the scene for a data different to the date on which they initially right clicked
+	1. The producer selects a different date from the date control
+5.a. The scene the producer wishes to schedule is not in the system yet
+	1. The producer cancels the operation and proceeds to the script tab in order to add the scrip they wish to schedule
+5.b. The scene the producer wishes to schedule cannot be filmed with its current requirements on the selected date
+	1. The producer is presented with a warning indicating that the scene cannot be shot on this date, however they are still able to add the scene to this date in the schedule
+	2.a. The producer adds the scene to the schedule on this date anyway
+		1. The scene is added to the schedule, but with a visual warning that its current state means it cannot be shot
+	2.b. The producer selects a different date to schedule the scene to be filmed
+5.c. The date chosen is earlier than the current date-time:
+	1. The scene schedule is placed in an invalid state with a relevant warning message: "Scheduled date of filming is before today"
+	2. The warning message is displayed to the producer
+7.b. The producer selected a different date from that the one which they initially right-clicked on
+	1. The scene is added to the date which the producer selected in the date control
+7. The producer selected a date which placed the scene schedule in an invalid state (earlier than current date-time)
+	1. A warning dialog is presented to the producer indicating that the scene schedule cannot be saved because of an invalid state including the error message associated with the scene schedule.
+			
 
 Description:
 - The producer clicks on the 'Scheduling' tab
