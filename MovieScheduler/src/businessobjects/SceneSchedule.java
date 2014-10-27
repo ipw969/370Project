@@ -88,13 +88,18 @@ public class SceneSchedule extends BaseBusinessObject {
     }
     
     /**
-     * 
-     * @return 
+     * Returns the name of the contained Scene or an empty String if the
+     * contained scene is null
+     * @return The name of the contained Scene or an empty String, if the
+     * contained scene is null
      */
     @Override
     public String toString()
     {
-        return "BLAH BLAH";
+        if(scene == null)
+            return "";
+        
+        return scene.name();
     }
     
     // Private methods
