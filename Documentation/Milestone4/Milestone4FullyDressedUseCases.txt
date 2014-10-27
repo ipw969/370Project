@@ -50,21 +50,10 @@ Extensions:
 7. The producer selected a date which placed the scene schedule in an invalid state (earlier than current date-time)
 	1. A warning dialog is presented to the producer indicating that the scene schedule cannot be saved because of an invalid state including the error message associated with the scene schedule.
 			
-
-Description:
-- The producer clicks on the 'Scheduling' tab
-- The producer right-clicks on the date they wish to schedule the scene
-- The dialog window for adding a scene to the schedule appears, with the date defaulted to the date on which they right clicked
-- The producer selects the scene they wish to schedule and alters the date/time
-- The producer clicks the 'Okay' button in order to add the scene to the schedule
-- The scene is added to the schedule on the date specified [Exception: Not all requirements for scene are available on selected date]
-
-Exceptions:
-Not all requirements for scene are available on selected date:
-Raised when not all volunteers or equipment which are added to the scene are available during the date/time that the scene is scheduled to be shot. The Producer is then warned via a colour change to the scene in the Calendar, as well as warning icon at the top of the screen indicating a conflict in general. The Producer is then able to use the conflict management subsystem to attempt to resolve the scheduling conflict, or remove this scene from this date and schedule it for another date.
-
-Postconditions:
-The scene is scheduled to be filmed on the date which the Producer has chosen.
+Special Requirements:
+- Must be error tolerant to losses in database communication
+ 
+Frequency of Occurance: Initially occurs often within the creation of the initial schedule. Will happen less later, only when some major change in circumstance (a volunteer/equipment availability change that renders the schedule not workable).
 
 
 
