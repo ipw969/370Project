@@ -27,8 +27,8 @@ public class MainMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.theScript = theScript;
-        this.setMaximumSize(new Dimension(920,550));
-        this.setMinimumSize(new Dimension(920,550));
+        this.setMaximumSize(new Dimension(1000,600));
+        this.setMinimumSize(new Dimension(1000,600));
     }
 
     /**
