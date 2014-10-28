@@ -1,6 +1,7 @@
 
 package datatypes;
-import businessobjects.BaseBusinessObject;
+import businessobjects.*;
+import java.awt.List;
 /**
  * volunteer data class
  * @author johnmason
@@ -11,12 +12,23 @@ public class Volunteer extends BaseBusinessObject
     String lastName;
     String email;
     String phone;   //since we are not actually doing anything with it having it as a string will get rid of many errors
-    
+    BusinessObjectList <TimeInterval> availabilty = new BusinessObjectList();
     
     //empty constructor
     public Volunteer(){setIsNew(true);}
     
     //general constructor
+    public Volunteer(String fName, String lName, String email, String phone, TimeInterval avail)
+    {
+        this.firstName = fName;
+        this.lastName = lName;
+        this.email = email;
+        this.phone = phone;
+        this.availabilty.add(avail);
+        setIsNew(true);
+    }
+    
+        //general constructor
     public Volunteer(String fName, String lName, String email, String phone)
     {
         this.firstName = fName;
@@ -26,6 +38,12 @@ public class Volunteer extends BaseBusinessObject
         setIsNew(true);
     }
 
+    public void addAvailability(TimeInterval avail)
+    {
+        this.availabilty.add(avail);
+        setHasChanged(true);
+    }
+    
     public void setFirstName(String name)
     {
         this.firstName = name;

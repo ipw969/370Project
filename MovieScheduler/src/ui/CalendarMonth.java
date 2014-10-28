@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import businessobjects.BusinessObjectList;
-import businessobjects.SceneSchedule;
+import businessobjects.SceneFilmingDate;
 import businessobjects.BusinessObjectListener;
 import businessobjects.BaseBusinessObject;
 import businessobjects.TimeInterval;
@@ -85,13 +85,13 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
      * Adds the provided SceneSchedule to this month
      * @param sceneSchedule::SceneSchedule ~ The SceneSchedule to add
      */
-    public void add(SceneSchedule sceneSchedule)
+    public void add(SceneFilmingDate sceneSchedule)
     {
         for(CalendarDay currentCalendarDay: calendarDays)
         {
             if(sceneSchedule.sceneShootingInterval().overlaps(
                 currentCalendarDay.date()))
-                currentCalendarDay.addSceneSchedule(sceneSchedule);
+                currentCalendarDay.addSceneFilmingDate(sceneSchedule);
         }       
     }
     
@@ -108,12 +108,12 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
     public void changedStateAltered(boolean currentState, 
             BaseBusinessObject sender)
     {
-        if(!(sender instanceof SceneSchedule))
+        if(!(sender instanceof SceneFilmingDate))
         {
             return;
         }
         
-        SceneSchedule sendingSceneSchedule = (SceneSchedule)sender;
+        SceneFilmingDate sendingSceneSchedule = (SceneFilmingDate)sender;
         
         // Calendar days cope with removing stuff from themselves, so
         // all we need to do here is remove it from our collection if it's
@@ -125,13 +125,11 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
         }
         else
         {
-            // Todo: Iterate over all days and add to each on that it overlaps
-            // with.
             for(CalendarDay currentCalendarDay: calendarDays)
             {
                 if(sendingSceneSchedule.sceneShootingInterval().overlaps(
                     currentCalendarDay.date()))
-                    currentCalendarDay.addSceneSchedule(sendingSceneSchedule);
+                    currentCalendarDay.addSceneFilmingDate(sendingSceneSchedule);
             }
         }
         
@@ -172,7 +170,7 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
      * overlaps this month
      * @return True if SceneSchedule overlaps this month, false otherwise
      */
-    private boolean sceneScheduleIsThisMonth(SceneSchedule sceneSchedule)
+    private boolean sceneScheduleIsThisMonth(SceneFilmingDate sceneSchedule)
     {
         GregorianCalendar endOfMonth = (GregorianCalendar)startOfMonth.clone();
         endOfMonth.add(Calendar.MONTH, 1);
@@ -187,12 +185,12 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
     /**
      * A list of all the days that will be displayed
      */
-    private ArrayList<CalendarDay> calendarDays;
+    private final ArrayList<CalendarDay> calendarDays;
     
     /**
      * A List of all the scheduled scene shooting dates
      */
-    private BusinessObjectList<SceneSchedule> scheduledScenes;
+    private final BusinessObjectList<SceneFilmingDate> scheduledScenes;
     
     /**
      * The first day of the month
@@ -214,25 +212,25 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
         CalendarMonth testCalendarMonth = new CalendarMonth(2014, 9);
         
         // Add some SceneSchedules
-        SceneSchedule testSchedule1 = new SceneSchedule();
+        SceneFilmingDate testSchedule1 = new SceneFilmingDate();
         testSchedule1.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
         
-        SceneSchedule testSchedule2 = new SceneSchedule();
+        SceneFilmingDate testSchedule2 = new SceneFilmingDate();
         testSchedule2.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
         
-        SceneSchedule testSchedule3 = new SceneSchedule();
+        SceneFilmingDate testSchedule3 = new SceneFilmingDate();
         testSchedule3.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 3)));
         
-        SceneSchedule testSchedule4 = new SceneSchedule();
+        SceneFilmingDate testSchedule4 = new SceneFilmingDate();
         testSchedule4.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
         
-        SceneSchedule testSchedule5 = new SceneSchedule();
+        SceneFilmingDate testSchedule5 = new SceneFilmingDate();
         testSchedule5.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
         
-        SceneSchedule testSchedule6 = new SceneSchedule();
+        SceneFilmingDate testSchedule6 = new SceneFilmingDate();
         testSchedule6.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
         
-        SceneSchedule testSchedule7 = new SceneSchedule();
+        SceneFilmingDate testSchedule7 = new SceneFilmingDate();
         testSchedule7.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014, 9, 1), new GregorianCalendar(2014, 9, 2)));
         
         

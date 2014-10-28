@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-import businessobjects.SceneSchedule;
+import businessobjects.SceneFilmingDate;
 import businessobjects.BusinessObjectList;
 import businessobjects.BusinessObjectListener;
 import businessobjects.BaseBusinessObject;
@@ -63,18 +63,18 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
      
     // Public methods
     
-    public void addSceneSchedule(SceneSchedule sceneSchedule)
+    public void addSceneFilmingDate(SceneFilmingDate sceneFilmingDate)
     {
-        if(filmingSchedule.contains(sceneSchedule))
+        if(filmingSchedule.contains(sceneFilmingDate))
             return;
         
-        filmingSchedule.add(sceneSchedule);
+        filmingSchedule.add(sceneFilmingDate);
         updateList();
     }
     
-    public void removeSceneSchedule(SceneSchedule sceneSchedule)
+    public void removeSceneFilmingDate(SceneFilmingDate sceneFilmingDate)
     {
-        if(filmingSchedule.remove(sceneSchedule))
+        if(filmingSchedule.remove(sceneFilmingDate))
         {
             updateList();
         }
@@ -84,12 +84,12 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
     public void changedStateAltered(boolean currentState, 
                                     BaseBusinessObject sender)
     {
-        if(sender instanceof SceneSchedule)
+        if(sender instanceof SceneFilmingDate)
         {
-            SceneSchedule sendingSceneSchedule = (SceneSchedule)sender;
-            if(!sendingSceneSchedule.sceneShootingInterval().overlaps(date))
+            SceneFilmingDate sendingSceneFilmingDate = (SceneFilmingDate)sender;
+            if(!sendingSceneFilmingDate.sceneShootingInterval().overlaps(date))
             {
-                filmingSchedule.remove(sendingSceneSchedule);
+                filmingSchedule.remove(sendingSceneFilmingDate);
                 updateList();
             }
         }
@@ -112,9 +112,9 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
         
         sceneList.removeAll();
         
-        for (SceneSchedule currentScheduledScene : filmingSchedule)
+        for (SceneFilmingDate currentScheduleFilmingDate : filmingSchedule)
         {
-            sceneList.add(currentScheduledScene.toString());
+            sceneList.add(currentScheduleFilmingDate.toString());
         }
     }
     
@@ -163,7 +163,7 @@ public class CalendarDay extends JPanel implements BusinessObjectListener{
     /**
      * The entire schedule
      */
-    private BusinessObjectList<SceneSchedule> filmingSchedule;
+    private final BusinessObjectList<SceneFilmingDate> filmingSchedule;
     
     // Static Methods
     /** Method which just allows us to see the design displayed on a JFrame

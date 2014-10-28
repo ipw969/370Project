@@ -5,7 +5,7 @@
  */
 package actions;
 import database.Database;
-import businessobjects.SceneSchedule;
+import businessobjects.SceneFilmingDate;
 import businessobjects.Scene;
 import java.sql.SQLException;
 import businessobjects.TimeInterval;
@@ -14,27 +14,28 @@ import java.util.GregorianCalendar;
 import database.JdbcDatabase;
 /**
  *
- * A class which performs the action of saving a scene schedule to the database
+ * A class which performs the action of saving a scene filming date to the 
+ * database
  */
-public class SaveSceneScheduleAction extends BaseAction {
+public class SaveSceneFilmingDateAction extends BaseAction {
     
     // Constructor
     /**
-     * Creates an instance of a SaveSceneScheduleAction, prepared to run
+     * Creates an instance of a SaveSceneFilmingDateAction, prepared to run
      * the provided SceneSchedule on the provided Database
      * @param database::Database ~ The Database on which to run the action
-     * @param sceneSchedule::SceneSchedule ~ The SceneSchedule that will be 
+     * @param sceneFilmingDate::SceneFilmingDate ~ The SceneSchedule that will be 
      * saved.
      */
-    public SaveSceneScheduleAction(Database database, 
-                                   SceneSchedule sceneSchedule)
+    public SaveSceneFilmingDateAction(Database database, 
+                                   SceneFilmingDate sceneFilmingDate)
     {
         super(database);
-        setBusinessObject(sceneSchedule);
+        setBusinessObject(sceneFilmingDate);
     }
     
     /**
-     * Saves the SceneSchedule associated with this action to the database,
+     * Saves the SceneFilmingDate associated with this action to the database,
      * provided that:
      * - The database passed is valid and a connection can be reached
      * - The SceneSchedule is valid
@@ -48,23 +49,23 @@ public class SaveSceneScheduleAction extends BaseAction {
             setWasSuccessful(false);
             return;
         }
-        if(sceneSchedule() == null)
+        if(sceneFilmingDate() == null)
         {
-            setErrorMessage("Scene Schedule is null");
+            setErrorMessage("Scene Filming Date is null");
             setWasSuccessful(false);
             return;
         }
         
         if(!businessObject().isValid())
         {
-            setErrorMessage("Scene Schedule is not Valid");
+            setErrorMessage("Scene Filming Date is not Valid");
             setWasSuccessful(false);
             return;
         }
         
         String queryString;
         
-        if(sceneSchedule().isNew())
+        if(sceneFilmingDate().isNew())
         {
             queryString = buildInsertQueryString();
             
@@ -72,7 +73,7 @@ public class SaveSceneScheduleAction extends BaseAction {
             {
                 database().executeInsert(queryString);
                 setWasSuccessful(true);
-                sceneSchedule().setHasChanged(false);
+                sceneFilmingDate().setHasChanged(false);
             }
             catch(SQLException ex)
             {
@@ -88,7 +89,7 @@ public class SaveSceneScheduleAction extends BaseAction {
             {
                 database().executeUpdate(queryString);
                 setWasSuccessful(true);
-                sceneSchedule().setHasChanged(false);
+                sceneFilmingDate().setHasChanged(false);
             }
             catch(SQLException ex)
             {
@@ -111,10 +112,10 @@ public class SaveSceneScheduleAction extends BaseAction {
         String returnString = 
                 "UPDATE t_schedule "
                 + "SET"
-                + "sch_scheduledatetime_start = '" + sceneSchedule().sceneShootingInterval().startISODate() + "', "
-                + "sch_scheduledatetime_end = '" + sceneSchedule().sceneShootingInterval().endISODate() + "', "
+                + "sch_scheduledatetime_start = '" + sceneFilmingDate().sceneShootingInterval().startISODate() + "', "
+                + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endISODate() + "', "
                 + "WHERE "
-                + "( sch_scenename = '" + sceneSchedule().scene().name() + "');";
+                + "( sch_scenename = '" + sceneFilmingDate().scene().name() + "');";
         
         return returnString;
     }
@@ -126,30 +127,30 @@ public class SaveSceneScheduleAction extends BaseAction {
     private String buildInsertQueryString()
     {
         
-        System.out.println(sceneSchedule().sceneShootingInterval().startISODate());
+        System.out.println(sceneFilmingDate().sceneShootingInterval().startISODate());
         String returnString = 
                 "INSERT INTO t_schedule "
                 + "( sch_scheduledatetime_start, "
                 + "sch_scheduledatetime_end, "
                 + "sch_scenename ) "
                 + "VALUES "
-                + "('" + sceneSchedule().sceneShootingInterval().startISODate()
-                + "', '" + sceneSchedule().sceneShootingInterval().endISODate()
-                + "', '" + sceneSchedule().scene().name() + "');";
+                + "('" + sceneFilmingDate().sceneShootingInterval().startISODate()
+                + "', '" + sceneFilmingDate().sceneShootingInterval().endISODate()
+                + "', '" + sceneFilmingDate().scene().name() + "');";
         
         return returnString;
     }
     
     /**
-     * Returns the SceneSchedule associated with this action
-     * @return The SceneSchedule associated with this action
+     * Returns the SceneFilmingDate associated with this action
+     * @return The SceneFilmingDate associated with this action
      */
-    private SceneSchedule sceneSchedule()
+    private SceneFilmingDate sceneFilmingDate()
     {
         if(businessObject() == null)
             return null;
         
-        return (SceneSchedule)businessObject();
+        return (SceneFilmingDate)businessObject();
     }
     
     // Static Methods
@@ -161,15 +162,15 @@ public class SaveSceneScheduleAction extends BaseAction {
     public static void main(String[] args)
     {
         Scene testScene1 = new Scene("Test Scene 1", "");
-        SceneSchedule testSchedule1 = new SceneSchedule();
-        testSchedule1.setScene(testScene1);
+        SceneFilmingDate testFilmingDate1 = new SceneFilmingDate();
+        testFilmingDate1.setScene(testScene1);
         GregorianCalendar start = new GregorianCalendar();
         GregorianCalendar end = new GregorianCalendar();
         end.add(Calendar.MONDAY, 1);
     
         TimeInterval testSceneShootingInterval = new TimeInterval(
         start, end);
-        testSchedule1.setSceneShootingInterval(testSceneShootingInterval);
+        testFilmingDate1.setSceneShootingInterval(testSceneShootingInterval);
         
         try {
             Class.forName("org.postgresql.Driver");
@@ -195,7 +196,7 @@ public class SaveSceneScheduleAction extends BaseAction {
             return;
         }
         
-        SaveSceneScheduleAction testAction = new SaveSceneScheduleAction(testDatabase, testSchedule1);
+        SaveSceneFilmingDateAction testAction = new SaveSceneFilmingDateAction(testDatabase, testFilmingDate1);
         testAction.run();
         if(testAction.wasSuccessful())
             System.out.println("Save was reported successful");

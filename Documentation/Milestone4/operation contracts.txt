@@ -1,0 +1,71 @@
+Operation Contracts for resolve conflict by email
+Cross References: Use case: Resolving conflicts through emails
+Operation: sendEmailtoVolunteer()
+Preconditions:
+- The volunteer emails exist
+- there is a connection through which the emails can be sent
+Post conditions:
+- The Volunteers have been emailed and properly informed of the conflict.
+
+Operation: getScript()
+Cross Reference:
+Use Case: Create Schedule
+Preconditions: 
+- A Script has been initialized for the system to manage
+Postconditions:
+- the Script that the system is managing was returned
+
+Operation: getScriptSchedule()
+Cross Reference:
+Use Case: Create Schedule
+Preconditions:
+- A Script has been created for the system to manage
+Postconditions:
+- The schedule associated with the script was returned
+
+Operation: createSceneFilmingDate()
+Cross Reference:
+Use Case: Create Schedule
+Preconditions:
+- A Script has been created for the system to manage
+Postconditions:
+- A SceneFilmingDate instance sfd was created
+- timeInterval in sfd was initialized to NULL
+- scene in sfd was initialized to NULL
+
+Operation: getSceneByName(name)
+Cross Reference:
+Use Case: Create Schedule
+Preconditions:
+- A Script has been created for the system to manage
+- The scene with the provided name exists in the Script
+Postconditions:
+- The Scene with the provided name was returned
+
+Operation: setFilmingDateScene(scene)
+Cross Reference:
+Use Case: Create Schedule
+Preconditions:
+- The provided scene is not NULL
+Postconditions:
+- The filming date was associated with the provided scene
+
+Operation: setTimeOfFilmingDate(interval)
+Cross Reference:
+Use Case: Create Schedule
+Preconditions:
+- The provided interval is not NULL
+- The provided interval is valid (start time < end time)
+Postconditions:
+- The provided interval was associated with the FilmingDate
+
+Operation: addFilmingDateToSchedule(filmingDate)
+Cross Reference:
+Use Case: Create Schedule
+Preconditions:
+- The provided filmingDate is not NULL
+- The provided filmingDate is associated with a scene
+- The provided filmingDate is associated with an interval
+Postconditions:
+- The provided filmingDate was associated with the schedule
+- The valid state of the schedule was returned

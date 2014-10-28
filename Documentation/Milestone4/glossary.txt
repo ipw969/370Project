@@ -1,0 +1,19 @@
+Glossary
+
+Action ~ Term to descripbe any class which derives from BaseAction.
+BaseAction ~ Abstract class representing any save or load action for any data that must be persistant between running instances of the system.
+BaseBusinessObject ~ Abstract class from which most of the data objects in the system will be derived, contains mechanisms for validating, and notifying BusinessObjectListeners of changes to its state.
+BusinessObject ~ Term to describe any class which derives from BaseBusinessObject.
+BusinessObjectList ~ Generic container class to hold BusinessObjects, implements the BusinessObjectListener interface.
+BusinessObjectListener ~ Interface which will be implemented by any class which wishes to register itself with a BusinessObject in order to be notified of changes to its state.
+Database ~ Abstract class representing a database in which to store the persistant system data.
+Equipment ~ A class which represents the object requried to film a scene.
+JdbcDatabase ~ A class which derives from Database which provides an implementation of the abstract functions in Database using the Jdbc driver.
+SaveSceneFilmingDateAction ~ A class which represents an Action to save a SceneFilmingDate
+Scene ~ A class which represents the section of the film which requires filming. The class has an 1,,n -> 0,,n relationship to Equipment and Volunteers.
+SceneFilmingDate ~ A class which represents the TimeInterval in which a Scene will be filmed. The class has a 1,,1 -> 1,,1 relationship to TimeInterval and a 1,,1 -> 1,,1 relationship to Scene.
+Script ~ A class which contains all the Scenes which require filming, the Volunteers required to film all the Scenes, the Equipment required to film all the Scenes and the Schedule which details when each Scene will be filmed. The class has a 1,,1 -> 0,,n relationship to Scenes, a 1,,1 -> 0,,n relationship to Volunteers, a 1,,1 -> 0,,n relationship to Equipment and a 1,,1 -> 1,,1 relationship to Schedule
+TimeInterval ~ A class representing a period of time. Has a start and an end. To be valid the start must be <= the end.
+Volunteer ~ A class representing a person who has volunteered their time to be involved in the filming process (eg. camera operators, actors, directors, make-up artists etc).
+
+

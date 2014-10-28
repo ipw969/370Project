@@ -1,30 +1,60 @@
-Use Case Name: Add Scene To Schedule 
-
-Summary: The Producer wishes to schedule the date and time which a scene will be filmed. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month, which displays the current shooting schedule. The Producer then Right-Clicks the appropriate date on the calendar and selects 'Schedule Scene' from the context menu which appears. This will open a small dialog window, defaulting to the date which was under focus when the Producer Right-Clicked. The Producer can then select a Scene from a list, and alter the date-time when it will be shot. The Producer can then click 'Okay' which will add the scene to that date in the schedule, or 'Cancel' to back out of the operation. After the scene is added to the schedule, the schedule is then validated to ensure that no conflicts of availability have arisen from the change in the schedule.
-
-Actors: Producer 
-
-Preconditions: 
-- The script which the scene belongs to has been created
-- The scene the producer wishes to schedule has been created
-- The scene has been added to the relevant script
-- The scene has not already been scheduled for another date
-- The scene has not already been shot
-
-Description:
-- The producer clicks on the 'Scheduling' tab
-- The producer right-clicks on the date they wish to schedule the scene
-- The dialog window for adding a scene to the schedule appears, with the date defaulted to the date on which they right clicked
-- The producer selects the scene they wish to schedule and alters the date/time
-- The producer clicks the 'Okay' button in order to add the scene to the schedule
-- The scene is added to the schedule on the date specified [Exception: Not all requirements for scene are available on selected date]
-
-Exceptions:
-Not all requirements for scene are available on selected date:
-Raised when not all volunteers or equipment which are added to the scene are available during the date/time that the scene is scheduled to be shot. The Producer is then warned via a colour change to the scene in the Calendar, as well as warning icon at the top of the screen indicating a conflict in general. The Producer is then able to use the conflict management subsystem to attempt to resolve the scheduling conflict, or remove this scene from this date and schedule it for another date.
-
+Use Case Name: Producer Adds Scene To Schedule 
+Scope: Primary Volunteer Scheduling Application
+Primary Actor: Producer
+Stakeholders and Interests: 
+- Producer: Wants to be able to schedule scenes to be shot in an appropriate time scale. The producer wants access to all the information on when the scenes can be shot, fitting around the limited availabilities of the volunteers and equipment which the scene requires. The resposibility of the producer is to ensure that the film is fully shot in as short a time period as possible, so having access to information and feedback on the times which scenes can be shot is imperative.
+- Volunteer: Wants to be involved in the filming process at times that suit them. Are invested in the success of the film and as such wish to see the film completed successfully. Each one is giving over their own free time, so wishes to see the film completed in a short a window of time as possible, so as not to have the film unduly interfere with their daily lives.
+- Film Company: Outside of the producer and the volunteers there are also a number of people involved in the creation of the film (writers, executive producers etc.), who might not be listed specifically as volunteers for the purpose of the system, but are still heavily invested in the success of the film.
+Preconditions:
+- The script which the scenes belongs to has been created
+- The scenes the producer wishes to schedule have been created and added to the script
+- The scenes have not already been shot
 Postconditions:
-The scene is scheduled to be filmed on the date which the Producer has chosen.
+- The scenes are added to the schedule at the date/times specified
+- The producer is provided with feedback regarding whether or not the scenes can be filmed on the given dates, given the availabilities of the volunteers and equipment they contain
+Summary: The Producer wishes to schedule the date and time which the scenes will be filmed. The Producer switches to the 'Scheduling' tab, which displays a list of all the scenes, plus a monthly calendar view centred on the current month. The Producer then Right-Clicks the appropriate date on the calendar and selects 'Schedule Scene' from the context menu which appears. This will open a small dialog window, defaulting to the date which was under focus when the Producer Right-Clicked. The Producer can then select a Scene which has not already been shot from a list, and alter the date-time when it will be shot, if required. The Producer can then click 'Okay' which will add the scene to that date in the schedule, or 'Cancel' to back out of the operation. After the scene is added to the schedule, the schedule is then validated to ensure that no conflicts of availability have arisen from the change in the schedule and displayed in the calendar view. This is then repeated for all scenes that are required to be scheduled until such time as the entire script scenes have been scheduled.
+Main Success Scenario:
+1. The producer starts the system
+2. The producer clicks on the 'Scheduling' tab
+3. The producer right-click on the date they wish to schedule a scene
+4. The dialog window for adding a scene to the schedule appears, with the date defaulted to the date on which the producer right-clicked
+5. The producer selects the scene they wish to schedule
+6. The producer clicks the 'Okay' button in order to add the scene to the schedule
+7. The scene is added to the schedule on the date the producer originally right-clicked on, with feedback on whether this particular time is compatible with the availabilities for the scenes required volunteers and equipment.
+8. The producer can then go back to step 3 in order the repeat the process for all the required scenes.
+Extensions:
+1.a. The script is not within the system yet:
+	1. The producer is presented with a dialog on starting the system asking them to enter a name for the script
+	2. The producer enters the name of the script in the dialog
+	3.a. The producer clicks 'Okay'
+		1.a. The name the user added is empty
+			1. The system presents an error dialog, explaining that the script name is a required field.
+		1.b The name the user added is valid.
+			1. The script is added to the system
+	3.b. The producer clicks 'Cancel'
+		1. The system presents a dialog informing the user that a script is required
+		2. The system closes
+4.a. The producer wishes to schedule the current scene for a data different to the date on which they initially right clicked
+	1. The producer selects a different date from the date control
+5.a. The scene the producer wishes to schedule is not in the system yet
+	1. The producer cancels the operation and proceeds to the script tab in order to add the scene they wish to schedule
+5.b. The scene the producer wishes to schedule cannot be filmed with its current requirements on the selected date
+	1. The producer is presented with a warning indicating that the scene cannot be shot on this date, however they are still able to add the scene to this date in the schedule
+	2.a. The producer adds the scene to the schedule on this date anyway
+		1. The scene is added to the schedule, but with a visual warning that its current schedule state means it cannot be shot
+	2.b. The producer selects a different date to schedule the scene to be filmed
+5.c. The date chosen is earlier than the current date-time:
+	1. The scene schedule is placed in an invalid state with a relevant warning message: "Scheduled date of filming is before today"
+	2. The warning message is displayed to the producer
+7.b. The producer selected a different date from that the one which they initially right-clicked on
+	1. The scene is added to the date which the producer selected in the date control
+7. The producer selected a date which placed the scene schedule in an invalid state (earlier than current date-time)
+	1. A warning dialog is presented to the producer indicating that the scene schedule cannot be saved because of an invalid state including the error message associated with the scene schedule.
+			
+Special Requirements:
+- Must be error tolerant to losses in database communication
+ 
+Frequency of Occurance: Initially a prerequisite of creating an itinerary for the filming. Will happen less later, only when some major change in circumstance (a volunteer/equipment availability change that renders the schedule not workable).
 
 
 
@@ -109,8 +139,8 @@ Frequency of occurrence: Several times for every scene that is created
 
 
 
-Use Case Name: Resolving Schedule Conflicts
-The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. Ignore means that the scene will be scheduled anyway, and the producer will be prompted to confirm this. The other basic option will be to contact all those involved in the scene through e-mail.
+Use Case Name: Resolve conflict by email
+The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. The most important of these options is to resolve conflicts by emailing the volunteers involved.
 
 
 Scope: Volunteer Film schedule manager
@@ -121,21 +151,118 @@ Stakeholders and Interests:
 -Volunteers: Have accurate representation of their availability  	
 -Director: Ensure the system allows the producer makes accurate scheduling decisions.
 Preconditions: A conflict in the schedule has been identified and associated with a scene
+Postcondition: THe volunteers get emailed about the conflict
 
 Exceptions: 
 There is no conflict in the system
 
 Main Success Scenario
 1. The producer identifies a conflict and clicks on the conflict resolution button from the schedule
-2. A new window comes up that describes the nature of the conflict
-3. The producer makes a decision regarding the conflict
-4. The resolution is executed
-5. The producer is returned to the schedule
-Extensions
+2. A new window comes up that describes the list of conflicts
+3. Producer selects a scene in conflict
+4. The producer resolves the conflict by sending the volunteers an email
+5. The producer is returned to the conflicted scene list.
+Extensions:
+2a. There is no scene in conflict
+	1. The system notifies the producer
+	2. The producer is returned to the schedule
+3a. The system can suggest a solution or allow the producer to ignore the conflict
+
 
 
 Frequency of occurrence: Relatively often, as the likelihood of a conflict is high. 
 
 
-Use Case: New volunteerPrimary actor: volunteerStakeholders and Interests: 	Volunteer: wants to be able to give their information and availability	Producer: wants to be able to view and use the information provided	Other volunteers: want the volunteer to be in the system Preconditions: Volunteer is identified and asked to fill out formPostconditions: Volunteer has entered all information correctly. Volunteer’s information is saved in the database. Volunteer has a way to access and modify their data. Producer is able to log in and view availability. Volunteer’s information is automatically integrated into scheduling process.Main success scenario:1.	Customer turns on the computer2.	Customer enters their basic information.3.	Customer enters their availability4.	Customer clicks on the OK button 5.	The customer’s information is updated in the database.6.	System processes the data.Extensions:a: Volunteer does not put information in all of the boxes:1.	Error message pops up2.	Volunteer appropriately fills out missed field3.	Volunteer clicks on the OK button4.	System proceeds as normalb: At any time if the system fails:1.	Do a system reboot2.	Volunteer proceeds to fill out information as normal.note* there is not enough information required to back it up while filling out the formc: Human decides not to volunteer  any longer:1.	Human presses cancel.2.	System ignores any information previously entered.Special requirements:	Access to a computer with the program on it.Technology and Data Variations List:	Producer may delete any volunteer account.Frequency of Occurrence: used N times where N is the number of volunteers.Open Issues:	Data recovery on crash.	Should different types of volunteers enter different data?	Help if the volunteer does not understand something about the forms.version: oct 21 2014
+Use Case: Create Volunteer
+
+Primary actor: Volunteer
+Stakeholders and Interests: 
+	Volunteer: wants to be able to give their information and availability
+	Producer: wants to be able to view and use the information provided
+	Other volunteers: want the volunteer to be in the system 
+Preconditions: 
+Volunteer is identified and asked to fill out form
+Postconditions: 
+Volunteer has entered all information correctly. 
+Volunteer’s information is saved in the database. 
+Volunteer has a way to access and modify their data. 
+Producer is able to log in and view availability. 
+Volunteer’s information is automatically integrated into scheduling process.
+
+Main success scenario:
+1.	Volunteer turns on the computer
+2.	Volunteer enters their basic information including name, email, and phone.
+3.	Volunteer enters their availability
+4.	Volunteer clicks on the OK button 
+5.	The Volunteer’s information is updated in the database.
+6.	System processes the data.
+
+Extensions:
+a: Volunteer does not put information in all of the boxes:
+1.	Error message pops up
+2.	Volunteer appropriately fills out missed field
+3.	Volunteer clicks on the OK button
+4.	System proceeds as normal
+
+b: At any time if the system fails:
+1.	Do a system reboot
+2.	Volunteer proceeds to fill out information as normal.
+note* there is not enough information required to back it up while filling out the form
+
+c: Human decides not to volunteer  any longer:
+1.	Human presses cancel.
+2.	System ignores any information previously entered.
+
+Special requirements:
+	Access to a computer with the program on it.
+
+Technology and Data Variations List:
+	Producer may delete any volunteer account.
+
+Frequency of Occurrence: used N times where N is the number of volunteers.
+
+Open Issues:
+	Data recovery on crash.
+	Should different types of volunteers enter different data?
+	Help if the volunteer does not understand something about the forms.
+
+Use Case Name: Volunteer Logs in to the Volunteer Availability Application
+Scope: Secondary Volunteer Availability Application
+Level: User-goal
+Primary Actor: Volunteer
+Stakeholders and Interests:
+Volunteer: Wants to be able to access the volunteer availability application in order to review the information they have on file, as well as change contact and availability information.
+
+Preconditions:
+-The Volunteer's credentials exist in the database
+Postconditions:
+-The volunteer has entered valid credentials 
+-The volunteer is logged in to the system
+-The volunteer's information is loaded into the system 
+
+Main Success Scenario:
+1.The volunteer starts the system and is shown the login screen
+2.The volunteer enters username (e-mail) and password
+3.The volunteewr clicks 'Okay' 
+4.The volunteer's username and password are validated
+5.The volunteer is shown the main screen with the volunteer's information loaded from the database 
+
+Extensions:
+2.a.The volunteer no longer wishes to login
+	1.The volunteer clicks 'Cancel'
+	2.The system closes
+3.a. The volunteer did not enter a username (e-mail)
+	1. The system presents an error dialog, explaining that the username is a required field.
+3.b. The volunteer did not enter a password
+	1. The system presents an error dialog, explaining that the password is a required field
+4.a. The volunteer's username (e-mail) and password combination are not in the system
+	1. The system presents an error dialog, explaining that the credentials are not valid.
+Frequency: Occurs once every time the volunteer accesses the volunteer availability application
+Special Requirements: Connection to the internet
+
+version: oct 21 2014
+
+
+
+
 

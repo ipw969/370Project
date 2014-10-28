@@ -8,8 +8,7 @@ package moviescheduler;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
-import ui.MainMenu;
-import ui.StartMenu;
+import ui.*;
 /**
  *
  *
@@ -37,7 +36,8 @@ public class MovieScheduler {
                 errorsEncountered.add("Could not load database driver with "
                         + "message: " + ex.toString());
         }
-        
+        //VolunteerForm volunteerForm = new VolunteerForm();
+        //volunteerForm.setVisible(true);
         StartMenu startMenu = new StartMenu();
         startMenu.setVisible(true);
         
