@@ -27,6 +27,16 @@ public class Volunteer extends BaseBusinessObject
         this.availabilty.add(avail);
         setIsNew(true);
     }
+    
+        //general constructor
+    public Volunteer(String fName, String lName, String email, String phone)
+    {
+        this.firstName = fName;
+        this.lastName = lName;
+        this.email = email;
+        this.phone = phone;
+        setIsNew(true);
+    }
 
     public void addAvailability(TimeInterval avail)
     {

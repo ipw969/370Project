@@ -8,6 +8,8 @@ package ui;
 import businessobjects.Script;
 import java.awt.Dimension;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
@@ -514,7 +516,14 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
-        // TODO add your handling code here:
+{                                         
+  
+                this.setVisible(false);
+                VolunteerForm volunteerForm = new VolunteerForm();
+                volunteerForm.setVisible(true);
+ 
+        this.repaint();
+    }                       // TODO add your handling code here:
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     /**
