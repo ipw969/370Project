@@ -1,0 +1,8 @@
+Operation Contracts for resolve conflict by email
+Cross References: Use case: Resolving conflicts through emails
+Operation: sendEmailtoVolunteer()
+Preconditions:
+- The volunteer emails exist
+- there is a connection through which the emails can be sent
+Post conditions:
+- The Volunteers have been emailed and properly informed of the conflict.
