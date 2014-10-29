@@ -139,7 +139,7 @@ Frequency of occurrence: Several times for every scene that is created
 
 
 Use Case Name: Resolve conflict by email
-The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. Ignore means that the scene will be scheduled anyway, and the producer will be prompted to confirm this. The other basic option will be to contact all those involved in the scene through e-mail.
+The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. The most important of these options is to resolve conflicts by emailing the volunteers involved.
 
 
 Scope: Volunteer Film schedule manager
@@ -150,6 +150,7 @@ Stakeholders and Interests:
 -Volunteers: Have accurate representation of their availability  	
 -Director: Ensure the system allows the producer makes accurate scheduling decisions.
 Preconditions: A conflict in the schedule has been identified and associated with a scene
+Postcondition: THe volunteers get emailed about the conflict
 
 Exceptions: 
 There is no conflict in the system
@@ -159,8 +160,13 @@ Main Success Scenario
 2. A new window comes up that describes the list of conflicts
 3. Producer selects a scene in conflict
 4. The producer resolves the conflict by sending the volunteers an email
-5. The producer is returned 
-Extensions
+5. The producer is returned to the conflicted scene list.
+Extensions:
+2a. There is no scene in conflict
+	1. The system notifies the producer
+	2. The producer is returned to the schedule
+3a. The system can suggest a solution or allow the producer to ignore the conflict
+
 
 
 Frequency of occurrence: Relatively often, as the likelihood of a conflict is high. 
