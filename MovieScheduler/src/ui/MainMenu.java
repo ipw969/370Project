@@ -45,12 +45,38 @@ public class MainMenu extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         mainTab = new javax.swing.JTabbedPane();
         scriptTabPanel = new javax.swing.JPanel();
-        ScenePanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        scriptContentPanel = new javax.swing.JPanel();
+        volunteerPanel = new javax.swing.JPanel();
+        volunteerSectionLabel = new javax.swing.JLabel();
+        firstNameLabel = new javax.swing.JLabel();
+        lastNameLabel = new javax.swing.JLabel();
+        phoneNumberLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        volunteerFirstNameField = new javax.swing.JTextField();
+        volunteerLastNameField = new javax.swing.JTextField();
+        volunteerPhoneNumberField = new javax.swing.JTextField();
+        volunteerEmailField = new javax.swing.JTextField();
+        viewAvailabilitiesButton = new javax.swing.JButton();
+        addVolunteerButton = new javax.swing.JButton();
+        editVolunteerButton = new javax.swing.JButton();
+        removeVolunteerButton = new javax.swing.JButton();
+        volunteerComboBox = new javax.swing.JComboBox();
+        equipmentPanel = new javax.swing.JPanel();
+        equipmentSectionLabel = new javax.swing.JLabel();
+        equipmentTypeLabel = new javax.swing.JLabel();
+        stockLabel = new javax.swing.JLabel();
+        equipmentViewAdditionalInformationButton = new javax.swing.JButton();
+        equipmentIsRentalCheckbox = new javax.swing.JCheckBox();
+        equipmentComboBox = new javax.swing.JComboBox();
+        addEquipmentButton = new javax.swing.JButton();
+        editEquipmentButton = new javax.swing.JButton();
+        removeEquipmentButton = new javax.swing.JButton();
+        equipmentTypeField = new javax.swing.JTextField();
+        equipmentStockField = new javax.swing.JTextField();
         scenePanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        sceneNameLabel = new javax.swing.JLabel();
+        sceneDescriptionLabel = new javax.swing.JLabel();
+        sceneDescriptionScrollPane = new javax.swing.JScrollPane();
         sceneDescriptionField = new javax.swing.JTextArea();
         sceneComboBox = new javax.swing.JComboBox();
         sceneIsScheduledCheckBox = new javax.swing.JCheckBox();
@@ -61,34 +87,6 @@ public class MainMenu extends javax.swing.JFrame {
         sceneNameField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         sceneViewRequirementsButton = new javax.swing.JButton();
-        equipmentPanel = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        equipmentViewAdditionalInformationButton = new javax.swing.JButton();
-        equipmentIsRentalCheckbox = new javax.swing.JCheckBox();
-        equipmentComboBox = new javax.swing.JComboBox();
-        addEquipmentButton = new javax.swing.JButton();
-        editEquipmentButton = new javax.swing.JButton();
-        removeEquipmentButton = new javax.swing.JButton();
-        equipmentTypeField = new javax.swing.JTextField();
-        equipmentStockField = new javax.swing.JTextField();
-        volunteerPanel = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        volunteerFirstNameField = new javax.swing.JTextField();
-        volunteerLastNameField = new javax.swing.JTextField();
-        volunteerPhoneNumberField = new javax.swing.JTextField();
-        volunteerEmailField = new javax.swing.JTextField();
-        viewAvailabilitiesButton = new javax.swing.JButton();
-        addVolunteerButton = new javax.swing.JButton();
-        editVolunteerButton = new javax.swing.JButton();
-        removeVolunteerButton = new javax.swing.JButton();
-        volunteerComboBox = new javax.swing.JComboBox();
         scheduleTabPanel = new javax.swing.JPanel();
         sideScenePanel = new javax.swing.JPanel();
         sceneListLabel = new javax.swing.JLabel();
@@ -105,202 +103,17 @@ public class MainMenu extends javax.swing.JFrame {
 
         mainPanel.setBorder(new javax.swing.border.MatteBorder(null));
 
-        ScenePanel.setLayout(new java.awt.GridLayout(2, 0, 10, 10));
+        scriptContentPanel.setLayout(new java.awt.GridLayout(1, 3));
 
-        jLabel1.setText("Name:");
+        volunteerSectionLabel.setText("Volunteer");
 
-        jLabel2.setText("Description");
+        firstNameLabel.setText("First Name:");
 
-        sceneDescriptionField.setColumns(20);
-        sceneDescriptionField.setRows(5);
-        sceneDescriptionField.setText("Scene description here.");
-        sceneDescriptionField.setFocusable(false);
-        jScrollPane1.setViewportView(sceneDescriptionField);
+        lastNameLabel.setText("Last Name:");
 
-        sceneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        sceneComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sceneComboBoxActionPerformed(evt);
-            }
-        });
+        phoneNumberLabel.setText("Phone Number:");
 
-        sceneIsScheduledCheckBox.setText("Scheduled");
-        sceneIsScheduledCheckBox.setFocusable(false);
-
-        sceneIsCompleteCheckBox.setText("Completed");
-        sceneIsCompleteCheckBox.setFocusable(false);
-
-        addSceneButton.setText("Add Scene");
-
-        editSceneButton.setText("Edit Scene");
-
-        removeSceneButton.setText("remove Scene");
-
-        sceneNameField.setText("Scene name here");
-        sceneNameField.setFocusable(false);
-
-        jLabel3.setText("Scenes");
-
-        sceneViewRequirementsButton.setText("View Requirements");
-
-        javax.swing.GroupLayout scenePanelLayout = new javax.swing.GroupLayout(scenePanel);
-        scenePanel.setLayout(scenePanelLayout);
-        scenePanelLayout.setHorizontalGroup(
-            scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scenePanelLayout.createSequentialGroup()
-                .addGap(0, 48, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(scenePanelLayout.createSequentialGroup()
-                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(scenePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sceneIsCompleteCheckBox)
-                            .addComponent(sceneIsScheduledCheckBox)
-                            .addComponent(addSceneButton)))
-                    .addGroup(scenePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(editSceneButton))
-                    .addGroup(scenePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2)
-                    .addGroup(scenePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(removeSceneButton))
-                    .addGroup(scenePanelLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sceneViewRequirementsButton)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scenePanelLayout.createSequentialGroup()
-                                .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36))))
-                    .addComponent(jLabel3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        scenePanelLayout.setVerticalGroup(
-            scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(scenePanelLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(11, 11, 11)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneIsScheduledCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneIsCompleteCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneViewRequirementsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(addSceneButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editSceneButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeSceneButton))
-        );
-
-        jLabel4.setText("Equipment");
-
-        jLabel5.setText("Type:");
-
-        jLabel6.setText("Stock:");
-
-        equipmentViewAdditionalInformationButton.setText("View Additional Information");
-
-        equipmentIsRentalCheckbox.setText("Rental");
-        equipmentIsRentalCheckbox.setFocusable(false);
-
-        equipmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        addEquipmentButton.setText("Add Equipment");
-
-        editEquipmentButton.setText("Edit Equipment");
-
-        removeEquipmentButton.setText("Remove Equipment");
-
-        equipmentTypeField.setText("type here");
-        equipmentTypeField.setFocusable(false);
-
-        equipmentStockField.setText("Stock here");
-        equipmentStockField.setFocusable(false);
-
-        javax.swing.GroupLayout equipmentPanelLayout = new javax.swing.GroupLayout(equipmentPanel);
-        equipmentPanel.setLayout(equipmentPanelLayout);
-        equipmentPanelLayout.setHorizontalGroup(
-            equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(equipmentPanelLayout.createSequentialGroup()
-                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addGroup(equipmentPanelLayout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(equipmentTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel7)
-                                .addComponent(addEquipmentButton)
-                                .addComponent(editEquipmentButton)
-                                .addComponent(removeEquipmentButton)
-                                .addGroup(equipmentPanelLayout.createSequentialGroup()
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(equipmentStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(equipmentIsRentalCheckbox))))
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(equipmentViewAdditionalInformationButton)))
-                .addContainerGap(43, Short.MAX_VALUE))
-        );
-        equipmentPanelLayout.setVerticalGroup(
-            equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(equipmentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(equipmentTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(equipmentStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(equipmentIsRentalCheckbox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addGap(21, 21, 21)
-                .addComponent(equipmentViewAdditionalInformationButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addEquipmentButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(editEquipmentButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(removeEquipmentButton))
-        );
-
-        jLabel8.setText("Volunteer");
-
-        jLabel9.setText("First Name:");
-
-        jLabel10.setText("Last Name:");
-
-        jLabel11.setText("Phone Number:");
-
-        jLabel12.setText("Email:");
+        emailLabel.setText("Email:");
 
         volunteerFirstNameField.setText("first name here");
         volunteerFirstNameField.setFocusable(false);
@@ -340,23 +153,23 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(volunteerPanelLayout.createSequentialGroup()
                                 .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel9))
+                                    .addComponent(volunteerSectionLabel)
+                                    .addComponent(firstNameLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(volunteerFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(volunteerPanelLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel12)
+                                        .addComponent(emailLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(volunteerEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel10)
+                                        .addComponent(lastNameLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(volunteerLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel11)
+                                        .addComponent(phoneNumberLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(volunteerPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(volunteerPanelLayout.createSequentialGroup()
@@ -374,28 +187,28 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(volunteerPanelLayout.createSequentialGroup()
                         .addGap(111, 111, 111)
                         .addComponent(volunteerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         volunteerPanelLayout.setVerticalGroup(
             volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(volunteerPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
+                .addComponent(volunteerSectionLabel)
                 .addGap(14, 14, 14)
                 .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
+                    .addComponent(firstNameLabel)
                     .addComponent(volunteerFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
+                    .addComponent(lastNameLabel)
                     .addComponent(volunteerLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
+                    .addComponent(phoneNumberLabel)
                     .addComponent(volunteerPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
+                    .addComponent(emailLabel)
                     .addComponent(volunteerEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(viewAvailabilitiesButton)
@@ -409,31 +222,221 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(removeVolunteerButton))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 1, Short.MAX_VALUE)
-                .addComponent(volunteerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(equipmentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scenePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        scriptContentPanel.add(volunteerPanel);
+
+        equipmentSectionLabel.setText("Equipment");
+
+        equipmentTypeLabel.setText("Type:");
+
+        stockLabel.setText("Stock:");
+
+        equipmentViewAdditionalInformationButton.setText("View Additional Information");
+
+        equipmentIsRentalCheckbox.setText("Rental");
+        equipmentIsRentalCheckbox.setFocusable(false);
+
+        equipmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        addEquipmentButton.setText("Add Equipment");
+
+        editEquipmentButton.setText("Edit Equipment");
+
+        removeEquipmentButton.setText("Remove Equipment");
+
+        equipmentTypeField.setText("type here");
+        equipmentTypeField.setFocusable(false);
+
+        equipmentStockField.setText("Stock here");
+        equipmentStockField.setFocusable(false);
+
+        javax.swing.GroupLayout equipmentPanelLayout = new javax.swing.GroupLayout(equipmentPanel);
+        equipmentPanel.setLayout(equipmentPanelLayout);
+        equipmentPanelLayout.setHorizontalGroup(
+            equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(equipmentPanelLayout.createSequentialGroup()
+                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(equipmentPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(equipmentSectionLabel)
+                            .addComponent(equipmentIsRentalCheckbox)
+                            .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, equipmentPanelLayout.createSequentialGroup()
+                                    .addComponent(equipmentTypeLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(equipmentTypeField))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, equipmentPanelLayout.createSequentialGroup()
+                                    .addComponent(stockLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(equipmentStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(equipmentPanelLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(equipmentViewAdditionalInformationButton))
+                    .addGroup(equipmentPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(equipmentPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(addEquipmentButton))
+                    .addGroup(equipmentPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(editEquipmentButton))
+                    .addGroup(equipmentPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(removeEquipmentButton)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(equipmentPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(volunteerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scenePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+        equipmentPanelLayout.setVerticalGroup(
+            equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(equipmentPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(equipmentSectionLabel)
+                .addGap(18, 18, 18)
+                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(equipmentTypeLabel)
+                    .addComponent(equipmentTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(stockLabel)
+                    .addComponent(equipmentStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(equipmentIsRentalCheckbox)
+                .addGap(23, 23, 23)
+                .addComponent(equipmentViewAdditionalInformationButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addEquipmentButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editEquipmentButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeEquipmentButton)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
-        ScenePanel.add(jPanel2);
+        scriptContentPanel.add(equipmentPanel);
 
-        scriptTabPanel.add(ScenePanel);
+        sceneNameLabel.setText("Name:");
+
+        sceneDescriptionLabel.setText("Description");
+
+        sceneDescriptionField.setColumns(20);
+        sceneDescriptionField.setRows(5);
+        sceneDescriptionField.setText("Scene description here.");
+        sceneDescriptionField.setFocusable(false);
+        sceneDescriptionScrollPane.setViewportView(sceneDescriptionField);
+
+        sceneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        sceneComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sceneComboBoxActionPerformed(evt);
+            }
+        });
+
+        sceneIsScheduledCheckBox.setText("Scheduled");
+        sceneIsScheduledCheckBox.setFocusable(false);
+
+        sceneIsCompleteCheckBox.setText("Completed");
+        sceneIsCompleteCheckBox.setFocusable(false);
+
+        addSceneButton.setText("Add Scene");
+
+        editSceneButton.setText("Edit Scene");
+
+        removeSceneButton.setText("remove Scene");
+
+        sceneNameField.setText("Scene name here");
+        sceneNameField.setFocusable(false);
+
+        jLabel3.setText("Scenes");
+
+        sceneViewRequirementsButton.setText("View Requirements");
+
+        javax.swing.GroupLayout scenePanelLayout = new javax.swing.GroupLayout(scenePanel);
+        scenePanel.setLayout(scenePanelLayout);
+        scenePanelLayout.setHorizontalGroup(
+            scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scenePanelLayout.createSequentialGroup()
+                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, scenePanelLayout.createSequentialGroup()
+                        .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(scenePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(sceneIsCompleteCheckBox)
+                                    .addComponent(sceneIsScheduledCheckBox)
+                                    .addComponent(addSceneButton)))
+                            .addGroup(scenePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(editSceneButton))
+                            .addComponent(sceneDescriptionLabel)
+                            .addGroup(scenePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(removeSceneButton))
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, scenePanelLayout.createSequentialGroup()
+                        .addComponent(sceneNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(sceneNameField))
+                    .addGroup(scenePanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(sceneDescriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                            .addComponent(sceneViewRequirementsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+            .addGroup(scenePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        scenePanelLayout.setVerticalGroup(
+            scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scenePanelLayout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sceneNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sceneDescriptionLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sceneDescriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(sceneIsScheduledCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sceneIsCompleteCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sceneViewRequirementsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addSceneButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editSceneButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeSceneButton))
+        );
+
+        scriptContentPanel.add(scenePanel);
+
+        javax.swing.GroupLayout scriptTabPanelLayout = new javax.swing.GroupLayout(scriptTabPanel);
+        scriptTabPanel.setLayout(scriptTabPanelLayout);
+        scriptTabPanelLayout.setHorizontalGroup(
+            scriptTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scriptTabPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scriptContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        scriptTabPanelLayout.setVerticalGroup(
+            scriptTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scriptTabPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scriptContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         mainTab.addTab("Script", scriptTabPanel);
 
@@ -463,7 +466,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(sceneListLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
+                .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -476,16 +479,16 @@ public class MainMenu extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainTab, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE)
+                .addComponent(mainTab)
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainTab)
+                .addComponent(mainTab, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -493,14 +496,20 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(870, 538));
+        setSize(new java.awt.Dimension(925, 574));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -546,52 +555,49 @@ public class MainMenu extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel ScenePanel;
     private javax.swing.JButton addEquipmentButton;
     private javax.swing.JButton addSceneButton;
     private javax.swing.JButton addVolunteerButton;
     private javax.swing.JButton editEquipmentButton;
     private javax.swing.JButton editSceneButton;
     private javax.swing.JButton editVolunteerButton;
+    private javax.swing.JLabel emailLabel;
     private javax.swing.JComboBox equipmentComboBox;
     private javax.swing.JCheckBox equipmentIsRentalCheckbox;
     private javax.swing.JPanel equipmentPanel;
+    private javax.swing.JLabel equipmentSectionLabel;
     private javax.swing.JTextField equipmentStockField;
     private javax.swing.JTextField equipmentTypeField;
+    private javax.swing.JLabel equipmentTypeLabel;
     private javax.swing.JButton equipmentViewAdditionalInformationButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Label label1;
+    private javax.swing.JLabel lastNameLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel mainScenePanel;
     private javax.swing.JTabbedPane mainTab;
+    private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JButton removeEquipmentButton;
     private javax.swing.JButton removeSceneButton;
     private javax.swing.JButton removeVolunteerButton;
     private javax.swing.JComboBox sceneComboBox;
     private javax.swing.JTextArea sceneDescriptionField;
+    private javax.swing.JLabel sceneDescriptionLabel;
+    private javax.swing.JScrollPane sceneDescriptionScrollPane;
     private javax.swing.JCheckBox sceneIsCompleteCheckBox;
     private javax.swing.JCheckBox sceneIsScheduledCheckBox;
     private java.awt.List sceneList;
     private javax.swing.JLabel sceneListLabel;
     private javax.swing.JTextField sceneNameField;
+    private javax.swing.JLabel sceneNameLabel;
     private javax.swing.JPanel scenePanel;
     private javax.swing.JButton sceneViewRequirementsButton;
     private javax.swing.JPanel scheduleTabPanel;
+    private javax.swing.JPanel scriptContentPanel;
     private javax.swing.JPanel scriptTabPanel;
     private javax.swing.JPanel sideScenePanel;
+    private javax.swing.JLabel stockLabel;
     private javax.swing.JButton viewAvailabilitiesButton;
     private javax.swing.JComboBox volunteerComboBox;
     private javax.swing.JTextField volunteerEmailField;
@@ -599,5 +605,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField volunteerLastNameField;
     private javax.swing.JPanel volunteerPanel;
     private javax.swing.JTextField volunteerPhoneNumberField;
+    private javax.swing.JLabel volunteerSectionLabel;
     // End of variables declaration//GEN-END:variables
 }
