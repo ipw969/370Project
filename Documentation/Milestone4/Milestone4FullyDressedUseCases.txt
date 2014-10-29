@@ -173,9 +173,9 @@ Extensions:
 Frequency of occurrence: Relatively often, as the likelihood of a conflict is high. 
 
 
-Use Case: New volunteer
+Use Case: Create Volunteer
 
-Primary actor: volunteer
+Primary actor: Volunteer
 Stakeholders and Interests: 
 	Volunteer: wants to be able to give their information and availability
 	Producer: wants to be able to view and use the information provided
@@ -190,11 +190,11 @@ Producer is able to log in and view availability.
 Volunteer’s information is automatically integrated into scheduling process.
 
 Main success scenario:
-1.	Customer turns on the computer
-2.	Customer enters their basic information.
-3.	Customer enters their availability
-4.	Customer clicks on the OK button 
-5.	The customer’s information is updated in the database.
+1.	Volunteer turns on the computer
+2.	Volunteer enters their basic information including name, email, and phone.
+3.	Volunteer enters their availability
+4.	Volunteer clicks on the OK button 
+5.	The Volunteer’s information is updated in the database.
 6.	System processes the data.
 
 Extensions:
