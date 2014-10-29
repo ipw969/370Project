@@ -526,8 +526,8 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
 {                                         
-  
-                this.setVisible(false);
+    
+                //this.setVisible(false);
                 VolunteerForm volunteerForm = new VolunteerForm();
                 volunteerForm.setVisible(true);
  

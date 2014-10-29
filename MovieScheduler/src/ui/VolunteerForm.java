@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import javax.swing.*;
 import datatypes.*;
 import businessobjects.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,6 +19,12 @@ import java.util.GregorianCalendar;
  * @author johnmason
  */
 public class VolunteerForm extends javax.swing.JFrame {
+
+  
+    @Override
+    public void setDefaultCloseOperation(int operation) {
+        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * Creates new form VolunteerForm
@@ -41,7 +49,7 @@ public class VolunteerForm extends javax.swing.JFrame {
         lName = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
         phone = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        cancel = new javax.swing.JButton();
         currentAvailabilities = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -81,10 +89,10 @@ public class VolunteerForm extends javax.swing.JFrame {
 
         phone.setText("Phone Number");
 
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                cancelActionPerformed(evt);
             }
         });
 
@@ -159,7 +167,7 @@ public class VolunteerForm extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(submit)
                         .addGap(9, 9, 9)
-                        .addComponent(jButton2)))
+                        .addComponent(cancel)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -197,7 +205,7 @@ public class VolunteerForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submit)
-                    .addComponent(jButton2))
+                    .addComponent(cancel))
                 .addGap(87, 87, 87))
         );
 
@@ -253,10 +261,10 @@ public class VolunteerForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_currentAvailabilitiesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        //cancel everything and return to the main menu without saving any information
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        setVisible(false); //you can't see me!
+        dispose(); //Destroy the JFrame object
+    }//GEN-LAST:event_cancelActionPerformed
 
     private void lNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lNameActionPerformed
         // TODO add your handling code here:
@@ -327,11 +335,11 @@ public class VolunteerForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
+    private javax.swing.JButton cancel;
     private javax.swing.JComboBox currentAvailabilities;
     private javax.swing.JTextField email;
     private javax.swing.JSpinner end;
     private javax.swing.JTextField fName;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
