@@ -5,13 +5,13 @@ import java.util.GregorianCalendar;
  * Class which represents the time interval that a scene is scheduled to
  * filmed in 
  */
-public class SceneSchedule extends BaseBusinessObject {
+public class SceneFilmingDate extends BaseBusinessObject {
     // Constructor
     /**
-     * Creates a new instance of a SceneSchedule with no scene or shooting
+     * Creates a new instance of a SceneFilmingDate with no scene or shooting
      * interval.
      */
-    public SceneSchedule() 
+    public SceneFilmingDate() 
     {
         updateError("Scene cannot be null", scene != null);
         updateError("Shooting interval cannot be null", 
