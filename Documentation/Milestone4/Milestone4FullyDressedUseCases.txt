@@ -172,5 +172,96 @@ Extensions:
 Frequency of occurrence: Relatively often, as the likelihood of a conflict is high. 
 
 
-Use Case: New volunteerPrimary actor: volunteerStakeholders and Interests: 	Volunteer: wants to be able to give their information and availability	Producer: wants to be able to view and use the information provided	Other volunteers: want the volunteer to be in the system Preconditions: Volunteer is identified and asked to fill out formPostconditions: Volunteer has entered all information correctly. Volunteer’s information is saved in the database. Volunteer has a way to access and modify their data. Producer is able to log in and view availability. Volunteer’s information is automatically integrated into scheduling process.Main success scenario:1.	Customer turns on the computer2.	Customer enters their basic information.3.	Customer enters their availability4.	Customer clicks on the OK button 5.	The customer’s information is updated in the database.6.	System processes the data.Extensions:a: Volunteer does not put information in all of the boxes:1.	Error message pops up2.	Volunteer appropriately fills out missed field3.	Volunteer clicks on the OK button4.	System proceeds as normalb: At any time if the system fails:1.	Do a system reboot2.	Volunteer proceeds to fill out information as normal.note* there is not enough information required to back it up while filling out the formc: Human decides not to volunteer  any longer:1.	Human presses cancel.2.	System ignores any information previously entered.Special requirements:	Access to a computer with the program on it.Technology and Data Variations List:	Producer may delete any volunteer account.Frequency of Occurrence: used N times where N is the number of volunteers.Open Issues:	Data recovery on crash.	Should different types of volunteers enter different data?	Help if the volunteer does not understand something about the forms.version: oct 21 2014
+Use Case: New volunteer
+
+Primary actor: volunteer
+Stakeholders and Interests: 
+	Volunteer: wants to be able to give their information and availability
+	Producer: wants to be able to view and use the information provided
+	Other volunteers: want the volunteer to be in the system 
+Preconditions: 
+Volunteer is identified and asked to fill out form
+Postconditions: 
+Volunteer has entered all information correctly. 
+Volunteer’s information is saved in the database. 
+Volunteer has a way to access and modify their data. 
+Producer is able to log in and view availability. 
+Volunteer’s information is automatically integrated into scheduling process.
+
+Main success scenario:
+1.	Customer turns on the computer
+2.	Customer enters their basic information.
+3.	Customer enters their availability
+4.	Customer clicks on the OK button 
+5.	The customer’s information is updated in the database.
+6.	System processes the data.
+
+Extensions:
+a: Volunteer does not put information in all of the boxes:
+1.	Error message pops up
+2.	Volunteer appropriately fills out missed field
+3.	Volunteer clicks on the OK button
+4.	System proceeds as normal
+
+b: At any time if the system fails:
+1.	Do a system reboot
+2.	Volunteer proceeds to fill out information as normal.
+note* there is not enough information required to back it up while filling out the form
+
+c: Human decides not to volunteer  any longer:
+1.	Human presses cancel.
+2.	System ignores any information previously entered.
+
+Special requirements:
+	Access to a computer with the program on it.
+
+Technology and Data Variations List:
+	Producer may delete any volunteer account.
+
+Frequency of Occurrence: used N times where N is the number of volunteers.
+
+Open Issues:
+	Data recovery on crash.
+	Should different types of volunteers enter different data?
+	Help if the volunteer does not understand something about the forms.
+
+Use Case Name: Volunteer Logs in to the Volunteer Availability Application
+Scope: Secondary Volunteer Availability Application
+Level: User-goal
+Primary Actor: Volunteer
+Stakeholders and Interests:
+Volunteer: Wants to be able to access the volunteer availability application in order to review the information they have on file, as well as change contact and availability information.
+
+Preconditions:
+-The Volunteer's credentials exist in the database
+Postconditions:
+-The volunteer has entered valid credentials 
+-The volunteer is logged in to the system
+-The volunteer's information is loaded into the system 
+
+Main Success Scenario:
+1.The volunteer starts the system and is shown the login screen
+2.The volunteer enters username (e-mail) and password
+3.The volunteewr clicks 'Okay' 
+4.The volunteer's username and password are validated
+5.The volunteer is shown the main screen with the volunteer's information loaded from the database 
+
+Extensions:
+2.a.The volunteer no longer wishes to login
+	1.The volunteer clicks 'Cancel'
+	2.The system closes
+3.a. The volunteer did not enter a username (e-mail)
+	1. The system presents an error dialog, explaining that the username is a required field.
+3.b. The volunteer did not enter a password
+	1. The system presents an error dialog, explaining that the password is a required field
+4.a. The volunteer's username (e-mail) and password combination are not in the system
+	1. The system presents an error dialog, explaining that the credentials are not valid.
+Frequency: Occurs once every time the volunteer accesses the volunteer availability application
+Special Requirements: Connection to the internet
+
+version: oct 21 2014
+
+
+
+
 
