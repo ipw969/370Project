@@ -138,7 +138,7 @@ Frequency of occurrence: Several times for every scene that is created
 
 
 
-Use Case Name: Resolving Schedule Conflicts
+Use Case Name: Resolve conflict by email
 The producer has a conflict, after trying to schedule a scene, So they're brought to another window which has various options for resolving the conflict. Ignore means that the scene will be scheduled anyway, and the producer will be prompted to confirm this. The other basic option will be to contact all those involved in the scene through e-mail.
 
 
@@ -156,10 +156,10 @@ There is no conflict in the system
 
 Main Success Scenario
 1. The producer identifies a conflict and clicks on the conflict resolution button from the schedule
-2. A new window comes up that describes the nature of the conflict
-3. The producer makes a decision regarding the conflict
-4. The resolution is executed
-5. The producer is returned to the schedule
+2. A new window comes up that describes the list of conflicts
+3. Producer selects a scene in conflict
+4. The producer resolves the conflict by sending the volunteers an email
+5. The producer is returned 
 Extensions
 
 
