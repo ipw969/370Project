@@ -125,8 +125,6 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
         }
         else
         {
-            // Todo: Iterate over all days and add to each on that it overlaps
-            // with.
             for(CalendarDay currentCalendarDay: calendarDays)
             {
                 if(sendingSceneSchedule.sceneShootingInterval().overlaps(
@@ -187,12 +185,12 @@ public class CalendarMonth extends JPanel implements BusinessObjectListener{
     /**
      * A list of all the days that will be displayed
      */
-    private ArrayList<CalendarDay> calendarDays;
+    private final ArrayList<CalendarDay> calendarDays;
     
     /**
      * A List of all the scheduled scene shooting dates
      */
-    private BusinessObjectList<SceneFilmingDate> scheduledScenes;
+    private final BusinessObjectList<SceneFilmingDate> scheduledScenes;
     
     /**
      * The first day of the month
