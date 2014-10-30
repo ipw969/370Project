@@ -69,3 +69,28 @@ Preconditions:
 Postconditions:
 - The provided filmingDate was associated with the schedule
 - The valid state of the schedule was returned
+
+
+operation contracts for creating and adding a volunteer
+Operation: createNewVolunteer()
+Cross Reference:
+Use Case: Create Volunteer
+Preconditions:
+-There is a volunteer to create
+-The volunteer form is open
+-The provided email, name, and phone number are filled in correctly
+PostConditions: 
+-A new volunteer is created and added to the database
+-The database is in a valid state
+-The volunteer window is set invisible and disposed of properly
+
+Operation: addAvailability()
+Cross Reference:
+Use Case: Create Volunteer
+Preconditions:
+-A volunteer has been previously created properly 
+-The provided list of availabilities is not NULL
+-The volunteer properly adds their availabilities to the list
+PostConditions:
+-A list of the volunteer’s availabilities is added to the volunteer in the database
+The database is left in a valid state
