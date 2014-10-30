@@ -20,7 +20,8 @@ import java.util.GregorianCalendar;
  */
 public class VolunteerForm extends javax.swing.JFrame {
 
-  
+    BusinessObjectList <TimeInterval> availabilityList = new BusinessObjectList();
+
     @Override
     public void setDefaultCloseOperation(int operation) {
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
@@ -230,6 +231,24 @@ public class VolunteerForm extends javax.swing.JFrame {
        
         currentAvailabilities.addItem(start.getValue()
                 +" to "+end.getValue());
+        
+        
+
+        //parse the values to date values
+        Date sDate, eDate;                  
+        sDate = (Date) start.getValue();
+        eDate = (Date) end.getValue();
+        
+        //initialize the Gregorian dates
+        GregorianCalendar startDate = new GregorianCalendar();
+        GregorianCalendar endDate = new GregorianCalendar();
+        
+        //give the gregorian calendars the times obtained from the date values obtained from the gui
+        startDate.setTime(sDate);
+        endDate.setTime(eDate);
+        TimeInterval timeInterval = new TimeInterval(startDate,endDate);
+        
+        availabilityList.add(timeInterval);
         /* 
             to implement how the times entered are entered into the gregorian calendar
             are we actually going to make the user enter the date,specific start time, specific end time
@@ -272,24 +291,13 @@ public class VolunteerForm extends javax.swing.JFrame {
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
 
-        //parse the values to date values
-        Date sDate, eDate;                  
-        sDate = (Date) start.getValue();
-        eDate = (Date) end.getValue();
+
         
-        //initialize the Gregorian dates
-        GregorianCalendar startDate = new GregorianCalendar();
-        GregorianCalendar endDate = new GregorianCalendar();
-        
-        //give the gregorian calendars the times obtained from the date values obtained from the gui
-        startDate.setTime(sDate);
-        endDate.setTime(eDate);
-        TimeInterval timeInterval = new TimeInterval(startDate,endDate);
-        
+ 
         //create a new volunteer and populate it with all of the information
         Volunteer volunteer = new Volunteer(fName.getText().toString(),lName.getText().toString(),
                                             email.getText().toString(), phone.getText().toString(), 
-                                            timeInterval);
+                                            availabilityList);
         
         
     }//GEN-LAST:event_submitActionPerformed

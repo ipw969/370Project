@@ -18,13 +18,13 @@ public class Volunteer extends BaseBusinessObject
     public Volunteer(){setIsNew(true);}
     
     //general constructor
-    public Volunteer(String fName, String lName, String email, String phone, TimeInterval avail)
+    public Volunteer(String fName, String lName, String email, String phone, BusinessObjectList avail)
     {
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
         this.phone = phone;
-        this.availabilty.add(avail);
+        this.availabilty = avail;
         setIsNew(true);
     }
     
