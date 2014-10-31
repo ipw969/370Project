@@ -168,7 +168,7 @@ public class LoginMenu extends javax.swing.JFrame {
              *Passme is a dummy username that skips authentication, and loads 
              *hard coded volunteer information from the client.
              */
-            Volunteer testVolunteer = new Volunteer("Passme", "Passed", "theTest@test.test", "867-5309");
+            Volunteer testVolunteer = new Volunteer("TestPerson", "LoggedinSucessfully", "theTest@test.test", "867-5309");
             GregorianCalendar testIntervalStart = new GregorianCalendar(2014, 11, 01, 12, 0);
             GregorianCalendar testIntervalEnd = new GregorianCalendar(2014, 11, 01, 15, 0);
             TimeInterval testTimeInterval = new TimeInterval(testIntervalStart, testIntervalEnd);
