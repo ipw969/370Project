@@ -11,6 +11,7 @@ TODO: Create a test scaffold for the class
 TODO: Add a way for the script to listen to the scenes for a valid state. 
  */
 package businessobjects;
+import datatypes.*;
 import java.util.Iterator;
 
 
@@ -19,7 +20,14 @@ import java.util.Iterator;
 public class Script extends BaseBusinessObject implements BusinessObjectListener {
     //The list of scenes. scenes will be a synchronized ArrayList. 
    protected BusinessObjectList<Scene> scenes; 
+   // A list of all of the volunteers working on this project. 
+   protected BusinessObjectList<Volunteer> volunteers; 
+   //A list of all of the equipment working on this project. 
+   protected BusinessObjectList<Equipment> equipment; 
+   
    protected String name;  
+   
+   
    private final String nullNameError = "The name of the script is invalid";
    /**The constructor for the script
      * @param name - the name of the script
@@ -35,6 +43,10 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
        scenes.addListener(this);
    }
 
+   
+   /** EVERYTHING TO DO WITH THE SCENE PORTION OF THE SCRIPT IS LISTED BELOW*/
+   
+   
   /** @return true if the script contains scenes, false if not. **/
  public boolean hasScenes()
  {
@@ -42,55 +54,50 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
  }
  /**Creates a scene with the specified name and description and adds it to the script. 
   * @preCon name != null, description != null
-  * @param name  the name of the new scene
-  * @param description the description of the scene
-  * @return the newly created scene 
-  * TODO ensure there is not a scene with the same name in the script. 
+  * @param newScene the new scene to add to the script. 
+  * @return the newly created volunteer.
   */
  
-  public Scene createAndAddScene(String name, String description)
+  public boolean addScene(Scene newScene)
    {
+       if (newScene == null || !newScene.isValid())
+       {
+           return false;
+       }
+       /**This whole thing is necessary because we need to check whether a scene with that name already exists
+       regardless of whether they are identical*/
        if(this.hasScenes())
        {
              Iterator<Scene> iter = this.sceneIterator();
             while (iter.hasNext())
              {
                Scene examinedScene = iter.next();
-               if (examinedScene.name().equals(name))
+               if (examinedScene.name().equals(newScene.name()))
              {
-                 this.updateError("A scene with that name already exists in the list of scenes", true);
-                 return null;
+                
+                 return false;
              }
              }
-            Scene newScene = new Scene(name, description);
-              scenes.add(newScene);
-              return newScene;
-       }
-      else
-       {
-            Scene newScene = new Scene(name, description);
-              scenes.add(newScene);
-              return newScene;
+           
+           
        }
       
+             scenes.add(newScene);
+             return true;
+
+            
    } 
-     
-      
-   
-   
-  /**Adds the specified scene at the current cursor position
-   * @PreCon The cursor must be at a valid cursor location.
-  
-  /**removes the specified scene from the list of scenes
-   * 
+    
+  /**removes the specified volunteer from the list of volunteers
    * @param oldScene - the scene to be deleted from the list
    * @return true if successful, false if not
    * May edit it to throw an exception if the scene is not completed, not sure yet. 
    */
-  public boolean remove(Scene oldScene)
+  public boolean removeScene(Scene oldScene)
   {
       return scenes.remove(oldScene);
   }
+  
   
   /**Tells you the number of scenes in the script.
    * @return the number of scenes in the script
@@ -106,7 +113,7 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
    * 
    **/
   
-   public boolean scheduled()
+   public boolean isEverySceneScheduled()
    {
        if (scenes.isEmpty())
        {
@@ -126,7 +133,7 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
     * can be removed. 
     * @return true if all of the scenes are complete, false if not.
     */
-   public boolean complete()
+   public boolean isEveryScenecomplete()
    {
        for (Scene curScene: scenes)
        {
@@ -140,7 +147,7 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
    /** Checks to see if the script is empty
     * @return true if the script is empty, false if not.
     */
-   public boolean isEmpty()
+   public boolean isSceneListEmpty()
    {
        return scenes.isEmpty();
    }
@@ -155,7 +162,156 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
    }
    
   
-
+/**EVERYTHING TO DO WITH THE LISTS OF VOLUNTEERS IS BELOW**/
+   
+   
+   
+   
+   
+   
+   
+     /** @return true if the script contains volunteers, false if not. **/
+ public boolean hasVolunteers()
+ {
+    return !volunteers.isEmpty();
+ }
+ /**Creates a Volunteer with the specified information and adds it to the script. 
+  * @precon: The given volunteer should be valid.
+  * @param newVolunteer: The new volunteer to add to the script.
+  * @return true if successful, false if not.
+  */
+ 
+  public boolean addVolunteer(Volunteer newVolunteer)
+   {
+       if ((newVolunteer == null) || (!newVolunteer.isValid()))
+       {
+           return false;
+       }
+       /**This whole thing is necessary because we need to check whether a scene with that name already exists
+       regardless of whether they are identical*/
+       if(this.hasVolunteers())
+       {
+             Iterator<Volunteer> iter = this.volunteerIterator();
+            while (iter.hasNext())
+             {
+               Volunteer examinedVolunteer = iter.next();
+               if (examinedVolunteer.getEmail().equals(newVolunteer.getEmail()))
+             {
+                 return false;
+             }
+             }
+       }
+    
+         volunteers.add(newVolunteer);
+         return true;
+      
+   } 
+    
+  /**removes the specified volunteer from the list of volunteers
+   * @param oldVolunteer - the volunteer to be deleted from the list
+   * @return true if successful, false if not
+   * May edit it to throw an exception if the scene is not completed, not sure yet. 
+   */
+  public boolean removeVolunteer(Volunteer oldVolunteer)
+  {
+      return volunteers.remove(oldVolunteer);
+  }
+  
+  
+ 
+ 
+  
+   /** Checks to see if the script is has any volunteers
+    * @return true if the script has no volunteers, false if not.
+    */
+   public boolean isvolunteerListEmpty()
+   {
+       return volunteers.isEmpty();
+   }
+   
+/**Gives you an iterator over the scenes in the script
+ * 
+ * @return an iterator over the scenes in the script. 
+ */
+   public Iterator<Volunteer> volunteerIterator()
+   {
+       return volunteers.iterator();
+   }
+   
+   
+   /**ALL EQUIPMENT INFORMATION IS BELOW HERE**/
+   
+   
+   
+   
+        /** @return true if the script contains equipment, false if not. **/
+ public boolean hasEquipment()
+ {
+    return !volunteers.isEmpty();
+ }
+ /**Creates an equipment with the specified information and adds it to the script. 
+  * @precon: The given volunteer should be valid.
+  * @param newEquipment: The new equipment to add to the script.
+  * @return true if successful, false if not.
+  */
+ 
+  public boolean addEquipment(Equipment newEquipment)
+   {
+       if ((newEquipment == null) || (!newEquipment.isValid()))
+       {
+           return false;
+       }
+       /**This whole thing is necessary because we need to check whether a scene with that name already exists
+       regardless of whether they are identical*/
+       if(this.hasEquipment())
+       {
+             Iterator<Volunteer> iter = this.volunteerIterator();
+            while (iter.hasNext())
+             {
+               Volunteer examinedVolunteer = iter.next();
+               if (examinedVolunteer.getEmail().equals(newEquipment.get))
+             {
+                 return false;
+             }
+             }
+       }
+    
+         volunteers.add(newVolunteer);
+         return true;
+      
+   } 
+    
+  /**removes the specified volunteer from the list of volunteers
+   * @param oldVolunteer - the volunteer to be deleted from the list
+   * @return true if successful, false if not
+   * May edit it to throw an exception if the scene is not completed, not sure yet. 
+   */
+  public boolean removeVolunteer(Volunteer oldVolunteer)
+  {
+      return volunteers.remove(oldVolunteer);
+  }
+  
+  
+ 
+ 
+  
+   /** Checks to see if the script is has any volunteers
+    * @return true if the script has no volunteers, false if not.
+    */
+   public boolean isvolunteerListEmpty()
+   {
+       return volunteers.isEmpty();
+   }
+   
+/**Gives you an iterator over the scenes in the script
+ * 
+ * @return an iterator over the scenes in the script. 
+ */
+   public Iterator<Volunteer> volunteerIterator()
+   {
+       return volunteers.iterator();
+   }
+   
     @Override
     public void validStateAltered(boolean newState, BaseBusinessObject sender) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
