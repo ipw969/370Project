@@ -5,7 +5,7 @@ Preconditions:
 - The volunteer emails exist
 - there is a connection through which the emails can be sent
 Post conditions:
-- The Volunteers have been emailed and properly informed of the conflict.
+- The Volunteers was been emailed and properly informed of the conflict.
 
 Operation: getScript()
 Cross Reference:
@@ -80,9 +80,8 @@ Preconditions:
 -The volunteer form is open
 -The provided email, name, and phone number are filled in correctly
 PostConditions: 
--A new volunteer is created and added to the database
--The database is in a valid state
--The volunteer window is set invisible and disposed of properly
+-A new volunteer was created and added to the database
+-The volunteer window was set invisible and disposed of properly
 
 Operation: addAvailability()
 Cross Reference:
@@ -92,5 +91,62 @@ Preconditions:
 -The provided list of availabilities is not NULL
 -The volunteer properly adds their availabilities to the list
 PostConditions:
--A list of the volunteer’s availabilities is added to the volunteer in the database
-The database is left in a valid state
+-A list of the volunteer availabilities was added to the volunteer in the database
+
+
+
+
+
+
+
+
+
+
+
+
+
+Operation: Scene()
+Cross Reference: Create a Scene.
+Preconditions:
+-A script has been initialized.
+-The volunteers and equipment the producer 
+wishes to add to the scene are already in the system.
+postconditions:
+-A new scene was initialized. 
+
+Operation: addVolunteer(volunteer)
+Cross Reference: Create a scene
+preconditions: 
+-The volunteer is not already associated with the scene.
+-The volunteer must already be in the system.
+postConditions: 
+-The given volunteer was added to the list of necessary
+volunteers to film the scene. 
+
+Operation: addEquipment(equipment)
+Cross Reference: Create a scene
+preconditions
+-The given equipment is not already associated with the scene.
+-The equipment must exist in the system.
+postconditions:
+-The given equipment was added to the list of necessary equipment to film this scene.
+
+Operation: removeVolunteer(volunteer)
+Cross Reference: Create a scene
+preconditions:
+-The given volunteer is in the list of volunteers necessary to film this scene.
+postconditions:
+-The given volunteer was removed from the list of necessary volunteers.
+
+Operation: removeEquipment(equipment)
+Cross Reference: Create a scene
+preconditions:
+-The equipment must be in the list of equipment for the scene.
+postconditions:
+-The equipment was removed from the list of necessary equipment to film the scene.
+
+Operation: setSceneName(name)
+Cross Reference: Create a scene
+preconditions: none
+postconditions:
+-The scene was named the given name.

@@ -1,0 +1,46 @@
+Operation: Scene()
+Cross Reference: Create a Scene.
+Preconditions:
+-A script has been initialized.
+-The volunteers and equipment the producer 
+wishes to add to the scene are already in the system.
+postconditions:
+-A new scene was initialized. 
+
+Operation: addVolunteer(volunteer)
+Cross Reference: Create a scene
+preconditions: 
+-The volunteer is not already associated with the scene.
+-The volunteer must already be in the system.
+postConditions: 
+-The given volunteer was added to the list of necessary
+volunteers to film the scene. 
+
+Operation: addEquipment(equipment)
+Cross Reference: Create a scene
+preconditions
+-The given equipment is not already associated with the scene.
+-The equipment must exist in the system.
+postconditions:
+-The given equipment was added to the list of necessary equipment to film this scene.
+
+Operation: removeVolunteer(volunteer)
+Cross Reference: Create a scene
+preconditions:
+-The given volunteer is in the list of volunteers necessary to film this scene.
+postconditions:
+-The given volunteer was removed from the list of necessary volunteers.
+
+Operation: removeEquipment(equipment)
+Cross Reference: Create a scene
+preconditions:
+-The equipment must be in the list of equipment for the scene.
+postconditions:
+-The equipment was removed from the list of necessary equipment to film the scene.
+
+Operation: setSceneName(name)
+Cross Reference: Create a scene
+preconditions: none
+postconditions:
+-The scene was named the given name.
+
