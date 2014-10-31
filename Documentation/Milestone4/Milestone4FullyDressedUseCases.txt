@@ -234,30 +234,30 @@ Stakeholders and Interests:
 Volunteer: Wants to be able to access the volunteer availability application in order to review the information they have on file, as well as change contact and availability information.
 
 Preconditions:
--The Volunteer's credentials exist in the database
+-Volunteer's credentials exist in the database
 Postconditions:
--The volunteer has entered valid credentials 
--The volunteer is logged in to the system
--The volunteer's information is loaded into the system 
+-Volunteer has entered valid credentials 
+-Volunteer is logged in to the system
+-Volunteer's information is loaded into the system 
 
 Main Success Scenario:
-1.The volunteer starts the system and is shown the login screen
-2.The volunteer enters username (e-mail) and password
-3.The volunteewr clicks 'Okay' 
-4.The volunteer's username and password are validated
-5.The volunteer is shown the main screen with the volunteer's information loaded from the database 
+1.Volunteer starts the system and is shown the login screen
+2.Volunteer enters username (e-mail) and password
+3.Volunteer clicks 'Okay' 
+4.Volunteer's username and password are validated
+5.Volunteer is shown the main screen with the volunteer's information loaded from the database 
 
 Extensions:
-2.a.The volunteer no longer wishes to login
-	1.The volunteer clicks 'Cancel'
+2.a.Volunteer no longer wishes to login
+	1.Volunteer clicks 'Cancel'
 	2.The system closes
-3.a. The volunteer did not enter a username (e-mail)
+3.a. Volunteer did not enter a username (e-mail)
 	1. The system presents an error dialog, explaining that the username is a required field.
-3.b. The volunteer did not enter a password
+3.b. Volunteer did not enter a password
 	1. The system presents an error dialog, explaining that the password is a required field
-4.a. The volunteer's username (e-mail) and password combination are not in the system
+4.a. Volunteer's username (e-mail) and password combination are not in the system
 	1. The system presents an error dialog, explaining that the credentials are not valid.
-Frequency: Occurs once every time the volunteer accesses the volunteer availability application
+Frequency: Occurs once every time Volunteer accesses the volunteer availability application
 Special Requirements: Connection to the internet
 
 version: oct 21 2014

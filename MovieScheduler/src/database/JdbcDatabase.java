@@ -25,7 +25,7 @@ public class JdbcDatabase extends Database {
         super(url);
         connection = DriverManager.getConnection(getConnectionUrl(), 
                 username/*"cmpt370_group06"*/,
-                password/*"mu5jd8m1ae"*/);
+                password/*"Raptorjesusisawesome55775"*/);
     }
     
     /**

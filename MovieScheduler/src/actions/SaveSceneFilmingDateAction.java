@@ -187,7 +187,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
             testDatabase = new JdbcDatabase(
                 "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
                 "cmpt370_group06",
-                "mu5jd8m1ae");
+                "Raptorjesusisawesome55775");
         }
         catch (SQLException ex)
         {

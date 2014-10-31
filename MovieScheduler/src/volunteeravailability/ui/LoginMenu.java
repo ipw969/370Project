@@ -5,9 +5,17 @@
  */
 package volunteeravailability.ui;
 
+import businessobjects.BusinessObjectList;
+import businessobjects.TimeInterval;
+import datatypes.Volunteer;
+import java.util.GregorianCalendar;
+import volunteeravailability.login.Login;
+import ui.ErrorDisplay;
+
 /**
- *
- * @author wizard
+ * This class is the login screen shownwhen the Volunteer Availabaility application is launched.
+ * @author matthewgalbraith
+ * 
  */
 public class LoginMenu extends javax.swing.JFrame {
 
@@ -147,7 +155,45 @@ public class LoginMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_nameFieldActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        // TODO add your handling code here:
+        //Notify user if there are missing fields
+        if (nameField.getText().isEmpty() || 
+                new String(pswdField.getPassword()).isEmpty()) {
+            ErrorDisplay missingInfoError = new ErrorDisplay(this, "Username and password"
+                    + " fields can not be left blank! Please make sure you have"
+                    + "entered a valid username (e-mail) and password.");
+            missingInfoError.setVisible(true);
+        }
+        else if (nameField.getText().equals("Passme")) {
+            /*FOR DEMONSTRATION AND TESTING:
+             *Passme is a dummy username that skips authentication, and loads 
+             *hard coded volunteer information from the client.
+             */
+            Volunteer testVolunteer = new Volunteer("TestPerson", "LoggedinSucessfully", "theTest@test.test", "867-5309");
+            GregorianCalendar testIntervalStart = new GregorianCalendar(2014, 11, 01, 12, 0);
+            GregorianCalendar testIntervalEnd = new GregorianCalendar(2014, 11, 01, 15, 0);
+            TimeInterval testTimeInterval = new TimeInterval(testIntervalStart, testIntervalEnd);
+            testVolunteer.addAvailability(testTimeInterval);
+            MainMenu testMainMenu = new MainMenu(testVolunteer);
+            testMainMenu.setVisible(true);
+            this.setVisible(false);
+            this.repaint();
+        }
+        else {
+            //initialize login 
+            Login login = new Login(nameField.getText(), new String(pswdField.getPassword()));
+            login.sendUsernamePassword();
+            //create main menu with volunteer information if user validated
+            if (login.userValidated()) {
+            //TODO: IMPLEMENT
+            } 
+            else { /*invalid username or password*/
+                ErrorDisplay invalidCredentialsError = new ErrorDisplay(this, "Sorry, you have entered"
+                        + "and invalid username and password combination."
+                        + " Please try again!");
+                invalidCredentialsError.setVisible(true);
+            }
+        }
+    
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
