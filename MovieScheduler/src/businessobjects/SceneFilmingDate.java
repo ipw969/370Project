@@ -2,8 +2,6 @@ package businessobjects;
 
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import datatypes.Volunteer;
-import datatypes.Equipment;
 /**
  * Class which represents the time interval that a scene is scheduled to
  * filmed in 

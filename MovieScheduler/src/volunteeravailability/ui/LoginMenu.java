@@ -7,7 +7,7 @@ package volunteeravailability.ui;
 
 import businessobjects.BusinessObjectList;
 import businessobjects.TimeInterval;
-import datatypes.Volunteer;
+import businessobjects.Volunteer;
 import java.util.GregorianCalendar;
 import volunteeravailability.login.Login;
 import ui.ErrorDisplay;

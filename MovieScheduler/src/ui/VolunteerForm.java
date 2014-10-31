@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package ui;
+import businessobjects.Volunteer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.*;
-import datatypes.*;
 import businessobjects.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

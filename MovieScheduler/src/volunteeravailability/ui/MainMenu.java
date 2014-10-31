@@ -5,7 +5,7 @@
  */
 package volunteeravailability.ui;
 
-import datatypes.Volunteer;
+import businessobjects.Volunteer;
 
 /**
  * The main menu for the volunteer availability application

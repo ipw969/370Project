@@ -11,7 +11,6 @@ TODO: Create a test scaffold for the class
 TODO: Add a way for the script to listen to the scenes for a valid state. 
  */
 package businessobjects;
-import datatypes.*;
 import java.util.Iterator;
 
 

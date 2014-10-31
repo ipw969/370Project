@@ -1,8 +1,6 @@
 package businessobjects;
 
 
-import datatypes.Equipment;
-import datatypes.Volunteer;
 import java.util.HashSet;
 import java.util.Iterator;
 

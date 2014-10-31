@@ -1,5 +1,5 @@
 
-package datatypes;
+package businessobjects;
 import businessobjects.*;
 import java.awt.List;
 /**
