@@ -94,3 +94,31 @@ Preconditions:
 PostConditions:
 -A list of the volunteer’s availabilities is added to the volunteer in the database
 The database is left in a valid state
+
+operation contracts for logging into the volunteer availability application
+Operation: sendUsernamePassword()
+Cross references:
+Use Case: Volunteer Logs in to the Volunteer Availability Application
+Preconditions:
+- The login menu is open
+- The username and password fields are filled in correctly
+Postconditions:
+- The username and password are sent to be validated against the database
+ 
+Operation: userValidated()
+Cross references:
+Use Case: Volunteer Logs in to the Volunteer Availability Application
+Preconditions:
+-The user's username and password have been tested against the database
+Postconditions:
+-The user was informed of their successfulness logging into the application.
+ 
+Operation: sendVolunteerInfo(email)
+Cross references:
+Use Case: Volunteer Logs in to the Volunteer Availability Application
+Preconditions:
+-The user has been validated successfully into the application
+Postconditions:
+-The Volunteer with the associated email was returned
+-The MainMenu was initialized and displayed with the associated Volunteer
+-The LoginMenu was set to invisible and disposed of properly
