@@ -255,41 +255,41 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
   * @return true if successful, false if not.
   */
  
-  public boolean addEquipment(Equipment newEquipment)
-   {
-       if ((newEquipment == null) || (!newEquipment.isValid()))
-       {
-           return false;
-       }
-       /**This whole thing is necessary because we need to check whether a scene with that name already exists
-       regardless of whether they are identical*/
-       if(this.hasEquipment())
-       {
-             Iterator<Volunteer> iter = this.volunteerIterator();
-            while (iter.hasNext())
-             {
-               Volunteer examinedVolunteer = iter.next();
-               if (examinedVolunteer.getEmail().equals(newEquipment.get))
-             {
-                 return false;
-             }
-             }
-       }
-    
-         volunteers.add(newVolunteer);
-         return true;
-      
-   } 
+//  public boolean addEquipment(Equipment newEquipment)
+//   {
+//       if ((newEquipment == null) || (!newEquipment.isValid()))
+//       {
+//           return false;
+//       }
+//       /**This whole thing is necessary because we need to check whether a scene with that name already exists
+//       regardless of whether they are identical*/
+//       if(this.hasEquipment())
+//       {
+//             Iterator<Volunteer> iter = this.volunteerIterator();
+//            while (iter.hasNext())
+//             {
+//               Volunteer examinedVolunteer = iter.next();
+//               if (examinedVolunteer.getEmail().equals(newEquipment.get))
+//             {
+//                 return false;
+//             }
+//             }
+//       }
+//    
+//         volunteers.add(newVolunteer);
+//         return true;
+//      
+//   } 
     
   /**removes the specified volunteer from the list of volunteers
    * @param oldVolunteer - the volunteer to be deleted from the list
    * @return true if successful, false if not
    * May edit it to throw an exception if the scene is not completed, not sure yet. 
    */
-  public boolean removeVolunteer(Volunteer oldVolunteer)
-  {
-      return volunteers.remove(oldVolunteer);
-  }
+//  public boolean removeVolunteer(Volunteer oldVolunteer)
+//  {
+//      return volunteers.remove(oldVolunteer);
+//  }
   
   
  
@@ -298,19 +298,19 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
    /** Checks to see if the script is has any volunteers
     * @return true if the script has no volunteers, false if not.
     */
-   public boolean isvolunteerListEmpty()
-   {
-       return volunteers.isEmpty();
-   }
+//   public boolean isvolunteerListEmpty()
+//   {
+//       return volunteers.isEmpty();
+//   }
    
 /**Gives you an iterator over the scenes in the script
  * 
  * @return an iterator over the scenes in the script. 
  */
-   public Iterator<Volunteer> volunteerIterator()
-   {
-       return volunteers.iterator();
-   }
+//   public Iterator<Volunteer> volunteerIterator()
+//   {
+//       return volunteers.iterator();
+//   }
    
     @Override
     public void validStateAltered(boolean newState, BaseBusinessObject sender) {
