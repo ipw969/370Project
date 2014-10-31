@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import volunteeravailability.ui.LoginMenu;
-
 /**
- *
- *
+ *The main GUI entry point for the volunteer availability application
+ *@author matthewgalbraith
  */
 public class VolunteerAvailability {
 
