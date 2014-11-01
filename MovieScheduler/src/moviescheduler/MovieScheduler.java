@@ -5,6 +5,7 @@
  */
 package moviescheduler;
 
+import database.JdbcDatabase;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
@@ -36,9 +37,32 @@ public class MovieScheduler {
                 errorsEncountered.add("Could not load database driver with "
                         + "message: " + ex.toString());
         }
+        try {
+            Class.forName("org.postgresql.Driver");
+        }
+        catch (ClassNotFoundException ex)
+        {
+            System.out.println("Could not load database driver with "
+                        + "message: " + ex.toString());
+            return;
+        }
+        
+        JdbcDatabase database = null;
+        try{
+            database = new JdbcDatabase(
+                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                "cmpt370_group06",
+                "Raptorjesusisawesome55775");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Failed to connection to db with message: "
+                + ex.getMessage());
+            return;
+        }
         //VolunteerForm volunteerForm = new VolunteerForm();
         //volunteerForm.setVisible(true);
-        StartMenu startMenu = new StartMenu();
+        StartMenu startMenu = new StartMenu(database);
         startMenu.setVisible(true);
         
         // One of this inits failed. Display an error message and exit

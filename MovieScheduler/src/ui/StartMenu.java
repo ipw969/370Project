@@ -7,6 +7,8 @@ This JFrame should only be used if it is the first time the project is opened, o
 package ui;
 import java.sql.SQLException;
 import businessobjects.Script;
+import database.Database;
+import database.JdbcDatabase;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,11 +18,12 @@ import java.util.logging.Logger;
  * @author ryan
  */
 public class StartMenu extends javax.swing.JFrame {
-
+    Database database;
     /**
      * Creates new form CreateScript
      */
-    public StartMenu() {
+    public StartMenu(Database database) {
+        this.database = database;
         initComponents();
         scriptNameField.setMinimumSize(new Dimension(50,23));
     }
@@ -160,7 +163,7 @@ public class StartMenu extends javax.swing.JFrame {
         {
             try {
                 this.setVisible(false);
-                MainMenu mainMenu = new MainMenu(script);
+                MainMenu mainMenu = new MainMenu(script, database);
                 mainMenu.setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(StartMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,7 +204,30 @@ public class StartMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StartMenu().setVisible(true);
+                try {
+            Class.forName("org.postgresql.Driver");
+        }
+        catch (ClassNotFoundException ex)
+        {
+            System.out.println("Could not load database driver with "
+                        + "message: " + ex.toString());
+            return;
+        }
+        
+        JdbcDatabase testDatabase = null;
+        try{
+            testDatabase = new JdbcDatabase(
+                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                "cmpt370_group06",
+                "Raptorjesusisawesome55775");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Failed to connection to db with message: "
+                + ex.getMessage());
+            return;
+        }
+                new StartMenu(testDatabase).setVisible(true);
             }
         });
     }
