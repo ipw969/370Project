@@ -12,7 +12,7 @@ public class Volunteer extends BaseBusinessObject
     String lastName;
     String email;
     String phone;   //since we are not actually doing anything with it having it as a string will get rid of many errors
-    BusinessObjectList <TimeInterval> availabilty = new BusinessObjectList();
+    BusinessObjectList <TimeInterval> availability = new BusinessObjectList();
     
     //empty constructor
     public Volunteer(){setIsNew(true);}
@@ -24,7 +24,7 @@ public class Volunteer extends BaseBusinessObject
         this.lastName = lName;
         this.email = email;
         this.phone = phone;
-        this.availabilty = avail;
+        this.availability = avail;
         setIsNew(true);
     }
     
@@ -40,7 +40,7 @@ public class Volunteer extends BaseBusinessObject
 
     public void addAvailability(TimeInterval avail)
     {
-        this.availabilty.add(avail);
+        this.availability.add(avail);
         setHasChanged(true);
     }
     
@@ -88,4 +88,8 @@ public class Volunteer extends BaseBusinessObject
         return this.phone;
     }
     
+   public BusinessObjectList <TimeInterval> getAvailability()
+   {
+       return availability;
+   }
 }

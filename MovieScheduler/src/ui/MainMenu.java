@@ -6,6 +6,8 @@
 package ui;
 
 import businessobjects.Script;
+import database.Database;
+import database.JdbcDatabase;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,14 +20,15 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
     private final Script theScript;
-
+    private final Database database;
     /**
      * 
      * @param theScript the script currently in use by the system. 
      * @throws SQLException 
      */
-    public MainMenu(Script theScript) throws SQLException {
+    public MainMenu(Script theScript, Database database) throws SQLException {
         initComponents();
+        this.database = database;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.theScript = theScript;
@@ -528,7 +531,7 @@ public class MainMenu extends javax.swing.JFrame {
 {                                         
     
                 //this.setVisible(false);
-                VolunteerForm volunteerForm = new VolunteerForm();
+                VolunteerForm volunteerForm = new VolunteerForm(database);
                 volunteerForm.setVisible(true);
  
         this.repaint();
@@ -543,7 +546,31 @@ public class MainMenu extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                new MainMenu(null).setVisible(true);
+            Class.forName("org.postgresql.Driver");
+        }
+        catch (ClassNotFoundException ex)
+        {
+            System.out.println("Could not load database driver with "
+                        + "message: " + ex.toString());
+            return;
+        }
+        
+        JdbcDatabase testDatabase = null;
+        try{
+            testDatabase = new JdbcDatabase(
+                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                "cmpt370_group06",
+                "Raptorjesusisawesome55775");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Failed to connection to db with message: "
+                + ex.getMessage());
+            return;
+        }
+                
+                try {
+                new MainMenu(null, testDatabase).setVisible(true);
                 } catch (SQLException ex)
                 {
                     JOptionPane.showMessageDialog(null, "Could not load main" +

@@ -4,13 +4,17 @@
  * and open the template in the editor.
  */
 package ui;
+import actions.SaveVolunteerAction;
 import businessobjects.Volunteer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.*;
 import businessobjects.*;
+import database.Database;
+import database.JdbcDatabase;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,7 +25,8 @@ import java.util.GregorianCalendar;
 public class VolunteerForm extends javax.swing.JFrame {
 
     BusinessObjectList <TimeInterval> availabilityList = new BusinessObjectList();
-
+    private Database database;
+    
     @Override
     public void setDefaultCloseOperation(int operation) {
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
@@ -30,7 +35,8 @@ public class VolunteerForm extends javax.swing.JFrame {
     /**
      * Creates new form VolunteerForm
      */
-    public VolunteerForm() {
+    public VolunteerForm(Database database) {
+        this.database = database;
         initComponents();
     }
 
@@ -291,13 +297,19 @@ public class VolunteerForm extends javax.swing.JFrame {
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
 
-
         
  
         //create a new volunteer and populate it with all of the information
         Volunteer volunteer = new Volunteer(fName.getText().toString(),lName.getText().toString(),
                                             email.getText().toString(), phone.getText().toString(), 
                                             availabilityList);
+        
+        SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, volunteer);
+        saveVolunteerAction.run();
+        if(!saveVolunteerAction.wasSuccessful())
+        {
+            System.out.println("fail" + saveVolunteerAction.lastErrorMessage());
+        }
         
         
     }//GEN-LAST:event_submitActionPerformed
@@ -336,7 +348,30 @@ public class VolunteerForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VolunteerForm().setVisible(true);
+                try {
+            Class.forName("org.postgresql.Driver");
+        }
+        catch (ClassNotFoundException ex)
+        {
+            System.out.println("Could not load database driver with "
+                        + "message: " + ex.toString());
+            return;
+        }
+        
+        JdbcDatabase testDatabase = null;
+        try{
+            testDatabase = new JdbcDatabase(
+                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                "cmpt370_group06",
+                "Raptorjesusisawesome55775");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Failed to connection to db with message: "
+                + ex.getMessage());
+            return;
+        }
+                new VolunteerForm(testDatabase).setVisible(true);
             }
         });
     }
