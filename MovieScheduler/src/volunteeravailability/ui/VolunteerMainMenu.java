@@ -11,12 +11,12 @@ import businessobjects.Volunteer;
  * The main menu for the volunteer availability application
  * @author matthewgalbraith
  */
-public class MainMenu extends javax.swing.JFrame {
+public class VolunteerMainMenu extends javax.swing.JFrame {
     
     /**
      * Creates new form MainMenu
      */
-    MainMenu(Volunteer theVolunteer) {
+    VolunteerMainMenu(Volunteer theVolunteer) {
         initComponents();
         this.nameField.setText(theVolunteer.getFirstName() + " " + theVolunteer.getLastName());
         this.phoneField.setText(theVolunteer.getPhone());
@@ -180,21 +180,22 @@ public class MainMenu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainMenu(null).setVisible(true);
+                new VolunteerMainMenu(null).setVisible(true);
             }
         });
     }
