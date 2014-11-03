@@ -39,6 +39,8 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
        this.name = name;
        updateError(nullNameError, !name.isEmpty());
        scenes = new BusinessObjectList<>();
+       volunteers = new BusinessObjectList<>();
+       equipment = new BusinessObjectList<>();
        scenes.addListener(this);
    }
 

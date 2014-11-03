@@ -6,10 +6,12 @@
 package ui;
 
 import businessobjects.Script;
+import businessobjects.Volunteer;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.Dimension;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -34,6 +36,26 @@ public class MainMenu extends javax.swing.JFrame {
         this.theScript = theScript;
         this.setMaximumSize(new Dimension(1000,600));
         this.setMinimumSize(new Dimension(1000,600));
+        
+        
+     //   theScript.addVolunteer(new Volunteer("kyle", "west", "raeagaeg", "phonenumber"));
+         volunteerComboBox.removeAllItems();
+        if (theScript.hasVolunteers())
+        {
+           
+            Iterator<Volunteer> iter = theScript.volunteerIterator();
+            while (iter.hasNext())
+            {
+                volunteerComboBox.addItem(iter.next());
+            }
+            
+        }
+        else
+        {
+            String noVolunteers;
+            noVolunteers = "No volunteers currently in script";
+            volunteerComboBox.addItem(noVolunteers);
+        }
     }
 
     /**
@@ -144,6 +166,11 @@ public class MainMenu extends javax.swing.JFrame {
         removeVolunteerButton.setText("Remove Volunteer");
 
         volunteerComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        volunteerComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volunteerComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout volunteerPanelLayout = new javax.swing.GroupLayout(volunteerPanel);
         volunteerPanel.setLayout(volunteerPanelLayout);
@@ -363,20 +390,16 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, scenePanelLayout.createSequentialGroup()
                         .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sceneDescriptionLabel)
+                            .addComponent(jLabel3)
                             .addGroup(scenePanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(sceneIsCompleteCheckBox)
                                     .addComponent(sceneIsScheduledCheckBox)
-                                    .addComponent(addSceneButton)))
-                            .addGroup(scenePanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(editSceneButton))
-                            .addComponent(sceneDescriptionLabel)
-                            .addGroup(scenePanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(removeSceneButton))
-                            .addComponent(jLabel3))
+                                    .addComponent(addSceneButton)
+                                    .addComponent(editSceneButton)
+                                    .addComponent(removeSceneButton))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, scenePanelLayout.createSequentialGroup()
                         .addComponent(sceneNameLabel)
@@ -537,6 +560,19 @@ public class MainMenu extends javax.swing.JFrame {
         this.repaint();
     }                       // TODO add your handling code here:
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
+
+    private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
+       if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
+       {
+              volunteerEmailField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getEmail());
+         volunteerFirstNameField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getFirstName());
+          volunteerLastNameField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getLastName());
+           volunteerPhoneNumberField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getPhone());
+       
+       }
+            
+    
+    }//GEN-LAST:event_volunteerComboBoxActionPerformed
 
     /**
      * @param args the command line arguments

@@ -74,6 +74,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 database().executeInsert(queryString);
                 setWasSuccessful(true);
                 sceneFilmingDate().setHasChanged(false);
+               
             }
             catch(SQLException ex)
             {
