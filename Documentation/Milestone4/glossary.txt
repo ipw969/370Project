@@ -1,19 +1,47 @@
 Glossary
 
 Action ~ Term to describe any class which derives from BaseAction.
+MovieScheduler.actions ~ The package containing the BaseAction class and any classes derived from it.
+availability ~ An attribute of the Volunteer class. Availability is a list of TimeInterval's corresponding to the date and time the volunteer is available for the film.
 BaseAction ~ Abstract class representing any save or load action for any data that must be persistent between running instances of the system.
 BaseBusinessObject ~ Abstract class from which most of the data objects in the system will be derived, contains mechanisms for validating, and notifying BusinessObjectListeners of changes to its state.
+BaseBusinessObjectTest ~ A class containing simple unit tests for BaseBusinessObject
 BusinessObject ~ Term to describe any class which derives from BaseBusinessObject.
 BusinessObjectList ~ Generic container class to hold BusinessObjects, implements the BusinessObjectListener interface.
 BusinessObjectListener ~ Interface which will be implemented by any class which wishes to register itself with a BusinessObject in order to be notified of changes to its state.
+MovieScheduler.businessobjects ~ The package containing the BaseBusinessObject class and any classes derived from it 
+CalendarDay ~ A class representing a Ui element for displaying a single day of a calendar
+CalendarMonth ~ A class representing a Ui element displaying a single month of a calendar
+ConflictResolution ~ A class representing a Ui element for displaying the Conflict Resolution section
 Database ~ Abstract class representing a database in which to store the persistent system data.
+MovieScheduler.database ~ The package containing the classes necessary for access and manipulation of the database.
 Equipment ~ A class which represents the object required to film a scene.
+equipmentType ~ An attribute of the Equipment class. A string denoting the type of equipment, e.g. "Camera" or "Microphone".
+ErrorDisplay ~ A class representing a Ui element for displaying an error message to the user
+errorMessages ~ An attribute of the BaseBusinessObject class. A Set of all the error messages associated with the BusinessObject. The existence of any errorMessages indicates that the BusinessObject is not currently in a valid state to be saved to the database.
+hasChanged ~ An attribute of the BaseBusinessObject class. A flag indicating that some data element of the BusinessObjesct has been altered since it was initially loaded from the database.
+isNew ~ An attribute of the BaseBusinessObject class. A flag indicating that the BusinessObject has never been saved to the database.
+isRental ~ An attribute of the Equipment class. A flag indicating that the Equipment is being rented.
 JdbcDatabase ~ A class which derives from Database which provides an implementation of the abstract functions in Database using the Jdbc driver.
+Login ~ A class to contain the login and authentication of volunteer users to the VolunteerAvailability application
+LoginMenu ~ A class representing a Ui element for displaying a Login screen to the volunteers
+MainMenu ~  A class representing a Ui element for displaying the main section of the MovieScheduler application 
+MovieScheduler.moviescheduler ~ The package containing the main class for the movie scheduler application, the entry point for the MovieScheduler GUI.
+necessaryEquipment ~ An attribute of the Scene class. A Set of Equipment which is necessary for the scene to be filmed.
+necessaryVolunteers ~ An attribute of the Scene class. A Set of Volunteers which are necessary for the scene to be filmed.
+rentalCost ~ An attribute of the Equipment class. A float indicating the cost of the rental equipment.
 SaveSceneFilmingDateAction ~ A class which represents an Action to save a SceneFilmingDate
+SaveVolunteerAction ~ A class which represents an Action to save a Volunteer
 Scene ~ A class which represents the section of the film which requires filming. The class has an 1,,n -> 0,,n relationship to Equipment and Volunteers.
 SceneFilmingDate ~ A class which represents the TimeInterval in which a Scene will be filmed. The class has a 1,,1 -> 1,,1 relationship to TimeInterval and a 1,,1 -> 1,,1 relationship to Scene.
+sceneShootingInterval ~ An attribute of the SceneFilmingDate class. The TimeInterval during which the scene will be shot
+Schedule ~ A class representing the filming schedule for scenes in the script.
+ScheduleCalendar ~ A class representing a ui element displaying a calendar version of the Schedule
 Script ~ A class which contains all the Scenes which require filming, the Volunteers required to film all the Scenes, the Equipment required to film all the Scenes and the Schedule which details when each Scene will be filmed. The class has a 1,,1 -> 0,,n relationship to Scenes, a 1,,1 -> 0,,n relationship to Volunteers, a 1,,1 -> 0,,n relationship to Equipment and a 1,,1 -> 1,,1 relationship to Schedule
+StartMenu ~ A class representing a Ui element for displaying the Start Menu of the MovieScheduler application
+stock ~ An attribute of the Equipment class. Stock is the amount of the equipment we currently have.
 TimeInterval ~ A class representing a period of time. Has a start and an end. To be valid the start must be <= the end.
 Volunteer ~ A class representing a person who has volunteered their time to be involved in the filming process (eg. camera operators, actors, directors, make-up artists etc).
-
-
+MovieScheduler.volunteeravailability ~ The package containing the main class for the volunteer availability application, the entry point for the VolunteerAvailability GUI.
+VolunteerMainMenu ~ A class representing a Ui element for displaying the main section of the VolunteerAvailability application
+VolunteerForm ~ A class representing a Ui element for displaying a Volunteer signup form where volunteers can be added.
