@@ -14,7 +14,9 @@ import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Iterator;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 /**
  *
  * @author iain
@@ -56,10 +58,13 @@ public class MainMenu extends javax.swing.JFrame {
             noVolunteers = "No volunteers currently in script";
             volunteerComboBox.addItem(noVolunteers);
         }
-        theScript.addScene(new Scene("Test Scene 1", "Test"));
+        
         sceneListView = new BusinessObjectListView<>(theScript.scenes());
         sceneListScrollPane.setViewportView(sceneListView);
-        //mainScenePanel.add(sceneListView);
+        
+        JPopupMenu sceneListViewPopupMenu = new JPopupMenu();
+        sceneListViewPopupMenu.add(new JMenuItem("Scedule Scene..."));
+        sceneListView.setComponentPopupMenu(sceneListViewPopupMenu);
     }
 
     /**
