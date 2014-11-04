@@ -665,14 +665,14 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="sceneListLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="77" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="75" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="sceneList" max="32767" attributes="0"/>
+                                  <Component id="sceneListScrollPane" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -684,7 +684,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="sceneListLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="sceneList" max="32767" attributes="0"/>
+                              <Component id="sceneListScrollPane" pref="422" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -696,8 +696,10 @@
                         <Property name="text" type="java.lang.String" value="Scenes"/>
                       </Properties>
                     </Component>
-                    <Component class="java.awt.List" name="sceneList">
-                    </Component>
+                    <Container class="javax.swing.JScrollPane" name="sceneListScrollPane">
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                    </Container>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="mainScenePanel">
