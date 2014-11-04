@@ -7,13 +7,12 @@ package ui;
 
 import businessobjects.Script;
 import businessobjects.Volunteer;
+import businessobjects.Scene;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
@@ -23,6 +22,7 @@ import javax.swing.JOptionPane;
 public class MainMenu extends javax.swing.JFrame {
     private final Script theScript;
     private final Database database;
+    private final BusinessObjectListView<Scene> sceneListView;
     /**
      * 
      * @param theScript the script currently in use by the system. 
@@ -56,6 +56,10 @@ public class MainMenu extends javax.swing.JFrame {
             noVolunteers = "No volunteers currently in script";
             volunteerComboBox.addItem(noVolunteers);
         }
+        theScript.addScene(new Scene("Test Scene 1", "Test"));
+        sceneListView = new BusinessObjectListView<>(theScript.scenes());
+        sceneListScrollPane.setViewportView(sceneListView);
+        //mainScenePanel.add(sceneListView);
     }
 
     /**
@@ -115,7 +119,7 @@ public class MainMenu extends javax.swing.JFrame {
         scheduleTabPanel = new javax.swing.JPanel();
         sideScenePanel = new javax.swing.JPanel();
         sceneListLabel = new javax.swing.JLabel();
-        sceneList = new java.awt.List();
+        sceneListScrollPane = new javax.swing.JScrollPane();
         mainScenePanel = new javax.swing.JPanel();
 
         label1.setText("label1");
@@ -487,8 +491,8 @@ public class MainMenu extends javax.swing.JFrame {
                 .addGroup(sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sideScenePanelLayout.createSequentialGroup()
                         .addComponent(sceneListLabel)
-                        .addGap(0, 77, Short.MAX_VALUE))
-                    .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 75, Short.MAX_VALUE))
+                    .addComponent(sceneListScrollPane))
                 .addContainerGap())
         );
         sideScenePanelLayout.setVerticalGroup(
@@ -497,7 +501,7 @@ public class MainMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(sceneListLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(sceneListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -519,7 +523,7 @@ public class MainMenu extends javax.swing.JFrame {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainTab, javax.swing.GroupLayout.PREFERRED_SIZE, 494, Short.MAX_VALUE)
+                .addComponent(mainTab, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -661,8 +665,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane sceneDescriptionScrollPane;
     private javax.swing.JCheckBox sceneIsCompleteCheckBox;
     private javax.swing.JCheckBox sceneIsScheduledCheckBox;
-    private java.awt.List sceneList;
     private javax.swing.JLabel sceneListLabel;
+    private javax.swing.JScrollPane sceneListScrollPane;
     private javax.swing.JTextField sceneNameField;
     private javax.swing.JLabel sceneNameLabel;
     private javax.swing.JPanel scenePanel;

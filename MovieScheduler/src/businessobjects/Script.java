@@ -47,6 +47,14 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
    
    /** EVERYTHING TO DO WITH THE SCENE PORTION OF THE SCRIPT IS LISTED BELOW*/
    
+   /**
+    * Returns a list of the Scenes which comprise this Script
+    * @return A list of the Scenes which comprise this Script`
+    */
+   public BusinessObjectList<Scene> scenes()
+   {
+       return scenes;
+   }
    
   /** @return true if the script contains scenes, false if not. **/
  public boolean hasScenes()
