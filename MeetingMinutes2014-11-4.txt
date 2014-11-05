@@ -1,0 +1,23 @@
+meeting minutes
+
+present: Mitchell, Iain, Ryan, John
+
+time: 4:00-5:00		present: Mitchell, Iain, Ryan, John
+discussed milestone 5
+	all issues to be completed have been uploaded to issues on github
+	agreed on work allocation issues section on github
+	agreed on coding format (get and set)
+	
+	agreed to implement cloneable (deep clone) and overwrite the original with the clone on a successful change
+	discussed possible database fails during the middle of a group of transactions
+		start with begin and if anything goes wrong you do a rollback and try again if success commit
+	
+	discussed volunteer availabilities
+	discussed new main menu layout
+	discussed the possibility of using html within swing\java	
+
+time: 5:00-5:30 present: Mitchell, Iain, Ryan, John, Matt
+discussed midterm
+	went over previous test
+	
+	
