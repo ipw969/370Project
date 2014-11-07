@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author johnmason
@@ -26,6 +28,7 @@ public class VolunteerForm extends javax.swing.JFrame {
 
     BusinessObjectList <TimeInterval> availabilityList = new BusinessObjectList();
     private Database database;
+    private Script theScript;
     
     @Override
     public void setDefaultCloseOperation(int operation) {
@@ -35,8 +38,9 @@ public class VolunteerForm extends javax.swing.JFrame {
     /**
      * Creates new form VolunteerForm
      */
-    public VolunteerForm(Database database) {
+    public VolunteerForm(Script theScript, Database database) {
         this.database = database;
+        this.theScript = theScript;
         initComponents();
     }
 
@@ -299,17 +303,40 @@ public class VolunteerForm extends javax.swing.JFrame {
 
         
  
-        //create a new volunteer and populate it with all of the information
-        Volunteer volunteer = new Volunteer(fName.getText().toString(),lName.getText().toString(),
-                                            email.getText().toString(), phone.getText().toString(), 
-                                            availabilityList);
-        
-        SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, volunteer);
-        saveVolunteerAction.run();
-        if(!saveVolunteerAction.wasSuccessful())
-        {
-            System.out.println("fail" + saveVolunteerAction.lastErrorMessage());
+       
+            //create a new volunteer and populate it with all of the information
+            Volunteer volunteer = new Volunteer(fName.getText().toString(),lName.getText().toString(),
+                    email.getText().toString(), phone.getText().toString(),
+                    availabilityList);
+            
+            //create a query to the database that will send the volunteer there
+            SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, volunteer);
+            saveVolunteerAction.run();
+            
+            //check to see if the volunteer was successfully added to the database
+            //if not give an error message
+            if(!saveVolunteerAction.wasSuccessful())
+            {
+                System.out.println("fail" + saveVolunteerAction.lastErrorMessage());
+            }
+           
+            //add the volunteer to the script so it appears in the main menu
+            theScript.addVolunteer(volunteer);
+            MainMenu mainMenu;
+        try {
+            mainMenu = new MainMenu(theScript, database);
+            mainMenu.setVisible(true);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VolunteerForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
+            
+            
+            
+            this.setVisible(false);
+            this.dispose();
+
         
         
     }//GEN-LAST:event_submitActionPerformed
@@ -371,7 +398,7 @@ public class VolunteerForm extends javax.swing.JFrame {
                 + ex.getMessage());
             return;
         }
-                new VolunteerForm(testDatabase).setVisible(true);
+                //new VolunteerForm(theScript, testDatabase).setVisible(true);
             }
         });
     }

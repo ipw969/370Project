@@ -256,6 +256,9 @@
                             <Property name="text" type="java.lang.String" value="first name here"/>
                             <Property name="focusable" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="volunteerFirstNameFieldActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="volunteerLastNameField">
                           <Properties>

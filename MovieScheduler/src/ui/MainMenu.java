@@ -146,6 +146,11 @@ public class MainMenu extends javax.swing.JFrame{
 
         volunteerFirstNameField.setText("first name here");
         volunteerFirstNameField.setFocusable(false);
+        volunteerFirstNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volunteerFirstNameFieldActionPerformed(evt);
+            }
+        });
 
         volunteerLastNameField.setText("last name here");
         volunteerLastNameField.setFocusable(false);
@@ -555,17 +560,19 @@ public class MainMenu extends javax.swing.JFrame{
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
-{                                         
+    {                                         
     
-                //this.setVisible(false);
-                VolunteerForm volunteerForm = new VolunteerForm(database);
+                this.setVisible(false);
+                this.dispose();
+                VolunteerForm volunteerForm = new VolunteerForm(theScript, database);
                 volunteerForm.setVisible(true);
- 
-        this.repaint();
+                this.repaint();
     }                       // TODO add your handling code here:
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
+       
+        
        if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
        {
               volunteerEmailField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getEmail());
@@ -577,6 +584,10 @@ public class MainMenu extends javax.swing.JFrame{
             
     
     }//GEN-LAST:event_volunteerComboBoxActionPerformed
+
+    private void volunteerFirstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerFirstNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_volunteerFirstNameFieldActionPerformed
 
     /**
      * @param args the command line arguments
