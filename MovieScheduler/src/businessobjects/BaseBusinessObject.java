@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *  - Could do with some sort of event mechanism for signaling that the state
  *    has changed, and that the error state has changed.
  */
-public class BaseBusinessObject {
+public class BaseBusinessObject{
     
     // Constructor
     
