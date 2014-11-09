@@ -11,12 +11,19 @@ import businessobjects.Scene;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 /**
  *
  * @author iain
@@ -58,13 +65,76 @@ public class MainMenu extends javax.swing.JFrame {
             noVolunteers = "No volunteers currently in script";
             volunteerComboBox.addItem(noVolunteers);
         }
+        /*
+         * Add some test scenes to the script. Needs to be removed as soon
+         * as there a proper scene loading structure has been implemented
+         */
+        theScript.scenes().add(new Scene("Test1name", "Test1desc"));
+        theScript.scenes().add(new Scene("Test2name", "Test2desc"));
+        theScript.scenes().add(new Scene("Test3name", "Test3desc"));
         
         sceneListView = new BusinessObjectListView<>(theScript.scenes());
         sceneListScrollPane.setViewportView(sceneListView);
         
         JPopupMenu sceneListViewPopupMenu = new JPopupMenu();
-        sceneListViewPopupMenu.add(new JMenuItem("Scedule Scene..."));
-        sceneListView.setComponentPopupMenu(sceneListViewPopupMenu);
+        JMenuItem scheduleSceneMenuItem = new JMenuItem("Schedule Scene...");
+        
+        sceneListView.addMouseListener( new MouseAdapter()
+        {
+                public void mousePressed(MouseEvent e)
+                {
+                        if ( SwingUtilities.isRightMouseButton(e) )
+                        {
+                            System.out.println("Pointer at (" + e.getPoint().x + ", " + e.getPoint().y + ")");
+                            int indexUnderPointer =
+                                    sceneListView.locationToIndex(e.getPoint());
+                            System.out.println("Selected index is " + indexUnderPointer);                            
+                            if(sceneListView.getCellBounds(indexUnderPointer, 
+                                    indexUnderPointer).contains(e.getPoint()))
+                            {
+                                sceneListView.clearSelection();                                
+                            }
+                            else
+                            {
+                                sceneListView.setSelectedIndex(indexUnderPointer);
+
+                                sceneListViewPopupMenu.show(
+                                        sceneListView, e.getX() , e.getY());
+                            }
+                        }
+                        super.mousePressed(e);
+                }
+        });
+        scheduleSceneMenuItem.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                // Stub for user clicking "Schedule Scene..." in context menu
+            }
+        });
+        sceneListViewPopupMenu.add(scheduleSceneMenuItem);
+        //sceneListView.setComponentPopupMenu(sceneListViewPopupMenu);
+        
+        sceneListViewPopupMenu.addPopupMenuListener(new PopupMenuListener(){
+            public void popupMenuCanceled(PopupMenuEvent e)
+            {
+                //No action taken when menu is canceled
+            }
+            
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
+            {
+                //No action taken before menu becomes invisible
+            }
+            
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e)
+            {
+                Scene selectedScene = sceneListView.getSelectedValue();
+                if(selectedScene == null)
+                    return;
+                           
+                scheduleSceneMenuItem.setText("Schedule " + 
+                        sceneListView.getSelectedValue().toString());
+            }
+        });
     }
 
     /**
