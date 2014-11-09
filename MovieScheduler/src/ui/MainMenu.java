@@ -28,7 +28,7 @@ import javax.swing.event.PopupMenuListener;
  *
  * @author iain
  */
-public class MainMenu extends javax.swing.JFrame {
+public class MainMenu extends javax.swing.JFrame{
     private final Script theScript;
     private final Database database;
     private final BusinessObjectListView<Scene> sceneListView;
