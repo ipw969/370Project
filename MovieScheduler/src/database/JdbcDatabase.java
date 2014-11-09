@@ -118,9 +118,10 @@ public class JdbcDatabase extends Database {
     }
     
     /** deletes data in the database according to the queryText
-     * @param queryText the query to perform on the datbase.
+     * @param queryText the query to perform on the database.
      * @throws SQLException
      */
+    @Override
     protected void executeDeleteImplementation(String queryText) throws SQLException
     {
         if (!queryText.contains("delete"))
@@ -161,7 +162,8 @@ public class JdbcDatabase extends Database {
      * @param queryText The sql statement to add to the commandList.
      * @return true if successful, false if not
      */
-    public boolean addToCommandList(String queryText)
+    @Override
+    public boolean addCommandImplementation(String queryText)
     {
         if (queryText == null)
         {
@@ -170,40 +172,46 @@ public class JdbcDatabase extends Database {
        return commandList.add(queryText);
     }
     
-    /**removes a query from the commandList
+    /**
+     * removes a query from the commandList
      * @param queryText the query to remove from the commandList
      * @return true if successful, false if not
      */
-    public boolean removeFromCommandList(String queryText)
+    @Override
+    protected boolean removeCommandImplementation(String queryText)
     {
         return commandList.remove(queryText);
     }
     
-    /**Empties the commandList
-     * 
+    /**
+     * Empties the commandList
      */
-    public void emptyCommandList()
+    @Override
+    protected void clearCommandListImplementation()
     {
         commandList.clear();
     }
     
-    /**@return true if the commandList is empty, false if not
-     * 
+    /**
+     * @return true if the commandList is empty, false if not
      */
-    public boolean commandListEmpty()
+    @Override
+    public boolean isCommandListEmptyImplementation()
     {
         return commandList.isEmpty();
     }
     
-    /**This method executes all of the commands that are in the commandlist, then empties the commandList.
+    /**
+     * This method executes all of the commands that are in the commandlist, then empties the commandList.
      * each query in the commandList is expected to be atomic.
      * A commit is not made unless all of the queries in the commandList have been executed.
      * If a single error occurs, a rollback is issued and the database is left unchanged.
      * @throws SQLException 
      */
-    public void executeCommandList() throws SQLException
+    @Override
+    public void executeCommandListImplementation() throws SQLException
     {
-        if(!commandListEmpty())
+        if(!isCommandListEmpty())
         {
             try
             {
@@ -238,23 +246,23 @@ public class JdbcDatabase extends Database {
                  connection.commit();
                  
             }
-                  catch(SQLException e)
-                  {
-                      //If an SQLexception was thrown here, then a datbase connection error occurred and the changes will be rolled back anyway.
-                      try{
-                       connection.rollback();
-                      }catch(SQLException ex)
-                      {
+            catch(SQLException e)
+            {
+                //If an SQLexception was thrown here, then a datbase connection error occurred and the changes will be rolled back anyway.
+                try{
+                    connection.rollback();
+                }catch(SQLException ex)
+                {
                         
-                      } 
-                  }
-                  finally
-                  {
+                } 
+            }
+            finally
+            {
                       connection.setAutoCommit(true);
-                      this.emptyCommandList();
-                  }
+                      this.clearCommandList();
             }
         }
+    }
        
     
     
