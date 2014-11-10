@@ -47,6 +47,7 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
         volunteers = new BusinessObjectList<>();
         equipment = new BusinessObjectList<>();
         scenes.addListener(this);
+        schedule = new Schedule();
     }
 
     /**

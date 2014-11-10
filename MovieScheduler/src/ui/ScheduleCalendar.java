@@ -62,6 +62,10 @@ public class ScheduleCalendar extends JPanel implements BusinessObjectListener{
         
         schedule.addListener(this);
     }
+
+    ScheduleCalendar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     // Public Methods
     @Override
