@@ -16,7 +16,7 @@ import java.util.Iterator;
 
 
 
-public class Script extends BaseBusinessObject implements BusinessObjectListener {
+public class Script extends BaseBusinessObject {
     //The list of scenes. scenes will be a synchronized ArrayList. 
    protected BusinessObjectList<Scene> scenes; 
    // A list of all of the volunteers working on this project. 
@@ -41,7 +41,6 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
        scenes = new BusinessObjectList<>();
        volunteers = new BusinessObjectList<>();
        equipment = new BusinessObjectList<>();
-       scenes.addListener(this);
    }
 
    
@@ -130,7 +129,7 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
        }
        for (Scene curScene: scenes)
        {
-           if (curScene.scheduled() == false)
+           if (curScene.isScheduled() == false)
            {
                return false;
            }
@@ -142,11 +141,11 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
     * can be removed. 
     * @return true if all of the scenes are complete, false if not.
     */
-   public boolean isEveryScenecomplete()
+   public boolean isEverySceneComplete()
    {
        for (Scene curScene: scenes)
        {
-           if (curScene.complete() == false)
+           if (curScene.isComplete() == false)
            {
                return false;
            }
@@ -256,82 +255,76 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
         /** @return true if the script contains equipment, false if not. **/
  public boolean hasEquipment()
  {
-    return !volunteers.isEmpty();
+    return !equipment.isEmpty();
  }
+ 
  /**Creates an equipment with the specified information and adds it to the script. 
   * @precon: The given volunteer should be valid.
   * @param newEquipment: The new equipment to add to the script.
   * @return true if successful, false if not.
   */
  
-//  public boolean addEquipment(Equipment newEquipment)
-//   {
-//       if ((newEquipment == null) || (!newEquipment.isValid()))
-//       {
-//           return false;
-//       }
-//       /**This whole thing is necessary because we need to check whether a scene with that name already exists
-//       regardless of whether they are identical*/
-//       if(this.hasEquipment())
-//       {
-//             Iterator<Volunteer> iter = this.volunteerIterator();
-//            while (iter.hasNext())
-//             {
-//               Volunteer examinedVolunteer = iter.next();
-//               if (examinedVolunteer.getEmail().equals(newEquipment.get))
-//             {
-//                 return false;
-//             }
-//             }
-//       }
-//    
-//         volunteers.add(newVolunteer);
-//         return true;
-//      
-//   } 
+  public boolean addEquipment(Equipment newEquipment)
+   {
+       if ((newEquipment == null) || (!newEquipment.isValid()))
+       {
+          return false;
+       }
+      /**This whole thing is necessary because we need to check whether a scene with that name already exists
+       regardless of whether they are identical*/
+       if(this.hasEquipment())
+       {
+             Iterator<Equipment> iter = this.equipmentIterator();
+            while (iter.hasNext())
+             {
+               Equipment examinedEquipment = iter.next();
+               if (examinedEquipment.getEquipmentType().equals(newEquipment.getEquipmentType()))
+             {
+                 examinedEquipment.setStock(examinedEquipment.getStock() + 1);
+                 return true;
+                 
+             }
+             }
+       }
     
-  /**removes the specified volunteer from the list of volunteers
-   * @param oldVolunteer - the volunteer to be deleted from the list
+         return equipment.add(newEquipment);
+         
+      
+   } 
+    
+  /**removes the specified equipment from the list of equipment
+   * @param oldEquipment - the equipment to be deleted from the list
    * @return true if successful, false if not
    * May edit it to throw an exception if the scene is not completed, not sure yet. 
    */
-//  public boolean removeVolunteer(Volunteer oldVolunteer)
-//  {
-//      return volunteers.remove(oldVolunteer);
-//  }
+  public boolean removeEquipment(Equipment oldEquipment)
+  {
+      return equipment.remove(oldEquipment);
+  }
   
   
  
  
   
-   /** Checks to see if the script is has any volunteers
-    * @return true if the script has no volunteers, false if not.
+   /** Checks to see if the script is has any equipment
+    * @return true if the script has no equipment, false if not.
     */
-//   public boolean isvolunteerListEmpty()
-//   {
-//       return volunteers.isEmpty();
-//   }
+   public boolean isEquipmentListEmpty()
+   {
+       return equipment.isEmpty();
+   }
    
-/**Gives you an iterator over the scenes in the script
+/**Gives you an iterator over the equipment in the script
  * 
- * @return an iterator over the scenes in the script. 
+ * @return an iterator over the equipment in the script. 
  */
-//   public Iterator<Volunteer> volunteerIterator()
-//   {
-//       return volunteers.iterator();
-//   }
-   
-    @Override
-    public void validStateAltered(boolean newState, BaseBusinessObject sender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   public Iterator<Equipment> equipmentIterator()
+   {
+       return equipment.iterator();
+   }
    
    
+ 
  public static void main(String [] args)
     {
         Script newScript;
