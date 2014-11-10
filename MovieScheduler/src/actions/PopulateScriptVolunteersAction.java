@@ -16,16 +16,29 @@ import java.sql.Timestamp;
 import java.util.GregorianCalendar;
 
 /**
- *
- * @author iain
+ * A class representing an Action which loads Volunteer data from the Database
+ * into the provided Script.
  */
 public class PopulateScriptVolunteersAction extends BaseAction{
-
+    // Constructor
+    /**
+     * Creates an instance of a PopulateScriptVolunteersAction which will
+     * populate a list of Volunteers from the provided Database into the 
+     * provided Script
+     * @param database::Database ~ The Database from which to load the 
+     * Volunteers
+     * @param script::Script ~ The Script to load the Volunteers into 
+     */
     public PopulateScriptVolunteersAction(Database database, Script script) {
         super(database);
         setBusinessObject(script);
     }
-
+    
+    // Protected Methods
+    /**
+     * Runs the Action of loading the Volunteers list from the Database into
+     * the associated Script.
+     */
     @Override
     protected void runImplementation() {
         if(businessObject() == null)
@@ -54,6 +67,12 @@ public class PopulateScriptVolunteersAction extends BaseAction{
         }
     }
     
+    // Private Methods
+    /**
+     * Loads the master list of Volunteers from the Database
+     * @return The List of loaded Volunteers from the Database
+     * @throws SQLException 
+     */
     private BusinessObjectList<Volunteer> loadVolunteers()
             throws SQLException
     {
@@ -97,6 +116,15 @@ public class PopulateScriptVolunteersAction extends BaseAction{
         return volunteerList;
     }
     
+    /**
+     * Returns a list of the Availabilities for the Volunteer with the provided 
+     * email address 
+     * @param volunteerEmail::String ~ The email address of the Volunteer whose
+     * availabilities are to be loaded from the Database
+     * @return A list of the Availabilities for the Volunteer with the provided 
+     * email address
+     * @throws SQLException 
+     */
     private BusinessObjectList<TimeInterval> loadVolunteerAvailabilities(
                                             String volunteerEmail)
             throws SQLException

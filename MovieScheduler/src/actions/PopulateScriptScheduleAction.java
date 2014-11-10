@@ -13,20 +13,28 @@ import businessobjects.TimeInterval;
 import database.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- *
- * @author iain
+ * A class representing an Action which populates the Provided Script with
+ * the filming Schedule, loaded from the provided Database.
  */
 public class PopulateScriptScheduleAction extends BaseAction {
 
+    // Constructor
+    /**
+     * 
+     * @param database
+     * @param script 
+     */
     public PopulateScriptScheduleAction(Database database, Script script) {
         super(database);
         setBusinessObject(script);
     }
 
+    // Protected Methods
     @Override
     protected void runImplementation() {
         if(businessObject() == null)
@@ -55,6 +63,11 @@ public class PopulateScriptScheduleAction extends BaseAction {
         }
     }
     
+    // Private Methods
+    /**
+     * The Script whose Schedule is to be populated by the Action.
+     * @return 
+     */
     private Script script()
     {
         if (businessObject() == null || !(businessObject() instanceof Script))
@@ -63,6 +76,11 @@ public class PopulateScriptScheduleAction extends BaseAction {
         return (Script)businessObject();
     }
     
+    /**
+     * Loads the Schedule from the Database.
+     * @return The Schedule loaded from the Database.
+     * @throws SQLException 
+     */
     private Schedule loadSchedule() 
             throws SQLException
     {
@@ -80,21 +98,14 @@ public class PopulateScriptScheduleAction extends BaseAction {
             
                 while (selectResults.next())
                 {
-                    Date startDate = selectResults.getDate(1);
-                    Date endDate = selectResults.getDate(2);
-                    GregorianCalendar startCalendar = new GregorianCalendar(
-                            startDate.getYear(),
-                            startDate.getMonth(), 
-                            startDate.getDay(), 
-                            startDate.getHours(),
-                            startDate.getMinutes());
+                    Timestamp startDate = selectResults.getTimestamp(1);
+                    Timestamp endDate = selectResults.getTimestamp(2);
+
+                    GregorianCalendar startCalendar = new GregorianCalendar();
+                    startCalendar.setTime(startDate);
                 
-                    GregorianCalendar endCalendar = new GregorianCalendar(
-                            endDate.getYear(),
-                            endDate.getMonth(), 
-                            endDate.getDay(), 
-                            endDate.getHours(),
-                            endDate.getMinutes());
+                    GregorianCalendar endCalendar = new GregorianCalendar();
+                    endCalendar.setTime(endDate);
                     selectResults.close();
                     
                     String sceneName = selectResults.getString(3);

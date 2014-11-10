@@ -13,20 +13,36 @@ import database.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- *
- * @author iain
+ * Class which represents an Action which takes a Script and loads in the
+ * Equipment associated with it.
  */
 public class PopulateScriptEquipmentAction extends BaseAction {
 
+    //Constructor
+    /**
+     * Creates an instance of a PopulateScriptEquipmentAction which will act
+     * on the provided database, loading Equipment info into the provided Script.
+     * @param database::Database ~ The Database to load the data from
+     * @param script::Script ~ The Script in which to place the loaded Equipment
+     * data.
+     */
     public PopulateScriptEquipmentAction(Database database, Script script) {
         super(database);
         setBusinessObject(script);
     }
 
+    // Protected Methods
+    /**
+     * Runs the Action of loading the Equipment associated with the Script from
+     * the database into the Script.
+     * @postconds:
+     *  - wasSuccessful() == The success state of the action
+     *  - errorMessage() == Any errors encountered by the action if failed
+     *  - businessObject() == The script with populated Equipment Info.
+     */
     @Override
     protected void runImplementation() {
         if(businessObject() == null)
@@ -55,6 +71,12 @@ public class PopulateScriptEquipmentAction extends BaseAction {
         }
     }
     
+    //Private methods
+    /**
+     * Loads the master list of Equipment from the database
+     * @return A list of all the Equipment in the database
+     * @throws SQLException 
+     */
     private BusinessObjectList<Equipment> loadEquipment() throws SQLException
     {
         String selectEquipmentQuery = 
@@ -98,6 +120,16 @@ public class PopulateScriptEquipmentAction extends BaseAction {
         return equipmentList;
     }
     
+    
+    /**
+     * Performs the action of the database of loading an individual Equipment
+     * availability times.
+     * @param equipmentName::String ~ The name of the piece of Equipment whose
+     * Availabilities are to be loaded.
+     * @return A list of all the time intervals which a piece of Equipment is
+     * available for
+     * @throws SQLException 
+     */
     private BusinessObjectList<TimeInterval> loadEquipmentAvailabilities(
                                             String equipmentName)
             throws SQLException

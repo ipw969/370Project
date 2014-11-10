@@ -1,18 +1,9 @@
 package actions;
 
-import businessobjects.BusinessObjectList;
-import businessobjects.Equipment;
-import businessobjects.Scene;
-import businessobjects.Schedule;
-import businessobjects.SceneFilmingDate;
 import database.Database;
 import businessobjects.Script;
-import businessobjects.TimeInterval;
-import businessobjects.Volunteer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * A class which represents an action to load all the data from the database
@@ -20,10 +11,25 @@ import java.util.GregorianCalendar;
  */
 public class LoadScriptAction extends BaseAction {
 
+    // Constructor
+    /**
+     * Creates an instance of a LoadScriptAction which will act of the provided
+     * database
+     * @param database::Database ~ The Database on which to perform the Action. 
+     */
     public LoadScriptAction(Database database) {
         super(database);
     }
 
+    // Protected Methods
+    /**
+     * Runs the loadScriptAction
+     * @Postconds:
+     *  - wasSuccessful() == The success state of the action
+     *  - errorMessage() == Any errors encountered by the action if failed
+     *  - businessObject() == The loaded script
+     *  - businessObject() == null if the database contained no script
+     */
     @Override
     protected void runImplementation() {
         Script loadedScript = null;
@@ -40,6 +46,12 @@ public class LoadScriptAction extends BaseAction {
         setBusinessObject(loadedScript);
     }
     
+    // Private Methods
+    /**
+     * Performs the action on the database of loading the Script
+     * @return The Script loaded from the database
+     * @throws SQLException 
+     */
     private Script loadBasicScriptFromDatabase() throws SQLException
     {
         String selectScriptQuery = 
@@ -68,14 +80,4 @@ public class LoadScriptAction extends BaseAction {
         }
         return returnScript;
     }
-    
-
-    
-    
-    
-    
-    
-    
-    
-
 }

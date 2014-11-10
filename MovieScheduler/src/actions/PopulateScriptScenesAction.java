@@ -15,16 +15,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
- * @author iain
+ * A class representing an Action which populates the Scenes associated with
+ * a Script into the passed Script object.
  */
 public class PopulateScriptScenesAction extends BaseAction{
-
+    // Constructor
+    /**
+     * Loads an instance of a PopulateScriptSceneAction which will load Scene
+     * data from the provided Database into the provided Script.
+     * @param database::Database ~ The Database from which to load the data.
+     * @param script::Script ~ The Script into which to load the Scenes.
+     */
     public PopulateScriptScenesAction(Database database, Script script) {
         super(database);
         setBusinessObject(script);
     }
 
+    // Protected Methods
+    /**
+     * Runs the Action of loading the Scene data from the database into the
+     * provided Script.
+     * - wasSuccessful() == The success state of the action
+     * - errorMessage() == Any errors encountered by the action if failed
+     * - businessObject() == The script with populated Scene info.
+     */
     @Override
     protected void runImplementation() {
         if(businessObject() == null)
@@ -53,6 +67,11 @@ public class PopulateScriptScenesAction extends BaseAction{
         }
     }
     
+    // Private Methods
+    /**
+     * The Script which will be populated by the Action.
+     * @return The Script which will be populated by the Action.
+     */
     private Script script()
     {
         if (businessObject() == null || !(businessObject() instanceof Script))
@@ -61,6 +80,13 @@ public class PopulateScriptScenesAction extends BaseAction{
         return (Script)businessObject();
     }
     
+    /**
+     * Loads the list of Scenes from the Database
+     * @param scriptName::String ~ The name of the Script whose Scenes are to
+     * be loaded
+     * @return The list of Scenes which belong to the Script being populated
+     * @throws SQLException 
+     */
     private BusinessObjectList<Scene> loadScenes(String scriptName) throws SQLException
     {
         String selectScenesQuery = 
@@ -107,6 +133,16 @@ public class PopulateScriptScenesAction extends BaseAction{
         return sceneList;
     }
     
+    /**
+     * Loads the data for the Volunteers which are associated with the Scene
+     * with the passed SceneName into a list. The list will contain references
+     * to the same Volunteer objects which are in the provided Script.
+     * @param sceneName::String ~ The name of the Scene whose Volunteers are to
+     * be loaded
+     * @return A list of references to Volunteers who are associated with this
+     * Scene.
+     * @throws SQLException 
+     */
     private BusinessObjectList<Volunteer> loadSceneVolunteers(
                                             String sceneName)
             throws SQLException
@@ -147,6 +183,16 @@ public class PopulateScriptScenesAction extends BaseAction{
         return volunteerList;
     }
     
+    /**
+     * Loads the data for the Equipment which is associated with the Scene
+     * with the passed SceneName into a list. The list will contain references
+     * to the same Equipment objects which are in the provided Script.
+     * @param sceneName::String ~ The name of the Scene whose Equipment is to
+     * be loaded
+     * @return A list of references to Equipment which is associated with this
+     * Scene.
+     * @throws SQLException 
+     */    
     private BusinessObjectList<Equipment> loadSceneEquipment(
                                             String sceneName)
             throws SQLException
