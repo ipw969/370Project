@@ -9,6 +9,12 @@ import database.JdbcDatabase;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
+import actions.LoadScriptAction;
+import actions.PopulateScriptEquipmentAction;
+import actions.PopulateScriptScenesAction;
+import actions.PopulateScriptScheduleAction;
+import actions.PopulateScriptVolunteersAction;
+import businessobjects.Script;
 import ui.*;
 /**
  *
@@ -37,15 +43,15 @@ public class MovieScheduler {
                 errorsEncountered.add("Could not load database driver with "
                         + "message: " + ex.toString());
         }
-        try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException ex)
-        {
-            System.out.println("Could not load database driver with "
-                        + "message: " + ex.toString());
-            return;
-        }
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        }
+//        catch (ClassNotFoundException ex)
+//        {
+//            System.out.println("Could not load database driver with "
+//                        + "message: " + ex.toString());
+//            return;
+//        }
         
         JdbcDatabase database = null;
         try{
@@ -60,10 +66,86 @@ public class MovieScheduler {
                 + ex.getMessage());
             return;
         }
-        //VolunteerForm volunteerForm = new VolunteerForm();
-        //volunteerForm.setVisible(true);
-        StartMenu startMenu = new StartMenu(database);
-        startMenu.setVisible(true);
+        
+        LoadScriptAction loadScriptAction = new LoadScriptAction(database);
+        loadScriptAction.run();
+        
+        if(!loadScriptAction.wasSuccessful())
+        {
+            initializedProperly = false;
+            errorsEncountered.add(loadScriptAction.lastErrorMessage());
+        }
+        
+        if(loadScriptAction.businessObject() == null && initializedProperly)
+        {
+            // No errors were encountered, but we didn't find a script, must
+            // be the first time loading. Display the start menu.
+            StartMenu startMenu = new StartMenu(database);
+            startMenu.setVisible(true);
+        }
+        else
+        {
+            Script loadedScript = (Script)loadScriptAction.businessObject();
+            // A Script was found, continue loading and start the main menu
+            PopulateScriptVolunteersAction loadVolunteersAction = new 
+                PopulateScriptVolunteersAction(database, loadedScript);
+            
+            loadVolunteersAction.run();
+            
+            if(loadVolunteersAction.wasSuccessful())
+            {
+                PopulateScriptEquipmentAction loadEquipmentAction = new 
+                    PopulateScriptEquipmentAction(database, loadedScript);
+            
+                loadEquipmentAction.run();
+                
+                if(loadEquipmentAction.wasSuccessful())
+                {
+                    PopulateScriptScenesAction loadScenesAction = new
+                        PopulateScriptScenesAction(database, loadedScript);
+                    
+                    loadScenesAction.run();
+                    if(loadScenesAction.wasSuccessful())
+                    {
+                        PopulateScriptScheduleAction loadScheduleAction = new
+                            PopulateScriptScheduleAction(database, loadedScript);
+                        
+                        loadScheduleAction.run();
+                        if(loadScheduleAction.wasSuccessful())
+                        {
+                            try{
+                            MainMenu mainMenu = new MainMenu(loadedScript, database);
+                            mainMenu.setVisible(true);
+                            } catch (SQLException pointless)
+                            {
+                                initializedProperly = false;
+                                errorsEncountered.add(pointless.getMessage());
+                            }
+                        }
+                        else
+                        {
+                            initializedProperly = false;
+                            errorsEncountered.add(loadScheduleAction.lastErrorMessage());
+                        }
+                    }
+                    else
+                    {
+                        initializedProperly = false;
+                        errorsEncountered.add(loadScenesAction.lastErrorMessage());
+                    }
+                }
+                else
+                {
+                    initializedProperly = false;
+                    errorsEncountered.add(loadEquipmentAction.lastErrorMessage());
+                }
+            }
+            else
+            {
+                initializedProperly = false;
+                errorsEncountered.add(loadVolunteersAction.lastErrorMessage());
+            }
+        }
         
         // One of this inits failed. Display an error message and exit
         if(!initializedProperly)
@@ -71,6 +153,6 @@ public class MovieScheduler {
                     " with errors:\n" + errorsEncountered.toString(),
                     "Error Loading System!", 0);
         
-        
+
     }    
 }

@@ -1,7 +1,5 @@
 
 package businessobjects;
-import businessobjects.*;
-import businessobjects.BaseBusinessObject;
 
 /**
  * Equipment data class
@@ -13,6 +11,7 @@ public class Equipment extends BaseBusinessObject
     int stock;   //the amount of equipment we currently have
     boolean isRental;
     float rentalCost;
+    BusinessObjectList<TimeInterval> availabilities;
     
     //empty constructor
     public Equipment(){setIsNew(true);}
@@ -63,6 +62,16 @@ public class Equipment extends BaseBusinessObject
         this.rentalCost = cost;
         setHasChanged(true);
 
+    }
+    
+    public void setAvailabilities(BusinessObjectList<TimeInterval> availabilities)
+    {
+        this.availabilities = availabilities;
+    }
+    
+    public BusinessObjectList<TimeInterval> getAvailabilities()
+    {
+        return availabilities;
     }
 
     
