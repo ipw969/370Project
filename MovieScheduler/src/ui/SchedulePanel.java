@@ -108,7 +108,7 @@ public class SchedulePanel extends javax.swing.JPanel
                         + sceneListView.getSelectedValue().toString());
             }
         });
-        calendarPanel.add(new CalendarMonth());
+        calendarPanel.add(new ScheduleCalendar());
     }
 
     // Private Methods
