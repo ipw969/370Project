@@ -5,6 +5,9 @@
  */
 package ui;
 
+import businessobjects.BusinessObjectList;
+import businessobjects.SceneFilmingDate;
+import businessobjects.Schedule;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +46,12 @@ public class CalendarMonth extends javax.swing.JPanel
         refreshCalendarDays();
     }
 
+    public void setSchedule(Schedule schedule)
+    {
+        filmingSchedule = schedule;
+        refreshCalendarDays();
+    }
+
     // Private Methods
     private void refreshCalendarDays()
     {
@@ -68,12 +77,15 @@ public class CalendarMonth extends javax.swing.JPanel
         // at the start of the month we want
         while (calendarDate.get(Calendar.MONTH) != currentMonthStart.get(Calendar.MONTH))
         {
+            CalendarDay currentCalendarDay = calendarDays.get(calendarDaysAdded);
+            currentCalendarDay.setDate(calendarDate);
+            currentCalendarDay.setForeground(Color.LIGHT_GRAY);
 
-            calendarDays.get(calendarDaysAdded).setDate(calendarDate);
-            calendarDays.get(calendarDaysAdded).setForeground(Color.LIGHT_GRAY);
-
-            // TODO: Set Schedule for this day
-            add(calendarDays.get(calendarDaysAdded));
+            if (filmingSchedule != null)
+            {
+                populateCalendarDay(currentCalendarDay, calendarDate);
+            }
+            add(currentCalendarDay);
             calendarDaysAdded += 1;
             calendarDate.add(Calendar.DAY_OF_WEEK, 1);
         }
@@ -82,11 +94,15 @@ public class CalendarMonth extends javax.swing.JPanel
         // reached the end of the last day in this calendar month
         while (calendarDate.get(Calendar.MONTH) == currentMonthStart.get(Calendar.MONTH))
         {
-            calendarDays.get(calendarDaysAdded).setDate(calendarDate);
-            calendarDays.get(calendarDaysAdded).setForeground(Color.BLACK);
+            CalendarDay currentCalendarDay = calendarDays.get(calendarDaysAdded);
+            currentCalendarDay.setDate(calendarDate);
+            currentCalendarDay.setForeground(Color.BLACK);
 
-            // TODO: Set Schedule for this day
-            add(calendarDays.get(calendarDaysAdded));
+            if (filmingSchedule != null)
+            {
+                populateCalendarDay(currentCalendarDay, calendarDate);
+            }
+            add(currentCalendarDay);
             calendarDaysAdded += 1;
             calendarDate.add(Calendar.DAY_OF_WEEK, 1);
         }
@@ -95,11 +111,15 @@ public class CalendarMonth extends javax.swing.JPanel
         // left in this week
         while (calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek())
         {
-            calendarDays.get(calendarDaysAdded).setDate(calendarDate);
-            calendarDays.get(calendarDaysAdded).setForeground(Color.LIGHT_GRAY);
+            CalendarDay currentCalendarDay = calendarDays.get(calendarDaysAdded);
+            currentCalendarDay.setDate(calendarDate);
+            currentCalendarDay.setForeground(Color.LIGHT_GRAY);
 
-            // TODO: Set Schedule for this day
-            add(calendarDays.get(calendarDaysAdded));
+            if (filmingSchedule != null)
+            {
+                populateCalendarDay(currentCalendarDay, calendarDate);
+            }
+            add(currentCalendarDay);
             calendarDaysAdded += 1;
             calendarDate.add(Calendar.DAY_OF_WEEK, 1);
         }
@@ -107,6 +127,17 @@ public class CalendarMonth extends javax.swing.JPanel
         // Revalidate and paint the panel
         this.revalidate();
         this.repaint();
+    }
+
+    private void populateCalendarDay(CalendarDay calendarDay, GregorianCalendar date)
+    {
+        BusinessObjectList<SceneFilmingDate> daysSchedule
+                = filmingSchedule.scheduleFor(date);
+
+        for (SceneFilmingDate currentFilmingDate : daysSchedule)
+        {
+            calendarDay.filmingDates().add(currentFilmingDate);
+        }
     }
 
     /**
@@ -126,6 +157,7 @@ public class CalendarMonth extends javax.swing.JPanel
     // Private Member Variables
     private final ArrayList<CalendarDay> calendarDays;
     private GregorianCalendar currentMonthStart;
+    private Schedule filmingSchedule;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
