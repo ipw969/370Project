@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.ListModel;
 
 /**
  * A ui view class for displaying information from a BusinessObjectList
@@ -38,7 +39,18 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         listModel.setData(list);
         this.setModel(listModel);
     }
-
+    
+    // Public Methods
+    public void stopModelListening()
+    {
+        ListModel model = getModel();
+        if(model != null && model instanceof BusinessObjectListModel)
+        {
+            BusinessObjectListModel<T> listModel = (BusinessObjectListModel<T>)model;
+            listModel.stopListening();
+        }
+    }
+    
     /**
      * Private class which represents the model which the BusinessObjectListView
      * will use to display its data
@@ -172,6 +184,15 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         {
             revalidate();
             repaint();
+        }
+        
+        /**
+         * Stops the model listening to changes to the underlying BusinessObjectList.
+         * This should only be called immediately prior to stopping using the model.
+         */
+        public void stopListening()
+        {
+            data.removeListener(this);
         }
         
         /**
