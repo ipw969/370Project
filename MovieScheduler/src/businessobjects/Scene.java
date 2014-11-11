@@ -19,8 +19,8 @@ TODO: I may make this an interior class of the script class. This is because the
 public class Scene extends BaseBusinessObject{
     private String name;
     private String description;
-    private final HashSet<Volunteer> necessaryVolunteers;
-    private final HashSet<Equipment> necessaryEquipment;
+    private final BusinessObjectList<Volunteer> necessaryVolunteers;
+    private final BusinessObjectList<Equipment> necessaryEquipment;
     private boolean scheduled;
     private boolean complete;
     
@@ -43,8 +43,8 @@ public class Scene extends BaseBusinessObject{
         this.name = name;
         this.description = description;
         
-        necessaryVolunteers = new HashSet<>();
-        necessaryEquipment = new HashSet<>();
+        necessaryVolunteers = new BusinessObjectList<>();
+        necessaryEquipment = new BusinessObjectList<>();
         
        this.updateError(nameNullError, !name.isEmpty());
         
@@ -83,13 +83,13 @@ public class Scene extends BaseBusinessObject{
     }
     
     /**@return true if the scene is scheduled, false if not**/
-    public boolean scheduled()
+    public boolean isScheduled()
     {
         return scheduled;
     }
     
     /**@return true if the scene has been filmed, false otherwise**/
-    public boolean complete()
+    public boolean isComplete()
     {
         return complete;
     }
@@ -267,9 +267,59 @@ public class Scene extends BaseBusinessObject{
         }
     }
     
+    /**
+     * 
+     * @return the name of the scene to use as the toString() method. 
+     */
+    @Override
     public String toString()
     {
         return this.name;
+    }
+    
+    public String toDescriptiveString()
+    {
+        StringBuilder newString = new StringBuilder();
+        newString.append(this.name + "\n");
+        if (!necessaryVolunteers.isEmpty())
+        {
+            newString.append("List of volunteers:\n");
+            Iterator<Volunteer> volunteerIter = volunteerIterator();
+            while (volunteerIter.hasNext())
+            {
+                Volunteer tempVolunteer = volunteerIter.next();
+                newString.append(tempVolunteer.getFirstName() + " " + tempVolunteer.getLastName() + "\n");
+            }
+        }
+        else
+        {
+            newString.append("No volunteers currently assigned to this scene\n");
+        }
+        
+        if (!necessaryEquipment.isEmpty())
+        {
+            newString.append("List of equipment:\n");
+            Iterator<Equipment> equipmentIterator = equipmentIterator();
+            while(equipmentIterator.hasNext())
+            {
+                Equipment tempEquipment = equipmentIterator.next();
+                newString.append(tempEquipment.getEquipmentType() + " Stock:" + tempEquipment.getStock() +"\n");
+            }
+        }
+        else
+        {
+           newString.append("No equipment assigned to this scene\n");
+        }
+        
+        if (this.isScheduled())
+        {
+            newString.append("Currently scheduled\n");
+        }
+        else
+        {
+            newString.append("Not scheduled\n");
+        }
+        return newString.toString();
     }
     
     public static void main (int args[])
