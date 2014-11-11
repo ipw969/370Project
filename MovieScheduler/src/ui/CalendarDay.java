@@ -52,6 +52,15 @@ public class CalendarDay extends javax.swing.JPanel
     }
     
     /**
+     * Returns the date currently being displayed by the CalendarDay
+     * @return The date currently being displayed by the CalendarDay
+     */
+    public GregorianCalendar date()
+    {
+        return date;
+    }
+    
+    /**
      * The filming dates to display in this CalendarDay
      * @return The filming dates to display in this CalendarDay
      */
