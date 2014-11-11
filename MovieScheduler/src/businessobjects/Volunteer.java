@@ -12,13 +12,14 @@ public class Volunteer extends BaseBusinessObject
     String lastName;
     String email;
     String phone;   //since we are not actually doing anything with it having it as a string will get rid of many errors
-    BusinessObjectList <TimeInterval> availability = new BusinessObjectList();
+    BusinessObjectList <TimeInterval> availability = new BusinessObjectList<>();
     
     //empty constructor
     public Volunteer(){setIsNew(true);}
     
     //general constructor
-    public Volunteer(String fName, String lName, String email, String phone, BusinessObjectList avail)
+    public Volunteer(String fName, String lName, String email, String phone, 
+            BusinessObjectList<TimeInterval> avail)
     {
         this.firstName = fName;
         this.lastName = lName;

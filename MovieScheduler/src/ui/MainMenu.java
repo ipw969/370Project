@@ -65,13 +65,7 @@ public class MainMenu extends javax.swing.JFrame{
             noVolunteers = "No volunteers currently in script";
             volunteerComboBox.addItem(noVolunteers);
         }
-        /*
-         * Add some test scenes to the script. Needs to be removed as soon
-         * as there a proper scene loading structure has been implemented
-         */
-        theScript.scenes().add(new Scene("Test1name", "Test1desc"));
-        theScript.scenes().add(new Scene("Test2name", "Test2desc"));
-        theScript.scenes().add(new Scene("Test3name", "Test3desc"));
+
         
         sceneListView = new BusinessObjectListView<>(theScript.scenes());
         sceneListScrollPane.setViewportView(sceneListView);

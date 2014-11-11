@@ -17,6 +17,7 @@ public abstract class BaseAction {
     public BaseAction(Database database)
     {
         this.database = database;
+        wasSuccessful = false;
     }
     
     /**
