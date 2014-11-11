@@ -14,7 +14,7 @@ package businessobjects;
 
 import java.util.Iterator;
 
-public class Script extends BaseBusinessObject implements BusinessObjectListener {
+public class Script extends BaseBusinessObject {
 
     //The list of scenes. scenes will be a synchronized ArrayList. 
 
@@ -38,7 +38,6 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
      *
      *
      */
-    @SuppressWarnings("LeakingThisInConstructor")
     public Script(String name) {
         super();
         this.name = name;
@@ -46,7 +45,6 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
         scenes = new BusinessObjectList<>();
         volunteers = new BusinessObjectList<>();
         equipment = new BusinessObjectList<>();
-        scenes.addListener(this);
         schedule = new Schedule();
     }
 
@@ -407,15 +405,6 @@ public class Script extends BaseBusinessObject implements BusinessObjectListener
 //   {
 //       return volunteers.iterator();
 //   }
-    @Override
-    public void validStateAltered(boolean newState, BaseBusinessObject sender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public static void main(String[] args) {
         Script newScript;
