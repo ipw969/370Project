@@ -7,23 +7,14 @@ package ui;
 
 import businessobjects.Script;
 import businessobjects.Volunteer;
-import businessobjects.Scene;
 import database.Database;
 import database.JdbcDatabase;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 /**
  *
  * @author iain
@@ -31,7 +22,6 @@ import javax.swing.event.PopupMenuListener;
 public class MainMenu extends javax.swing.JFrame{
     private final Script theScript;
     private final Database database;
-    private final BusinessObjectListView<Scene> sceneListView;
     /**
      * 
      * @param theScript the script currently in use by the system. 
@@ -67,70 +57,10 @@ public class MainMenu extends javax.swing.JFrame{
         }
 
         
-        sceneListView = new BusinessObjectListView<>(theScript.scenes());
-        sceneListScrollPane.setViewportView(sceneListView);
-        
-        JPopupMenu sceneListViewPopupMenu = new JPopupMenu();
-        JMenuItem scheduleSceneMenuItem = new JMenuItem("Schedule Scene...");
-        
-        sceneListView.addMouseListener( new MouseAdapter()
-        {
-                public void mousePressed(MouseEvent e)
-                {
-                        if ( SwingUtilities.isRightMouseButton(e) )
-                        {
-                            System.out.println("Pointer at (" + e.getPoint().x + ", " + e.getPoint().y + ")");
-                            int indexUnderPointer =
-                                    sceneListView.locationToIndex(e.getPoint());
-                            System.out.println("Selected index is " + indexUnderPointer);                            
-                            if(sceneListView.getCellBounds(indexUnderPointer, 
-                                    indexUnderPointer).contains(e.getPoint()))
-                            {
-                                sceneListView.clearSelection();                                
-                            }
-                            else
-                            {
-                                sceneListView.setSelectedIndex(indexUnderPointer);
-
-                                sceneListViewPopupMenu.show(
-                                        sceneListView, e.getX() , e.getY());
-                            }
-                        }
-                        super.mousePressed(e);
-                }
-        });
-        scheduleSceneMenuItem.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-                // Stub for user clicking "Schedule Scene..." in context menu
-            }
-        });
-        sceneListViewPopupMenu.add(scheduleSceneMenuItem);
-        //sceneListView.setComponentPopupMenu(sceneListViewPopupMenu);
-        
-        sceneListViewPopupMenu.addPopupMenuListener(new PopupMenuListener(){
-            public void popupMenuCanceled(PopupMenuEvent e)
-            {
-                //No action taken when menu is canceled
-            }
-            
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
-            {
-                //No action taken before menu becomes invisible
-            }
-            
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e)
-            {
-                Scene selectedScene = sceneListView.getSelectedValue();
-                if(selectedScene == null)
-                    return;
-                           
-                scheduleSceneMenuItem.setText("Schedule " + 
-                        sceneListView.getSelectedValue().toString());
-            }
-        });
+        SchedulePanel schedulePanel = new SchedulePanel();
+        schedulePanel.setSript(theScript);
+        scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -186,10 +116,6 @@ public class MainMenu extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         sceneViewRequirementsButton = new javax.swing.JButton();
         scheduleTabPanel = new javax.swing.JPanel();
-        sideScenePanel = new javax.swing.JPanel();
-        sceneListLabel = new javax.swing.JLabel();
-        sceneListScrollPane = new javax.swing.JScrollPane();
-        mainScenePanel = new javax.swing.JPanel();
 
         label1.setText("label1");
 
@@ -545,38 +471,6 @@ public class MainMenu extends javax.swing.JFrame{
         mainTab.addTab("Script", scriptTabPanel);
 
         scheduleTabPanel.setLayout(new java.awt.BorderLayout());
-
-        sideScenePanel.setMaximumSize(new java.awt.Dimension(150, 32767));
-        sideScenePanel.setPreferredSize(new java.awt.Dimension(150, 610));
-
-        sceneListLabel.setText("Scenes");
-
-        javax.swing.GroupLayout sideScenePanelLayout = new javax.swing.GroupLayout(sideScenePanel);
-        sideScenePanel.setLayout(sideScenePanelLayout);
-        sideScenePanelLayout.setHorizontalGroup(
-            sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sideScenePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sideScenePanelLayout.createSequentialGroup()
-                        .addComponent(sceneListLabel)
-                        .addGap(0, 75, Short.MAX_VALUE))
-                    .addComponent(sceneListScrollPane))
-                .addContainerGap())
-        );
-        sideScenePanelLayout.setVerticalGroup(
-            sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sideScenePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sceneListLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        scheduleTabPanel.add(sideScenePanel, java.awt.BorderLayout.LINE_START);
-        scheduleTabPanel.add(mainScenePanel, java.awt.BorderLayout.CENTER);
-
         mainTab.addTab("Schedule", scheduleTabPanel);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -592,7 +486,7 @@ public class MainMenu extends javax.swing.JFrame{
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainTab, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
+                .addComponent(mainTab)
                 .addContainerGap())
         );
 
@@ -722,7 +616,6 @@ public class MainMenu extends javax.swing.JFrame{
     private java.awt.Label label1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JPanel mainScenePanel;
     private javax.swing.JTabbedPane mainTab;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JButton removeEquipmentButton;
@@ -734,8 +627,6 @@ public class MainMenu extends javax.swing.JFrame{
     private javax.swing.JScrollPane sceneDescriptionScrollPane;
     private javax.swing.JCheckBox sceneIsCompleteCheckBox;
     private javax.swing.JCheckBox sceneIsScheduledCheckBox;
-    private javax.swing.JLabel sceneListLabel;
-    private javax.swing.JScrollPane sceneListScrollPane;
     private javax.swing.JTextField sceneNameField;
     private javax.swing.JLabel sceneNameLabel;
     private javax.swing.JPanel scenePanel;
@@ -743,7 +634,6 @@ public class MainMenu extends javax.swing.JFrame{
     private javax.swing.JPanel scheduleTabPanel;
     private javax.swing.JPanel scriptContentPanel;
     private javax.swing.JPanel scriptTabPanel;
-    private javax.swing.JPanel sideScenePanel;
     private javax.swing.JLabel stockLabel;
     private javax.swing.JButton viewAvailabilitiesButton;
     private javax.swing.JComboBox volunteerComboBox;

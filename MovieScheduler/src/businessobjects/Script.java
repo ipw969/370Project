@@ -37,7 +37,6 @@ public class Script extends BaseBusinessObject {
      *
      *
      */
-    @SuppressWarnings("LeakingThisInConstructor")
     public Script(String name) {
         super();
         this.name = name;
@@ -449,11 +448,6 @@ public class Script extends BaseBusinessObject {
     {
         schedule = newSchedule;
     }
-    
-   
-
-
-    
 
     public static void main(String[] args) {
         Script newScript;
