@@ -14,7 +14,7 @@ package businessobjects;
 
 import java.util.Iterator;
 
-public class Script extends BaseBusinessObject {
+public class Script {
 
   
 
