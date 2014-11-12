@@ -323,13 +323,9 @@ public class VolunteerForm extends javax.swing.JFrame {
             //add the volunteer to the script so it appears in the main menu
             theScript.addVolunteer(volunteer);
             MainMenu mainMenu;
-        try {
+
             mainMenu = new MainMenu(theScript, database);
             mainMenu.setVisible(true);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(VolunteerForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
             
             
             

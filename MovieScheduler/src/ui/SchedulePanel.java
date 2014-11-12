@@ -39,7 +39,7 @@ public class SchedulePanel extends javax.swing.JPanel
             throw new RuntimeException("Cannot add a null Script to a "
                     + "SchedulePanel");
         }
-
+        this.script = script;
         sceneListView = new BusinessObjectListView<>(script.scenes());
         sceneListViewScrollPane.setViewportView(sceneListView);
 
@@ -78,7 +78,9 @@ public class SchedulePanel extends javax.swing.JPanel
         {
             public void actionPerformed(ActionEvent e)
             {
-                // Stub for user clicking "Schedule Scene..." in context menu
+                
+                EditSceneFilmingDate  editSceneFilmingDate = new EditSceneFilmingDate(script, sceneListView.getSelectedValue());
+                editSceneFilmingDate.setVisible(true);
             }
         });
         sceneListViewPopupMenu.add(scheduleSceneMenuItem);
@@ -181,6 +183,7 @@ public class SchedulePanel extends javax.swing.JPanel
 
     // Private Member Variables
     private BusinessObjectListView<Scene> sceneListView;
+    private Script script;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel calendarPanel;
     private javax.swing.JPanel mainPanel;

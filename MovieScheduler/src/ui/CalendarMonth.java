@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
  * @author iain
  */
 public class CalendarMonth extends javax.swing.JPanel
-                            implements BusinessObjectListListener
+        implements BusinessObjectListListener
 {
 
     // Constructor
@@ -51,26 +51,26 @@ public class CalendarMonth extends javax.swing.JPanel
 
     public void setSchedule(Schedule schedule)
     {
-        if(filmingSchedule != null)
+        if (filmingSchedule != null)
         {
             filmingSchedule.removeListener(this);
         }
-        
+
         filmingSchedule = schedule;
         filmingSchedule.addListener(this);
         refreshCalendarDays();
     }
-    
+
     @Override
     public void businessObjectAdded(BaseBusinessObject itemAdded)
     {
-        if(itemAdded instanceof SceneFilmingDate)
+        if (itemAdded instanceof SceneFilmingDate)
         {
-            SceneFilmingDate addedFilmingDate = (SceneFilmingDate)itemAdded;
-            
-            for(CalendarDay currentCalendarDay : calendarDays)
+            SceneFilmingDate addedFilmingDate = (SceneFilmingDate) itemAdded;
+
+            for (CalendarDay currentCalendarDay : calendarDays)
             {
-                if(addedFilmingDate.sceneShootingInterval().overlaps(currentCalendarDay.date()))
+                if (addedFilmingDate.sceneShootingInterval().overlaps(currentCalendarDay.date()))
                 {
                     currentCalendarDay.filmingDates().add(addedFilmingDate);
                 }
@@ -81,15 +81,15 @@ public class CalendarMonth extends javax.swing.JPanel
     @Override
     public void businessObjectRemoved(BaseBusinessObject itemRemoved)
     {
-        if(itemRemoved instanceof SceneFilmingDate)
+        if (itemRemoved instanceof SceneFilmingDate)
         {
-            SceneFilmingDate removedFilmingDate = (SceneFilmingDate)itemRemoved;
-            
-            for(CalendarDay currentCalendarDay : calendarDays)
+            SceneFilmingDate removedFilmingDate = (SceneFilmingDate) itemRemoved;
+
+            for (CalendarDay currentCalendarDay : calendarDays)
             {
-                for(SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
+                for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
-                    if(currentDayFilmingDate.scene().name().compareTo(removedFilmingDate.scene().name()) == 0)
+                    if (currentDayFilmingDate.scene().name().compareTo(removedFilmingDate.scene().name()) == 0)
                     {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
@@ -102,7 +102,7 @@ public class CalendarMonth extends javax.swing.JPanel
     public void listCleared()
     {
         //Shouldn't really happen, but we'll deal with the case anyway
-        for(CalendarDay currentCalendarDay : calendarDays)
+        for (CalendarDay currentCalendarDay : calendarDays)
         {
             currentCalendarDay.filmingDates().clear();
         }
@@ -117,26 +117,26 @@ public class CalendarMonth extends javax.swing.JPanel
     @Override
     public void changedStateAltered(boolean newState, BaseBusinessObject sender)
     {
-        if(sender instanceof SceneFilmingDate)
+        if (sender instanceof SceneFilmingDate)
         {
-            SceneFilmingDate alteredFilmingDate = (SceneFilmingDate)sender;
-            
-            for(CalendarDay currentCalendarDay : calendarDays)
+            SceneFilmingDate alteredFilmingDate = (SceneFilmingDate) sender;
+
+            for (CalendarDay currentCalendarDay : calendarDays)
             {
-                if(alteredFilmingDate.sceneShootingInterval().overlaps(currentCalendarDay.date()))
+                if (alteredFilmingDate.sceneShootingInterval().overlaps(currentCalendarDay.date()))
                 {
                     currentCalendarDay.filmingDates().add(alteredFilmingDate);
                 }
-                for(SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
+                for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
-                    if(currentDayFilmingDate.scene().name().compareTo(alteredFilmingDate.scene().name()) == 0)
+                    if (currentDayFilmingDate.scene().name().compareTo(alteredFilmingDate.scene().name()) == 0)
                     {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
                 }
             }
-        }       
-        
+        }
+
     }
 
     // Private Methods
