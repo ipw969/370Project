@@ -20,7 +20,7 @@ public class Schedule extends BusinessObjectList<SceneFilmingDate> {
         
         for(SceneFilmingDate currentFilmingDate : this)
         {
-            if (currentFilmingDate.hasConflict())
+            if (currentFilmingDate.hasConflict() && !currentFilmingDate.isConflictIgnored())
                 conflictingSceneFilmingDates.add(currentFilmingDate);
         }
         

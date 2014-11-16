@@ -32,7 +32,9 @@
                       <Component id="sceneListViewScrollPane" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="sceneListViewLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="88" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="launchConflictButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -43,9 +45,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="sceneListViewLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="sceneListViewLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="launchConflictButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="sceneListViewScrollPane" pref="379" max="32767" attributes="0"/>
+                  <Component id="sceneListViewScrollPane" pref="373" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -60,6 +65,15 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Scenes"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="launchConflictButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Conflicts"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="launchConflictButtonMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="launchConflictButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
@@ -146,18 +147,30 @@ public class SchedulePanel extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         sidePanel = new javax.swing.JPanel();
         sceneListViewScrollPane = new javax.swing.JScrollPane();
         sceneListViewLabel = new javax.swing.JLabel();
+        launchConflictButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         calendarPanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
         sceneListViewLabel.setText("Scenes");
+
+        launchConflictButton.setText("Conflicts");
+        launchConflictButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                launchConflictButtonMouseClicked(evt);
+            }
+        });
+        launchConflictButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                launchConflictButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(sidePanel);
         sidePanel.setLayout(sidePanelLayout);
@@ -169,16 +182,20 @@ public class SchedulePanel extends javax.swing.JPanel
                     .addComponent(sceneListViewScrollPane)
                     .addGroup(sidePanelLayout.createSequentialGroup()
                         .addComponent(sceneListViewLabel)
-                        .addGap(0, 88, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(launchConflictButton)
+                        .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         sidePanelLayout.setVerticalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sceneListViewLabel)
+                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sceneListViewLabel)
+                    .addComponent(launchConflictButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneListViewScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                .addComponent(sceneListViewScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -206,11 +223,21 @@ public class SchedulePanel extends javax.swing.JPanel
         add(mainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void launchConflictButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchConflictButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_launchConflictButtonActionPerformed
+
+    private void launchConflictButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_launchConflictButtonMouseClicked
+        JFrame conflictFrame;
+        conflictFrame = new ConflictResolution(this.script);
+    }//GEN-LAST:event_launchConflictButtonMouseClicked
+
     // Private Member Variables
     private BusinessObjectListView<Scene> sceneListView;
     private Script script;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel calendarPanel;
+    private javax.swing.JButton launchConflictButton;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel sceneListViewLabel;
     private javax.swing.JScrollPane sceneListViewScrollPane;
