@@ -8,47 +8,79 @@ package ui;
 import businessobjects.BaseBusinessObject;
 import businessobjects.BusinessObjectListener;
 import businessobjects.Scene;
+import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
  * @author iain
  */
 public class EditSceneFilmingDate extends javax.swing.JFrame
-    implements BusinessObjectListener
+        implements BusinessObjectListener
 {
 
     /**
      * Creates new form EditSceneFilmingDate
      */
-    public EditSceneFilmingDate(Script script, Scene scene)
+    public EditSceneFilmingDate(Script script, SceneFilmingDate filmingDate)
     {
-        if(script == null)
+        if (script == null)
+        {
             throw new RuntimeException("Cannot edit Scene Filming Dates for"
-                    + "a null script"); 
+                    + "a null script");
+        }        
         initComponents();
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-        if(scene == null)
-        {
-            //sceneBeingEdited = new Scene();
-            //originalScene = new Scene();
-        }
-        else
-        {
-            originalScene = scene;
-            //sceneBeingEdited = (Scene)scene.clone();
-        }
         
-        //sceneBeingEdited.addListener(this);
-        errorIcon.setVisible(false);
-        errorLabel.setVisible(false);
+        originalFilmingDate = filmingDate;
+        filmingDateToEdit = (SceneFilmingDate) filmingDate.clone();
+        errorIcon.setVisible(!filmingDateToEdit.isValid());
+        errorLabel.setVisible(!filmingDateToEdit.isValid());
+        errorIcon.setToolTipText(filmingDateToEdit.errorMessage());
+        filmingDateToEdit.addListener(this);
+        
         okayButton.setEnabled(false);
         scenesComboBox = new BusinessObjectComboBoxView<>(script.scenes());
-        sceneComboBoxPanel.add(scenesComboBox);
+        sceneLabel.setText(filmingDateToEdit.scene().name());
+        scenesComboBox.setSelectedItem(filmingDateToEdit.scene());
+        
+        startDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingStart().getTime());
+        endDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingEnd().getTime());
+        
+        startDateTimeSpinner.addChangeListener(new ChangeListener()
+        {
+            
+            @Override
+            public void stateChanged(ChangeEvent e)
+            {
+                Date newValue = (Date) startDateTimeSpinner.getValue();
+                GregorianCalendar newCalendarValue = new GregorianCalendar();
+                newCalendarValue.setTime(newValue);
+                
+                filmingDateToEdit.sceneShootingInterval().setStart(newCalendarValue);
+            }
+            
+        });
+        
+        endDateTimeSpinner.addChangeListener(new ChangeListener()
+        {
+            @Override
+            public void stateChanged(ChangeEvent e)
+            {
+                Date newValue = (Date) endDateTimeSpinner.getValue();
+                GregorianCalendar newCalendarValue = new GregorianCalendar();
+                newCalendarValue.setTime(newValue);
+                
+                filmingDateToEdit.sceneShootingInterval().setEnd(newCalendarValue);
+            }
+        });
     }
-
+    
     @Override
     public void validStateAltered(boolean newState, BaseBusinessObject sender)
     {
@@ -56,16 +88,18 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         errorIcon.setVisible(!newState);
         errorLabel.setVisible(!newState);
         errorLabel.setText(null);
-        if(!newState)
+        if (!newState)
+        {
             errorIcon.setToolTipText(sender.errorMessage());
+        }
     }
-
+    
     @Override
     public void changedStateAltered(boolean newState, BaseBusinessObject sender)
     {
         okayButton.setEnabled(newState);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,7 +123,6 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         sceneLabel = new javax.swing.JLabel();
         startDateTimeSpinner = new javax.swing.JSpinner();
         endDateTimeSpinner = new javax.swing.JSpinner();
-        sceneComboBoxPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scene Filming Date");
@@ -117,12 +150,12 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                 .addGap(5, 5, 5)
                 .addComponent(errorIcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(okayButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
+                .addComponent(okayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(cancelButton)
-                .addGap(5, 5, 5))
+                .addContainerGap())
         );
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +186,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
             .addGroup(topPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleLabel)
-                .addContainerGap(251, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,13 +204,11 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
 
         endDateTimeLabel.setText("End:");
 
-        sceneLabel.setText("Scene:");
+        sceneLabel.setText("Scene");
 
         startDateTimeSpinner.setModel(new javax.swing.SpinnerDateModel());
 
         endDateTimeSpinner.setModel(new javax.swing.SpinnerDateModel());
-
-        sceneComboBoxPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -187,35 +218,33 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(startDateTimeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                            .addComponent(endDateTimeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(endDateTimeSpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startDateTimeSpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addComponent(startDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(endDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(sceneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(194, 194, 194))
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(sceneLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sceneComboBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(194, 194, 194))
+                        .addComponent(startDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addComponent(endDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(sceneComboBoxPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sceneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(startDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(startDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(sceneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(endDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(endDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(endDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
@@ -226,43 +255,47 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
     private void formWindowClosing(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowClosing
     {//GEN-HEADEREND:event_formWindowClosing
         
-        if (sceneBeingEdited.hasChanged())
+        if (filmingDateToEdit.hasChanged())
         {
-            if(sceneBeingEdited.isValid())
+            if (filmingDateToEdit.isValid())
             {
-                int confirm = JOptionPane.showOptionDialog
-                            (this, 
-                            "Changes have been made, do you wish to save?",
-                            "Save Changes?",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null, null, null);
+                int confirm = JOptionPane.showOptionDialog(this,
+                        "Changes have been made, do you wish to save?",
+                        "Save Changes?",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, null, null);
                 
-                if(confirm == JOptionPane.YES_OPTION)
+                if (confirm == JOptionPane.YES_OPTION)
                 {
                     //TODO: Perform save action
-                }
-                else if(confirm == JOptionPane.NO_OPTION)
+                    filmingDateToEdit.removeListener(this);
+                } else if (confirm == JOptionPane.NO_OPTION)
+                {
                     this.setVisible(false);
-            }
-            else
+                    filmingDateToEdit.removeListener(this);
+                }
+            } else
             {
                 int confirm = JOptionPane.showOptionDialog(
-                        this, 
+                        this,
                         "Changes have been made, but cannot be saved because "
                         + "they are not valid. Do you wish to return to editing",
                         "Return to editing?",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE, 
+                        JOptionPane.WARNING_MESSAGE,
                         null, null, null);
                 
-                if(confirm == JOptionPane.NO_OPTION)
+                if (confirm == JOptionPane.NO_OPTION)
+                {
                     this.setVisible(false);
+                    filmingDateToEdit.removeListener(this);
+                }
             }
-        }
-        else
+        } else
         {
             this.setVisible(false);
+            filmingDateToEdit.removeListener(this);
         }
         
     }//GEN-LAST:event_formWindowClosing
@@ -311,11 +344,11 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
             }
         });
     }
-    
+
     // Private Member Variables
     private BusinessObjectComboBoxView<Scene> scenesComboBox;
-    private Scene originalScene;
-    private Scene sceneBeingEdited;
+    private SceneFilmingDate originalFilmingDate;
+    private SceneFilmingDate filmingDateToEdit;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
@@ -325,13 +358,11 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
     private javax.swing.JLabel errorLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton okayButton;
-    private javax.swing.JPanel sceneComboBoxPanel;
     private javax.swing.JLabel sceneLabel;
     private javax.swing.JLabel startDateTimeLabel;
     private javax.swing.JSpinner startDateTimeSpinner;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-
 
 }

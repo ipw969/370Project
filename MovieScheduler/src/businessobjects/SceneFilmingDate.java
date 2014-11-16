@@ -6,7 +6,8 @@ import java.util.Iterator;
  * Class which represents the time interval that a scene is scheduled to
  * filmed in 
  */
-public class SceneFilmingDate extends BaseBusinessObject {
+public class SceneFilmingDate extends BaseBusinessObject 
+        implements BusinessObjectListener{
     // Constructor
     /**
      * Creates a new instance of a SceneFilmingDate with no scene or shooting
@@ -128,13 +129,20 @@ public class SceneFilmingDate extends BaseBusinessObject {
      */
     public void setSceneShootingInterval(TimeInterval shootingInterval)
     {
+        if(sceneShootingInterval != null)
+            sceneShootingInterval.removeListener(this);
+        
         sceneShootingInterval = shootingInterval;
+        if(sceneShootingInterval != null)
+            sceneShootingInterval.addListener(this);
+        
         updateError("Shooting interval cannot be null",
                     sceneShootingInterval != null);
         
         if(sceneShootingInterval != null)
-            updateError("Shooting interval is not valid", 
+            updateError("Current shooting time is not valid", 
                         sceneShootingInterval.isValid());
+        
         
         setHasChanged(true);
     }
@@ -154,6 +162,30 @@ public class SceneFilmingDate extends BaseBusinessObject {
         return scene.name();
     }
     
+    /**
+     * Clones the current SceneFilmingDate. Returns a new SceneFilmingDate which
+     * contains a reference to the same Scene object as contained in this, but
+     * with a newly cloned TimeInterval
+     * @return A clone of the current SceneFilmingDate.
+     */
+    @Override
+    public Object clone()
+    {
+        SceneFilmingDate clonedItem = new SceneFilmingDate();
+        
+        //Clone has to contain a reference to the same scene:
+        clonedItem.setScene(scene);
+        
+        GregorianCalendar start = 
+                (GregorianCalendar)this.sceneShootingInterval.start().clone();
+        GregorianCalendar end = 
+                (GregorianCalendar)this.sceneShootingInterval.end().clone();
+        
+        clonedItem.setSceneShootingInterval(new TimeInterval(start, end));
+        clonedItem.setHasChanged(false);
+        return clonedItem;
+    }
+    
     // Private methods
     
     // Private member vairables
@@ -165,6 +197,18 @@ public class SceneFilmingDate extends BaseBusinessObject {
      * The scene which is scheduled
      */
     private Scene scene;
+
+    @Override
+    public void validStateAltered(boolean newState, BaseBusinessObject sender)
+    {
+        this.updateError("Current shooting time is not valid", newState);
+    }
+
+    @Override
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender)
+    {
+        this.setHasChanged(newState);
+    }
 
     
 }
