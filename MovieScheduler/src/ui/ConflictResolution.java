@@ -6,6 +6,10 @@
 package ui;
 
 import javax.swing.JOptionPane;
+import actions.LoadScriptAction;
+import businessobjects.Scene;
+import businessobjects.SceneFilmingDate;
+import businessobjects.Script;
 
 /**
  *
@@ -16,8 +20,23 @@ public class ConflictResolution extends javax.swing.JFrame {
     /**
      * Creates new form ConflictResolution
      */
-    public ConflictResolution() {
+    public ConflictResolution(Script script) {
         initComponents();
+         if (script == null)
+        {
+            throw new RuntimeException("Cannot add a null Script to a "
+                    + "ConflictResolution");
+        }
+        this.script = script;
+        conflictSceneListView = new BusinessObjectListView<>(script.schedule().scheduleConflicts());
+        System.out.println(conflictSceneListView);
+        conflictSceneScrollPane.setViewportView(conflictSceneListView);
+        this.setVisible(true);
+        
+    }
+
+    ConflictResolution() {
+        throw new UnsupportedOperationException("Unsupported without script"); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -42,7 +61,6 @@ public class ConflictResolution extends javax.swing.JFrame {
         conflictIgnoreButton = new javax.swing.JButton();
         conflictContactAllButton = new javax.swing.JButton();
         conflictCancel = new javax.swing.JButton();
-        conflictReccomendationLabel = new javax.swing.JLabel();
         conflictInternalFrame = new javax.swing.JInternalFrame();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -68,12 +86,16 @@ public class ConflictResolution extends javax.swing.JFrame {
             public Object getElementAt(int i) { return strings[i]; }
         });
         conflictSceneListPane.setName("conflictListSelect"); // NOI18N
+        conflictSceneListPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                conflictSceneListPaneMouseClicked(evt);
+            }
+        });
         conflictSceneScrollPane.setViewportView(conflictSceneListPane);
 
         jLabel1.setText("Scene:");
 
         conflictVolunteerLabel.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        conflictVolunteerLabel.setText("THis Is a volunteer");
         conflictVolunteerLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         conflictVolunteerLabel.setName("volunteerListLabel"); // NOI18N
 
@@ -81,7 +103,6 @@ public class ConflictResolution extends javax.swing.JFrame {
 
         jLabel4.setText("Conflict:");
 
-        conflictConflictLabel.setText("This is a conflict");
         conflictConflictLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         conflictConflictLabel.setName(""); // NOI18N
 
@@ -102,8 +123,6 @@ public class ConflictResolution extends javax.swing.JFrame {
         conflictContactAllButton.setText("Contact All");
 
         conflictCancel.setText("Cancel");
-
-        conflictReccomendationLabel.setText("Reccomendation");
 
         conflictInternalFrame.setVisible(false);
 
@@ -127,19 +146,18 @@ public class ConflictResolution extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(conflictSceneScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(27, 27, 27)
+                            .addComponent(jLabel1)
+                            .addComponent(conflictSceneScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(110, 110, 110)
                                 .addComponent(jLabel4))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(conflictContactAllButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(conflictReccomendationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(conflictContactAllButton, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(conflictConflictLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,9 +183,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                     .addComponent(conflictSceneScrollPane)
                     .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(conflictConflictLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(conflictReccomendationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(conflictEditSceneButton)
                     .addComponent(conflictIgnoreButton)
@@ -194,14 +210,19 @@ public class ConflictResolution extends javax.swing.JFrame {
     }//GEN-LAST:event_conflictIgnoreButtonMouseClicked
 
     private void conflictEditSceneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictEditSceneButtonMouseClicked
-       /* Lock main window from editing
-        * Set ConflictResolution to always on top
-        * Render internal frame
+       /*
+        focus away from window
+        Go to scene editing window    
         */
     }//GEN-LAST:event_conflictEditSceneButtonMouseClicked
 
+    private void conflictSceneListPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictSceneListPaneMouseClicked
+        SceneFilmingDate selectedScene = this.conflictSceneListView.getSelectedValue();
+        conflictVolunteerLabel.setText(selectedScene.toString());
+    }//GEN-LAST:event_conflictSceneListPaneMouseClicked
+
     private Boolean ignoreCurrentConflict(){
-        
+        //conflictSceneListPane.getSelectedValue().
         return false;
     }
     /**
@@ -238,7 +259,9 @@ public class ConflictResolution extends javax.swing.JFrame {
             }
         });
     }
-
+    //Private Variables
+    private BusinessObjectListView<SceneFilmingDate> conflictSceneListView;
+    private Script script;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton conflictCancel;
     private javax.swing.JLabel conflictConflictLabel;
@@ -246,7 +269,6 @@ public class ConflictResolution extends javax.swing.JFrame {
     private javax.swing.JButton conflictEditSceneButton;
     private javax.swing.JButton conflictIgnoreButton;
     private javax.swing.JInternalFrame conflictInternalFrame;
-    private javax.swing.JLabel conflictReccomendationLabel;
     private javax.swing.JList conflictSceneListPane;
     private javax.swing.JScrollPane conflictSceneScrollPane;
     private javax.swing.JLabel conflictVolunteerLabel;

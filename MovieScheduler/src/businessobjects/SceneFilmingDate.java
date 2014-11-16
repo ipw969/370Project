@@ -1,5 +1,6 @@
 package businessobjects;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 /**
@@ -17,6 +18,7 @@ public class SceneFilmingDate extends BaseBusinessObject {
         updateError("Scene cannot be null", scene != null);
         updateError("Shooting interval cannot be null", 
                     sceneShootingInterval != null);
+        this.conflictReason = new ArrayList<>();
     }
     
     // Public methods
@@ -59,19 +61,24 @@ public class SceneFilmingDate extends BaseBusinessObject {
             return true;
         
         boolean filmingDateHasConflict = false;
+        String conflictReasonString;
         
         Iterator<Volunteer> volunteerIterator = scene.volunteerIterator();
         while(volunteerIterator.hasNext())
         {
             Volunteer currentVolunteer = volunteerIterator.next();
             // Check volunteer availabilities against our time interval
-            /*
-            for (TimeInterval currentInterval : currentVolunteer.availabilities())
+            
+            for (TimeInterval currentInterval : currentVolunteer.getAvailability())
             {
-                if(currentInterval.compareTo(currentInterval) == 0)
+                if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
                     filmingDateHasConflict = true;
+                    conflictReasonString = currentVolunteer.getFirstName() + 
+                            "Is unavailable at" + currentInterval.toString();
+                    conflictReason.add(conflictReasonString);
+                   
             }
-            */
+            
         }
         
         Iterator<Equipment> equipmentIterator = scene.equipmentIterator();
@@ -79,13 +86,16 @@ public class SceneFilmingDate extends BaseBusinessObject {
         {
             Equipment currentEquipment = equipmentIterator.next();
             // Check equipment availablities against our timer interval
-            /*
-            for (TimeInterval currentInterval : currentEquipment.availabilities())
+            
+            for (TimeInterval currentInterval : currentEquipment.getAvailabilities())
             {
-                if(currentInterval.compareTo(currentInterval) == 0)
+                if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
                     filmingDateHasConflict = true;
+                    conflictReasonString = currentEquipment.getEquipmentType() + 
+                            "Is unavailable at" + currentInterval.toString();
+                    conflictReason.add(conflictReasonString);
             }
-            */
+            
         }
         return filmingDateHasConflict;
     }
@@ -140,6 +150,17 @@ public class SceneFilmingDate extends BaseBusinessObject {
     }
     
     /**
+     * Returns the list of strings that describe the reasons
+     * for this particular schedule conflict
+     * @return Returns the list of strings that describe the reasons
+     * for this particular schedule conflict
+     */
+    public ArrayList<String> getReasonList()
+    {
+        return conflictReason;
+    }
+    
+    /**
      * Returns the name of the contained Scene or an empty String if the
      * contained scene is null
      * @return The name of the contained Scene or an empty String, if the
@@ -165,6 +186,7 @@ public class SceneFilmingDate extends BaseBusinessObject {
      * The scene which is scheduled
      */
     private Scene scene;
+    private ArrayList<String> conflictReason;
 
     
 }
