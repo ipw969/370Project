@@ -217,7 +217,7 @@ public class ConflictResolution extends javax.swing.JFrame {
         if(ignoreResult == 1){
         }
         else {
-            ignoreCurrentConflict();
+            JOptionPane.showConfirmDialog(this, "Ignore executed: " + ignoreCurrentConflict().toString());
         }
               
     }//GEN-LAST:event_conflictIgnoreButtonMouseClicked
@@ -251,6 +251,7 @@ public class ConflictResolution extends javax.swing.JFrame {
 
     private Boolean ignoreCurrentConflict(){
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
+        selectedFilmSceneTime.ignoreConflict();
         return true;
     }
     /**

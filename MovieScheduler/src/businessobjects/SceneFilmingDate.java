@@ -19,6 +19,7 @@ public class SceneFilmingDate extends BaseBusinessObject {
         updateError("Shooting interval cannot be null", 
                     sceneShootingInterval != null);
         this.conflictReason = new ArrayList<>();
+        this.isIgnored = false;
     }
     
     // Public methods
@@ -161,6 +162,25 @@ public class SceneFilmingDate extends BaseBusinessObject {
     }
     
     /**
+     * Returns the state of whether or not a conflict on this date is to be
+     * ignored
+     * @return isIgnored: The boolean set by the ignoreConflictFunction
+     */
+    public Boolean isConflictIgnored()
+    {
+        return isIgnored;
+    }
+    
+    /**
+     * sets the private member variable isIgnored to true, so that this filmscenedate
+     * will not be detected in the schedule as a conflict because the user has
+     * chosen to ignore the reason for this conflict.
+     */
+    public void ignoreConflict()
+    {
+        isIgnored = true;
+    }
+    /**
      * Returns the name of the contained Scene or an empty String if the
      * contained scene is null
      * @return The name of the contained Scene or an empty String, if the
@@ -186,6 +206,7 @@ public class SceneFilmingDate extends BaseBusinessObject {
      * The scene which is scheduled
      */
     private Scene scene;
+    private Boolean isIgnored;
     private ArrayList<String> conflictReason;
 
     
