@@ -53,64 +53,69 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="conflictSceneScrollPane" min="-2" pref="79" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Component id="conflictSceneScrollPane" min="-2" pref="79" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="conflictCancel" alignment="1" min="-2" pref="82" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="180" max="-2" attributes="0"/>
+                              <Component id="conflictInternalFrame" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="conflictVolunteerLabel" min="-2" pref="194" max="-2" attributes="0"/>
-                                  <Component id="conflictContactAllButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="conflictContactAllButton" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="conflictIgnoreButton" min="-2" pref="80" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="conflictVolunteerLabel" min="-2" pref="194" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="conflictConflictLabel" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
-                                  <Component id="conflictCancel" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
-                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="conflictEditSceneButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="conflictIgnoreButton" min="-2" pref="80" max="-2" attributes="0"/>
-                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="conflictInternalFrame" pref="0" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="conflictConflictLabel" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
+                  <Component id="conflictEditSceneButton" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="conflictSceneScrollPane" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="conflictVolunteerLabel" max="32767" attributes="0"/>
                   <Component id="conflictConflictLabel" max="32767" attributes="0"/>
+                  <Component id="conflictSceneScrollPane" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="conflictEditSceneButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="conflictIgnoreButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="conflictContactAllButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="conflictCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="conflictEditSceneButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="conflictIgnoreButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
           </Group>
@@ -163,12 +168,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Volunteers/Equipment"/>
+        <Property name="text" type="java.lang.String" value="Scene Information:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Conflict:"/>
+        <Property name="text" type="java.lang.String" value="Reason for Conflict:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="conflictConflictLabel">
@@ -201,11 +206,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Contact All"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="conflictContactAllButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="conflictCancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="conflictCancelMouseClicked"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JInternalFrame" name="conflictInternalFrame">
       <Properties>
