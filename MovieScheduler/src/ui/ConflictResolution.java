@@ -10,6 +10,13 @@ import actions.LoadScriptAction;
 import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
+import businessobjects.Volunteer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -22,8 +29,7 @@ public class ConflictResolution extends javax.swing.JFrame {
      */
     public ConflictResolution(Script script) {
         initComponents();
-         if (script == null)
-        {
+        if (script == null) {
             throw new RuntimeException("Cannot add a null Script to a "
                     + "ConflictResolution");
         }
@@ -32,7 +38,7 @@ public class ConflictResolution extends javax.swing.JFrame {
         System.out.println(conflictSceneListView);
         conflictSceneScrollPane.setViewportView(conflictSceneListView);
         this.setVisible(true);
-        
+
     }
 
     ConflictResolution() {
@@ -214,22 +220,21 @@ public class ConflictResolution extends javax.swing.JFrame {
         ignoreResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to ignore?",
                 "Conflict",
                 JOptionPane.YES_NO_OPTION);
-        if(ignoreResult == 1){
+        if (ignoreResult == 1) {
+        } else {
+            JOptionPane.showConfirmDialog(this, "Ignore executed: " + ignoreCurrentConflict().toString());
         }
-        else {
-            ignoreCurrentConflict();
-        }
-              
+
     }//GEN-LAST:event_conflictIgnoreButtonMouseClicked
 
     private void conflictEditSceneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictEditSceneButtonMouseClicked
-       this.toBack();
+        this.toBack();
         /*
         
-        Go to scene editing window  
-        Pass along scene to edit
-        Select that scene
-        */
+         Go to scene editing window  
+         Pass along scene to edit
+         Select that scene
+         */
     }//GEN-LAST:event_conflictEditSceneButtonMouseClicked
 
     private void conflictSceneListPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictSceneListPaneMouseClicked
@@ -239,20 +244,88 @@ public class ConflictResolution extends javax.swing.JFrame {
     }//GEN-LAST:event_conflictSceneListPaneMouseClicked
 
     private void conflictContactAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictContactAllButtonMouseClicked
+        SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
+//        Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
+        String emailList = "mitchellcorbett@hotmail.com";
         /*
-        * Use Volunteer Iterator to produce a list of emails
-        * Send email through http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+        String emailList = "";
+
+        // Comma separated list of emails for the below code
+        while (volunteerIter.hasNext()) {
+            Volunteer currentVolunteer = volunteerIter.next();
+            emailList = emailList + currentVolunteer.getEmail() + ",";
+        }
+
         */
+        
+        /* 
+        * The following code is modified for use here from
+        * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+        */
+        
+        final String username = JOptionPane.showInputDialog(this, "Please enter your gmail");
+        final String password = JOptionPane.showInputDialog(this, "Please enter your password");
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+      
+        
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(emailList));
+            message.setSubject("Filming Conflict");
+            /*String conflictMessage = "Hello team. We are unable to schedule a scene " +
+                    "due to scheduling conflicts. Please see the information about " + 
+                    "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
+                    + " And the reason for conflict: " + 
+                    selectedFilmSceneTime.getReasonList().toString();
+     
+            */      
+            String conflictMessage = "TESTING";
+            message.setText(conflictMessage);
+
+            Transport.send(message);
+
+
+        } catch (MessagingException e) {
+            Object[] options = {"Try again",
+                    "Show Emails",
+                    "Cancel"};
+            
+           int choice = JOptionPane.showOptionDialog(this, "An error has occured " +
+                   "in sending your message. What would you like to do?", "Error",
+                   JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                   null,options, options[2]);
+           if(choice == 0)
+           {
+               
+           }
+        }
+
     }//GEN-LAST:event_conflictContactAllButtonMouseClicked
 
     private void conflictCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictCancelMouseClicked
         this.dispose();
     }//GEN-LAST:event_conflictCancelMouseClicked
 
-    private Boolean ignoreCurrentConflict(){
+    private Boolean ignoreCurrentConflict() {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
+        selectedFilmSceneTime.ignoreConflict();
         return true;
     }
+
     /**
      * @param args the command line arguments
      */

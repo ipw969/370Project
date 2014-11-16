@@ -1,11 +1,15 @@
 package ui;
 
 import businessobjects.Scene;
+import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
+import businessobjects.TimeInterval;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -79,9 +83,30 @@ public class SchedulePanel extends javax.swing.JPanel
         {
             public void actionPerformed(ActionEvent e)
             {
+                Scene selectedScene = sceneListView.getSelectedValue();
+                SceneFilmingDate filmingDate =
+                        script.schedule().scenesFilmingDate(selectedScene);
                 
-                EditSceneFilmingDate  editSceneFilmingDate = new EditSceneFilmingDate(script, sceneListView.getSelectedValue());
-                editSceneFilmingDate.setVisible(true);
+                if(filmingDate == null)
+                {
+                    
+                    filmingDate = new SceneFilmingDate();
+                    filmingDate.setScene(selectedScene);
+                    GregorianCalendar start = new GregorianCalendar();
+                    start.add(Calendar.DAY_OF_WEEK, 1);
+                    start.set(Calendar.HOUR_OF_DAY, 9);
+                    
+                    GregorianCalendar end = new GregorianCalendar();
+                    end.add(Calendar.DAY_OF_WEEK, 1);
+                    end.set(Calendar.HOUR_OF_DAY, 11);
+                    
+                    filmingDate.setSceneShootingInterval(
+                        new TimeInterval(start, end));
+                }
+                
+                EditSceneFilmingDate editFilmingDate = new
+                    EditSceneFilmingDate(script, filmingDate);
+                editFilmingDate.setVisible(true);
             }
         });
         sceneListViewPopupMenu.add(scheduleSceneMenuItem);

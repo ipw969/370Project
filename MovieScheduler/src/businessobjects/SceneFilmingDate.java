@@ -7,7 +7,8 @@ import java.util.Iterator;
  * Class which represents the time interval that a scene is scheduled to
  * filmed in 
  */
-public class SceneFilmingDate extends BaseBusinessObject {
+public class SceneFilmingDate extends BaseBusinessObject 
+        implements BusinessObjectListener{
     // Constructor
     /**
      * Creates a new instance of a SceneFilmingDate with no scene or shooting
@@ -19,6 +20,7 @@ public class SceneFilmingDate extends BaseBusinessObject {
         updateError("Shooting interval cannot be null", 
                     sceneShootingInterval != null);
         this.conflictReason = new ArrayList<>();
+        this.isIgnored = false;
     }
     
     // Public methods
@@ -138,13 +140,20 @@ public class SceneFilmingDate extends BaseBusinessObject {
      */
     public void setSceneShootingInterval(TimeInterval shootingInterval)
     {
+        if(sceneShootingInterval != null)
+            sceneShootingInterval.removeListener(this);
+        
         sceneShootingInterval = shootingInterval;
+        if(sceneShootingInterval != null)
+            sceneShootingInterval.addListener(this);
+        
         updateError("Shooting interval cannot be null",
                     sceneShootingInterval != null);
         
         if(sceneShootingInterval != null)
-            updateError("Shooting interval is not valid", 
+            updateError("Current shooting time is not valid", 
                         sceneShootingInterval.isValid());
+        
         
         setHasChanged(true);
     }
@@ -161,6 +170,25 @@ public class SceneFilmingDate extends BaseBusinessObject {
     }
     
     /**
+     * Returns the state of whether or not a conflict on this date is to be
+     * ignored
+     * @return isIgnored: The boolean set by the ignoreConflictFunction
+     */
+    public Boolean isConflictIgnored()
+    {
+        return isIgnored;
+    }
+    
+    /**
+     * sets the private member variable isIgnored to true, so that this filmscenedate
+     * will not be detected in the schedule as a conflict because the user has
+     * chosen to ignore the reason for this conflict.
+     */
+    public void ignoreConflict()
+    {
+        isIgnored = true;
+    }
+    /**
      * Returns the name of the contained Scene or an empty String if the
      * contained scene is null
      * @return The name of the contained Scene or an empty String, if the
@@ -175,6 +203,30 @@ public class SceneFilmingDate extends BaseBusinessObject {
         return scene.name();
     }
     
+    /**
+     * Clones the current SceneFilmingDate. Returns a new SceneFilmingDate which
+     * contains a reference to the same Scene object as contained in this, but
+     * with a newly cloned TimeInterval
+     * @return A clone of the current SceneFilmingDate.
+     */
+    @Override
+    public Object clone()
+    {
+        SceneFilmingDate clonedItem = new SceneFilmingDate();
+        
+        //Clone has to contain a reference to the same scene:
+        clonedItem.setScene(scene);
+        
+        GregorianCalendar start = 
+                (GregorianCalendar)this.sceneShootingInterval.start().clone();
+        GregorianCalendar end = 
+                (GregorianCalendar)this.sceneShootingInterval.end().clone();
+        
+        clonedItem.setSceneShootingInterval(new TimeInterval(start, end));
+        clonedItem.setHasChanged(false);
+        return clonedItem;
+    }
+    
     // Private methods
     
     // Private member vairables
@@ -186,7 +238,20 @@ public class SceneFilmingDate extends BaseBusinessObject {
      * The scene which is scheduled
      */
     private Scene scene;
+    private Boolean isIgnored;
     private ArrayList<String> conflictReason;
+
+    @Override
+    public void validStateAltered(boolean newState, BaseBusinessObject sender)
+    {
+        this.updateError("Current shooting time is not valid", newState);
+    }
+
+    @Override
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender)
+    {
+        this.setHasChanged(newState);
+    }
 
     
 }

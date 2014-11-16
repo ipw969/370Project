@@ -20,7 +20,7 @@ public class Schedule extends BusinessObjectList<SceneFilmingDate> {
         
         for(SceneFilmingDate currentFilmingDate : this)
         {
-            if (currentFilmingDate.hasConflict())
+            if (currentFilmingDate.hasConflict() && !currentFilmingDate.isConflictIgnored())
                 conflictingSceneFilmingDates.add(currentFilmingDate);
         }
         
@@ -48,5 +48,21 @@ public class Schedule extends BusinessObjectList<SceneFilmingDate> {
         
         returnFilmingDates.sort(null);
         return returnFilmingDates;
+    }
+    
+    /**
+     * Returns the SceneFilmingDate in the Schedule for the provided Scene
+     * @param scene::Scene ~ The Scene whose filming date is to be searched for
+     * @return The SceneFilmingDate for the provided Scene, or null if the
+     * Scene is not yet scheduled.
+     */
+    public SceneFilmingDate scenesFilmingDate(Scene scene)
+    {
+        for (SceneFilmingDate currentFilmingDate : this)
+        {
+            if(currentFilmingDate.scene() == scene)
+                return currentFilmingDate;
+        }
+        return null;
     }
 }
