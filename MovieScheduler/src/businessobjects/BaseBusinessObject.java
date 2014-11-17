@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *  - Could do with some sort of event mechanism for signaling that the state
  *    has changed, and that the error state has changed.
  */
-public class BaseBusinessObject {
+public abstract class BaseBusinessObject implements Cloneable{
     
     // Constructor
     
@@ -224,6 +224,28 @@ public class BaseBusinessObject {
         }
     }
 
+    /**The basic toString() method must be overwritten. This should give a simple identifier for the object(example:name)
+     * @return the identifier for this object
+     */
+    @Override
+    public abstract String toString();
+    
+    /**A descriptive string to identify all traits of this object
+     * @return A descriptive String describing the traits of this class
+     */
+    public abstract String toDescriptiveString();
+    
+    /**This performs a deep clone of the object copying not only itself, but all of the objects that it is comprised of.
+     * @return A deep clone of the object
+     */
+    @Override
+    public abstract BaseBusinessObject clone();
+    
+    /**This method should Make this object exactly the same as the given object.
+     * @param mergeObject: The object to merge this object into.
+     */
+    
+    public abstract void merge(BaseBusinessObject mergeObject);
     // Private Member Variables
     /**
      * A Set of all the error messages associated with the BusinessObject. The

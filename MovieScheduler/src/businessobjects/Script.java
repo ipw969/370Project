@@ -10,6 +10,8 @@
  TODO: Create a test scaffold for the class
  TODO: Add a way for the script to listen to the scenes for a valid state. 
  */
+
+
 package businessobjects;
 
 import java.util.Iterator;
@@ -452,5 +454,29 @@ public class Script extends BaseBusinessObject {
     public static void main(String[] args) {
         Script newScript;
         newScript = new Script("Practice Script");
+    }
+
+    @Override
+    public String toString()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toDescriptiveString()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public BaseBusinessObject clone()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void merge(BaseBusinessObject mergeObject)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

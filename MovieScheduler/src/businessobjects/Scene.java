@@ -6,9 +6,8 @@ import java.util.Iterator;
 
   /*
  * This class will hold all information  based on a scene.//
-TODO: Add a way to find a common time availability among all volunteers and equipment.
-TODO: Add a parsert to parse the description to ensure it is tidy - low priority. 
-TODO: I may make this an interior class of the script class. This is because there should only be one source of a scene. 
+TODO: There is currently a bug in that the scene does not take into account the quantity of an ammount of equipment.
+
  */
 
 
@@ -277,6 +276,7 @@ public class Scene extends BaseBusinessObject{
         return this.name;
     }
     
+    @Override
     public String toDescriptiveString()
     {
         StringBuilder newString = new StringBuilder();
@@ -322,8 +322,58 @@ public class Scene extends BaseBusinessObject{
         return newString.toString();
     }
     
+    
     public static void main (int args[])
     {
         //test the 
+    }
+
+    @Override
+    public BaseBusinessObject clone() 
+    {
+       Scene cloneScene = new Scene(this.name(), this.description());
+       Iterator<Volunteer> volunteerIter = volunteerIterator();
+       while (volunteerIter.hasNext())
+       {
+           cloneScene.addVolunteer((Volunteer) volunteerIter.next().clone());
+       }
+       
+       Iterator<Equipment> equipmentIter = equipmentIterator();
+       while (equipmentIter.hasNext())
+       {
+           cloneScene.addEquipment((Equipment) equipmentIter.next().clone());
+       }
+       
+       cloneScene.setScheduled(this.isScheduled());
+       cloneScene.setComplete(this.isComplete());
+       
+       return cloneScene;
+    }
+
+    @Override
+    public void merge(BaseBusinessObject mergeObject) 
+    {
+      Scene mergeScene = (Scene) mergeObject;
+      
+      necessaryVolunteers.clear();
+      necessaryEquipment.clear();
+      Iterator<Volunteer> volunteerIter = mergeScene.volunteerIterator();
+      while (volunteerIter.hasNext())
+      {
+         Volunteer newVolunteer = volunteerIter.next();
+         this.addVolunteer(newVolunteer);
+      }
+      
+       Iterator<Equipment> equipmentIter = mergeScene.equipmentIterator();
+      while (equipmentIter.hasNext())
+      {
+         Equipment newEquipment = equipmentIter.next();
+         this.addEquipment(newEquipment);
+      }
+      
+      this.setName(mergeScene.name());
+      this.setDescription(mergeScene.description());
+      this.setScheduled(mergeScene.isScheduled());
+      this.setComplete(mergeScene.isComplete());
     }
 }

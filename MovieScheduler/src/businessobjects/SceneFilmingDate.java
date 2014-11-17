@@ -203,30 +203,6 @@ public class SceneFilmingDate extends BaseBusinessObject
         return scene.name();
     }
     
-    /**
-     * Clones the current SceneFilmingDate. Returns a new SceneFilmingDate which
-     * contains a reference to the same Scene object as contained in this, but
-     * with a newly cloned TimeInterval
-     * @return A clone of the current SceneFilmingDate.
-     */
-    @Override
-    public Object clone()
-    {
-        SceneFilmingDate clonedItem = new SceneFilmingDate();
-        
-        //Clone has to contain a reference to the same scene:
-        clonedItem.setScene(scene);
-        
-        GregorianCalendar start = 
-                (GregorianCalendar)this.sceneShootingInterval.start().clone();
-        GregorianCalendar end = 
-                (GregorianCalendar)this.sceneShootingInterval.end().clone();
-        
-        clonedItem.setSceneShootingInterval(new TimeInterval(start, end));
-        clonedItem.setHasChanged(false);
-        return clonedItem;
-    }
-    
     // Private methods
     
     // Private member vairables
@@ -251,6 +227,42 @@ public class SceneFilmingDate extends BaseBusinessObject
     public void changedStateAltered(boolean newState, BaseBusinessObject sender)
     {
         this.setHasChanged(newState);
+    }
+
+    @Override
+    public String toDescriptiveString()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void merge(BaseBusinessObject mergeObject)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * Clones the current SceneFilmingDate. Returns a new SceneFilmingDate which
+     * contains a reference to the same Scene object as contained in this, but
+     * with a newly cloned TimeInterval
+     * @return A clone of the current SceneFilmingDate.
+     */
+    @Override
+    public BaseBusinessObject clone()
+    {
+        SceneFilmingDate clonedItem = new SceneFilmingDate();
+        
+        //Clone has to contain a reference to the same scene:
+        clonedItem.setScene(scene);
+        
+        GregorianCalendar start = 
+                (GregorianCalendar)this.sceneShootingInterval.start().clone();
+        GregorianCalendar end = 
+                (GregorianCalendar)this.sceneShootingInterval.end().clone();
+        
+        clonedItem.setSceneShootingInterval(new TimeInterval(start, end));
+        clonedItem.setHasChanged(false);
+        return clonedItem;
     }
 
     
