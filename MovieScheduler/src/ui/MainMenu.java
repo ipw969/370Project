@@ -7,128 +7,61 @@ package ui;
 
 import businessobjects.Script;
 import businessobjects.Volunteer;
-import businessobjects.Scene;
 import database.Database;
 import database.JdbcDatabase;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
+
 /**
  *
  * @author iain
  */
-public class MainMenu extends javax.swing.JFrame{
+public class MainMenu extends javax.swing.JFrame
+{
+
     private final Script theScript;
     private final Database database;
-    private final BusinessObjectListView<Scene> sceneListView;
+
     /**
-     * 
-     * @param theScript the script currently in use by the system. 
-     * @throws SQLException 
+     *
+     * @param theScript the script currently in use by the system.
+     * @throws SQLException
      */
-    public MainMenu(Script theScript, Database database) throws SQLException {
+    public MainMenu(Script theScript, Database database)
+    {
         initComponents();
         this.database = database;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       //this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.theScript = theScript;
-        this.setMaximumSize(new Dimension(1000,600));
-        this.setMinimumSize(new Dimension(1000,600));
-        
-        
-     //   theScript.addVolunteer(new Volunteer("kyle", "west", "raeagaeg", "phonenumber"));
-         volunteerComboBox.removeAllItems();
+        this.setMaximumSize(new Dimension(1000, 600));
+        this.setMinimumSize(new Dimension(1000, 600));
+
+        //   theScript.addVolunteer(new Volunteer("kyle", "west", "raeagaeg", "phonenumber"));
+        volunteerComboBox.removeAllItems();
         if (theScript.hasVolunteers())
         {
-           
+
             Iterator<Volunteer> iter = theScript.volunteerIterator();
             while (iter.hasNext())
             {
                 volunteerComboBox.addItem(iter.next());
             }
-            
-        }
-        else
+
+        } else
         {
             String noVolunteers;
             noVolunteers = "No volunteers currently in script";
             volunteerComboBox.addItem(noVolunteers);
         }
 
-        
-        sceneListView = new BusinessObjectListView<>(theScript.scenes());
-        sceneListScrollPane.setViewportView(sceneListView);
-        
-        JPopupMenu sceneListViewPopupMenu = new JPopupMenu();
-        JMenuItem scheduleSceneMenuItem = new JMenuItem("Schedule Scene...");
-        
-        sceneListView.addMouseListener( new MouseAdapter()
-        {
-                public void mousePressed(MouseEvent e)
-                {
-                        if ( SwingUtilities.isRightMouseButton(e) )
-                        {
-                            System.out.println("Pointer at (" + e.getPoint().x + ", " + e.getPoint().y + ")");
-                            int indexUnderPointer =
-                                    sceneListView.locationToIndex(e.getPoint());
-                            System.out.println("Selected index is " + indexUnderPointer);                            
-                            if(sceneListView.getCellBounds(indexUnderPointer, 
-                                    indexUnderPointer).contains(e.getPoint()))
-                            {
-                                sceneListView.clearSelection();                                
-                            }
-                            else
-                            {
-                                sceneListView.setSelectedIndex(indexUnderPointer);
-
-                                sceneListViewPopupMenu.show(
-                                        sceneListView, e.getX() , e.getY());
-                            }
-                        }
-                        super.mousePressed(e);
-                }
-        });
-        scheduleSceneMenuItem.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-                // Stub for user clicking "Schedule Scene..." in context menu
-            }
-        });
-        sceneListViewPopupMenu.add(scheduleSceneMenuItem);
-        //sceneListView.setComponentPopupMenu(sceneListViewPopupMenu);
-        
-        sceneListViewPopupMenu.addPopupMenuListener(new PopupMenuListener(){
-            public void popupMenuCanceled(PopupMenuEvent e)
-            {
-                //No action taken when menu is canceled
-            }
-            
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
-            {
-                //No action taken before menu becomes invisible
-            }
-            
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e)
-            {
-                Scene selectedScene = sceneListView.getSelectedValue();
-                if(selectedScene == null)
-                    return;
-                           
-                scheduleSceneMenuItem.setText("Schedule " + 
-                        sceneListView.getSelectedValue().toString());
-            }
-        });
+        SchedulePanel schedulePanel = new SchedulePanel();
+        schedulePanel.setSript(theScript);
+        scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
     }
 
     /**
@@ -186,10 +119,6 @@ public class MainMenu extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         sceneViewRequirementsButton = new javax.swing.JButton();
         scheduleTabPanel = new javax.swing.JPanel();
-        sideScenePanel = new javax.swing.JPanel();
-        sceneListLabel = new javax.swing.JLabel();
-        sceneListScrollPane = new javax.swing.JScrollPane();
-        mainScenePanel = new javax.swing.JPanel();
 
         label1.setText("label1");
 
@@ -545,38 +474,6 @@ public class MainMenu extends javax.swing.JFrame{
         mainTab.addTab("Script", scriptTabPanel);
 
         scheduleTabPanel.setLayout(new java.awt.BorderLayout());
-
-        sideScenePanel.setMaximumSize(new java.awt.Dimension(150, 32767));
-        sideScenePanel.setPreferredSize(new java.awt.Dimension(150, 610));
-
-        sceneListLabel.setText("Scenes");
-
-        javax.swing.GroupLayout sideScenePanelLayout = new javax.swing.GroupLayout(sideScenePanel);
-        sideScenePanel.setLayout(sideScenePanelLayout);
-        sideScenePanelLayout.setHorizontalGroup(
-            sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sideScenePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(sideScenePanelLayout.createSequentialGroup()
-                        .addComponent(sceneListLabel)
-                        .addGap(0, 75, Short.MAX_VALUE))
-                    .addComponent(sceneListScrollPane))
-                .addContainerGap())
-        );
-        sideScenePanelLayout.setVerticalGroup(
-            sideScenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sideScenePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sceneListLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        scheduleTabPanel.add(sideScenePanel, java.awt.BorderLayout.LINE_START);
-        scheduleTabPanel.add(mainScenePanel, java.awt.BorderLayout.CENTER);
-
         mainTab.addTab("Schedule", scheduleTabPanel);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -592,7 +489,7 @@ public class MainMenu extends javax.swing.JFrame{
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainTab, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
+                .addComponent(mainTab)
                 .addContainerGap())
         );
 
@@ -629,29 +526,28 @@ public class MainMenu extends javax.swing.JFrame{
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
-    {                                         
-    
-                this.setVisible(false);
-                this.dispose();
-                VolunteerForm volunteerForm = new VolunteerForm(theScript, database);
-                volunteerForm.setVisible(true);
-                this.repaint();
-    }                       // TODO add your handling code here:
+        {
+
+            this.setVisible(false);
+            this.dispose();
+            VolunteerForm volunteerForm = new VolunteerForm(theScript, database);
+            volunteerForm.setVisible(true);
+            this.repaint();
+        }                       // TODO add your handling code here:
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
-       
-        
-       if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
-       {
-              volunteerEmailField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getEmail());
-         volunteerFirstNameField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getFirstName());
-          volunteerLastNameField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getLastName());
-           volunteerPhoneNumberField.setText( ((Volunteer) volunteerComboBox.getSelectedItem()).getPhone());
-       
-       }
-            
-    
+
+        if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
+        {
+            volunteerEmailField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getEmail());
+            volunteerFirstNameField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getFirstName());
+            volunteerLastNameField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getLastName());
+            volunteerPhoneNumberField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getPhone());
+
+        }
+
+
     }//GEN-LAST:event_volunteerComboBoxActionPerformed
 
     private void volunteerFirstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerFirstNameFieldActionPerformed
@@ -661,41 +557,42 @@ public class MainMenu extends javax.swing.JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+    public static void main(String args[])
+    {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException ex)
-        {
-            System.out.println("Could not load database driver with "
-                        + "message: " + ex.toString());
-            return;
-        }
-        
-        JdbcDatabase testDatabase = null;
-        try{
-            testDatabase = new JdbcDatabase(
-                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
-                "cmpt370_group06",
-                "Raptorjesusisawesome55775");
-        }
-        catch (SQLException ex)
-        {
-            System.out.println("Failed to connection to db with message: "
-                + ex.getMessage());
-            return;
-        }
-                
-                try {
-                new MainMenu(null, testDatabase).setVisible(true);
+            public void run()
+            {
+                try
+                {
+                    Class.forName("org.postgresql.Driver");
+                } catch (ClassNotFoundException ex)
+                {
+                    System.out.println("Could not load database driver with "
+                            + "message: " + ex.toString());
+                    return;
+                }
+
+                JdbcDatabase testDatabase = null;
+                try
+                {
+                    testDatabase = new JdbcDatabase(
+                            "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                            "cmpt370_group06",
+                            "Raptorjesusisawesome55775");
                 } catch (SQLException ex)
                 {
-                    JOptionPane.showMessageDialog(null, "Could not load main" +
-                            " menu.");
+                    System.out.println("Failed to connection to db with message: "
+                            + ex.getMessage());
+                    return;
                 }
+
+                new MainMenu(null, testDatabase).setVisible(true);
+
+                JOptionPane.showMessageDialog(null, "Could not load main"
+                        + " menu.");
+
             }
         });
     }
@@ -722,7 +619,6 @@ public class MainMenu extends javax.swing.JFrame{
     private java.awt.Label label1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JPanel mainScenePanel;
     private javax.swing.JTabbedPane mainTab;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JButton removeEquipmentButton;
@@ -734,8 +630,6 @@ public class MainMenu extends javax.swing.JFrame{
     private javax.swing.JScrollPane sceneDescriptionScrollPane;
     private javax.swing.JCheckBox sceneIsCompleteCheckBox;
     private javax.swing.JCheckBox sceneIsScheduledCheckBox;
-    private javax.swing.JLabel sceneListLabel;
-    private javax.swing.JScrollPane sceneListScrollPane;
     private javax.swing.JTextField sceneNameField;
     private javax.swing.JLabel sceneNameLabel;
     private javax.swing.JPanel scenePanel;
@@ -743,7 +637,6 @@ public class MainMenu extends javax.swing.JFrame{
     private javax.swing.JPanel scheduleTabPanel;
     private javax.swing.JPanel scriptContentPanel;
     private javax.swing.JPanel scriptTabPanel;
-    private javax.swing.JPanel sideScenePanel;
     private javax.swing.JLabel stockLabel;
     private javax.swing.JButton viewAvailabilitiesButton;
     private javax.swing.JComboBox volunteerComboBox;

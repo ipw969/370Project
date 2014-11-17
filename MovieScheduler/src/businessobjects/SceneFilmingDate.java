@@ -1,12 +1,14 @@
 package businessobjects;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 /**
  * Class which represents the time interval that a scene is scheduled to
  * filmed in 
  */
-public class SceneFilmingDate extends BaseBusinessObject {
+public class SceneFilmingDate extends BaseBusinessObject 
+        implements BusinessObjectListener{
     // Constructor
     /**
      * Creates a new instance of a SceneFilmingDate with no scene or shooting
@@ -17,6 +19,8 @@ public class SceneFilmingDate extends BaseBusinessObject {
         updateError("Scene cannot be null", scene != null);
         updateError("Shooting interval cannot be null", 
                     sceneShootingInterval != null);
+        this.conflictReason = new ArrayList<>();
+        this.isIgnored = false;
     }
     
     // Public methods
@@ -59,19 +63,24 @@ public class SceneFilmingDate extends BaseBusinessObject {
             return true;
         
         boolean filmingDateHasConflict = false;
+        String conflictReasonString;
         
         Iterator<Volunteer> volunteerIterator = scene.volunteerIterator();
         while(volunteerIterator.hasNext())
         {
             Volunteer currentVolunteer = volunteerIterator.next();
             // Check volunteer availabilities against our time interval
-            /*
-            for (TimeInterval currentInterval : currentVolunteer.availabilities())
+            
+            for (TimeInterval currentInterval : currentVolunteer.getAvailability())
             {
-                if(currentInterval.compareTo(currentInterval) == 0)
+                if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
                     filmingDateHasConflict = true;
+                    conflictReasonString = currentVolunteer.getFirstName() + 
+                            "Is unavailable at" + currentInterval.toString();
+                    conflictReason.add(conflictReasonString);
+                   
             }
-            */
+            
         }
         
         Iterator<Equipment> equipmentIterator = scene.equipmentIterator();
@@ -79,13 +88,16 @@ public class SceneFilmingDate extends BaseBusinessObject {
         {
             Equipment currentEquipment = equipmentIterator.next();
             // Check equipment availablities against our timer interval
-            /*
-            for (TimeInterval currentInterval : currentEquipment.availabilities())
+            
+            for (TimeInterval currentInterval : currentEquipment.getAvailabilities())
             {
-                if(currentInterval.compareTo(currentInterval) == 0)
+                if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
                     filmingDateHasConflict = true;
+                    conflictReasonString = currentEquipment.getEquipmentType() + 
+                            "Is unavailable at" + currentInterval.toString();
+                    conflictReason.add(conflictReasonString);
             }
-            */
+            
         }
         return filmingDateHasConflict;
     }
@@ -128,17 +140,54 @@ public class SceneFilmingDate extends BaseBusinessObject {
      */
     public void setSceneShootingInterval(TimeInterval shootingInterval)
     {
+        if(sceneShootingInterval != null)
+            sceneShootingInterval.removeListener(this);
+        
         sceneShootingInterval = shootingInterval;
+        if(sceneShootingInterval != null)
+            sceneShootingInterval.addListener(this);
+        
         updateError("Shooting interval cannot be null",
                     sceneShootingInterval != null);
         
         if(sceneShootingInterval != null)
-            updateError("Shooting interval is not valid", 
+            updateError("Current shooting time is not valid", 
                         sceneShootingInterval.isValid());
+        
         
         setHasChanged(true);
     }
     
+    /**
+     * Returns the list of strings that describe the reasons
+     * for this particular schedule conflict
+     * @return Returns the list of strings that describe the reasons
+     * for this particular schedule conflict
+     */
+    public ArrayList<String> getReasonList()
+    {
+        return conflictReason;
+    }
+    
+    /**
+     * Returns the state of whether or not a conflict on this date is to be
+     * ignored
+     * @return isIgnored: The boolean set by the ignoreConflictFunction
+     */
+    public Boolean isConflictIgnored()
+    {
+        return isIgnored;
+    }
+    
+    /**
+     * sets the private member variable isIgnored to true, so that this filmscenedate
+     * will not be detected in the schedule as a conflict because the user has
+     * chosen to ignore the reason for this conflict.
+     */
+    public void ignoreConflict()
+    {
+        isIgnored = true;
+    }
     /**
      * Returns the name of the contained Scene or an empty String if the
      * contained scene is null
@@ -165,6 +214,56 @@ public class SceneFilmingDate extends BaseBusinessObject {
      * The scene which is scheduled
      */
     private Scene scene;
+    private Boolean isIgnored;
+    private ArrayList<String> conflictReason;
+
+    @Override
+    public void validStateAltered(boolean newState, BaseBusinessObject sender)
+    {
+        this.updateError("Current shooting time is not valid", newState);
+    }
+
+    @Override
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender)
+    {
+        this.setHasChanged(newState);
+    }
+
+    @Override
+    public String toDescriptiveString()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void merge(BaseBusinessObject mergeObject)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * Clones the current SceneFilmingDate. Returns a new SceneFilmingDate which
+     * contains a reference to the same Scene object as contained in this, but
+     * with a newly cloned TimeInterval
+     * @return A clone of the current SceneFilmingDate.
+     */
+    @Override
+    public BaseBusinessObject clone()
+    {
+        SceneFilmingDate clonedItem = new SceneFilmingDate();
+        
+        //Clone has to contain a reference to the same scene:
+        clonedItem.setScene(scene);
+        
+        GregorianCalendar start = 
+                (GregorianCalendar)this.sceneShootingInterval.start().clone();
+        GregorianCalendar end = 
+                (GregorianCalendar)this.sceneShootingInterval.end().clone();
+        
+        clonedItem.setSceneShootingInterval(new TimeInterval(start, end));
+        clonedItem.setHasChanged(false);
+        return clonedItem;
+    }
 
     
 }

@@ -1,183 +1,123 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
-import javax.swing.JPanel;
-import java.util.GregorianCalendar;
-import java.text.SimpleDateFormat;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
-import businessobjects.SceneFilmingDate;
 import businessobjects.BusinessObjectList;
-import businessobjects.BusinessObjectListener;
-import businessobjects.BaseBusinessObject;
-import java.awt.List;
+import businessobjects.SceneFilmingDate;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
 /**
- * A class representing a Ui element for displaying a single day of a calendar
+ * A ui class representing a single day in the schedule calendar. Displays the
+ * day of the month, then a list of all the scenes scheduled on that day.
  */
-public class CalendarDay extends JPanel implements BusinessObjectListener{
-    
+public class CalendarDay extends javax.swing.JPanel
+{
     // Constructor
     /**
-     * Creates an instance of a calendar day with the provided calendar storing
-     * the date
-     * @param date::GregorianCalendar ~ The date of the day to display 
+     * Creates a new instance of a Calendar Day. Set date must be called before
+     * this can properly be displayed.
      */
-    public CalendarDay(GregorianCalendar date)
+    public CalendarDay()
     {
-        filmingSchedule = new BusinessObjectList<>();
-        this.date = (GregorianCalendar)date.clone();
-        this.setBackground(Color.WHITE);
-        setBorder(new LineBorder(new Color(240,240,240)));
         initComponents();
+        dateFormatter = new SimpleDateFormat("dd");
+        filmingDates = new BusinessObjectList<>();
+        filmingDateView = new BusinessObjectListView<>(filmingDates);
+        filmingDateScrollPane.setViewportView(filmingDateView);
     }
     
-    // Public methods
+    // Public Methods
+    
     /**
-     * Sets the foreground color of the CalendarDay. This sets the color of the
-     * text label, and then calls the super version.
+     * Sets the Foreground Color of the panel. 
      * @param color 
      */
     @Override
     public void setForeground(Color color)
     {
-        if(dateLabel != null)
-            dateLabel.setForeground(color);
+        if(dayOfMonthLabel != null)
+            dayOfMonthLabel.setForeground(color);
         super.setForeground(color);
     }
     
     /**
-     * Returns the date this Calendar day represents
-     * @return The date this Calendar day represents 
+     * Sets the date that this calendar displays
+     * @param date::GregorianCalendar ~ The date this CalendarDay displays
+     */
+    public void setDate(GregorianCalendar date)
+    {
+        this.date = date;
+        dayOfMonthLabel.setText(dateFormatter.format(date.getTime()));
+        filmingDates.clear();
+    }
+    
+    /**
+     * Returns the date currently being displayed by the CalendarDay
+     * @return The date currently being displayed by the CalendarDay
      */
     public GregorianCalendar date()
     {
         return date;
     }
-     
-    // Public methods
-    
-    public void addSceneFilmingDate(SceneFilmingDate sceneFilmingDate)
-    {
-        if(filmingSchedule.contains(sceneFilmingDate))
-            return;
-        
-        filmingSchedule.add(sceneFilmingDate);
-        updateList();
-    }
-    
-    public void removeSceneFilmingDate(SceneFilmingDate sceneFilmingDate)
-    {
-        if(filmingSchedule.remove(sceneFilmingDate))
-        {
-            updateList();
-        }
-    }
-    
-    @Override
-    public void changedStateAltered(boolean currentState, 
-                                    BaseBusinessObject sender)
-    {
-        if(sender instanceof SceneFilmingDate)
-        {
-            SceneFilmingDate sendingSceneFilmingDate = (SceneFilmingDate)sender;
-            if(!sendingSceneFilmingDate.sceneShootingInterval().overlaps(date))
-            {
-                filmingSchedule.remove(sendingSceneFilmingDate);
-                updateList();
-            }
-        }
-    }
-    
-    @Override
-    public void validStateAltered(boolean currentState,
-                                  BaseBusinessObject sender)
-    {
-        // We're not editing the object, so it shouldn't ever be invalid.
-    }
-    // Private Methods
-    
-    private void updateList()
-    {
-        if(filmingSchedule == null)
-            return;
-        
-        sceneList.setBackground(Color.WHITE);
-        
-        sceneList.removeAll();
-        
-        for (SceneFilmingDate currentScheduleFilmingDate : filmingSchedule)
-        {
-            sceneList.add(currentScheduleFilmingDate.toString());
-        }
-    }
     
     /**
-     * Initializes and positions the components of the CalendarDay
+     * The filming dates to display in this CalendarDay
+     * @return The filming dates to display in this CalendarDay
      */
+    public BusinessObjectList<SceneFilmingDate> filmingDates()
+    {
+        return filmingDates;
+    }
+
+    // Private Methods
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
-        setLayout(new BorderLayout());
-        
-        // init dateLabel
-        dateLabel = new JLabel();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE, d");
-        dateLabel.setText(dateFormatter.format(date.getTime()));
-        add(dateLabel, BorderLayout.PAGE_START);
-        
-        // init SctollPane
-        dataAreaScrollPane = new JScrollPane();
-        dataAreaScrollPane.getViewport().setBackground(Color.WHITE);
-        dataAreaScrollPane.setBorder(null);
-        add(dataAreaScrollPane, BorderLayout.CENTER);
-        
-        // init sceneList
-        sceneList = new List();
-        dataAreaScrollPane.setViewportView(sceneList);
-        filmingSchedule.addListener(this);
-    }
-    
+
+        dayOfMonthLabel = new javax.swing.JLabel();
+        filmingDateScrollPane = new javax.swing.JScrollPane();
+
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 221, 221)));
+
+        dayOfMonthLabel.setText("dayOfMonth");
+
+        filmingDateScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        filmingDateScrollPane.setBorder(null);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(dayOfMonthLabel)
+                .addContainerGap(36, Short.MAX_VALUE))
+            .addComponent(filmingDateScrollPane)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(dayOfMonthLabel)
+                .addGap(2, 2, 2)
+                .addComponent(filmingDateScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
     // Private Member Variables
-    /**
-     * The date which this CalendarDay displays
-     */
+    private final BusinessObjectListView<SceneFilmingDate> filmingDateView;
+    private final BusinessObjectList<SceneFilmingDate> filmingDates;
     private GregorianCalendar date;
-    /**
-     * Scroll are in which the data will sit
-     */
-    private JScrollPane dataAreaScrollPane;
-    /**
-     * A List UI element which displays the scenes for this day
-     */
-    private List sceneList;
-    /**
-     * A label which displays the date in a human readable form
-     */
-    private JLabel dateLabel;
-    /**
-     * The entire schedule
-     */
-    private final BusinessObjectList<SceneFilmingDate> filmingSchedule;
-    
-    // Static Methods
-    /** Method which just allows us to see the design displayed on a JFrame
-    * @param args::String[] ~ Run arguments (ignored)
-    */
-    public static void main(String[] args)
-    {
-        javax.swing.JFrame testFrame = new javax.swing.JFrame();
-        testFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        testFrame.setSize(100, 100);
-        CalendarDay testCalendarDay = new CalendarDay(new GregorianCalendar());
-        
-        testCalendarDay.sceneList.add("TEST");
-        testFrame.add(testCalendarDay);
-        testFrame.setVisible(true);
-    }
+    private final SimpleDateFormat dateFormatter;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel dayOfMonthLabel;
+    private javax.swing.JScrollPane filmingDateScrollPane;
+    // End of variables declaration//GEN-END:variables
 }

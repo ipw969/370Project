@@ -39,7 +39,6 @@ public class Script extends BaseBusinessObject {
      *
      *
      */
-    @SuppressWarnings("LeakingThisInConstructor")
     public Script(String name) {
         super();
         this.name = name;
@@ -451,14 +450,33 @@ public class Script extends BaseBusinessObject {
     {
         schedule = newSchedule;
     }
-    
-   
-
-
-    
 
     public static void main(String[] args) {
         Script newScript;
         newScript = new Script("Practice Script");
+    }
+
+    @Override
+    public String toString()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toDescriptiveString()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public BaseBusinessObject clone()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void merge(BaseBusinessObject mergeObject)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
