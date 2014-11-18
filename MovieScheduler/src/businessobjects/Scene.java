@@ -329,20 +329,30 @@ public class Scene extends BaseBusinessObject{
     }
 
     @Override
-    public BaseBusinessObject clone() 
+    public BaseBusinessObject clone() throws CloneNotSupportedException 
     {
-       Scene cloneScene = new Scene(this.name(), this.description());
-       Iterator<Volunteer> volunteerIter = volunteerIterator();
-       while (volunteerIter.hasNext())
+       Scene cloneScene = (Scene) super.clone();
+       cloneScene.setName(this.name());
+       cloneScene.setDescription(this.description());
+       
+       if (this.hasVolunteers())
        {
-           cloneScene.addVolunteer((Volunteer) volunteerIter.next().clone());
+            Iterator<Volunteer> volunteerIter = volunteerIterator();
+             while (volunteerIter.hasNext())
+             {
+              cloneScene.addVolunteer((Volunteer) volunteerIter.next().clone());
+             }
        }
        
-       Iterator<Equipment> equipmentIter = equipmentIterator();
-       while (equipmentIter.hasNext())
+       if (this.hasEquipment())
        {
-           cloneScene.addEquipment((Equipment) equipmentIter.next().clone());
+            Iterator<Equipment> equipmentIter = equipmentIterator();
+            while (equipmentIter.hasNext())
+             {
+                 cloneScene.addEquipment((Equipment) equipmentIter.next().clone());
+             }
        }
+      
        
        cloneScene.setScheduled(this.isScheduled());
        cloneScene.setComplete(this.isComplete());
@@ -353,23 +363,40 @@ public class Scene extends BaseBusinessObject{
     @Override
     public void merge(BaseBusinessObject mergeObject) 
     {
+        if(mergeObject == null)
+        {
+            throw new RuntimeException("The given mergeObject was null for the scene merge.");
+        }
+        else if (!(mergeObject instanceof Scene))
+        {
+             throw new RuntimeException("The given mergeObject is not an instance of Scene for the scene merge");
+        }
+     
       Scene mergeScene = (Scene) mergeObject;
       
       necessaryVolunteers.clear();
       necessaryEquipment.clear();
-      Iterator<Volunteer> volunteerIter = mergeScene.volunteerIterator();
-      while (volunteerIter.hasNext())
-      {
-         Volunteer newVolunteer = volunteerIter.next();
-         this.addVolunteer(newVolunteer);
-      }
       
-       Iterator<Equipment> equipmentIter = mergeScene.equipmentIterator();
-      while (equipmentIter.hasNext())
+      if (mergeScene.hasVolunteers())
       {
-         Equipment newEquipment = equipmentIter.next();
-         this.addEquipment(newEquipment);
+           Iterator<Volunteer> volunteerIter = mergeScene.volunteerIterator();
+            while (volunteerIter.hasNext())
+             {
+               Volunteer newVolunteer = volunteerIter.next();
+               this.addVolunteer(newVolunteer);
+             }
+       }
+     
+      if (mergeScene.hasEquipment())
+      {
+         Iterator<Equipment> equipmentIter = mergeScene.equipmentIterator();
+          while (equipmentIter.hasNext())
+         {
+             Equipment newEquipment = equipmentIter.next();
+             this.addEquipment(newEquipment);
+          } 
       }
+       
       
       this.setName(mergeScene.name());
       this.setDescription(mergeScene.description());
