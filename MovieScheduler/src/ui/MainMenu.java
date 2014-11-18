@@ -29,6 +29,7 @@ public class MainMenu extends javax.swing.JFrame
     /**
      *
      * @param theScript the script currently in use by the system.
+     * @param database
      * @throws SQLException
      */
     public MainMenu(Script theScript, Database database)
@@ -61,6 +62,7 @@ public class MainMenu extends javax.swing.JFrame
 
         SchedulePanel schedulePanel = new SchedulePanel();
         schedulePanel.setSript(theScript);
+        schedulePanel.setDatabase(database);
         scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
     }
 
@@ -597,7 +599,7 @@ public class MainMenu extends javax.swing.JFrame
         });
     }
 
-
+    // Private Member Variables
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEquipmentButton;
     private javax.swing.JButton addSceneButton;

@@ -46,7 +46,7 @@ public class CalendarDay extends javax.swing.JPanel
      */
     public void setDate(GregorianCalendar date)
     {
-        this.date = date;
+        this.date = (GregorianCalendar)date.clone();
         dayOfMonthLabel.setText(dateFormatter.format(date.getTime()));
         filmingDates.clear();
     }

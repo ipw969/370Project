@@ -2,6 +2,7 @@ package businessobjects;
 
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Class representing a set interval of time
@@ -162,6 +163,49 @@ public class TimeInterval
         return (start.compareTo(date) <= 0
                 && end.compareTo(date) > 0);
     }
+    
+    /**
+     * Whether or not the TimeInverval is on the same date as the provided
+     * date
+     * @param date::GregorianCalendar ~ The date to check if the TimeInveral
+     * is on the same date as
+     * @return True if the TimeInterval is on the same date as the provided date
+     * false otherwise. More specifically, true if and only if:
+     *  this.overlaps(date)
+     *  OR
+     *  date.day == start.day AND date.month = start.month AND date.year == start.year
+     *  OR
+     *  date.day == end.day AND date.month == end.month AND date.year == end.year
+     *  OR
+     *  start < date AND end > date
+     */
+    public boolean isOnThisDate(GregorianCalendar date)
+    {
+        
+        return
+        (
+                overlaps(date)
+                ||
+                (date.get(Calendar.YEAR) == start.get(Calendar.YEAR)
+                 &&
+                 date.get(Calendar.MONTH) == start.get(Calendar.MONTH)
+                 &&
+                 date.get(Calendar.DAY_OF_MONTH) == start.get(Calendar.DAY_OF_MONTH))
+                ||
+                (date.get(Calendar.YEAR) == end.get(Calendar.YEAR)
+                 &&
+                 date.get(Calendar.MONTH) == end.get(Calendar.MONTH)
+                &&
+                 date.get(Calendar.DAY_OF_MONTH) == end.get(Calendar.DAY_OF_MONTH)
+                )
+                ||
+                (
+                    start.compareTo(date) < 0
+                    &&
+                    end.compareTo(date) > 0
+                )
+        );
+    }
 
     /**
      * Returns the start and end date formatted in ISO format as a string
@@ -228,15 +272,14 @@ public class TimeInterval
     public void merge(BaseBusinessObject mergeObject)
     {
         if (!(mergeObject instanceof TimeInterval))
-        {
-            throw new RuntimeException();
-        }
+                    throw new RuntimeException("Cannot merge a BusinessObject "
+                            + "of non TimeInterval type into a TimeInterval");
 
         super.merge(mergeObject);
         TimeInterval otherTimeInterval = (TimeInterval) mergeObject;
 
-        this.start = otherTimeInterval.start;
-        this.end = otherTimeInterval.end;
+        setStart(otherTimeInterval.start);
+        setEnd(otherTimeInterval.end);
 
     }
 

@@ -46,6 +46,9 @@ public class CalendarMonth extends javax.swing.JPanel
     public void setDate(int year, int month)
     {
         currentMonthStart = new GregorianCalendar(year, month, 1);
+        currentMonthStart.set(Calendar.HOUR, 0);
+        currentMonthStart.set(Calendar.MINUTE, 0);
+        currentMonthStart.set(Calendar.SECOND, 0);
         refreshCalendarDays();
     }
 
@@ -70,7 +73,11 @@ public class CalendarMonth extends javax.swing.JPanel
 
             for (CalendarDay currentCalendarDay : calendarDays)
             {
-                if (addedFilmingDate.sceneShootingInterval().overlaps(currentCalendarDay.date()))
+                java.text.SimpleDateFormat sdf = 
+                        new java.text.SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
+                
+                System.out.println(sdf.format(currentCalendarDay.date().getTime()));
+                if (addedFilmingDate.sceneShootingInterval().isOnThisDate(currentCalendarDay.date()))
                 {
                     currentCalendarDay.filmingDates().add(addedFilmingDate);
                 }

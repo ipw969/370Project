@@ -110,25 +110,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         public void changedStateAltered(boolean currentState,
                 BaseBusinessObject sender)
         {
-            // Interate through the list to find the index of the changed 
-            // businessObject
-            boolean objectFound = false;
-            int indexOfSender = -1;
-            for (int iCurrentObject = 0, count = data.size();
-                    iCurrentObject < count && !objectFound;
-                    iCurrentObject++)
-            {
-                if (data.get(iCurrentObject) == sender)
-                {
-                    objectFound = true;
-                    indexOfSender = iCurrentObject;
-                }
-            }
-
-            if (objectFound)
-            {
-                fireContentsChanged(sender, indexOfSender, indexOfSender);
-            }
+                refreshBusinessObject(sender);
         }
 
         /**
@@ -159,6 +141,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         @Override
         public void businessObjectAdded(BaseBusinessObject itemAdded)
         {
+            refreshBusinessObject(itemAdded);
             revalidate();
             repaint();
         }
@@ -172,6 +155,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         @Override
         public void businessObjectRemoved(BaseBusinessObject itemRemoved)
         {
+            refreshBusinessObject(itemRemoved);
             revalidate();
             repaint();
         }
@@ -193,6 +177,29 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         public void stopListening()
         {
             data.removeListener(this);
+        }
+        
+        private void refreshBusinessObject(BaseBusinessObject businessObject)
+        {
+            // Iterate through the list to find the index of the changed 
+            // businessObject
+            boolean objectFound = false;
+            int indexOfSender = -1;
+            for (int iCurrentObject = 0, count = data.size();
+                    iCurrentObject < count && !objectFound;
+                    iCurrentObject++)
+            {
+                if (data.get(iCurrentObject) == businessObject)
+                {
+                    objectFound = true;
+                    indexOfSender = iCurrentObject;
+                }
+            }
+
+            if (objectFound)
+            {
+                fireContentsChanged(businessObject, indexOfSender, indexOfSender);
+            }
         }
         
         /**

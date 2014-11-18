@@ -5,6 +5,7 @@
  */
 package ui;
 
+import actions.SaveSceneFilmingDateAction;
 import businessobjects.BaseBusinessObject;
 import businessobjects.BusinessObjectListener;
 import businessobjects.Scene;
@@ -15,7 +16,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+import database.Database;
 /**
  *
  * @author iain
@@ -26,8 +27,12 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
 
     /**
      * Creates new form EditSceneFilmingDate
+     * @param script
+     * @param filmingDate
+     * @param database
      */
-    public EditSceneFilmingDate(Script script, SceneFilmingDate filmingDate)
+    public EditSceneFilmingDate(Script script, 
+            SceneFilmingDate filmingDate, Database database)
     {
         if (script == null)
         {
@@ -37,6 +42,8 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         initComponents();
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         
+        this.script = script;
+        this.database = database;
         originalFilmingDate = filmingDate;
         filmingDateToEdit = (SceneFilmingDate) filmingDate.clone();
         errorIcon.setVisible(!filmingDateToEdit.isValid());
@@ -84,7 +91,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
     @Override
     public void validStateAltered(boolean newState, BaseBusinessObject sender)
     {
-        okayButton.setEnabled(!newState);
+        okayButton.setEnabled(newState);
         errorIcon.setVisible(!newState);
         errorLabel.setVisible(!newState);
         errorLabel.setText(null);
@@ -100,6 +107,28 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         okayButton.setEnabled(newState);
     }
 
+    public void save()
+    {
+        SaveSceneFilmingDateAction saveAction = new SaveSceneFilmingDateAction(
+                database, filmingDateToEdit);
+        
+        saveAction.run();
+        
+        if(!saveAction.wasSuccessful())
+        {
+            originalFilmingDate.merge(filmingDateToEdit);
+            script.schedule().add(originalFilmingDate);
+        }
+        else
+        {
+            //Show error message
+            JOptionPane.showMessageDialog(null, "Could not save scheduled "
+                    + "filming date with message: " 
+                    + saveAction.lastErrorMessage(),
+                    "Error Loading System!", 0);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -137,6 +166,13 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         cancelButton.setText("Cancel");
 
         okayButton.setText("Okay");
+        okayButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                okayButtonActionPerformed(evt);
+            }
+        });
 
         errorIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Error.png"))); // NOI18N
 
@@ -300,6 +336,12 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         
     }//GEN-LAST:event_formWindowClosing
 
+    private void okayButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_okayButtonActionPerformed
+    {//GEN-HEADEREND:event_okayButtonActionPerformed
+        this.save();
+        this.setVisible(false);
+    }//GEN-LAST:event_okayButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -349,6 +391,8 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
     private BusinessObjectComboBoxView<Scene> scenesComboBox;
     private SceneFilmingDate originalFilmingDate;
     private SceneFilmingDate filmingDateToEdit;
+    private Database database;
+    private Script script;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cancelButton;
