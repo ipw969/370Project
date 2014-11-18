@@ -74,11 +74,12 @@ public class SceneFilmingDate extends BaseBusinessObject
             for (TimeInterval currentInterval : currentVolunteer.getAvailability())
             {
                 if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
-                    filmingDateHasConflict = true;
+                {    filmingDateHasConflict = true;
+                    
                     conflictReasonString = currentVolunteer.getFirstName() + 
                             "Is unavailable at" + currentInterval.toString();
                     conflictReason.add(conflictReasonString);
-                   
+                }
             }
             
         }
@@ -232,13 +233,28 @@ public class SceneFilmingDate extends BaseBusinessObject
     @Override
     public String toDescriptiveString()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        StringBuilder stringBuilder = new StringBuilder();
+        if(scene() != null)
+        {
+            stringBuilder.append(scene().toString());
+        }
+        stringBuilder.append(" - ");
+        if(sceneShootingInterval() != null)
+           stringBuilder.append(sceneShootingInterval().toString());
+        
+        return stringBuilder.toString();
     }
 
     @Override
     public void merge(BaseBusinessObject mergeObject)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!(mergeObject instanceof SceneFilmingDate))
+            throw new RuntimeException("Cannot merge a Business Object of"
+                    + " non SceneFilmingDate type into a SceneFilmingDate");
+        
+        super.merge(mergeObject);
+        SceneFilmingDate otherFilmingDate = (SceneFilmingDate)mergeObject;
+        this.setSceneShootingInterval(otherFilmingDate.sceneShootingInterval());
     }
 
     /**

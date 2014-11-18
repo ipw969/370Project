@@ -41,12 +41,12 @@ public class Schedule extends BusinessObjectList<SceneFilmingDate> {
                 new BusinessObjectList<>();
         
         for (SceneFilmingDate currentFilmingDate : this)
-        {
-            if (currentFilmingDate.sceneShootingInterval().overlaps(date))
+        { 
+            if (currentFilmingDate.sceneShootingInterval().isOnThisDate(date))
                 returnFilmingDates.add(currentFilmingDate);
         }
         
-        returnFilmingDates.sort(null);
+        //returnFilmingDates.sort(null);
         return returnFilmingDates;
     }
     

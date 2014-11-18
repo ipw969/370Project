@@ -199,6 +199,49 @@ public abstract class BaseBusinessObject implements Cloneable{
             notifyListenersOfValidStateAltered();        
     }
     
+    /**The basic toString() method must be overwritten. This should give a simple identifier for the object(example:name)
+     * @return the identifier for this object
+     */
+    @Override
+    public abstract String toString();
+    
+    /**A descriptive string to identify all traits of this object
+     * @return A descriptive String describing the traits of this class
+     */
+    public abstract String toDescriptiveString();
+    
+    /**This performs a deep clone of the object copying not only itself, but all of the objects that it is comprised of.
+     * @return A deep clone of the object
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    public BaseBusinessObject clone() throws CloneNotSupportedException
+    {
+        BaseBusinessObject other;
+        try{
+            other = (BaseBusinessObject)super.clone();
+            other.errorMessages = (HashSet<String>)errorMessages.clone();
+            other.listeners = (ArrayList<BusinessObjectListener>)listeners.clone();
+            return other;
+        }
+        catch(CloneNotSupportedException e)
+        {
+            throw new RuntimeException();
+        }
+    }
+    
+    /**This method should Make this object exactly the same as the given object.
+     * @param mergeObject: The object to merge this object into.
+     */
+    
+    public void merge(BaseBusinessObject mergeObject)
+    {
+        if(mergeObject == null)
+            throw new RuntimeException("Cannot merge in a null object");
+        
+        errorMessages = mergeObject.errorMessages;
+        listeners = mergeObject.listeners;
+    }
     
     // Private Methods
     
@@ -224,41 +267,19 @@ public abstract class BaseBusinessObject implements Cloneable{
         }
     }
 
-    /**The basic toString() method must be overwritten. This should give a simple identifier for the object(example:name)
-     * @return the identifier for this object
-     */
-    @Override
-    public abstract String toString();
-    
-    /**A descriptive string to identify all traits of this object
-     * @return A descriptive String describing the traits of this class
-     */
-    public abstract String toDescriptiveString();
-    
-    /**This performs a deep clone of the object copying not only itself, but all of the objects that it is comprised of.
-     * @return A deep clone of the object
-     */
-    @Override
-    public abstract BaseBusinessObject clone();
-    
-    /**This method should Make this object exactly the same as the given object.
-     * @param mergeObject: The object to merge this object into.
-     */
-    
-    public abstract void merge(BaseBusinessObject mergeObject);
     // Private Member Variables
     /**
      * A Set of all the error messages associated with the BusinessObject. The
      * existence of any errorMessages indicates that the BusinessObject is not
      * currently in a valid state to be saved to the database.
      */
-    private final HashSet<String> errorMessages;
+    private HashSet<String> errorMessages;
     
     /**
      * A collection of all the objects which are currently listening to changes
      * to this BusinessObject.
      */
-    private final ArrayList<BusinessObjectListener> listeners; 
+    private ArrayList<BusinessObjectListener> listeners; 
     
     /**
      * Flag indicating that some data element of the BusinessObject has been 

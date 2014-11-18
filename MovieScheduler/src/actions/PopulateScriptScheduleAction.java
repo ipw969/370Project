@@ -14,7 +14,6 @@ import database.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -106,7 +105,6 @@ public class PopulateScriptScheduleAction extends BaseAction {
                 
                     GregorianCalendar endCalendar = new GregorianCalendar();
                     endCalendar.setTime(endDate);
-                    selectResults.close();
                     
                     String sceneName = selectResults.getString(3);
                     

@@ -4,6 +4,7 @@ import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
 import businessobjects.TimeInterval;
+import database.Database;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -32,6 +33,15 @@ public class SchedulePanel extends javax.swing.JPanel
         initComponents();
     }
 
+    public void setDatabase(Database database)
+    {
+        if(database == null)
+            throw new RuntimeException("Schedule Panel cannot function with "
+                    + "a null database");
+        
+        this.database = database;
+    }
+    
     /**
      * Sets the script whose Schedule and Scenes will be displayed in the panel
      *
@@ -105,7 +115,7 @@ public class SchedulePanel extends javax.swing.JPanel
                 }
                 
                 EditSceneFilmingDate editFilmingDate = new
-                    EditSceneFilmingDate(script, filmingDate);
+                    EditSceneFilmingDate(script, filmingDate, database);
                 editFilmingDate.setVisible(true);
             }
         });
@@ -136,7 +146,9 @@ public class SchedulePanel extends javax.swing.JPanel
                         + sceneListView.getSelectedValue().toString());
             }
         });
-        calendarPanel.add(new ScheduleCalendar());
+        ScheduleCalendar scheduleCalendar = new ScheduleCalendar();
+        scheduleCalendar.setSchedule(script.schedule());
+        calendarPanel.add(scheduleCalendar);
     }
 
     // Private Methods
@@ -235,6 +247,7 @@ public class SchedulePanel extends javax.swing.JPanel
     // Private Member Variables
     private BusinessObjectListView<Scene> sceneListView;
     private Script script;
+    private Database database;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel calendarPanel;
     private javax.swing.JButton launchConflictButton;

@@ -1,5 +1,6 @@
 package ui;
 
+import businessobjects.Schedule;
 import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,6 +40,15 @@ public class ScheduleCalendar extends javax.swing.JPanel
         calendarMonth.setDate(year, month);
         currentDateLabel.setText(
                 dateFormatter.format(currentDateDisplayed.getTime()));
+    }
+    
+    /**
+     * Sets the Schedule that this ScheduleCalendar is to visualize.
+     * @param schedule::Schedule ~ The schedule to display
+     */
+    public void setSchedule(Schedule schedule)
+    {
+        calendarMonth.setSchedule(schedule);
     }
     
     /**
@@ -141,8 +151,8 @@ public class ScheduleCalendar extends javax.swing.JPanel
 
     // Private Member Variables
     private GregorianCalendar currentDateDisplayed;
-    private CalendarMonth calendarMonth;
-    private SimpleDateFormat dateFormatter;
+    private final CalendarMonth calendarMonth;
+    private final SimpleDateFormat dateFormatter;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JPanel calendarPanel;
