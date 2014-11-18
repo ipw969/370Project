@@ -196,7 +196,7 @@ public class JdbcDatabase extends Database {
      * @return true if the commandList is empty, false if not
      */
     @Override
-    public boolean isCommandListEmptyImplementation()
+    protected boolean isCommandListEmptyImplementation()
     {
         return commandList.isEmpty();
     }
