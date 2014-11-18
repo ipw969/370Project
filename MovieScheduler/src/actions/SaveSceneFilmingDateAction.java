@@ -113,8 +113,8 @@ public class SaveSceneFilmingDateAction extends BaseAction {
         String returnString = 
                 "UPDATE t_schedule "
                 + "SET"
-                + "sch_scheduledatetime_start = '" + sceneFilmingDate().sceneShootingInterval().startISODate() + "', "
-                + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endISODate() + "', "
+                + "sch_scheduledatetime_start = '" + sceneFilmingDate().sceneShootingInterval().startIsoDate() + "', "
+                + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endIsoDate() + "', "
                 + "WHERE "
                 + "( sch_scenename = '" + sceneFilmingDate().scene().name() + "');";
         
@@ -128,15 +128,15 @@ public class SaveSceneFilmingDateAction extends BaseAction {
     private String buildInsertQueryString()
     {
         
-        System.out.println(sceneFilmingDate().sceneShootingInterval().startISODate());
+        System.out.println(sceneFilmingDate().sceneShootingInterval().startIsoDate());
         String returnString = 
                 "INSERT INTO t_schedule "
                 + "( sch_scheduledatetime_start, "
                 + "sch_scheduledatetime_end, "
                 + "sch_scenename ) "
                 + "VALUES "
-                + "('" + sceneFilmingDate().sceneShootingInterval().startISODate()
-                + "', '" + sceneFilmingDate().sceneShootingInterval().endISODate()
+                + "('" + sceneFilmingDate().sceneShootingInterval().startIsoDate()
+                + "', '" + sceneFilmingDate().sceneShootingInterval().endIsoDate()
                 + "', '" + sceneFilmingDate().scene().name() + "');";
         
         return returnString;

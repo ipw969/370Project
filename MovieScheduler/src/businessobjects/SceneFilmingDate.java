@@ -232,7 +232,16 @@ public class SceneFilmingDate extends BaseBusinessObject
     @Override
     public String toDescriptiveString()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        StringBuilder stringBuilder = new StringBuilder();
+        if(scene() != null)
+        {
+            stringBuilder.append(scene().toString());
+        }
+        stringBuilder.append(" - ");
+        if(sceneShootingInterval() != null)
+           stringBuilder.append(sceneShootingInterval().toString());
+        
+        return stringBuilder.toString();
     }
 
     @Override
