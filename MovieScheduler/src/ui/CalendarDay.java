@@ -3,8 +3,12 @@ package ui;
 import businessobjects.BusinessObjectList;
 import businessobjects.SceneFilmingDate;
 import java.awt.Color;
+import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import javax.swing.border.LineBorder;
 
 /**
  * A ui class representing a single day in the schedule calendar. Displays the
@@ -12,7 +16,9 @@ import java.util.GregorianCalendar;
  */
 public class CalendarDay extends javax.swing.JPanel
 {
+
     // Constructor
+
     /**
      * Creates a new instance of a Calendar Day. Set date must be called before
      * this can properly be displayed.
@@ -24,49 +30,72 @@ public class CalendarDay extends javax.swing.JPanel
         filmingDates = new BusinessObjectList<>();
         filmingDateView = new BusinessObjectListView<>(filmingDates);
         filmingDateScrollPane.setViewportView(filmingDateView);
+        filmingDateView.setCellRenderer(new CalendarCellRenderer());
+        
     }
-    
+
     // Public Methods
-    
     /**
-     * Sets the Foreground Color of the panel. 
-     * @param color 
+     * Sets the Foreground Color of the panel.
+     *
+     * @param color
      */
     @Override
     public void setForeground(Color color)
     {
-        if(dayOfMonthLabel != null)
+        if (dayOfMonthLabel != null)
+        {
             dayOfMonthLabel.setForeground(color);
+        }
         super.setForeground(color);
     }
-    
+
     /**
      * Sets the date that this calendar displays
+     *
      * @param date::GregorianCalendar ~ The date this CalendarDay displays
      */
     public void setDate(GregorianCalendar date)
     {
-        this.date = (GregorianCalendar)date.clone();
+        this.date = (GregorianCalendar) date.clone();
         dayOfMonthLabel.setText(dateFormatter.format(date.getTime()));
         filmingDates.clear();
     }
-    
+
     /**
      * Returns the date currently being displayed by the CalendarDay
+     *
      * @return The date currently being displayed by the CalendarDay
      */
     public GregorianCalendar date()
     {
         return date;
     }
-    
+
     /**
      * The filming dates to display in this CalendarDay
+     *
      * @return The filming dates to display in this CalendarDay
      */
     public BusinessObjectList<SceneFilmingDate> filmingDates()
     {
         return filmingDates;
+    }
+
+    // Private Member Class
+
+    private class CalendarCellRenderer extends DefaultListCellRenderer
+    {
+
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+        {
+            // Assumes the stuff in the list has a pretty toString
+            this.setText(value.toString());
+            this.setBorder(new LineBorder(Color.RED));
+            this.setBackground(Color.PINK);
+            
+            return this;
+        }
     }
 
     // Private Methods
