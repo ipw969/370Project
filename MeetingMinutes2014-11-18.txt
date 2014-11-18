@@ -1,0 +1,14 @@
+meeting minutes
+
+present: Mitchell, Iain, Ryan, John, Matt
+
+time: 4:00-5:00	
+discussed milestone 5
+	made class diagram
+	agreed on a pretty printing style
+	discussed grasp patterns
+	solidified success scenarios
+	
+	
+	
+	
