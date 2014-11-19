@@ -1,123 +1,107 @@
-
 package businessobjects;
 
 /**
  * Equipment data class
+ *
  * @author johnmason
  */
-public class Equipment extends BaseBusinessObject
-{
-    String equipmentType; 
-    int stock;   //the amount of equipment we currently have
-    boolean isRental;
-    float rentalCost;
-    BusinessObjectList<TimeInterval> availabilities;
-    
+public class Equipment extends BaseBusinessObject {
+
+    String equipmentName;
+    String ownerFirstName;
+    String ownerLastName;
+    String ownerEmail;
+
     //empty constructor
-    public Equipment(){setIsNew(true);}
-    
+    public Equipment() {
+        setIsNew(true);
+    }
+
     //full constructor for when the equipment is a rental
-    public Equipment(String equipmentType, int stock, boolean isRental, float cost)
-    {
-        this.equipmentType = equipmentType;
-        this.stock = stock;
-        this.isRental = isRental;
-        this.rentalCost = cost;    //sets the cost of rentals (per unit *NOT* total cost)
+    public Equipment(String equipmentName, String ownerFirstName, String ownerLastName, String ownerEmail) {
+        this.equipmentName = equipmentName;
+        this.ownerFirstName = ownerFirstName;
+        this.ownerLastName = ownerLastName;
+        this.ownerEmail = ownerEmail;
         setIsNew(true);
-
     }
-    
-    //partial constructor for when the equipment is not a rental so we can add it without needing to enter a cost
-    public Equipment(String equipmentType, int stock, boolean isRental)
-    {
-        this.equipmentType = equipmentType;
-        this.stock = stock;
-        this.isRental = isRental;
-        setIsNew(true);
 
-    }    
-    
-    public void setEquipmentType(String equipmentType)
-    {
-        this.equipmentType = equipmentType;
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
         setHasChanged(true);
     }
-    
-    public void setStock(int amount)
-    {
-        this.stock = amount;
+
+    public void setOwnerFirstName(String ownerFirstName) {
+        this.ownerFirstName = ownerFirstName;
         setHasChanged(true);
-
     }
-    
-    public void setIsRental(boolean isRental)
-    {
-        this.isRental = isRental;
+
+    public void setOwnerLastName(String ownerLastName) {
+        this.ownerLastName = ownerLastName;
         setHasChanged(true);
-
     }
-    
-    public void setCost(float cost)
-    {
-        this.rentalCost = cost;
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
         setHasChanged(true);
-
-    }
-    
-    public void setAvailabilities(BusinessObjectList<TimeInterval> availabilities)
-    {
-        this.availabilities = availabilities;
-    }
-    
-    public BusinessObjectList<TimeInterval> getAvailabilities()
-    {
-        return availabilities;
     }
 
-    
-    
-    public String getEquipmentType()
-    {
-        return this.equipmentType;
+    public String getEquipmentName() {
+        return this.equipmentName;
     }
-    
-    public int getStock()
-    {
-        return this.stock;
+
+    public String getOwnerFirstName() {
+        return this.ownerFirstName;
     }
-    
-    public boolean getIsRental()
-    {
-        return this.isRental;
+
+    public String getOwnerLastName() {
+        return this.ownerLastName;
     }
-    
-    public float getCost()
-    {
-        return this.rentalCost;
+
+    public String getOwnerEmail() {
+        return this.ownerEmail;
     }
 
     @Override
-    public String toString()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String toString() {
+        return equipmentName + "," + ownerLastName + "," + ownerFirstName;
     }
 
     @Override
-    public String toDescriptiveString()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String toDescriptiveString() {
+        StringBuilder newString = new StringBuilder();
+        newString.append("Equipment name: " + this.equipmentName + "\n");
+        newString.append("Owners last name: " + this.ownerLastName + "\n");
+        newString.append("Owners first name: " + this.ownerFirstName + "\n");
+        newString.append("Owners email address: " + this.ownerEmail + "\n");
+
+        return newString.toString();
     }
 
     @Override
-    public BaseBusinessObject clone()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public BaseBusinessObject clone() throws CloneNotSupportedException {
+        Equipment cloneEquipment = (Equipment) super.clone();
+        cloneEquipment.setEquipmentName(this.getEquipmentName());
+        cloneEquipment.setOwnerLastName(this.getOwnerLastName());
+        cloneEquipment.setOwnerFirstName(this.getOwnerFirstName());
+        cloneEquipment.setOwnerEmail(this.getOwnerEmail());
+
+        return cloneEquipment;
     }
 
     @Override
-    public void merge(BaseBusinessObject mergeObject)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void merge(BaseBusinessObject mergeObject) {
+        if (mergeObject == null) {
+            throw new RuntimeException("The given mergeObject was null for the volunteer merge.");
+        } else if (!(mergeObject instanceof Scene)) {
+            throw new RuntimeException("The given mergeObject is not an instance of volunteer for the volunteer merge");
+        }
 
+        Equipment mergeEquipment = (Equipment) mergeObject;
+
+        this.setEquipmentName(mergeEquipment.getEquipmentName());
+        this.setOwnerLastName(mergeEquipment.getOwnerLastName());
+        this.setOwnerFirstName(mergeEquipment.getOwnerFirstName());
+        this.setOwnerEmail(mergeEquipment.getOwnerEmail());
+    }
 }

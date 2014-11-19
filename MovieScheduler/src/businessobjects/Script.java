@@ -355,7 +355,7 @@ public class Script extends BaseBusinessObject {
             while (iter.hasNext())
              {
                Equipment examinedEquipment = iter.next();
-               if (examinedEquipment.getEquipmentType().equals(newEquipment.getEquipmentType()))
+               if (examinedEquipment.getEquipmentName().equals(newEquipment.getEquipmentName()))
              {
                  examinedEquipment.setStock(examinedEquipment.getStock() + 1);
                  return true;

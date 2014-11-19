@@ -2,6 +2,7 @@
 package businessobjects;
 import businessobjects.*;
 import java.awt.List;
+import java.util.Iterator;
 /**
  * volunteer data class
  * @author johnmason
@@ -103,18 +104,41 @@ public class Volunteer extends BaseBusinessObject
     @Override
     public String toDescriptiveString()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       StringBuilder newString = new StringBuilder();
+        newString.append("Last name: " + this.lastName + "\n");
+        newString.append("First name: " + this.firstName + "\n");
+        newString.append("Phone number: " + this.phone + "\n");
+        newString.append("Email address: " + this.email + "\n");
+   
+        return newString.toString();    
     }
 
     @Override
-    public BaseBusinessObject clone()
+    public BaseBusinessObject clone() throws CloneNotSupportedException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      Volunteer cloneVolunteer = (Volunteer) super.clone();
+       cloneVolunteer.setFirstName(this.getFirstName());
+       cloneVolunteer.setLastName(this.getLastName());
+       cloneVolunteer.setEmail(this.getEmail());
+       cloneVolunteer.setPhone(this.getPhone());
+       
+       return cloneVolunteer;
     }
 
     @Override
     public void merge(BaseBusinessObject mergeObject)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (mergeObject == null) {
+            throw new RuntimeException("The given mergeObject was null for the volunteer merge.");
+        } else if (!(mergeObject instanceof Scene)) {
+            throw new RuntimeException("The given mergeObject is not an instance of volunteer for the volunteer merge");
+        }
+
+        Volunteer mergeVolunteer = (Volunteer) mergeObject;
+
+        this.setFirstName(mergeVolunteer.getFirstName());
+        this.setLastName(mergeVolunteer.getLastName());
+        this.setEmail(mergeVolunteer.getEmail());
+        this.setPhone(mergeVolunteer.getPhone());
     }
 }
