@@ -244,6 +244,12 @@ public class ConflictResolution extends javax.swing.JFrame {
     }//GEN-LAST:event_conflictSceneListPaneMouseClicked
 
     private void conflictContactAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictContactAllButtonMouseClicked
+        
+        
+
+    }//GEN-LAST:event_conflictContactAllButtonMouseClicked
+
+    private boolean sendEmails(){
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
 //        Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
         String emailList = "mitchellcorbett@hotmail.com";
@@ -297,6 +303,7 @@ public class ConflictResolution extends javax.swing.JFrame {
             message.setText(conflictMessage);
 
             Transport.send(message);
+            return true;
 
 
         } catch (MessagingException e) {
@@ -308,14 +315,22 @@ public class ConflictResolution extends javax.swing.JFrame {
                    "in sending your message. What would you like to do?", "Error",
                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
                    null,options, options[2]);
-           if(choice == 0)
-           {
-               
+           if (choice == 0){
+               sendEmails();
            }
+           if(choice == 1){
+               showEmails(emailList);
+           }
+           //choice == 2 isn't needed since it's defined as the cancel op
         }
-
-    }//GEN-LAST:event_conflictContactAllButtonMouseClicked
-
+        
+        return false;
+    }
+    private void showEmails(String emailList){
+        //Popup textbox containing emails
+        
+    }
+    
     private void conflictCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictCancelMouseClicked
         this.dispose();
     }//GEN-LAST:event_conflictCancelMouseClicked
