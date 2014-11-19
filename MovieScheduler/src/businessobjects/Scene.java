@@ -1,28 +1,27 @@
 package businessobjects;
 
-
-import java.util.HashSet;
 import java.util.Iterator;
 
-  /*
+/*
  * This class will hold all information  based on a scene.//
-TODO: There is currently a bug in that the scene does not take into account the quantity of an ammount of equipment.
+ TODO: There is currently a bug in that the scene does not take into account the quantity of an ammount of equipment.
 
  */
-
-
 /**
  *
- * @author ryan
+ * @author Ryan LaForge
  */
-public class Scene extends BaseBusinessObject{
+public class Scene extends BaseBusinessObject
+{
+    // Private Member Variables
+
     private String name;
     private String description;
     private final BusinessObjectList<Volunteer> necessaryVolunteers;
     private final BusinessObjectList<Equipment> necessaryEquipment;
     private boolean scheduled;
     private boolean complete;
-    
+
     private final String nameNullError = "The name of the scene was not entered.";
     private final String noVolunteersError = "There are no volunteers associated with this scene";
     private final String duplicatevolunteerError = "You cannot insert a volunteer into the volunteer list with the same name as another volunteer";
@@ -30,44 +29,46 @@ public class Scene extends BaseBusinessObject{
     private final String equipmentAlreadyExistsError = "That equipment already exists in the list of equipment";
     private final String volunteerDoesNotExistError = "The given volunteer does not exist.";
     private final String equipmentDoesNotExistError = "The given equipment does not exist";
-    
-    
-    
-    
+
+    // Constructor
     public Scene(String name, String description)
     {
         super();
-       
-       
+
         this.name = name;
         this.description = description;
-        
+
         necessaryVolunteers = new BusinessObjectList<>();
         necessaryEquipment = new BusinessObjectList<>();
-        
-       this.updateError(nameNullError, !name.isEmpty());
-        
+
+        this.updateError(nameNullError, !name.isEmpty());
+
     }
 
-    /**set the name to the given valu
-     * @return the name of the scene*/
+    // Public Methods
+    /**
+     * set the name to the given valu
+     *
+     * @return the name of the scene
+     */
     public String name()
     {
-       
-        return this.name;
-        
-    }
-    
-    /**@param newName- the new name of the scene*/
 
+        return this.name;
+
+    }
+
+    /**
+     * @param newName- the new name of the scene
+     */
     public void setName(String newName)
     {
         name = newName;
         this.setHasChanged(true);
     }
-    
+
     /**
-     * 
+     *
      * @param newDescription the new description of the scene.
      */
     public void setDescription(String newDescription)
@@ -75,212 +76,242 @@ public class Scene extends BaseBusinessObject{
         description = newDescription;
         this.setHasChanged(true);
     }
-    /**@return the description of the scene**/
-    public String description()
+
+    /**
+     * @return the description of the scene*
+     */
+    public String getDescription()
     {
         return this.description;
     }
-    
-    /**@return true if the scene is scheduled, false if not**/
+
+    /**
+     * @return true if the scene is scheduled, false if not*
+     */
     public boolean isScheduled()
     {
         return scheduled;
     }
-    
-    /**@return true if the scene has been filmed, false otherwise**/
+
+    /**
+     * @return true if the scene has been filmed, false otherwise*
+     */
     public boolean isComplete()
     {
         return complete;
     }
-    
-    /**Sets whether the scene is scheduled or not
+
+    /**
+     * Sets whether the scene is scheduled or not
+     *
      * @param isScheduled whether or not the scene is scheduled
      */
     public void setScheduled(boolean isScheduled)
     {
         scheduled = isScheduled;
-          this.setHasChanged(true);
+        this.setHasChanged(true);
     }
-    
-    /**Sets whether the scene has been filmed or not
-     * (The producer may want to change the status if a mistake was found)
-     * @param isComplete whether or no the scene was filmed. 
+
+    /**
+     * Sets whether the scene has been filmed or not (The producer may want to
+     * change the status if a mistake was found)
+     *
+     * @param isComplete whether or no the scene was filmed.
      */
     public void setComplete(boolean isComplete)
     {
         complete = isComplete;
-          this.setHasChanged(true);
+        this.setHasChanged(true);
     }
-    
-    /**@return true if the scene has volunteers associated with it, false if not**/
+
+    /**
+     * @return true if the scene has volunteers associated with it, false if
+     * not*
+     */
     public boolean hasVolunteers()
     {
         return !necessaryVolunteers.isEmpty();
     }
-    /**@return true if the scene has volunteers associated with it ,false if not**/
-    /**@precon the list of volunteers must not be empty
+
+    /**
+     * @return true if the scene has volunteers associated with it ,false if
+     * not*
+     */
+    /**
+     * @precon the list of volunteers must not be empty
      * @return an iterator for the necessary volunteers of the scene
-     * @throws RuntimeException 
+     * @throws RuntimeException
      */
     public Iterator<Volunteer> volunteerIterator() throws RuntimeException
     {
         if (necessaryVolunteers.isEmpty())
         {
-            throw new RuntimeException("Cannot iterate over an empty volunteerList-Scene volunteerIterator");
+            throw new RuntimeException(
+                    "Cannot iterate over an empty volunteerList-Scene "
+                    + "volunteerIterator");
         }
         return necessaryVolunteers.iterator();
     }
 
-    /**@return true if the scene has equipment associated with it, false if not
-     * 
-     * 
+    /**
+     * @return true if the scene has equipment associated with it, false if not
+     *
+     *
      */
     public boolean hasEquipment()
     {
         return !necessaryEquipment.isEmpty();
     }
-    
-    /**@precon the scene must have equipment associated with it.
-     * 
-     * @return an iterator for the list of equipment. 
-     * @throws RuntimeException 
+
+    /**
+     * @precon the scene must have equipment associated with it.
+     *
+     * @return an iterator for the list of equipment.
+     * @throws RuntimeException
      */
     public Iterator<Equipment> equipmentIterator() throws RuntimeException
     {
         if (necessaryEquipment.isEmpty())
         {
-            throw new RuntimeException("Cannot iterate over an empty equipment list-Scene equipmentIterator");
+            throw new RuntimeException("Cannot iterate over an empty equipment "
+                    + "list-Scene equipmentIterator");
         }
         return necessaryEquipment.iterator();
     }
 
     /**
      * @param e The equipment to check for
-     * @return true if this scene contains the given equipment, false if not.**/
+     * @return true if this scene contains the given equipment, false if not.*
+     */
     public boolean containsEquipment(Equipment e)
     {
         return necessaryEquipment.contains(e);
     }
-    
+
     /**
-     * @param v  The volunteer to check for
-     * @return true if this scene contains the given volunteer, false if not**/
-    
+     * @param v The volunteer to check for
+     * @return true if this scene contains the given volunteer, false if not*
+     */
     public boolean containsVolunteer(Volunteer v)
     {
         if (this.hasVolunteers() && necessaryVolunteers.contains(v))
         {
             return true;
-        }
-        else if (!this.hasVolunteers())
+        } else if (!this.hasVolunteers())
         {
             return false;
-        }
-        else
+        } else
         {
-            //compare the volunteer by name and email to see if they are the same person. Everyone logs in via their email, so it must be unique. 
+            //compare the volunteer by name and email to see if they are the 
+            // same person. Everyone logs in via their email, so it must 
+            // be unique. 
             Iterator<Volunteer> iter = this.volunteerIterator();
             while (iter.hasNext())
             {
-                  Volunteer examinedVolunteer = iter.next();      
-                  if (examinedVolunteer.getEmail().equals(v.getEmail()))     
-                  {
-                      return true;
-                  }
-                 
-                
+                Volunteer examinedVolunteer = iter.next();
+                if (examinedVolunteer.getEmail().equals(v.getEmail()))
+                {
+                    return true;
+                }
+
             }
-          }
-         return false;
-       }
-        
-    
-    /** Adds the given volunteer to the list of volunteers
+        }
+        return false;
+    }
+
+    /**
+     * Adds the given volunteer to the list of volunteers
+     *
      * @precon the volunteer must be in the scene's list of volunteers
      * @param newVolunteer the new volunteer to add to the list of volunteers.
      */
-    public void addVolunteer(Volunteer newVolunteer) 
+    public void addVolunteer(Volunteer newVolunteer)
     {
         if (this.containsVolunteer(newVolunteer))
         {
             this.updateError(volunteerAlreadyExistsError, true);
-        }
-        else
-        { 
+        } else
+        {
             necessaryVolunteers.add(newVolunteer);
-              this.setHasChanged(true);
+            this.setHasChanged(true);
         }
     }
-    
-    /**Adds the given equipment to the list of equipment
+
+    /**
+     * Adds the given equipment to the list of equipment
+     *
      * @precon the equipment must not already be in the list of equipment.
-     * @param newEquipment thew new equipment to list of equipment. 
+     * @param newEquipment thew new equipment to list of equipment.
      */
-     public void addEquipment(Equipment newEquipment)
+    public void addEquipment(Equipment newEquipment)
     {
         if (this.containsEquipment(newEquipment))
         {
             this.updateError(equipmentAlreadyExistsError, true);
-        }
-        else
+        } else
         {
             necessaryEquipment.add(newEquipment);
-              this.setHasChanged(true);
+            this.setHasChanged(true);
         }
-        
+
     }
-    
-  
-     /**Removes the given volunteer from the list of volunteers for this scene
-      * @precon The volunteer must be in the list of volunteers associated with this scene.
-      * @param oldVolunteer the volunteer to remove from the list of volunteers for this scene
-      */
+
+    /**
+     * Removes the given volunteer from the list of volunteers for this scene
+     *
+     * @precon The volunteer must be in the list of volunteers associated with
+     * this scene.
+     * @param oldVolunteer the volunteer to remove from the list of volunteers
+     * for this scene
+     */
     public void removeVolunteer(Volunteer oldVolunteer)
     {
         if (!this.containsVolunteer(oldVolunteer))
         {
             updateError(volunteerDoesNotExistError, true);
-        }
-        else
+        } else
         {
             necessaryVolunteers.remove(oldVolunteer);
-              this.setHasChanged(true);
+            this.setHasChanged(true);
         }
     }
-    
-    /**Removes the given equipment from the list of equipment for this scene
+
+    /**
+     * Removes the given equipment from the list of equipment for this scene
+     *
      * @precon The equipment must be in the list of equipment for this scene.
-     * @param oldEquipment the equipment to remove from the list of equipment for this scene
-     * @throws Exception 
+     * @param oldEquipment the equipment to remove from the list of equipment
+     * for this scene
+     * @throws Exception
      */
     public void removeEquipment(Equipment oldEquipment) throws Exception
     {
         if (!this.containsEquipment(oldEquipment))
         {
             this.updateError(equipmentDoesNotExistError, true);
-        }
-        else
+        } else
         {
             necessaryEquipment.remove(oldEquipment);
-              this.setHasChanged(true);
+            this.setHasChanged(true);
         }
     }
-    
+
     /**
-     * 
-     * @return the name of the scene to use as the toString() method. 
+     *
+     * @return the name of the scene to use as the toString() method.
      */
     @Override
     public String toString()
     {
         return this.name;
     }
-    
+
     @Override
     public String toDescriptiveString()
     {
         StringBuilder newString = new StringBuilder();
-        newString.append(this.name + "\n");
+        newString.append(this.name);
+        newString.append("\n");
         if (!necessaryVolunteers.isEmpty())
         {
             newString.append("List of volunteers:\n");
@@ -288,119 +319,121 @@ public class Scene extends BaseBusinessObject{
             while (volunteerIter.hasNext())
             {
                 Volunteer tempVolunteer = volunteerIter.next();
-                newString.append(tempVolunteer.getFirstName() + " " + tempVolunteer.getLastName() + "\n");
+                newString.append(tempVolunteer.getFirstName());
+                newString.append(" ");
+                newString.append(tempVolunteer.getLastName());
+                newString.append("\n");
             }
-        }
-        else
+        } else
         {
             newString.append("No volunteers currently assigned to this scene\n");
         }
-        
+
         if (!necessaryEquipment.isEmpty())
         {
             newString.append("List of equipment:\n");
             Iterator<Equipment> equipmentIterator = equipmentIterator();
-            while(equipmentIterator.hasNext())
+            while (equipmentIterator.hasNext())
             {
                 Equipment tempEquipment = equipmentIterator.next();
-                newString.append(tempEquipment.getEquipmentType() + " Stock:" + tempEquipment.getStock() +"\n");
+                newString.append(tempEquipment.getEquipmentType());
+                newString.append(" Stock:");
+                newString.append(tempEquipment.getStock());
+                newString.append("\n");
             }
-        }
-        else
+        } else
         {
-           newString.append("No equipment assigned to this scene\n");
+            newString.append("No equipment assigned to this scene\n");
         }
-        
+
         if (this.isScheduled())
         {
             newString.append("Currently scheduled\n");
-        }
-        else
+        } else
         {
             newString.append("Not scheduled\n");
         }
         return newString.toString();
     }
-    
-    
-    public static void main (int args[])
-    {
-        //test the 
-    }
 
     @Override
-    public BaseBusinessObject clone() throws CloneNotSupportedException 
+    public BaseBusinessObject clone() throws CloneNotSupportedException
     {
-       Scene cloneScene = (Scene) super.clone();
-       cloneScene.setName(this.name());
-       cloneScene.setDescription(this.description());
-       
-       if (this.hasVolunteers())
-       {
+        Scene cloneScene = (Scene) super.clone();
+        cloneScene.setName(this.name());
+        cloneScene.setDescription(this.getDescription());
+
+        if (this.hasVolunteers())
+        {
             Iterator<Volunteer> volunteerIter = volunteerIterator();
-             while (volunteerIter.hasNext())
-             {
-              cloneScene.addVolunteer((Volunteer) volunteerIter.next().clone());
-             }
-       }
-       
-       if (this.hasEquipment())
-       {
+            while (volunteerIter.hasNext())
+            {
+                cloneScene.addVolunteer((Volunteer) volunteerIter.next().clone());
+            }
+        }
+
+        if (this.hasEquipment())
+        {
             Iterator<Equipment> equipmentIter = equipmentIterator();
             while (equipmentIter.hasNext())
-             {
-                 cloneScene.addEquipment((Equipment) equipmentIter.next().clone());
-             }
-       }
-      
-       
-       cloneScene.setScheduled(this.isScheduled());
-       cloneScene.setComplete(this.isComplete());
-       
-       return cloneScene;
+            {
+                cloneScene.addEquipment((Equipment) equipmentIter.next().clone());
+            }
+        }
+
+        cloneScene.setScheduled(this.isScheduled());
+        cloneScene.setComplete(this.isComplete());
+
+        return cloneScene;
     }
 
     @Override
-    public void merge(BaseBusinessObject mergeObject) 
+    public void merge(BaseBusinessObject mergeObject)
     {
-        if(mergeObject == null)
+        if (mergeObject == null)
         {
-            throw new RuntimeException("The given mergeObject was null for the scene merge.");
-        }
-        else if (!(mergeObject instanceof Scene))
+            throw new RuntimeException("The given mergeObject was null "
+                    + "for the scene merge.");
+        } else if (!(mergeObject instanceof Scene))
         {
-             throw new RuntimeException("The given mergeObject is not an instance of Scene for the scene merge");
+            throw new RuntimeException("The given mergeObject is not an instance "
+                    + "of Scene for the scene merge");
         }
-     
-      Scene mergeScene = (Scene) mergeObject;
-      
-      necessaryVolunteers.clear();
-      necessaryEquipment.clear();
-      
-      if (mergeScene.hasVolunteers())
-      {
-           Iterator<Volunteer> volunteerIter = mergeScene.volunteerIterator();
+
+        Scene mergeScene = (Scene) mergeObject;
+
+        necessaryVolunteers.clear();
+        necessaryEquipment.clear();
+
+        if (mergeScene.hasVolunteers())
+        {
+            Iterator<Volunteer> volunteerIter = mergeScene.volunteerIterator();
             while (volunteerIter.hasNext())
-             {
-               Volunteer newVolunteer = volunteerIter.next();
-               this.addVolunteer(newVolunteer);
-             }
-       }
-     
-      if (mergeScene.hasEquipment())
-      {
-         Iterator<Equipment> equipmentIter = mergeScene.equipmentIterator();
-          while (equipmentIter.hasNext())
-         {
-             Equipment newEquipment = equipmentIter.next();
-             this.addEquipment(newEquipment);
-          } 
-      }
-       
-      
-      this.setName(mergeScene.name());
-      this.setDescription(mergeScene.description());
-      this.setScheduled(mergeScene.isScheduled());
-      this.setComplete(mergeScene.isComplete());
+            {
+                Volunteer newVolunteer = volunteerIter.next();
+                this.addVolunteer(newVolunteer);
+            }
+        }
+
+        if (mergeScene.hasEquipment())
+        {
+            Iterator<Equipment> equipmentIter = mergeScene.equipmentIterator();
+            while (equipmentIter.hasNext())
+            {
+                Equipment newEquipment = equipmentIter.next();
+                this.addEquipment(newEquipment);
+            }
+        }
+
+        this.setName(mergeScene.name());
+        this.setDescription(mergeScene.getDescription());
+        this.setScheduled(mergeScene.isScheduled());
+        this.setComplete(mergeScene.isComplete());
+    }
+
+    // Static Methods
+    public static void main(int args[])
+    {
+        //test the 
     }
 }

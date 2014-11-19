@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessobjects;
 
 /**
@@ -14,6 +9,7 @@ package businessobjects;
  *  2. A change to the hasChanged state of the BusinessObject, that is when it
  * moves from the not changed state (eg it has just been loaded from the 
  * database) to a changed state (eg it has just be altered by some user input)
+ * @author Iain Workman
  */
 public interface BusinessObjectListener {
     /**

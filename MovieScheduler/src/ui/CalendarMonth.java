@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import businessobjects.BaseBusinessObject;
@@ -16,8 +11,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
+ * A ui class for visualizing a month of a Schedule
  *
- * @author iain
+ * @author Iain Workman
  */
 public class CalendarMonth extends javax.swing.JPanel
         implements BusinessObjectListListener
@@ -25,7 +21,8 @@ public class CalendarMonth extends javax.swing.JPanel
 
     // Constructor
     /**
-     * Creates new form CalendarMonth
+     * Creates a new empty CalendarMonth which is not yet visualizing a Schedule
+     * focused on the current month
      */
     public CalendarMonth()
     {
@@ -43,6 +40,13 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     // Public Methods
+    /**
+     * Sets the date to visualize in the CalendarMonth
+     *
+     * @param year::int ~ The year to display in the CalendarMonth
+     * @param month::int ~ The month to display in the CalendarMonth (indexed
+     * from 0 because Java etc etc)
+     */
     public void setDate(int year, int month)
     {
         currentMonthStart = new GregorianCalendar(year, month, 1);
@@ -52,6 +56,11 @@ public class CalendarMonth extends javax.swing.JPanel
         refreshCalendarDays();
     }
 
+    /**
+     * Sets the Schedule which is displayed in this CalendarMonth
+     *
+     * @param schedule::Schedule ~ The Schedule to display
+     */
     public void setSchedule(Schedule schedule)
     {
         if (filmingSchedule != null)
@@ -64,6 +73,13 @@ public class CalendarMonth extends javax.swing.JPanel
         refreshCalendarDays();
     }
 
+    /**
+     * Method which handles a SceneFilmingDate being added to the underlying
+     * Schedule
+     *
+     * @param itemAdded::BaseBusinessObject ~ The SceneFilmingDate added to the
+     * underlying Schedule
+     */
     @Override
     public void businessObjectAdded(BaseBusinessObject itemAdded)
     {
@@ -73,11 +89,11 @@ public class CalendarMonth extends javax.swing.JPanel
 
             for (CalendarDay currentCalendarDay : calendarDays)
             {
-                java.text.SimpleDateFormat sdf = 
-                        new java.text.SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
-                
+                java.text.SimpleDateFormat sdf
+                        = new java.text.SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
+
                 System.out.println(sdf.format(currentCalendarDay.date().getTime()));
-                if (addedFilmingDate.sceneShootingInterval().isOnThisDate(currentCalendarDay.date()))
+                if (addedFilmingDate.getSceneShootingInterval().isOnThisDate(currentCalendarDay.date()))
                 {
                     currentCalendarDay.filmingDates().add(addedFilmingDate);
                 }
@@ -85,6 +101,13 @@ public class CalendarMonth extends javax.swing.JPanel
         }
     }
 
+    /**
+     * Method to handle a SceneFilmingDate being removed from the underlying
+     * Schedule
+     *
+     * @param itemRemoved::BaseBusinessObject ~ The SceneFilmingDate removed
+     * from the Schedule
+     */
     @Override
     public void businessObjectRemoved(BaseBusinessObject itemRemoved)
     {
@@ -96,7 +119,7 @@ public class CalendarMonth extends javax.swing.JPanel
             {
                 for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
-                    if (currentDayFilmingDate.scene().name().compareTo(removedFilmingDate.scene().name()) == 0)
+                    if (currentDayFilmingDate.getScene().name().compareTo(removedFilmingDate.getScene().name()) == 0)
                     {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
@@ -105,6 +128,10 @@ public class CalendarMonth extends javax.swing.JPanel
         }
     }
 
+    /**
+     * Method to handle the underlying Schedule being cleared of all its
+     * SceneFilmingDates
+     */
     @Override
     public void listCleared()
     {
@@ -115,12 +142,27 @@ public class CalendarMonth extends javax.swing.JPanel
         }
     }
 
+    /**
+     * Method to handle one of the SceneFilmingDates contained within the 
+     * Schedule notifying that its valid state has changed. Because we're
+     * not editing the SceneFilmingDates here this shouldn't happen
+     * @param newState::boolean ~ The new valid state of sender
+     * @param sender::BaseBusinessObject ~ The BaseBusinessObject whose
+     * valid state has been changed
+     */
     @Override
     public void validStateAltered(boolean newState, BaseBusinessObject sender)
     {
         // We're not editing the items here, so we don't need to handle this
     }
 
+    /**
+     * Method to handle one of the SceneFilmingDates contained within the 
+     * Schedule notifying that its changed state has been altered. 
+     * @param newState::boolean ~ The changed state of sender
+     * @param sender::BaseBusinessObject ~ The BaseBusinessObject whose changed
+     * state has altered.
+     */
     @Override
     public void changedStateAltered(boolean newState, BaseBusinessObject sender)
     {
@@ -130,13 +172,13 @@ public class CalendarMonth extends javax.swing.JPanel
 
             for (CalendarDay currentCalendarDay : calendarDays)
             {
-                if (alteredFilmingDate.sceneShootingInterval().overlaps(currentCalendarDay.date()))
+                if (alteredFilmingDate.getSceneShootingInterval().overlaps(currentCalendarDay.date()))
                 {
                     currentCalendarDay.filmingDates().add(alteredFilmingDate);
                 }
                 for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
-                    if (currentDayFilmingDate.scene().name().compareTo(alteredFilmingDate.scene().name()) == 0)
+                    if (currentDayFilmingDate.getScene().name().compareTo(alteredFilmingDate.getScene().name()) == 0)
                     {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
@@ -147,6 +189,9 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     // Private Methods
+    /**
+     * Refreshes all the CalendarDays which this CalendarMonth contains
+     */
     private void refreshCalendarDays()
     {
         // Clear the current compoenents from the Panel
@@ -223,10 +268,15 @@ public class CalendarMonth extends javax.swing.JPanel
         this.repaint();
     }
 
+    /**
+     * Populates the SceneFilmingDate list of the passed CalendarDay based on
+     * @param calendarDay
+     * @param date 
+     */
     private void populateCalendarDay(CalendarDay calendarDay, GregorianCalendar date)
     {
         BusinessObjectList<SceneFilmingDate> daysSchedule
-                = filmingSchedule.scheduleFor(date);
+                = filmingSchedule.getScheduleFor(date);
 
         for (SceneFilmingDate currentFilmingDate : daysSchedule)
         {

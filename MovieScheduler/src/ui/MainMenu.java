@@ -18,14 +18,23 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author iain
+ * @author Iain Workman, Ryan LaForge, John Mason
  */
 public class MainMenu extends javax.swing.JFrame
 {
 
+    // Private Member Variables
+
+    /**
+     * The main Script for the system
+     */
     private final Script theScript;
+    /**
+     * The Database from which the data for the system is loaded and saved
+     */
     private final Database database;
 
+    // Constructor
     /**
      *
      * @param theScript the script currently in use by the system.

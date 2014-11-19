@@ -6,12 +6,29 @@ import java.util.Calendar;
 
 /**
  * Class representing a set interval of time
+ * @author Iain Workman
  */
 public class TimeInterval
         extends BaseBusinessObject
         implements Comparable<TimeInterval>
 {
+    // Private Member Variables
+    /**
+     * The start of the interval
+     */
+    private GregorianCalendar start;
 
+    /**
+     * The end of the interval
+     */
+    private GregorianCalendar end;
+
+    /**
+     * Formats the dates to be output in ISO standard form
+     * http://en.wikipedia.org/wiki/ISO_8601
+     */
+    private final SimpleDateFormat isoDateFormatter;
+    
     // Constructor
 
     /**
@@ -38,7 +55,7 @@ public class TimeInterval
      *
      * @return The start date/time of the TimeInterval
      */
-    public GregorianCalendar start()
+    public GregorianCalendar getStart()
     {
         return start;
     }
@@ -48,7 +65,7 @@ public class TimeInterval
      *
      * @return The end date/time of the TimeInterval
      */
-    public GregorianCalendar end()
+    public GregorianCalendar getEnd()
     {
         return end;
     }
@@ -59,7 +76,7 @@ public class TimeInterval
      * @return An ISO8601 compliant string for the start datetime
      * http://en.wikipedia.org/wiki/ISO_8601
      */
-    public String startIsoDate()
+    public String getStartIsoDate()
     {
         if (start != null)
         {
@@ -76,7 +93,7 @@ public class TimeInterval
      * @return An ISO8601 compliant string for the end datetime
      * http://en.wikipedia.org/wiki/ISO_8601
      */
-    public String endIsoDate()
+    public String getEndIsoDate()
     {
         if (end != null)
         {
@@ -215,7 +232,7 @@ public class TimeInterval
     @Override
     public String toString()
     {
-        return startIsoDate() + " - " + endIsoDate();
+        return getStartIsoDate() + " - " + getEndIsoDate();
     }
 
     /**
@@ -284,22 +301,5 @@ public class TimeInterval
     }
 
     // Private Methods
-    
-    // Private Member Variables
-    /**
-     * The start of the interval
-     */
-    private GregorianCalendar start;
-
-    /**
-     * The end of the interval
-     */
-    private GregorianCalendar end;
-
-    /**
-     * Formats the dates to be output in ISO standard form
-     * http://en.wikipedia.org/wiki/ISO_8601
-     */
-    private final SimpleDateFormat isoDateFormatter;
 
 }

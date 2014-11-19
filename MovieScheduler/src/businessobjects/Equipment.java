@@ -1,22 +1,37 @@
-
 package businessobjects;
 
 /**
  * Equipment data class
- * @author johnmason
+ *
+ * @author John Mason
  */
 public class Equipment extends BaseBusinessObject
 {
-    String equipmentType; 
+
+    // Private Member Variables
+
+    String equipmentType;
     int stock;   //the amount of equipment we currently have
     boolean isRental;
     float rentalCost;
     BusinessObjectList<TimeInterval> availabilities;
-    
-    //empty constructor
-    public Equipment(){setIsNew(true);}
-    
-    //full constructor for when the equipment is a rental
+
+    // Constructor(s)
+    /**
+     * Empty Constructor
+     */
+    public Equipment()
+    {
+        setIsNew(true);
+    }
+
+    /**
+     *
+     * @param equipmentType
+     * @param stock
+     * @param isRental
+     * @param cost
+     */
     public Equipment(String equipmentType, int stock, boolean isRental, float cost)
     {
         this.equipmentType = equipmentType;
@@ -26,7 +41,7 @@ public class Equipment extends BaseBusinessObject
         setIsNew(true);
 
     }
-    
+
     //partial constructor for when the equipment is not a rental so we can add it without needing to enter a cost
     public Equipment(String equipmentType, int stock, boolean isRental)
     {
@@ -35,62 +50,61 @@ public class Equipment extends BaseBusinessObject
         this.isRental = isRental;
         setIsNew(true);
 
-    }    
-    
+    }
+
+    // Public Methods
     public void setEquipmentType(String equipmentType)
     {
         this.equipmentType = equipmentType;
         setHasChanged(true);
     }
-    
+
     public void setStock(int amount)
     {
         this.stock = amount;
         setHasChanged(true);
 
     }
-    
+
     public void setIsRental(boolean isRental)
     {
         this.isRental = isRental;
         setHasChanged(true);
 
     }
-    
+
     public void setCost(float cost)
     {
         this.rentalCost = cost;
         setHasChanged(true);
 
     }
-    
+
     public void setAvailabilities(BusinessObjectList<TimeInterval> availabilities)
     {
         this.availabilities = availabilities;
     }
-    
+
     public BusinessObjectList<TimeInterval> getAvailabilities()
     {
         return availabilities;
     }
 
-    
-    
     public String getEquipmentType()
     {
         return this.equipmentType;
     }
-    
+
     public int getStock()
     {
         return this.stock;
     }
-    
+
     public boolean getIsRental()
     {
         return this.isRental;
     }
-    
+
     public float getCost()
     {
         return this.rentalCost;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package actions;
 
 import businessobjects.BusinessObjectList;
@@ -18,6 +13,7 @@ import java.util.GregorianCalendar;
 /**
  * A class representing an Action which loads Volunteer data from the Database
  * into the provided Script.
+ * @author Iain Workman
  */
 public class PopulateScriptVolunteersAction extends BaseAction{
     // Constructor
@@ -41,20 +37,20 @@ public class PopulateScriptVolunteersAction extends BaseAction{
      */
     @Override
     protected void runImplementation() {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
         {
             setErrorMessage("Can't populate data for a null script.");
             setWasSuccessful(false);
             return;
         }
         
-        if(!(businessObject() instanceof Script))
+        if(!(getBusinessObject() instanceof Script))
         {
             setErrorMessage("Can't populate data into an object which is not"
                     + " a script.");
         }
         
-        Script scriptToPopulate = (Script)businessObject();
+        Script scriptToPopulate = (Script)getBusinessObject();
         
         try{
             scriptToPopulate.setVolunteers(loadVolunteers());
@@ -86,7 +82,7 @@ public class PopulateScriptVolunteersAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectVolunteersQuery);
+            selectResults = getDatabase().executeSelect(selectVolunteersQuery);
             
                 while (selectResults.next())
                 {
@@ -140,7 +136,7 @@ public class PopulateScriptVolunteersAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectAvailabilityQuery);
+            selectResults = getDatabase().executeSelect(selectAvailabilityQuery);
             
                 while (selectResults.next())
                 {

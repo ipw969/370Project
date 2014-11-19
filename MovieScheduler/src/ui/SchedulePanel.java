@@ -55,7 +55,7 @@ public class SchedulePanel extends javax.swing.JPanel
                     + "SchedulePanel");
         }
         this.script = script;
-        sceneListView = new BusinessObjectListView<>(script.scenes());
+        sceneListView = new BusinessObjectListView<>(script.getScenes());
         sceneListViewScrollPane.setViewportView(sceneListView);
 
 
@@ -95,7 +95,7 @@ public class SchedulePanel extends javax.swing.JPanel
             {
                 Scene selectedScene = sceneListView.getSelectedValue();
                 SceneFilmingDate filmingDate =
-                        script.schedule().scenesFilmingDate(selectedScene);
+                        script.getSchedule().getScenesFilmingDate(selectedScene);
                 
                 if(filmingDate == null)
                 {
@@ -147,7 +147,7 @@ public class SchedulePanel extends javax.swing.JPanel
             }
         });
         ScheduleCalendar scheduleCalendar = new ScheduleCalendar();
-        scheduleCalendar.setSchedule(script.schedule());
+        scheduleCalendar.setSchedule(script.getSchedule());
         calendarPanel.add(scheduleCalendar);
     }
 

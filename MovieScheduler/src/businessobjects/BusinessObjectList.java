@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessobjects;
 
 import java.util.ArrayList;
@@ -13,12 +8,17 @@ import java.util.Collection;
  * BusinessObjectListeners can be registered with the collection and will be
  * notified if any of the contained BusinessObjects change state.
  *
+ * @author Iain Workman
  * @param <T extends BaseBusinessObject> ~ The type to store
  */
 public class BusinessObjectList<T extends BaseBusinessObject> extends
         ArrayList<T>
         implements BusinessObjectListener
 {
+
+    // Private Member Variables
+
+    private final ArrayList<BusinessObjectListListener> listeners;
 
     // Constructor
     /**
@@ -289,12 +289,12 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
                         = (T) obj;
 
                 boolean currentItemRemoved = remove(currentBusinessObject);
-                if(currentItemRemoved)
+                if (currentItemRemoved)
                 {
                     notifyListenersOfRemove(currentBusinessObject);
                 }
                 returnResult |= currentItemRemoved;
-                
+
             }
         }
         return returnResult;
@@ -373,7 +373,4 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
             currentListener.listCleared();
         }
     }
-
-    // Private Member Variables
-    private final ArrayList<BusinessObjectListListener> listeners;
 }

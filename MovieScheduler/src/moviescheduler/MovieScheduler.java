@@ -10,22 +10,23 @@ import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import actions.LoadScriptAction;
-import actions.PopulateScriptEquipmentAction;
-import actions.PopulateScriptScenesAction;
-import actions.PopulateScriptScheduleAction;
-import actions.PopulateScriptVolunteersAction;
 import businessobjects.Script;
 import ui.*;
 
 /**
+ * The main entry point class of the MovieScheduler system
  *
- *
+ * @author Iain Workman, Ryan LaForge, John Mason
  */
 public class MovieScheduler
 {
 
     /**
-     * Main entry point for the GUI of the movie scheduler system.
+     * Main entry point for the GUI of the movie scheduler system. Initializes
+     * the system. If there is not a valid Script in the database, then loads
+     * the StartMenu if there is a valid Script in the database, then loads the
+     * MainMenu if there are any errors encountered in the initialization, then
+     * displays an error message and closes the application
      *
      * @param args the command line arguments (unused)
      */
@@ -62,7 +63,7 @@ public class MovieScheduler
                     + ex.getMessage());
             return;
         }
-        
+
         // Attempt to load a script
         LoadScriptAction loadScriptAction = new LoadScriptAction(database);
         loadScriptAction.run();
@@ -70,10 +71,10 @@ public class MovieScheduler
         if (!loadScriptAction.wasSuccessful())
         {
             initializedProperly = false;
-            errorsEncountered.add(loadScriptAction.lastErrorMessage());
+            errorsEncountered.add(loadScriptAction.getLastErrorMessage());
         }
 
-        final Script loadedScript = (Script) loadScriptAction.businessObject();
+        final Script loadedScript = (Script) loadScriptAction.getBusinessObject();
         if (loadedScript == null && initializedProperly)
         {
             // No errors were encountered, but we didn't find a script, must
@@ -87,7 +88,7 @@ public class MovieScheduler
                     startMenu.setVisible(true);
                 }
             });
-        } else if(initializedProperly)
+        } else if (initializedProperly)
         {
             // Script was found, show it in the main menu
             java.awt.EventQueue.invokeLater(new Runnable()
@@ -100,8 +101,7 @@ public class MovieScheduler
                 }
             });
 
-        }
-        else
+        } else
         {
             // One of this inits failed. Display an error message and exit
             JOptionPane.showMessageDialog(null, "Could not load the system,"

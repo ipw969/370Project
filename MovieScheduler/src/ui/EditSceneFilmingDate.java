@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import actions.SaveSceneFilmingDateAction;
@@ -17,9 +12,10 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import database.Database;
+
 /**
- *
- * @author iain
+ * A ui class representing a Frame for Editing/Creating a new SceneFilmingDate
+ * @author Iain Workman
  */
 public class EditSceneFilmingDate extends javax.swing.JFrame
         implements BusinessObjectListener
@@ -27,53 +23,54 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
 
     /**
      * Creates new form EditSceneFilmingDate
-     * @param script
-     * @param filmingDate
-     * @param database
+     *
+     * @param script::Script ~ The Script containing the Schedule
+     * @param filmingDate::SceneFilmingDate ~ The SceneFilmingDate to edit
+     * @param database::Database ~ The database to save the edited/created
+     * SceneFilmingDate to
      */
-    public EditSceneFilmingDate(Script script, 
+    public EditSceneFilmingDate(Script script,
             SceneFilmingDate filmingDate, Database database)
     {
         if (script == null)
         {
             throw new RuntimeException("Cannot edit Scene Filming Dates for"
                     + "a null script");
-        }        
+        }
         initComponents();
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-        
+
         this.script = script;
         this.database = database;
         originalFilmingDate = filmingDate;
         filmingDateToEdit = (SceneFilmingDate) filmingDate.clone();
         errorIcon.setVisible(!filmingDateToEdit.isValid());
         errorLabel.setVisible(!filmingDateToEdit.isValid());
-        errorIcon.setToolTipText(filmingDateToEdit.errorMessage());
+        errorIcon.setToolTipText(filmingDateToEdit.getErrorMessage());
         filmingDateToEdit.addListener(this);
-        
+
         okayButton.setEnabled(false);
-        scenesComboBox = new BusinessObjectComboBoxView<>(script.scenes());
-        sceneLabel.setText(filmingDateToEdit.scene().name());
-        scenesComboBox.setSelectedItem(filmingDateToEdit.scene());
-        
-        startDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingStart().getTime());
-        endDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingEnd().getTime());
-        
+        scenesComboBox = new BusinessObjectComboBoxView<>(script.getScenes());
+        sceneLabel.setText(filmingDateToEdit.getScene().name());
+        scenesComboBox.setSelectedItem(filmingDateToEdit.getScene());
+
+        startDateTimeSpinner.setValue(filmingDateToEdit.getSceneShootingStart().getTime());
+        endDateTimeSpinner.setValue(filmingDateToEdit.getSceneShootingEnd().getTime());
+
         startDateTimeSpinner.addChangeListener(new ChangeListener()
         {
-            
             @Override
             public void stateChanged(ChangeEvent e)
             {
                 Date newValue = (Date) startDateTimeSpinner.getValue();
                 GregorianCalendar newCalendarValue = new GregorianCalendar();
                 newCalendarValue.setTime(newValue);
-                
-                filmingDateToEdit.sceneShootingInterval().setStart(newCalendarValue);
+
+                filmingDateToEdit.getSceneShootingInterval().setStart(newCalendarValue);
             }
-            
+
         });
-        
+
         endDateTimeSpinner.addChangeListener(new ChangeListener()
         {
             @Override
@@ -82,12 +79,19 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                 Date newValue = (Date) endDateTimeSpinner.getValue();
                 GregorianCalendar newCalendarValue = new GregorianCalendar();
                 newCalendarValue.setTime(newValue);
-                
-                filmingDateToEdit.sceneShootingInterval().setEnd(newCalendarValue);
+
+                filmingDateToEdit.getSceneShootingInterval().setEnd(newCalendarValue);
             }
         });
     }
-    
+
+    /**
+     * Handles the valid state of the SceneFilmingDate changing.
+     * If it has changed to not valid, disables the Okay button and displayed
+     * the error message which is presenting it from being saved.
+     * @param newState::boolean ~ The new valid state of the SceneFilmingDate
+     * @param sender::BaseBusinessObject ~ The SceneFilmingDate
+     */
     @Override
     public void validStateAltered(boolean newState, BaseBusinessObject sender)
     {
@@ -97,38 +101,48 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         errorLabel.setText(null);
         if (!newState)
         {
-            errorIcon.setToolTipText(sender.errorMessage());
+            errorIcon.setToolTipText(sender.getErrorMessage());
         }
     }
-    
+
+    /**
+     * Handles the changed state of the SceneFilmingDate altering.
+     * If it has altered to not changed, then disables the Okay button,
+     * otherwise enables it.
+     * @param newState::boolean ~ The changes state of the SceneFilmingDate
+     * @param sender::BaseBusinessObject ~ The SceneFilmingDate
+     */
     @Override
     public void changedStateAltered(boolean newState, BaseBusinessObject sender)
     {
         okayButton.setEnabled(newState);
     }
 
+    /**
+     * Saves the SceneFilmingDate being edited then populates this data back
+     * to the Script
+     */
     public void save()
     {
         SaveSceneFilmingDateAction saveAction = new SaveSceneFilmingDateAction(
                 database, filmingDateToEdit);
-        
+
         saveAction.run();
-        
-        if(!saveAction.wasSuccessful())
+
+        if (!saveAction.wasSuccessful())
         {
             originalFilmingDate.merge(filmingDateToEdit);
-            script.schedule().add(originalFilmingDate);
-        }
-        else
+            script.getSchedule().add(originalFilmingDate);
+        } else
         {
             //Show error message
             JOptionPane.showMessageDialog(null, "Could not save scheduled "
-                    + "filming date with message: " 
-                    + saveAction.lastErrorMessage(),
+                    + "filming date with message: "
+                    + saveAction.getLastErrorMessage(),
                     "Error Loading System!", 0);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -288,9 +302,16 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method which handles the form being closed. Checks if the SceneFilmingDate
+     * being edited has been changed. If it has it then checks if its current 
+     * state is valid. If it is it asks if the user wishes to save, if it isn't
+     * it asks the user if they want to abandon changes or return to editing.
+     * @param evt 
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowClosing
     {//GEN-HEADEREND:event_formWindowClosing
-        
+
         if (filmingDateToEdit.hasChanged())
         {
             if (filmingDateToEdit.isValid())
@@ -301,7 +322,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                         JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null, null, null);
-                
+
                 if (confirm == JOptionPane.YES_OPTION)
                 {
                     //TODO: Perform save action
@@ -321,7 +342,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,
                         null, null, null);
-                
+
                 if (confirm == JOptionPane.NO_OPTION)
                 {
                     this.setVisible(false);
@@ -333,7 +354,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
             this.setVisible(false);
             filmingDateToEdit.removeListener(this);
         }
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     private void okayButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_okayButtonActionPerformed

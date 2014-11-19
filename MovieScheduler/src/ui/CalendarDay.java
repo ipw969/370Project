@@ -13,12 +13,13 @@ import javax.swing.border.LineBorder;
 /**
  * A ui class representing a single day in the schedule calendar. Displays the
  * day of the month, then a list of all the scenes scheduled on that day.
+ *
+ * @author Iain Workman
  */
 public class CalendarDay extends javax.swing.JPanel
 {
 
     // Constructor
-
     /**
      * Creates a new instance of a Calendar Day. Set date must be called before
      * this can properly be displayed.
@@ -31,7 +32,7 @@ public class CalendarDay extends javax.swing.JPanel
         filmingDateView = new BusinessObjectListView<>(filmingDates);
         filmingDateScrollPane.setViewportView(filmingDateView);
         filmingDateView.setCellRenderer(new CalendarCellRenderer());
-        
+
     }
 
     // Public Methods
@@ -83,17 +84,35 @@ public class CalendarDay extends javax.swing.JPanel
     }
 
     // Private Member Class
-
+    /**
+     * Class which builds draw components for the CalendarDay
+     * BusinessObjectListView
+     */
     private class CalendarCellRenderer extends DefaultListCellRenderer
     {
 
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+        /**
+         * Returns the component to draw for each ListCell.
+         *
+         * @param list::JList ~ The parent list requesting a ListCellComponent
+         * @param value::Object ~ The value of the ListCell
+         * @param index::int ~ The index of the ListCell being requested
+         * @param isSelected::boolean ~ Whether or not the ListCell is currently
+         * Selected
+         * @param cellHasFocus::boolean ~ Whether or not the ListCell currently
+         * has focus
+         * @return The component to use in drawing the ListCell
+         */
+        @Override
+        public Component getListCellRendererComponent(JList list,
+                Object value, int index, boolean isSelected,
+                boolean cellHasFocus)
         {
             // Assumes the stuff in the list has a pretty toString
             this.setText(value.toString());
             this.setBorder(new LineBorder(Color.RED));
             this.setBackground(Color.PINK);
-            
+
             return this;
         }
     }

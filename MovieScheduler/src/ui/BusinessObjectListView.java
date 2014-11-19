@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import businessobjects.BaseBusinessObject;
@@ -19,13 +14,13 @@ import javax.swing.ListModel;
  *
  * @param <T extends BaseBusinessObject> ~ The type of BusinessObject contained
  * in the list whose data is to be displayed.
+ * @author Iain Workman
  */
 public class BusinessObjectListView<T extends BaseBusinessObject>
         extends JList<T>
 {
 
     // Constructor
-
     /**
      * Creates an instance of a BusinessObjectListView to display the data in
      * the provided BusinessObjectList
@@ -39,18 +34,22 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         listModel.setData(list);
         this.setModel(listModel);
     }
-    
+
     // Public Methods
+    /**
+     * Stops the underlying model from listening to changes to its
+     * BusinessObjectList
+     */
     public void stopModelListening()
     {
         ListModel model = getModel();
-        if(model != null && model instanceof BusinessObjectListModel)
+        if (model != null && model instanceof BusinessObjectListModel)
         {
-            BusinessObjectListModel<T> listModel = (BusinessObjectListModel<T>)model;
+            BusinessObjectListModel<T> listModel = (BusinessObjectListModel<T>) model;
             listModel.stopListening();
         }
     }
-    
+
     /**
      * Private class which represents the model which the BusinessObjectListView
      * will use to display its data
@@ -110,7 +109,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         public void changedStateAltered(boolean currentState,
                 BaseBusinessObject sender)
         {
-                refreshBusinessObject(sender);
+            refreshBusinessObject(sender);
         }
 
         /**
@@ -149,6 +148,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         /**
          * Handles the managed list notifying the model that it has had a
          * BusinessObject removed from it.
+         *
          * @param itemRemoved::BaseBusinessObject ~ The BusinessObject which was
          * removed from the list.
          */
@@ -169,16 +169,17 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
             revalidate();
             repaint();
         }
-        
+
         /**
-         * Stops the model listening to changes to the underlying BusinessObjectList.
-         * This should only be called immediately prior to stopping using the model.
+         * Stops the model listening to changes to the underlying
+         * BusinessObjectList. This should only be called immediately prior to
+         * stopping using the model.
          */
         public void stopListening()
         {
             data.removeListener(this);
         }
-        
+
         private void refreshBusinessObject(BaseBusinessObject businessObject)
         {
             // Iterate through the list to find the index of the changed 
@@ -201,18 +202,15 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
                 fireContentsChanged(businessObject, indexOfSender, indexOfSender);
             }
         }
-        
+
         /**
          * The BusinessObjectList that the Model is presenting to Views.
          */
         private BusinessObjectList<T> data;
 
-        
-        
     }
 
     // Static Methods
-
     /**
      * Simple class for displaying a BusinessObjectListView. This methods does
      * not provide unit testing. Rather it is simply to visualize the view as it

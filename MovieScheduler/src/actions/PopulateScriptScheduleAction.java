@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package actions;
 
 import businessobjects.Scene;
@@ -19,6 +14,7 @@ import java.util.GregorianCalendar;
 /**
  * A class representing an Action which populates the Provided Script with
  * the filming Schedule, loaded from the provided Database.
+ * @author Iain Workman
  */
 public class PopulateScriptScheduleAction extends BaseAction {
 
@@ -36,20 +32,20 @@ public class PopulateScriptScheduleAction extends BaseAction {
     // Protected Methods
     @Override
     protected void runImplementation() {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
         {
             setErrorMessage("Can't populate data for a null script.");
             setWasSuccessful(false);
             return;
         }
         
-        if(!(businessObject() instanceof Script))
+        if(!(getBusinessObject() instanceof Script))
         {
             setErrorMessage("Can't populate data into an object which is not"
                     + " a script.");
         }
         
-        Script scriptToPopulate = (Script)businessObject();
+        Script scriptToPopulate = (Script)getBusinessObject();
         
         try{
             scriptToPopulate.setSchedule(loadSchedule());
@@ -69,10 +65,10 @@ public class PopulateScriptScheduleAction extends BaseAction {
      */
     private Script script()
     {
-        if (businessObject() == null || !(businessObject() instanceof Script))
+        if (getBusinessObject() == null || !(getBusinessObject() instanceof Script))
             return null;
         
-        return (Script)businessObject();
+        return (Script)getBusinessObject();
     }
     
     /**
@@ -93,7 +89,7 @@ public class PopulateScriptScheduleAction extends BaseAction {
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectScheduleQuery);
+            selectResults = getDatabase().executeSelect(selectScheduleQuery);
             
                 while (selectResults.next())
                 {
@@ -109,7 +105,7 @@ public class PopulateScriptScheduleAction extends BaseAction {
                     String sceneName = selectResults.getString(3);
                     
                     SceneFilmingDate currentFilmingDate = null;
-                    for(Scene currentScene : script().scenes())
+                    for(Scene currentScene : script().getScenes())
                     {
                         if(currentScene.name().compareTo(sceneName) == 0)
                         {

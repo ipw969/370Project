@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import businessobjects.BaseBusinessObject;
@@ -15,26 +10,71 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 /**
+ * A ui widget class which visualizes a BusinessObjectList as a ComboBox
  *
- * @author iain
+ * @author Iain Workman
+ * @param <T extends BaseBusinessObject>
  */
 public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
         extends JComboBox<T>
 {
 
+    // Constructor
+    /**
+     * Creates an instance of a BusinessObjectComboBoxView with the passed
+     * BusinessObjectList as its data source
+     *
+     * @param data::BusinessObjectList<T> ~ The BusinessObjectList to use as the
+     * data source for the combo box
+     */
     public BusinessObjectComboBoxView(BusinessObjectList<T> data)
     {
-        BusinessObjectComboBoxModel<T> model = 
-                new BusinessObjectComboBoxModel<>();
-        
+        BusinessObjectComboBoxModel<T> model
+                = new BusinessObjectComboBoxModel<>();
+
         model.setData(data);
         setModel(model);
     }
+    
+    public void stopModelListening()
+    {
+        BusinessObjectComboBoxModel model = 
+                (BusinessObjectComboBoxModel<T>)getModel();
+        
+        model.stopListening();
+    }
 
+    // Private Classes
+    /**
+     * A Class representing a model which manages providing data to a
+     * BusinessObjectComboBoxView
+     *
+     * @param <T extends BaseBusinessObject> ~ The type of BusinessObject to
+     * manage in the model
+     */
     private class BusinessObjectComboBoxModel<T extends BaseBusinessObject>
             implements ComboBoxModel<T>, BusinessObjectListListener
     {
 
+        /**
+         * The BusinessObjectList that the Model is presenting to Views.
+         */
+        private BusinessObjectList<T> data;
+
+        /**
+         * Views which are listening to this model
+         */
+        private ArrayList<ListDataListener> modelListeners;
+
+        /**
+         * The item currently selected in the model
+         */
+        T selectedItem;
+
+        // Constructor
+        /**
+         * Creates a BusinessObjectComboBoxModel with no data
+         */
         public BusinessObjectComboBoxModel()
         {
             data = new BusinessObjectList<>();
@@ -44,6 +84,8 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             selectedItem = null;
         }
 
+        // Public Methods
+        
         /**
          * Sets the data for the model to the provided BusinessObjectList
          *
@@ -67,6 +109,12 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             data.addListener(this);
         }
 
+        /**
+         * Sets the selected item in the model to the passed Object, if it is
+         * found in the model
+         *
+         * @param anItem::Object ~ The Object to select
+         */
         @Override
         public void setSelectedItem(Object anItem)
         {
@@ -98,6 +146,11 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             }
         }
 
+        /**
+         * Returns the current selected item
+         *
+         * @return The current selected item
+         */
         @Override
         public Object getSelectedItem()
         {
@@ -127,12 +180,23 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             return data.get(index);
         }
 
+        /**
+         * Adds the provided ListDataListener to this Model
+         *
+         * @param l::ListDataListener ~ The ListDataListener to add to the Model
+         */
         @Override
         public void addListDataListener(ListDataListener l)
         {
             modelListeners.add(l);
         }
 
+        /**
+         * Removes the provided ListDataListener to this Model
+         *
+         * @param l::ListDataListener ~ The ListDataListener to remove from the
+         * Model
+         */
         @Override
         public void removeListDataListener(ListDataListener l)
         {
@@ -149,6 +213,13 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             data.removeListener(this);
         }
 
+        /**
+         * Method which handles a BaseBusinessObject being added to the
+         * BusinessObjectList which the model is representing
+         *
+         * @param itemAdded::BaseBusinessObject ~ The BusinessObject which was
+         * added to the List
+         */
         @Override
         public void businessObjectAdded(BaseBusinessObject itemAdded)
         {
@@ -156,6 +227,13 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             repaint();
         }
 
+        /**
+         * Method which handles a BaseBusinessObject being removed from the
+         * BusinessObjectList which was removed from the List
+         *
+         * @param itemRemoved::BaseBusinessObject ~ The item which was removed
+         * from the List
+         */
         @Override
         public void businessObjectRemoved(BaseBusinessObject itemRemoved)
         {
@@ -163,6 +241,9 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             repaint();
         }
 
+        /**
+         * Method which handles the list being cleared
+         */
         @Override
         public void listCleared()
         {
@@ -170,12 +251,32 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
             repaint();
         }
 
+        /**
+         * Method which handles a BusinessObject contained within the list
+         * notifying the model that its valid state has changed. As we're not
+         * editing the contained BusinessObjects within here we don't have to
+         * listen to these notifications
+         *
+         * @param newState::boolean ~ The new valid state of the
+         * BaseBusinessObject
+         * @param sender::BaseBusinessObject ~ The BaseBusinessObject whose
+         * valid state has changed.
+         */
         @Override
         public void validStateAltered(boolean newState, BaseBusinessObject sender)
         {
             // Not editing the business objects here, not needed.
         }
-
+        
+        /**
+         * Method which handles a BusinessObject contained within the list
+         * notifying the model that its changes state has been altered.
+         *
+         * @param newState::boolean ~ The new changed state of the
+         * BaseBusinessObject
+         * @param sender::BaseBusinessObject ~ The BaseBusinessObject whose
+         * changed date has been altered.
+         */
         @Override
         public void changedStateAltered(boolean newState, BaseBusinessObject sender)
         {
@@ -206,21 +307,6 @@ public class BusinessObjectComboBoxView<T extends BaseBusinessObject>
                 }
             }
         }
-
-        /**
-         * The BusinessObjectList that the Model is presenting to Views.
-         */
-        private BusinessObjectList<T> data;
-
-        /**
-         * Views which are listening to this model
-         */
-        private ArrayList<ListDataListener> modelListeners;
-
-        /**
-         * The item currently selected in the model
-         */
-        T selectedItem;
 
     }
 }

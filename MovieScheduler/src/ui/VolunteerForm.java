@@ -317,7 +317,7 @@ public class VolunteerForm extends javax.swing.JFrame {
             //if not give an error message
             if(!saveVolunteerAction.wasSuccessful())
             {
-                System.out.println("fail" + saveVolunteerAction.lastErrorMessage());
+                System.out.println("fail" + saveVolunteerAction.getLastErrorMessage());
             }
            
             //add the volunteer to the script so it appears in the main menu

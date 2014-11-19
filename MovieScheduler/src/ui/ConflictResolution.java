@@ -1,18 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import javax.swing.JOptionPane;
-import actions.LoadScriptAction;
-import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
-import businessobjects.Volunteer;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -20,28 +10,33 @@ import javax.mail.internet.MimeMessage;
 
 /**
  *
- * @author Mitchell
+ * @author Mitchell Corbett
  */
-public class ConflictResolution extends javax.swing.JFrame {
+public class ConflictResolution extends javax.swing.JFrame
+{
 
     /**
      * Creates new form ConflictResolution
      */
-    public ConflictResolution(Script script) {
+    public ConflictResolution(Script script)
+    {
         initComponents();
-        if (script == null) {
+        if (script == null)
+        {
             throw new RuntimeException("Cannot add a null Script to a "
                     + "ConflictResolution");
         }
         this.script = script;
-        conflictSceneListView = new BusinessObjectListView<>(script.schedule().scheduleConflicts());
+        conflictSceneListView = 
+                new BusinessObjectListView<>(script.getSchedule().getScheduleConflicts());
         System.out.println(conflictSceneListView);
         conflictSceneScrollPane.setViewportView(conflictSceneListView);
         this.setVisible(true);
 
     }
 
-    ConflictResolution() {
+    ConflictResolution()
+    {
         throw new UnsupportedOperationException("Unsupported without script"); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -220,8 +215,10 @@ public class ConflictResolution extends javax.swing.JFrame {
         ignoreResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to ignore?",
                 "Conflict",
                 JOptionPane.YES_NO_OPTION);
-        if (ignoreResult == 1) {
-        } else {
+        if (ignoreResult == 1)
+        {
+        } else
+        {
             JOptionPane.showConfirmDialog(this, "Ignore executed: " + ignoreCurrentConflict().toString());
         }
 
@@ -240,52 +237,53 @@ public class ConflictResolution extends javax.swing.JFrame {
     private void conflictSceneListPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictSceneListPaneMouseClicked
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
         conflictConflictLabel.setText(selectedFilmSceneTime.getReasonList().toString());
-        conflictVolunteerLabel.setText(selectedFilmSceneTime.scene().toDescriptiveString());
+        conflictVolunteerLabel.setText(selectedFilmSceneTime.getScene().toDescriptiveString());
     }//GEN-LAST:event_conflictSceneListPaneMouseClicked
 
     private void conflictContactAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictContactAllButtonMouseClicked
-        
-        
+
 
     }//GEN-LAST:event_conflictContactAllButtonMouseClicked
 
-    private boolean sendEmails(){
+    private boolean sendEmails()
+    {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
 //        Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
         String emailList = "mitchellcorbett@hotmail.com";
         /*
-        String emailList = "";
+         String emailList = "";
 
-        // Comma separated list of emails for the below code
-        while (volunteerIter.hasNext()) {
-            Volunteer currentVolunteer = volunteerIter.next();
-            emailList = emailList + currentVolunteer.getEmail() + ",";
-        }
+         // Comma separated list of emails for the below code
+         while (volunteerIter.hasNext()) {
+         Volunteer currentVolunteer = volunteerIter.next();
+         emailList = emailList + currentVolunteer.getEmail() + ",";
+         }
 
-        */
-        
+         */
+
         /* 
-        * The following code is modified for use here from
-        * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
-        */
-        
+         * The following code is modified for use here from
+         * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+         */
         final String username = JOptionPane.showInputDialog(this, "Please enter your gmail");
         final String password = JOptionPane.showInputDialog(this, "Please enter your password");
-        
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
         Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
+                new javax.mail.Authenticator()
+                {
+                    protected PasswordAuthentication getPasswordAuthentication()
+                    {
                         return new PasswordAuthentication(username, password);
                     }
                 });
-      
-        
-        try {
+
+        try
+        {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
@@ -293,49 +291,57 @@ public class ConflictResolution extends javax.swing.JFrame {
                     InternetAddress.parse(emailList));
             message.setSubject("Filming Conflict");
             /*String conflictMessage = "Hello team. We are unable to schedule a scene " +
-                    "due to scheduling conflicts. Please see the information about " + 
-                    "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
-                    + " And the reason for conflict: " + 
-                    selectedFilmSceneTime.getReasonList().toString();
+             "due to scheduling conflicts. Please see the information about " + 
+             "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
+             + " And the reason for conflict: " + 
+             selectedFilmSceneTime.getReasonList().toString();
      
-            */      
+             */
             String conflictMessage = "TESTING";
             message.setText(conflictMessage);
 
             Transport.send(message);
             return true;
 
+        } catch (MessagingException e)
+        {
+            Object[] options =
+            {
+                "Try again",
+                "Show Emails",
+                "Cancel"
+            };
 
-        } catch (MessagingException e) {
-            Object[] options = {"Try again",
-                    "Show Emails",
-                    "Cancel"};
-            
-           int choice = JOptionPane.showOptionDialog(this, "An error has occured " +
-                   "in sending your message. What would you like to do?", "Error",
-                   JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                   null,options, options[2]);
-           if (choice == 0){
-               sendEmails();
-           }
-           if(choice == 1){
-               showEmails(emailList);
-           }
-           //choice == 2 isn't needed since it's defined as the cancel op
+            int choice = JOptionPane.showOptionDialog(this, "An error has occured "
+                    + "in sending your message. What would you like to do?", "Error",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, options, options[2]);
+            if (choice == 0)
+            {
+                sendEmails();
+            }
+            if (choice == 1)
+            {
+                showEmails(emailList);
+            }
+            //choice == 2 isn't needed since it's defined as the cancel op
         }
-        
+
         return false;
     }
-    private void showEmails(String emailList){
+
+    private void showEmails(String emailList)
+    {
         //Popup textbox containing emails
-        
+
     }
-    
+
     private void conflictCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictCancelMouseClicked
         this.dispose();
     }//GEN-LAST:event_conflictCancelMouseClicked
 
-    private Boolean ignoreCurrentConflict() {
+    private Boolean ignoreCurrentConflict()
+    {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
         selectedFilmSceneTime.ignoreConflict();
         return true;
@@ -344,33 +350,43 @@ public class ConflictResolution extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[])
+    {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+            {
+                if ("Nimbus".equals(info.getName()))
+                {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex)
+        {
             java.util.logging.Logger.getLogger(ConflictResolution.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (InstantiationException ex)
+        {
             java.util.logging.Logger.getLogger(ConflictResolution.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             java.util.logging.Logger.getLogger(ConflictResolution.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        {
             java.util.logging.Logger.getLogger(ConflictResolution.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
                 new ConflictResolution().setVisible(true);
             }
         });

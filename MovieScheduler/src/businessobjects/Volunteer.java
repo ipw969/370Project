@@ -1,18 +1,20 @@
-
 package businessobjects;
 import businessobjects.*;
 import java.awt.List;
 /**
  * volunteer data class
- * @author johnmason
+ * @author John Mason
  */
 public class Volunteer extends BaseBusinessObject
 {
+    // Private Member Variables
     String firstName;
     String lastName;
     String email;
     String phone;   //since we are not actually doing anything with it having it as a string will get rid of many errors
     BusinessObjectList <TimeInterval> availability = new BusinessObjectList<>();
+    
+    // Constructors
     
     //empty constructor
     public Volunteer(){setIsNew(true);}
@@ -39,6 +41,7 @@ public class Volunteer extends BaseBusinessObject
         setIsNew(true);
     }
 
+    // Public Methods
     public void addAvailability(TimeInterval avail)
     {
         this.availability.add(avail);

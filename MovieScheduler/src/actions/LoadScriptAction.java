@@ -8,11 +8,13 @@ import java.sql.SQLException;
 /**
  * A class which represents an action to load all the data from the database
  * into a script object
+ * @author Iain Workman
  */
 public class LoadScriptAction extends BaseAction
 {
 
     // Constructor
+    
     /**
      * Creates an instance of a LoadScriptAction which will act of the provided
      * database
@@ -25,6 +27,7 @@ public class LoadScriptAction extends BaseAction
     }
 
     // Protected Methods
+    
     /**
      * Runs the loadScriptAction
      *
@@ -92,7 +95,7 @@ public class LoadScriptAction extends BaseAction
         ResultSet selectResults = null;
         try
         {
-            selectResults = database().executeSelect(selectScriptQuery);
+            selectResults = getDatabase().executeSelect(selectScriptQuery);
 
             while (selectResults.next())
             {
@@ -113,61 +116,85 @@ public class LoadScriptAction extends BaseAction
         return returnScript;
     }
 
+    /**
+     * Populates the provided Script's Volunteer list with Volunteers loaded from
+     * the Database
+     * @param script::Script ~ The Script to load the Volunteers into
+     * @return True if Volunteers were loaded without error, false otherwise
+     */
     private boolean populateVolunteers(Script script)
     {
         PopulateScriptVolunteersAction populateVolunteersAction
-                = new PopulateScriptVolunteersAction(database(), script);
+                = new PopulateScriptVolunteersAction(getDatabase(), script);
 
         populateVolunteersAction.run();
         if (!populateVolunteersAction.wasSuccessful())
         {
             setErrorMessage("Error populating volunteers into script: "
-                    + populateVolunteersAction.lastErrorMessage());
+                    + populateVolunteersAction.getLastErrorMessage());
         }
 
         return populateVolunteersAction.wasSuccessful();
     }
 
+    /**
+     * Populates the provided Script's Equipment list with Equipment loaded from
+     * the Database
+     * @param script::Script ~ The Script to load the Equipment into
+     * @return True if Equipment was loaded without error, false otherwise
+     */
     private boolean populateEquipment(Script script)
     {
         PopulateScriptEquipmentAction populateEquipmentAction
-                = new PopulateScriptEquipmentAction(database(), script);
+                = new PopulateScriptEquipmentAction(getDatabase(), script);
 
         populateEquipmentAction.run();
         if (!populateEquipmentAction.wasSuccessful())
         {
             setErrorMessage("Error populating equipment into script: "
-                    + populateEquipmentAction.lastErrorMessage());
+                    + populateEquipmentAction.getLastErrorMessage());
         }
 
         return populateEquipmentAction.wasSuccessful();
     }
 
+    /**
+     * Populates the provided Script's list of Scenes with Scenes loaded from 
+     * the Database
+     * @param script::Script ~ The Script to load the Scenes into
+     * @return True if Scenes were loaded without error, false otherwise
+     */
     private boolean populateScenes(Script script)
     {
         PopulateScriptScenesAction populateScenesAction
-                = new PopulateScriptScenesAction(database(), script);
+                = new PopulateScriptScenesAction(getDatabase(), script);
 
         populateScenesAction.run();
         if (!populateScenesAction.wasSuccessful())
         {
             setErrorMessage("Error populating scenes into script: "
-                    + populateScenesAction.lastErrorMessage());
+                    + populateScenesAction.getLastErrorMessage());
         }
 
         return populateScenesAction.wasSuccessful();
     }
 
+    /**
+     * Populates the provided Script's Schedule with Schedule items loaded from
+     * the Database
+     * @param script::Script ~ The Script to load the Schedule into
+     * @return True if Schedule was loaded without error, false otherwise
+     */
     private boolean populateSchedule(Script script)
     {
         PopulateScriptScheduleAction populateScheduleAction
-                = new PopulateScriptScheduleAction(database(), script);
+                = new PopulateScriptScheduleAction(getDatabase(), script);
 
         populateScheduleAction.run();
         if (!populateScheduleAction.wasSuccessful())
         {
             setErrorMessage("Error populating schedule into script: "
-                    + populateScheduleAction.lastErrorMessage());
+                    + populateScheduleAction.getLastErrorMessage());
         }
 
         return populateScheduleAction.wasSuccessful();
