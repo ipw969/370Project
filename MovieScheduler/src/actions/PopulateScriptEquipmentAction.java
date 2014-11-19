@@ -102,9 +102,9 @@ public class PopulateScriptEquipmentAction extends BaseAction {
                             loadEquipmentAvailabilities(equipmentName);
                 
                     Equipment newEquipment = new Equipment(equipmentName,
-                        0, false, 0);
+                       firstName, surname, email);
                     
-                    newEquipment.setAvailabilities(availabilities);
+                    newEquipment.setAvailability(availabilities);
                     equipmentList.add(newEquipment);
                 }
         } catch(SQLException ex)

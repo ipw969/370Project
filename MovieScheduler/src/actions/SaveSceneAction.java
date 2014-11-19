@@ -88,7 +88,7 @@ private final Script script;
             /**This needs to be changed because eventually the equipment will change to fit the database**/
             Equipment equipmentToSave = iter.next();
             database().addCommand("insert into t_sceneEquipment(sne_sceneName, sne_equipmentName) "
-                    + "VALUES('" + sceneToSave.name() + "' , '" + equipmentToSave.getEquipmentType() + "');" );
+                    + "VALUES('" + sceneToSave.name() + "' , '" + equipmentToSave.getEquipmentName() + "');" );
         }
        }
       

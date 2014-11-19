@@ -99,6 +99,10 @@ public class Equipment extends BaseBusinessObject
        return availability;
    }
     
+   public void setAvailability(BusinessObjectList<TimeInterval> newAvailability)
+   {
+       availability = newAvailability;
+   }
     @Override
     public String toString() 
     {

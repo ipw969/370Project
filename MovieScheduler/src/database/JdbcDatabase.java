@@ -28,6 +28,7 @@ public class JdbcDatabase extends Database {
         connection = DriverManager.getConnection(getConnectionUrl(), 
                 username/*"cmpt370_group06"*/,
                 password/*"Raptorjesusisawesome55775"*/);
+        commandList = new ArrayList<String>();
     }
     
     /**
@@ -150,12 +151,7 @@ public class JdbcDatabase extends Database {
         }
         
     }
-    /**TODO: Add to commandList
-     * remove from command List
-     * empty commandList
-     * execute commandList
-     * 
-     */
+    
     
     /**Adds a query to the commandList.
      *@precon the given queryText must be atomic, that is it must only execute one command.

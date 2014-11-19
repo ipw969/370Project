@@ -5,6 +5,7 @@
  */
 package ui;
 
+import actions.SaveSceneAction;
 import businessobjects.BusinessObjectList;
 import businessobjects.Equipment;
 import businessobjects.Scene;
@@ -12,6 +13,7 @@ import businessobjects.Script;
 import businessobjects.Volunteer;
 import database.Database;
 import java.awt.Frame;
+import java.awt.font.TextAttribute;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +24,7 @@ import javax.swing.JList;
  *
  * @author ryan
  */
-public class SceneMenu extends javax.swing.JDialog {
+public class SceneMenu extends javax.swing.JDialog{
 
     /**
      * Creates new form SceneMenu
@@ -32,9 +34,14 @@ public class SceneMenu extends javax.swing.JDialog {
         this.parent = parent;
         this.database = database;
         this.script = script;
+        originalScene = scene;
         if (scene != null)
         {
                clonedScene = (Scene) scene.clone();
+        }
+        else
+        {
+            clonedScene = new Scene("enter scene name here", "Enter scene description here");
         }
      
         initComponents();
@@ -46,10 +53,7 @@ public class SceneMenu extends javax.swing.JDialog {
        currentEquipmentList = clonedScene.equipment();
         
         
-        availableVolunteerList = new BusinessObjectList<Volunteer>();
-        availableVolunteerList.addAll(script.volunteers());
-        availableEquipmentList = new BusinessObjectList<Equipment>();
-        availableEquipmentList.addAll(script.equipment());
+        
         
         //NOTE THE SCRIPT MUST NOT BE NULL
         /**Initialize availableVolunteers, availableEquipment, currentVolunteers, currentEquipment to have appropriate lists. 
@@ -59,7 +63,7 @@ public class SceneMenu extends javax.swing.JDialog {
          * availableVolunteers = new BusinessObjectListView(volunteerList);
          * availableVolunteersViewPane.setViewpointView(availableVolunteers);         //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
          * 
-         * 
+         * currentVolunteers = new BusinessObjectListView(volunteerList);
          * currentVolunteerViewPane.setViewpointView(currentVolunteers);
          * 
          
@@ -71,6 +75,10 @@ public class SceneMenu extends javax.swing.JDialog {
          * currentEquipmentViewPane.setViewpointView(currentEquipment);
          */
         
+       availableVolunteerList = new BusinessObjectList<Volunteer>();
+        availableVolunteerList.addAll(script.volunteers());
+        availableEquipmentList = new BusinessObjectList<Equipment>();
+        availableEquipmentList.addAll(script.equipment());
         //Make all of the lists proper
         //That is, make sure the current lists have all of the volunteers and equipment currently in the scene
         //and ensure the available equipment and volunteer lists only have ones not listed in the scenes list.
@@ -121,8 +129,6 @@ public class SceneMenu extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         sceneNameField = new javax.swing.JTextField();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        sceneDescriptionField = new javax.swing.JTextArea();
         saveSceneButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -136,6 +142,8 @@ public class SceneMenu extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
         availableToCurrentVolunteerButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        sceneDescriptionField = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -171,10 +179,6 @@ public class SceneMenu extends javax.swing.JDialog {
         jLabel6.setText("Scene Description");
 
         sceneNameField.setText("jTextField1");
-
-        sceneDescriptionField.setColumns(20);
-        sceneDescriptionField.setRows(5);
-        jScrollPane5.setViewportView(sceneDescriptionField);
 
         saveSceneButton.setText("savescene");
         saveSceneButton.addActionListener(new java.awt.event.ActionListener() {
@@ -229,23 +233,35 @@ public class SceneMenu extends javax.swing.JDialog {
 
         jLabel2.setText("volunteers not in scene");
 
+        sceneDescriptionField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                sceneDescriptionFieldKeyPressed(evt);
+            }
+        });
+        jScrollPane6.setViewportView(sceneDescriptionField);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(28, 28, 28))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(cancelButton))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(cancelButton)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -286,25 +302,29 @@ public class SceneMenu extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(currentToAvailableVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(availableToCurrentVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(availableToCurrentVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(31, 31, 31))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(2, 2, 2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(currentToAvailableEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(availableToCurrentEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(availableToCurrentEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
@@ -313,10 +333,10 @@ public class SceneMenu extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveSceneButton)
@@ -329,7 +349,56 @@ public class SceneMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSceneButtonActionPerformed
-        // TODO add your handling code here:
+      Iterator<Scene> iter = script.sceneIterator();
+            while (iter.hasNext())
+            {
+                Scene tempScene = iter.next(); 
+                if ((tempScene.name().equals(clonedScene.name())) && (!tempScene.equals(originalScene)))
+                {
+                        ErrorDisplay displayError = new ErrorDisplay(null, "The script already contains a scene with that name");    
+                }
+            }
+            
+        if (!clonedScene.isValid())
+        {
+            ErrorDisplay errorDisplay = new ErrorDisplay(null, "The scene is currently not in a valid state. Unable to save it.\n Error: \n" + clonedScene.errorMessage());      
+        }
+        
+        else
+        {
+            
+            }
+            SaveSceneAction saveClonedScene;
+            if (originalScene != null)
+            {
+               saveClonedScene = new SaveSceneAction(database, clonedScene, originalScene.name(), script); 
+            }
+            else
+            {
+                saveClonedScene = new SaveSceneAction(database, clonedScene, null, script); 
+            }
+            
+            saveClonedScene.run();
+            if (saveClonedScene.wasSuccessful())
+            {
+                 originalScene.setHasChanged(false);
+                originalScene.merge(clonedScene);
+                originalScene.setHasChanged(true);
+                
+                if (this.getParent() != null)
+                {
+                  this.setVisible(false);
+                }
+                else
+                {
+                    System.exit(0);
+                 }
+            }
+            else
+            {
+               ErrorDisplay errorDisplay = new ErrorDisplay(null, "The scene failed to save to the database and the following error was returned:\n " + saveClonedScene.lastErrorMessage());      
+            }
+        
     }//GEN-LAST:event_saveSceneButtonActionPerformed
 
     private void currentToAvailableVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentToAvailableVolunteerButtonActionPerformed
@@ -384,7 +453,7 @@ public class SceneMenu extends javax.swing.JDialog {
         SceneMenu newSceneMenu;
         try 
         {
-            newSceneMenu = new SceneMenu(parent, database, script, clonedScene);
+            newSceneMenu = new SceneMenu(parent, database, script, originalScene);
         } 
         catch (CloneNotSupportedException ex)
         {
@@ -392,6 +461,10 @@ public class SceneMenu extends javax.swing.JDialog {
         }
         newSceneMenu.setVisible(true);
     }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void sceneDescriptionFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sceneDescriptionFieldKeyPressed
+        
+    }//GEN-LAST:event_sceneDescriptionFieldKeyPressed
 
     /**
      * @param args the command line arguments
@@ -445,6 +518,7 @@ public class SceneMenu extends javax.swing.JDialog {
     private Frame parent;
    private  Database database;
    private Script script;
+   private Scene originalScene;
     BusinessObjectList<Volunteer> currentVolunteerList;
     BusinessObjectList<Equipment> currentEquipmentList;
     BusinessObjectList<Volunteer> availableVolunteerList;
@@ -469,10 +543,10 @@ public class SceneMenu extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton resetButton;
     private javax.swing.JButton saveSceneButton;
-    private javax.swing.JTextArea sceneDescriptionField;
+    private javax.swing.JTextPane sceneDescriptionField;
     private javax.swing.JTextField sceneNameField;
     // End of variables declaration//GEN-END:variables
 }

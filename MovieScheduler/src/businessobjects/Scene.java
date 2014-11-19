@@ -314,7 +314,7 @@ public class Scene extends BaseBusinessObject{
             while(equipmentIterator.hasNext())
             {
                 Equipment tempEquipment = equipmentIterator.next();
-                newString.append(tempEquipment.getEquipmentName() + " Stock:" + tempEquipment.getStock() +"\n");
+                newString.append(tempEquipment.getEquipmentName() + " owner name:" + tempEquipment.getOwnerFirstName() + " " + tempEquipment.getOwnerLastName() + "\n owner email:" + tempEquipment.getOwnerEmail() + "\n" );
             }
         }
         else
