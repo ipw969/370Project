@@ -49,7 +49,7 @@ public class Scene extends BaseBusinessObject{
         
     }
 
-    /**set the name to the given valu
+    /**set the name to the given value
      * @return the name of the scene*/
     public String name()
     {
@@ -66,6 +66,17 @@ public class Scene extends BaseBusinessObject{
         this.setHasChanged(true);
     }
     
+    /**@return the list of volunteers associated with this scene.**/
+    public BusinessObjectList<Volunteer> volunteers()
+    {
+        return this.necessaryVolunteers;
+    }
+    
+    /**@return the list of equipment associated with this scene**/
+    public BusinessObjectList<Equipment> equipment()
+    {
+        return this.necessaryEquipment;
+    }
     /**
      * 
      * @param newDescription the new description of the scene.
