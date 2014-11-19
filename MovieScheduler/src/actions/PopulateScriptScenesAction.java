@@ -216,7 +216,7 @@ public class PopulateScriptScenesAction extends BaseAction{
 
                for(Equipment currentEquipment : script().equipment())
                {
-                   if(equipmentName.compareTo(currentEquipment.getEquipmentType()) == 0)
+                   if(equipmentName.compareTo(currentEquipment.getEquipmentName()) == 0)
                        equipmentList.add(currentEquipment);
                }
             }

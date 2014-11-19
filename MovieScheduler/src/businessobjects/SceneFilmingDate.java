@@ -94,7 +94,7 @@ public class SceneFilmingDate extends BaseBusinessObject
             {
                 if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
                     filmingDateHasConflict = true;
-                    conflictReasonString = currentEquipment.getEquipmentType() + 
+                    conflictReasonString = currentEquipment.getEquipmentName() + 
                             "Is unavailable at" + currentInterval.toString();
                     conflictReason.add(conflictReasonString);
             }

@@ -277,6 +277,11 @@ public class MainMenu extends javax.swing.JFrame
         equipmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         addEquipmentButton.setText("Add Equipment");
+        addEquipmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEquipmentButtonActionPerformed(evt);
+            }
+        });
 
         editEquipmentButton.setText("Edit Equipment");
 
@@ -555,6 +560,14 @@ public class MainMenu extends javax.swing.JFrame
     private void volunteerFirstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerFirstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_volunteerFirstNameFieldActionPerformed
+
+    private void addEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipmentButtonActionPerformed
+            this.setVisible(false);
+            this.dispose();
+            EquipmentForm equipmentForm = new EquipmentForm(theScript, database);
+            equipmentForm.setVisible(true);
+            this.repaint();
+    }//GEN-LAST:event_addEquipmentButtonActionPerformed
 
     /**
      * @param args the command line arguments
