@@ -444,6 +444,9 @@
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Add Equipment"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addEquipmentButtonActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="editEquipmentButton">
                           <Properties>
