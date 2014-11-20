@@ -116,8 +116,8 @@ public class PopulateScriptScenesAction extends BaseAction{
 
                 Scene newScene = new Scene(sceneName, sceneDescription);
 
-                //newScene.setVolunteers(sceneVolunteers);
-                //newScene.setEquipment(sceneEquipment);
+                newScene.setVolunteers(sceneVolunteers);
+                newScene.setEquipment(sceneEquipment);
                 sceneList.add(newScene);
             }
         } catch(SQLException ex)

@@ -1,8 +1,10 @@
 package businessobjects;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
   /*
  * This class will hold all information  based on a scene.//
@@ -18,8 +20,8 @@ TODO: There is currently a bug in that the scene does not take into account the 
 public class Scene extends BaseBusinessObject{
     private String name;
     private String description;
-    private final BusinessObjectList<Volunteer> necessaryVolunteers;
-    private final BusinessObjectList<Equipment> necessaryEquipment;
+    private BusinessObjectList<Volunteer> necessaryVolunteers;
+    private BusinessObjectList<Equipment> necessaryEquipment;
     private boolean scheduled;
     private boolean complete;
     
@@ -340,9 +342,12 @@ public class Scene extends BaseBusinessObject{
     }
 
     @Override
-    public BaseBusinessObject clone() throws CloneNotSupportedException 
+    public Scene clone() throws CloneNotSupportedException 
     {
        Scene cloneScene = (Scene) super.clone();
+       cloneScene.setVolunteers(new BusinessObjectList<Volunteer>());
+         cloneScene.setEquipment(new BusinessObjectList<Equipment>());
+         
        cloneScene.setName(this.name());
        cloneScene.setDescription(this.description());
        
@@ -351,17 +356,29 @@ public class Scene extends BaseBusinessObject{
             Iterator<Volunteer> volunteerIter = volunteerIterator();
              while (volunteerIter.hasNext())
              {
-              cloneScene.addVolunteer((Volunteer) volunteerIter.next().clone());
+              Volunteer currentVolunteer = (Volunteer) volunteerIter.next();
+              Volunteer clonedVolunteer = (Volunteer) currentVolunteer.clone();
+              cloneScene.addVolunteer(clonedVolunteer);
              }
        }
        
        if (this.hasEquipment())
        {
             Iterator<Equipment> equipmentIter = equipmentIterator();
+            LinkedList<Equipment> equipmentToClone = new LinkedList<Equipment>();
             while (equipmentIter.hasNext())
              {
-                 cloneScene.addEquipment((Equipment) equipmentIter.next().clone());
+                 BaseBusinessObject equipment = equipmentIter.next();
+                 equipmentToClone.add((Equipment) equipment);
+                
              }
+            for (int i = 0; i < equipmentToClone.size() && equipmentToClone.get(i) != null; i++)
+            {
+                Equipment equipment = equipmentToClone.get(i); 
+                Equipment clonedEquipment = (Equipment) equipment.clone();
+                cloneScene.addEquipment(clonedEquipment);
+            }
+           
        }
       
        
@@ -408,10 +425,21 @@ public class Scene extends BaseBusinessObject{
           } 
       }
        
+ 
       
       this.setName(mergeScene.name());
       this.setDescription(mergeScene.description());
       this.setScheduled(mergeScene.isScheduled());
       this.setComplete(mergeScene.isComplete());
     }
+    
+         public void setEquipment(BusinessObjectList<Equipment> equipment)
+      {
+          necessaryEquipment = equipment;
+      }
+         
+         public void setVolunteers(BusinessObjectList<Volunteer> volunteers)
+         {
+             necessaryVolunteers = volunteers;
+         }
 }
