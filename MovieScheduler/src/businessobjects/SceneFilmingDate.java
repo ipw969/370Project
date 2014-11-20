@@ -181,13 +181,15 @@ public class SceneFilmingDate extends BaseBusinessObject
     }
     
     /**
-     * sets the private member variable isIgnored to true, so that this filmscenedate
-     * will not be detected in the schedule as a conflict because the user has
-     * chosen to ignore the reason for this conflict.
+     * Sets the ignore conflict status of this scene filming date to the passed
+     * value. Ignored conflicts will not be flagged to the user when checking
+     * for conflicts in the Schedule
+     * @param ignore::boolean ~ Whether to ignore conflicts in this 
+     * SceneFilmingDate
      */
-    public void ignoreConflict()
+    public void ignoreConflict(boolean ignore)
     {
-        isIgnored = true;
+        isIgnored = ignore;
     }
     /**
      * Returns the name of the contained Scene or an empty String if the
