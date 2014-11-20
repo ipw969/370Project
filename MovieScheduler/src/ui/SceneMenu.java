@@ -12,6 +12,7 @@ import businessobjects.Scene;
 import businessobjects.Script;
 import businessobjects.Volunteer;
 import database.Database;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.font.TextAttribute;
 import java.util.Iterator;
@@ -72,9 +73,17 @@ public class SceneMenu extends javax.swing.JDialog{
           currentEquipment = new BusinessObjectListView(currentEquipmentList);
          initComponents();
         
-        
-        
-        
+      
+
+         
+          jScrollPane1.setPreferredSize(new Dimension(150, 150));
+          jScrollPane2.setPreferredSize(new Dimension(150, 150));
+          jScrollPane3.setPreferredSize(new Dimension(150, 150));
+          jScrollPane4.setPreferredSize(new Dimension(150, 150));
+          currentEquipment.setPreferredSize(new Dimension(150, 150));
+          currentVolunteers.setPreferredSize(new Dimension(150, 150));
+          availableEquipment.setPreferredSize(new Dimension(150, 150));
+          availableVolunteers.setPreferredSize(new Dimension(150, 150));
                 
    
        
@@ -149,7 +158,7 @@ public class SceneMenu extends javax.swing.JDialog{
             }
         });
 
-        jLabel4.setText("equipment not in script");
+        jLabel4.setText("equipment not in scene");
 
         availableToCurrentEquipmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Alarm-Arrow-Right-icon.png"))); // NOI18N
         availableToCurrentEquipmentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +254,7 @@ public class SceneMenu extends javax.swing.JDialog{
                             .addComponent(saveSceneButton))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1)
                                 .addComponent(jScrollPane2))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +265,7 @@ public class SceneMenu extends javax.swing.JDialog{
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel3)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jScrollPane4)))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(currentToAvailableEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,7 +273,7 @@ public class SceneMenu extends javax.swing.JDialog{
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel5)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(jScrollPane3))))))
                     .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
