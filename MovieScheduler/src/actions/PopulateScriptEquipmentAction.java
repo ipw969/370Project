@@ -99,9 +99,11 @@ public class PopulateScriptEquipmentAction extends BaseAction {
                     BusinessObjectList<TimeInterval> availabilities = 
                             loadEquipmentAvailabilities(equipmentName);
                 
-                    Equipment newEquipment = new Equipment(equipmentName,firstName,surname, email);
+                    Equipment newEquipment = new Equipment(equipmentName,
+                       firstName, surname, email);
                     
-                  //  newEquipment.setAvailabilities(availabilities);
+                    newEquipment.setAvailability(availabilities);
+               
                     equipmentList.add(newEquipment);
                 }
         } catch(SQLException ex)
