@@ -608,7 +608,7 @@ public class MainMenu extends javax.swing.JFrame
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
         try {
-            SceneMenuEdited1 newSceneMenu = new SceneMenuEdited1(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
+            SceneMenu newSceneMenu = new SceneMenu(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
             newSceneMenu.setVisible(true);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -632,7 +632,7 @@ public class MainMenu extends javax.swing.JFrame
 
     private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
         try {
-            SceneMenuEdited1 sceneMenu = new SceneMenuEdited1(this, database, theScript, null);
+            SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
             sceneMenu.setVisible(true);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);

@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 /**
  * A class which provides a JDBC specific implementation of the Database
  * interface. The JDBC driver must be registered with the system before any call
@@ -28,7 +29,7 @@ public class JdbcDatabase extends Database {
         connection = DriverManager.getConnection(getConnectionUrl(), 
                 username/*"cmpt370_group06"*/,
                 password/*"Raptorjesusisawesome55775"*/);
-        commandList = new ArrayList<String>();
+        commandList = new LinkedList<String>();
     }
     
     /**
@@ -70,8 +71,8 @@ public class JdbcDatabase extends Database {
         try{
             statement = connection.prepareStatement(queryText, 
                     Statement.RETURN_GENERATED_KEYS);
-            
-            boolean success = (statement.executeUpdate() == 0);
+            //Fixed, before this was ==0 and it was broken.
+            boolean success = (statement.executeUpdate() != 0);
             
             if(!success)
                 throw new SQLException("Object could not be inserted");
@@ -134,8 +135,9 @@ public class JdbcDatabase extends Database {
         {
             statement = connection.createStatement();
             int deleteResults = statement.executeUpdate(queryText);
-            if(deleteResults == 0)
-                throw new SQLException("Update failed to delete any data");
+            //If i try to delete from schedule when i've previously delted the scene i run into an error. Maybeit should be ok to delete nothing?
+           // if(deleteResults == 0)
+             //   throw new SQLException("Update failed to delete any data");
             
         }
         catch (SQLException ex)
@@ -207,6 +209,7 @@ public class JdbcDatabase extends Database {
     @Override
     public void executeCommandListImplementation() throws SQLException
     {
+        String queryText = null;
         if(!isCommandListEmpty())
         {
             try
@@ -217,7 +220,7 @@ public class JdbcDatabase extends Database {
                  
                  while(commandIterator.hasNext())
                  {
-                   String queryText = commandIterator.next();
+                  queryText = commandIterator.next();
                   if (queryText.contains("update"))
                      {
                          this.executeUpdateImplementation(queryText);
@@ -244,6 +247,9 @@ public class JdbcDatabase extends Database {
             }
             catch(SQLException e)
             {
+                System.out.println("The following command failed " + queryText);
+               System.out.println(e.getMessage());
+                
                 //If an SQLexception was thrown here, then a datbase connection error occurred and the changes will be rolled back anyway.
                 try{
                     connection.rollback();
@@ -278,5 +284,5 @@ public class JdbcDatabase extends Database {
     /**A command to be executed when attempting to perform several commands in one transaction
      * 
      */
-    private ArrayList<String> commandList;
+    private LinkedList<String> commandList;
 }
