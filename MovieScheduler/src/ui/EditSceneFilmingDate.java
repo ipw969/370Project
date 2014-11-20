@@ -114,7 +114,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         
         saveAction.run();
         
-        if(!saveAction.wasSuccessful())
+        if(saveAction.wasSuccessful())
         {
             originalFilmingDate.merge(filmingDateToEdit);
             script.schedule().add(originalFilmingDate);
