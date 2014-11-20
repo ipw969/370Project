@@ -42,9 +42,12 @@ public class DeleteSceneAction extends BaseAction
           setErrorMessage("The given scene to delete was null ");
       }
       database().clearCommandList();
-      database().addCommand("delete from t_scene where scn_sceneName = '" + sceneToDelete + "';" );
       database().addCommand("delete from t_scenevolunteer where snv_scenename = '" + sceneToDelete + "';");
       database().addCommand("delete from t_sceneequipment where sne_scenename = '" + sceneToDelete + "';");
+      database().addCommand("delete from t_schedule where sch_scenename = '" + sceneToDelete + "';");
+      database().addCommand("delete from t_scene where scn_sceneName = '" + sceneToDelete + "';" );
+      
+      
       try
       {
           database().executeCommandList();

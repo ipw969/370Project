@@ -57,19 +57,16 @@ private final Script script;
             this.setWasSuccessful(false);
         }
         
-        if (sceneToSave == null || (!sceneToSave.isValid()))
-        {
-            this.setErrorMessage("This given scene to add is not valid");
-            this.setWasSuccessful(false);
-        }
         
         database().clearCommandList();
                 
         if (replacedSceneName!= null)
         {
-            database().addCommand("delete from t_scene where scnscenename = " + replacedSceneName + ";");
-            database().addCommand("delete from  t_scenevolunteers where snv_scenename = " + replacedSceneName + ";");
-            database().addCommand("delete from t_sceneequipment where sne_scenename = " + replacedSceneName + ";");    
+            
+            database().addCommand("delete from  t_scenevolunteer where snv_scenename = '" + replacedSceneName + "';");
+            database().addCommand("delete from t_sceneequipment where sne_scenename = '" + replacedSceneName + "';"); 
+            database().addCommand("delete from t_schedule where sch_scenename = '" + replacedSceneName + "';" );
+            database().addCommand("delete from t_scene where scn_scenename = '" + replacedSceneName + "';");
         }
         
         boolean isFilmed = false;
