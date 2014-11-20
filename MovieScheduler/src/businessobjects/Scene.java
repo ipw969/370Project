@@ -1,6 +1,6 @@
 package businessobjects;
 
-
+//error on line 306 i commented it out to get rid of compilor errors -john
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -303,7 +303,7 @@ public class Scene extends BaseBusinessObject{
             while(equipmentIterator.hasNext())
             {
                 Equipment tempEquipment = equipmentIterator.next();
-                newString.append(tempEquipment.getEquipmentName() + " Stock:" + tempEquipment.getStock() +"\n");
+                //newString.append(tempEquipment.getEquipmentName() + " Stock:" + tempEquipment.getStock() +"\n");
             }
         }
         else

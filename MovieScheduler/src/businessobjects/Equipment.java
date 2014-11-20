@@ -68,7 +68,7 @@ public class Equipment extends BaseBusinessObject
         setHasChanged(true);
     }
     
-    public void addAvailability(TimeInterval avail)
+    public void setAvailability(TimeInterval avail)
     {
         this.availability.add(avail);
         setHasChanged(true);
