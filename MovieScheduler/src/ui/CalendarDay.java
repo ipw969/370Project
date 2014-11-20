@@ -109,9 +109,9 @@ public class CalendarDay extends javax.swing.JPanel
                 boolean cellHasFocus)
         {
             // Assumes the stuff in the list has a pretty toString
-            this.setText(value.toString());
-            this.setBorder(new LineBorder(Color.RED));
-            this.setBackground(Color.PINK);
+            setText(value.toString());
+            setBorder(new LineBorder(Color.RED));
+            setBackground(Color.PINK);
 
             return this;
         }
