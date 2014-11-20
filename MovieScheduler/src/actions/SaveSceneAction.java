@@ -65,17 +65,17 @@ private final Script script;
             
             database().addCommand("delete from  t_scenevolunteer where snv_scenename = '" + replacedSceneName + "';");
             database().addCommand("delete from t_sceneequipment where sne_scenename = '" + replacedSceneName + "';"); 
+            
+            database().addCommand("update t_scene set scn_sceneDescription = '" + sceneToSave.description() + "' where scn_scenename = '" + replacedSceneName + "';");
+            database().addCommand("update t_scene set scn_sceneisfilmed = '" + sceneToSave.isScheduled() + "' where scn_scenename = '" + replacedSceneName + "';");
+             database().addCommand("update t_scene set scn_scriptName = '" + script.name() + "' where scn_scenename = '" + replacedSceneName + "';");
             database().addCommand("update t_scene set scn_scenename = '" + sceneToSave.name() + "' where scn_scenename = '" + replacedSceneName + "';");
+
         }
         
-        boolean isFilmed = false;
-        if (sceneToSave.isScheduled())
-        {
-            isFilmed = true;
-        }
+       
         
-        database().addCommand("insert into t_scene(scn_sceneName, scn_sceneIsFilmed,  scn_sceneDescription, scn_scriptname) "
-                + "VALUES('" + sceneToSave.name() + "' ," + "'" + isFilmed + "' ," + "'" + sceneToSave.description() + "' ," + "'" + this.script.name() + "');" );
+      
        if (sceneToSave.hasEquipment())
        {
              Iterator<Equipment> iter = sceneToSave.equipmentIterator();
