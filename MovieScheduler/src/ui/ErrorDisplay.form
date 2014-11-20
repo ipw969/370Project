@@ -44,7 +44,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.MatteIconBorderInfo">
             <MatteIconBorder>
-              <Image PropertyName="icon" iconType="3" name="/resources/ErrorIcon.png"/>
+              <Image PropertyName="icon" iconType="3" name="/resources/Error.png"/>
             </MatteIconBorder>
           </Border>
         </Property>
@@ -59,7 +59,7 @@
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jTextField1" max="32767" attributes="0"/>
@@ -82,7 +82,7 @@
                   <Component id="jScrollPane1" min="-2" pref="112" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="okButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="47" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

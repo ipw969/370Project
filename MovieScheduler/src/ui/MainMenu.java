@@ -5,6 +5,7 @@
  */
 package ui;
 
+import actions.DeleteSceneAction;
 import businessobjects.Scene;
 import businessobjects.Script;
 import businessobjects.Volunteer;
@@ -400,6 +401,11 @@ public class MainMenu extends javax.swing.JFrame
         sceneIsCompleteCheckBox.setFocusable(false);
 
         addSceneButton.setText("Add Scene");
+        addSceneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSceneButtonActionPerformed(evt);
+            }
+        });
 
         editSceneButton.setText("Edit Scene");
         editSceneButton.addActionListener(new java.awt.event.ActionListener() {
@@ -409,6 +415,11 @@ public class MainMenu extends javax.swing.JFrame
         });
 
         removeSceneButton.setText("remove Scene");
+        removeSceneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeSceneButtonActionPerformed(evt);
+            }
+        });
 
         sceneNameField.setText("Scene name here");
         sceneNameField.setFocusable(false);
@@ -597,12 +608,36 @@ public class MainMenu extends javax.swing.JFrame
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
         try {
-            SceneMenu newSceneMenu = new SceneMenu(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
+            SceneMenuEdited1 newSceneMenu = new SceneMenuEdited1(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
             newSceneMenu.setVisible(true);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_editSceneButtonActionPerformed
+
+    private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
+        Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
+        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.name());
+        deleteSelectedScene.run();
+        if (deleteSelectedScene.wasSuccessful())
+        {
+           theScript.removeScene(sceneToDelete); 
+           sceneComboBox.removeItem(sceneToDelete);
+        }
+        else
+        {
+            ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
+        }
+    }//GEN-LAST:event_removeSceneButtonActionPerformed
+
+    private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
+        try {
+            SceneMenuEdited1 sceneMenu = new SceneMenuEdited1(this, database, theScript, null);
+            sceneMenu.setVisible(true);
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addSceneButtonActionPerformed
 
     /**
      * @param args the command line arguments
