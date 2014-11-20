@@ -1,4 +1,6 @@
 /*
+-commented out line 360 to prevent compiler errors -john
+
  * This class contains all information relevent to the script. 
  *This class encapsulates the Scene class to prevent scenes from being created anywhere else. This ensures that
  *-The scenes are strongly correlated with the script(there will be no cross-referencing if we decide to support multiple scripts
@@ -357,8 +359,8 @@ public class Script extends BaseBusinessObject {
                Equipment examinedEquipment = iter.next();
                if (examinedEquipment.getEquipmentName().equals(newEquipment.getEquipmentName()))
              {
-                 examinedEquipment.setStock(examinedEquipment.getStock() + 1);
-                 return true;
+
+                 return false;
                  
              }
              }

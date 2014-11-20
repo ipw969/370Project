@@ -221,7 +221,7 @@ public abstract class BaseBusinessObject implements Cloneable{
         try{
             other = (BaseBusinessObject)super.clone();
             other.errorMessages = (HashSet<String>)errorMessages.clone();
-            other.listeners = (ArrayList<BusinessObjectListener>)listeners.clone();
+           // other.listeners = (ArrayList<BusinessObjectListener>)listeners.clone();
             return other;
         }
         catch(CloneNotSupportedException e)

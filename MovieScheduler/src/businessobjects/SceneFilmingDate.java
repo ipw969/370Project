@@ -90,7 +90,7 @@ public class SceneFilmingDate extends BaseBusinessObject
             Equipment currentEquipment = equipmentIterator.next();
             // Check equipment availablities against our timer interval
             
-            for (TimeInterval currentInterval : currentEquipment.getAvailabilities())
+            for (TimeInterval currentInterval : currentEquipment.getAvailability())
             {
                 if(currentInterval.compareTo(this.sceneShootingInterval()) == 0)
                     filmingDateHasConflict = true;

@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* @author Ryan La Forge
+ 
  */
 package actions;
 
@@ -14,13 +12,26 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 /**
- *
  * @author ryan
+ * This action is used to save the given scene to the database. 
+ * This includes all information regarding the scene as well as all of the volunteers 
+ * and equipment associated with it.
  */
 
 public class SaveSceneAction extends BaseAction {
+//* This is the scene, if any that will be replaced. This is used if the scene to be saved is to replace another scene(when a scene is edited)*/  
 private final String replacedSceneName;
+
+/**The script that the scene to be saved belongs to. This is required because of the structure of the database.**/
 private final Script script;
+
+/**The constructor for the saveSceneAction.
+ * 
+ * @param database -The database that contains all of the information for this project.
+ * @param sceneToSave -The scene to save to the database.
+ * @param replacedSceneName - The scene to be replaced, if any
+ * @param script -The script that the sceneToSave belongs to.
+ */
     public SaveSceneAction(Database database ,Scene sceneToSave, String replacedSceneName, Script script) 
     {
         super(database);
@@ -30,7 +41,13 @@ private final Script script;
     }
     
     
-
+    
+    
+/**This will save the scene to the database. 
+ * @precondition The script that was given must not be null.
+ * @postcondition wasSuccessful is set to true if the scene was successfully saved.
+ *                wasSuccessful is set to false if the scene wasn't successfully saved.
+ */
     @Override
     protected void runImplementation() {
         Scene sceneToSave = (Scene) this.businessObject();
@@ -40,19 +57,16 @@ private final Script script;
             this.setWasSuccessful(false);
         }
         
-        if (sceneToSave == null || (!sceneToSave.isValid()))
-        {
-            this.setErrorMessage("This given scene to add is not valid");
-            this.setWasSuccessful(false);
-        }
         
         database().clearCommandList();
                 
         if (replacedSceneName!= null)
         {
-            database().addCommand("delete from t_scene where scnscenename = " + replacedSceneName + ";");
-            database().addCommand("delete from  t_scenevolunteers where snv_scenename = " + replacedSceneName + ";");
-            database().addCommand("delete from t_sceneequipment where sne_scenename = " + replacedSceneName + ";");    
+            
+            database().addCommand("delete from  t_scenevolunteer where snv_scenename = '" + replacedSceneName + "';");
+            database().addCommand("delete from t_sceneequipment where sne_scenename = '" + replacedSceneName + "';"); 
+            database().addCommand("delete from t_schedule where sch_scenename = '" + replacedSceneName + "';" );
+            database().addCommand("delete from t_scene where scn_scenename = '" + replacedSceneName + "';");
         }
         
         boolean isFilmed = false;
@@ -71,7 +85,7 @@ private final Script script;
             /**This needs to be changed because eventually the equipment will change to fit the database**/
             Equipment equipmentToSave = iter.next();
             database().addCommand("insert into t_sceneEquipment(sne_sceneName, sne_equipmentName) "
-                    + "VALUES('" + sceneToSave.name() + "' , '" + equipmentToSave.getEquipmentType() + "');" );
+                    + "VALUES('" + sceneToSave.name() + "' , '" + equipmentToSave.getEquipmentName() + "');" );
         }
        }
       

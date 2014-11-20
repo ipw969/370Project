@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * error on line 106 I commented it out to get rid of compilor errors -john
  */
 package actions;
 
@@ -102,9 +100,10 @@ public class PopulateScriptEquipmentAction extends BaseAction {
                             loadEquipmentAvailabilities(equipmentName);
                 
                     Equipment newEquipment = new Equipment(equipmentName,
-                        0, false, 0);
+                       firstName, surname, email);
                     
-                    newEquipment.setAvailabilities(availabilities);
+                    newEquipment.setAvailability(availabilities);
+               
                     equipmentList.add(newEquipment);
                 }
         } catch(SQLException ex)
