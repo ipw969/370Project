@@ -337,7 +337,7 @@ public class ConflictResolution extends javax.swing.JFrame {
 
     private Boolean ignoreCurrentConflict() {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
-        selectedFilmSceneTime.ignoreConflict();
+        selectedFilmSceneTime.ignoreConflict(true);
         return true;
     }
 

@@ -65,8 +65,7 @@ private final Script script;
             
             database().addCommand("delete from  t_scenevolunteer where snv_scenename = '" + replacedSceneName + "';");
             database().addCommand("delete from t_sceneequipment where sne_scenename = '" + replacedSceneName + "';"); 
-            database().addCommand("delete from t_schedule where sch_scenename = '" + replacedSceneName + "';" );
-            database().addCommand("delete from t_scene where scn_scenename = '" + replacedSceneName + "';");
+            database().addCommand("update t_scene set scn_scenename = '" + sceneToSave.name() + "' where scn_scenename = '" + replacedSceneName + "';");
         }
         
         boolean isFilmed = false;
