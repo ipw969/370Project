@@ -102,15 +102,15 @@ public class Volunteer extends BaseBusinessObject
     @Override
     public String toString()
     {
-        return lastName + ", " + firstName;
+        return firstName + " " + lastName;
     }
 
     @Override
     public String toDescriptiveString()
     {
        StringBuilder newString = new StringBuilder();
-        newString.append("Last name: " + this.lastName + "\n");
         newString.append("First name: " + this.firstName + "\n");
+        newString.append("Last name: " + this.lastName + "\n");
         newString.append("Phone number: " + this.phone + "\n");
         newString.append("Email address: " + this.email + "\n");
    
