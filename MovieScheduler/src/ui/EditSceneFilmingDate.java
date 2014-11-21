@@ -53,7 +53,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         
         okayButton.setEnabled(false);
         scenesComboBox = new BusinessObjectComboBoxView<>(script.scenes());
-        sceneLabel.setText(filmingDateToEdit.scene().name());
+        sceneLabel.setText(filmingDateToEdit.scene().getName());
         scenesComboBox.setSelectedItem(filmingDateToEdit.scene());
         
         startDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingStart().getTime());

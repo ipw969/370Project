@@ -94,8 +94,8 @@ public class SceneMenu extends javax.swing.JDialog{
         //and ensure the available equipment and volunteer lists only have ones not listed in the scenes list.
         if (clonedScene != null)
         {
-            sceneNameField.setText(clonedScene.name());
-            sceneDescriptionField.setText(clonedScene.description());
+            sceneNameField.setText(clonedScene.getName());
+            sceneDescriptionField.setText(clonedScene.getDescription());
        
          
           availableVolunteerList.removeAll(clonedScene.volunteers());
@@ -336,7 +336,7 @@ public class SceneMenu extends javax.swing.JDialog{
             while (iter.hasNext())
             {
                 Scene tempScene = iter.next(); 
-                if ((tempScene.name().equals(clonedScene.name())) && (!tempScene.equals(originalScene)))
+                if ((tempScene.getName().equals(clonedScene.getName())) && (!tempScene.equals(originalScene)))
                 {
                         ErrorDisplay displayError = new ErrorDisplay(parent, "The script already contains a scene with that name");    
                 }
@@ -360,7 +360,7 @@ public class SceneMenu extends javax.swing.JDialog{
             SaveSceneAction saveClonedScene;
             if (originalScene != null)
             {
-               saveClonedScene = new SaveSceneAction(database, clonedScene, originalScene.name(), script); 
+               saveClonedScene = new SaveSceneAction(database, clonedScene, originalScene.getName(), script); 
             }
             else
             {

@@ -564,8 +564,8 @@ public class MainMenu extends javax.swing.JFrame
         if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene))
         {
             Scene selectedScene = (Scene) sceneComboBox.getSelectedItem();
-            sceneNameField.setText(selectedScene.name());
-            sceneDescriptionField.setText(selectedScene.description());
+            sceneNameField.setText(selectedScene.getName());
+            sceneDescriptionField.setText(selectedScene.getDescription());
         }
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
@@ -617,7 +617,7 @@ public class MainMenu extends javax.swing.JFrame
 
     private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
         Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
-        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.name());
+        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.getName());
         deleteSelectedScene.run();
         if (deleteSelectedScene.wasSuccessful())
         {

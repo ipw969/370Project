@@ -203,7 +203,7 @@ public class SceneFilmingDate extends BaseBusinessObject
             return "";
         }
 
-        return scene.name();
+        return scene.getName();
     }
 
     // Private methods

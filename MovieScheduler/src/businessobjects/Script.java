@@ -106,7 +106,7 @@ public class Script extends BaseBusinessObject {
             while (iter.hasNext())
              {
                Scene examinedScene = iter.next();
-               if (examinedScene.name().equals(newScene.name()))
+               if (examinedScene.getName().equals(newScene.getName()))
              {
                 
                  return false;

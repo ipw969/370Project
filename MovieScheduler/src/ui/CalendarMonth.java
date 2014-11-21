@@ -96,7 +96,7 @@ public class CalendarMonth extends javax.swing.JPanel
             {
                 for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
-                    if (currentDayFilmingDate.scene().name().compareTo(removedFilmingDate.scene().name()) == 0)
+                    if (currentDayFilmingDate.scene().getName().compareTo(removedFilmingDate.scene().getName()) == 0)
                     {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
@@ -136,7 +136,7 @@ public class CalendarMonth extends javax.swing.JPanel
                 }
                 for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
-                    if (currentDayFilmingDate.scene().name().compareTo(alteredFilmingDate.scene().name()) == 0)
+                    if (currentDayFilmingDate.scene().getName().compareTo(alteredFilmingDate.scene().getName()) == 0)
                     {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
