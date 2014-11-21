@@ -6,17 +6,21 @@
 package ui;
 
 import javax.swing.JOptionPane;
-import actions.LoadScriptAction;
-import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
 import businessobjects.Volunteer;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -34,10 +38,37 @@ public class ConflictResolution extends javax.swing.JFrame {
                     + "ConflictResolution");
         }
         this.script = script;
-        conflictSceneListView = new BusinessObjectListView<>(script.schedule().scheduleConflicts());
-        System.out.println(conflictSceneListView);
+        conflictSceneListView = new BusinessObjectListView<>(script.schedule().
+                scheduleConflicts());
+
         conflictSceneScrollPane.setViewportView(conflictSceneListView);
         this.setVisible(true);
+
+        conflictSceneListView.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                int indexUnderPointer
+                        = conflictSceneListView.locationToIndex(e.getPoint());
+
+                if (!conflictSceneListView.getCellBounds(indexUnderPointer,
+                        indexUnderPointer).contains(e.getPoint())) {
+                    conflictSceneListView.clearSelection();
+                } else {
+                    conflictSceneListView.setSelectedIndex(indexUnderPointer);
+                    SceneFilmingDate selectedFilmSceneTime
+                            = conflictSceneListView.getSelectedValue();
+                    String html1 = "<html><body style='width: ";
+                    String html2 = "px'>";
+                    String confl = selectedFilmSceneTime.getReasonList().
+                            toString();
+                    String info = selectedFilmSceneTime.scene().
+                            toDescriptiveString();
+                    conflictConflictLabel.setText(html1 + "150" + html2 + confl);
+                    conflictVolunteerLabel.setText(html1 + "150" + html2 + info);
+                }
+
+                super.mousePressed(e);
+            }
+        });
 
     }
 
@@ -86,11 +117,6 @@ public class ConflictResolution extends javax.swing.JFrame {
         setBackground(new java.awt.Color(204, 255, 255));
         setName("conflict"); // NOI18N
 
-        conflictSceneListPane.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "4-3", "1-4", "2-5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         conflictSceneListPane.setName("conflictListSelect"); // NOI18N
         conflictSceneListPane.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -102,6 +128,8 @@ public class ConflictResolution extends javax.swing.JFrame {
         jLabel1.setText("Scene:");
 
         conflictVolunteerLabel.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        conflictVolunteerLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        conflictVolunteerLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         conflictVolunteerLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         conflictVolunteerLabel.setName("volunteerListLabel"); // NOI18N
 
@@ -109,6 +137,8 @@ public class ConflictResolution extends javax.swing.JFrame {
 
         jLabel4.setText("Reason for Conflict:");
 
+        conflictConflictLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        conflictConflictLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         conflictConflictLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         conflictConflictLabel.setName(""); // NOI18N
 
@@ -161,55 +191,60 @@ public class ConflictResolution extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(conflictSceneScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(conflictCancel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(180, 180, 180)
-                                .addComponent(conflictInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(17, 17, 17))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(conflictContactAllButton)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(conflictIgnoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(267, 267, 267)
+                            .addComponent(conflictInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGap(17, 17, 17))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(conflictSceneScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(conflictCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(conflictContactAllButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(conflictIgnoreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(40, 40, 40))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(conflictConflictLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(conflictEditSceneButton))
-                .addGap(41, 41, 41))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(127, 127, 127))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(conflictEditSceneButton)
+                            .addComponent(conflictConflictLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(conflictInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(31, 31, 31)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(conflictConflictLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(conflictSceneScrollPane))
+                    .addComponent(conflictSceneScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                    .addComponent(conflictVolunteerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(conflictContactAllButton)
-                    .addComponent(conflictCancel)
                     .addComponent(conflictEditSceneButton)
-                    .addComponent(conflictIgnoreButton))
+                    .addComponent(conflictIgnoreButton)
+                    .addComponent(conflictCancel))
                 .addGap(30, 30, 30))
-            .addComponent(conflictInternalFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         pack();
@@ -244,34 +279,39 @@ public class ConflictResolution extends javax.swing.JFrame {
     }//GEN-LAST:event_conflictSceneListPaneMouseClicked
 
     private void conflictContactAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictContactAllButtonMouseClicked
-        
-        
-
+        this.sendEmails();
     }//GEN-LAST:event_conflictContactAllButtonMouseClicked
 
-    private boolean sendEmails(){
+    /**
+     * sends emails to the volunteers in the selected scene
+     *
+     * @return a boolean confirming the success of the email
+     */
+    private boolean sendEmails() {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
-//        Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
-        String emailList = "mitchellcorbett@hotmail.com";
-        /*
-        String emailList = "";
+        if( selectedFilmSceneTime == null)
+        {
+            JOptionPane.showConfirmDialog(this, "Please select a scene!");
+            sendEmails();
+            return true;
+        }
+        Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
 
+        //String emailList = "";
+        String emailList = "cmpt370.06@gmail.com,achievatronunlimited@gmail.com,";
         // Comma separated list of emails for the below code
         while (volunteerIter.hasNext()) {
             Volunteer currentVolunteer = volunteerIter.next();
             emailList = emailList + currentVolunteer.getEmail() + ",";
         }
+        System.out.println(emailList);
 
-        */
-        
         /* 
-        * The following code is modified for use here from
-        * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
-        */
-        
+         * The following code is modified for use here from
+         * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+         */
         final String username = JOptionPane.showInputDialog(this, "Please enter your gmail");
-        final String password = JOptionPane.showInputDialog(this, "Please enter your password");
-        
+        final String password = showPasswordDialog();
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -283,8 +323,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                         return new PasswordAuthentication(username, password);
                     }
                 });
-      
-        
+
         try {
 
             Message message = new MimeMessage(session);
@@ -292,45 +331,65 @@ public class ConflictResolution extends javax.swing.JFrame {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(emailList));
             message.setSubject("Filming Conflict");
-            /*String conflictMessage = "Hello team. We are unable to schedule a scene " +
-                    "due to scheduling conflicts. Please see the information about " + 
-                    "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
-                    + " And the reason for conflict: " + 
-                    selectedFilmSceneTime.getReasonList().toString();
-     
-            */      
-            String conflictMessage = "TESTING";
+            String conflictMessage = "Hello team. We are unable to schedule a scene "
+                    + "due to scheduling conflicts. Please see the information about "
+                    + "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
+                    + " And the reason for conflict: "
+                    + selectedFilmSceneTime.getReasonList().toString();
+
             message.setText(conflictMessage);
 
             Transport.send(message);
             return true;
 
-
         } catch (MessagingException e) {
+            System.out.println(e.getMessage());
             Object[] options = {"Try again",
-                    "Show Emails",
-                    "Cancel"};
-            
-           int choice = JOptionPane.showOptionDialog(this, "An error has occured " +
-                   "in sending your message. What would you like to do?", "Error",
-                   JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                   null,options, options[2]);
-           if (choice == 0){
-               sendEmails();
-           }
-           if(choice == 1){
-               showEmails(emailList);
-           }
-           //choice == 2 isn't needed since it's defined as the cancel op
+                "Show Emails",
+                "Cancel"};
+
+            int choice = JOptionPane.showOptionDialog(this, "An error has occured "
+                    + "in sending your message. What would you like to do?", "Error",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                    null, options, options[2]);
+            if (choice == 0) {
+                sendEmails();
+                return true;
+            }
+            if (choice == 1) {
+                showEmails(emailList);
+                return false;
+            }
+            //choice == 2 isn't needed since it's defined as the cancel op
         }
-        
+
         return false;
     }
-    private void showEmails(String emailList){
-        //Popup textbox containing emails
-        
+
+    private void showEmails(String emailList) {
+        JOptionPane.showMessageDialog(null, new JTextArea(emailList));
     }
-    
+
+    private String showPasswordDialog() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Enter a password:");
+        JPasswordField pass = new JPasswordField(10);
+        panel.add(label);
+        panel.add(pass);
+        String[] options = new String[]{"OK", "Cancel"};
+        int option = JOptionPane.showOptionDialog(null, panel, "Password",
+                JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                null, options, options[1]);
+        System.out.println(option);
+        if (option == 0) // pressing OK button
+        {
+            char[] cPassword = pass.getPassword();
+            String password = new String(cPassword);
+            return password;
+        }
+        return null;
+    }
+
     private void conflictCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictCancelMouseClicked
         this.dispose();
     }//GEN-LAST:event_conflictCancelMouseClicked
