@@ -310,44 +310,40 @@ public class Scene extends BaseBusinessObject {
         newString.append(this.name + "\n");
         if (!necessaryVolunteers.isEmpty()) {
             newString.append("List of volunteers:\n");
-            Iterator<Volunteer> volunteerIter = volunteerIterator();
-            while (volunteerIter.hasNext()) {
-                Volunteer tempVolunteer = volunteerIter.next();
+            for (Volunteer tempVolunteer: necessaryVolunteers)
+            {
                 newString.append(tempVolunteer.getFirstName() + " " + tempVolunteer.getLastName() + "\n");
             }
         } else {
             newString.append("No volunteers currently assigned to this scene\n");
         }
 
-        if (!necessaryEquipment.isEmpty()) {
-         newString.append("\n");
         if (!necessaryEquipment.isEmpty())
         {
             newString.append("List of equipment:\n");
-            Iterator<Equipment> equipmentIterator = equipmentIterator();
-            while (equipmentIterator.hasNext()) {
-                Equipment tempEquipment = equipmentIterator.next();
-                newString.append(tempEquipment.getEquipmentName() + " owner name:" + tempEquipment.getOwnerFirstName() + " " + tempEquipment.getOwnerLastName() + "\n owner email:" + tempEquipment.getOwnerEmail() + "\n");
+            for (Equipment tempEquipment: necessaryEquipment)
+            {
+                newString.append(tempEquipment.getEquipmentName() + "\n owner name:" + tempEquipment.getOwnerFirstName() + " " + tempEquipment.getOwnerLastName() + "\n owner email:" + tempEquipment.getOwnerEmail() + "\n\n");
             }
+           
         } else {
             newString.append("No equipment assigned to this scene\n");
         }
 
         if (this.isScheduled()) {
-                newString.append(tempEquipment.toDescriptiveString() + "\n" );
+                newString.append("The scene is scheduled");
             }
-            newString.append("\n");
-        }
         else
         {
-           newString.append("No equipment assigned to this scene\n\n");
+           newString.append("The scene is not scheduled.");
         }
         
-        if (this.isScheduled())
+        newString.append("\n");
+        if (this.isComplete())
         {
-            newString.append("Currently scheduled\n");
+            newString.append("Complete\n");
         } else {
-            newString.append("Not scheduled\n");
+            newString.append("Not Complete\n");
         }
         return newString.toString();
     }

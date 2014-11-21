@@ -370,7 +370,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
         Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
-        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.name());
+        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.getName());
         deleteSelectedScene.run();
         if (deleteSelectedScene.wasSuccessful()) {
             theScript.removeScene(sceneToDelete);
