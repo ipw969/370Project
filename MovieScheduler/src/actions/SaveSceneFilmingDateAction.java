@@ -116,7 +116,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 + "sch_scheduledatetime_start = '" + sceneFilmingDate().sceneShootingInterval().startIsoDate() + "', "
                 + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endIsoDate() + "', "
                 + "WHERE "
-                + "( sch_scenename = '" + sceneFilmingDate().scene().name() + "');";
+                + "( sch_scenename = '" + sceneFilmingDate().scene().getName() + "');";
         
         return returnString;
     }
@@ -137,7 +137,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 + "VALUES "
                 + "('" + sceneFilmingDate().sceneShootingInterval().startIsoDate()
                 + "', '" + sceneFilmingDate().sceneShootingInterval().endIsoDate()
-                + "', '" + sceneFilmingDate().scene().name() + "');";
+                + "', '" + sceneFilmingDate().scene().getName() + "');";
         
         return returnString;
     }

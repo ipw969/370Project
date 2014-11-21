@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import actions.SaveSceneAction;
@@ -14,101 +9,113 @@ import businessobjects.Volunteer;
 import database.Database;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.font.TextAttribute;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 
-/**
- *
- * @author ryan
+
+/*
+ * This class is the window that is presented to the user when eh or she wishes to add or edit a scene.
+ @author Ryan La Forge
  */
-public class SceneMenu extends javax.swing.JDialog{
+public class SceneMenu extends javax.swing.JDialog {
+
+    private Scene clonedScene;
+    private Frame parent;
+    private Database database;
+    private Script script;
+    private Scene originalScene;
+    BusinessObjectList<Volunteer> currentVolunteerList;
+    BusinessObjectList<Equipment> currentEquipmentList;
+    BusinessObjectList<Volunteer> availableVolunteerList;
+    BusinessObjectList<Equipment> availableEquipmentList;
+    // Variables declaration - do not modify                     
+    private BusinessObjectListView availableEquipment;
+    private javax.swing.JButton availableToCurrentEquipmentButton;
+    private javax.swing.JButton availableToCurrentVolunteerButton;
+    private BusinessObjectListView availableVolunteers;
+    private javax.swing.JButton cancelButton;
+    private BusinessObjectListView currentEquipment;
+    private javax.swing.JButton currentToAvailableEquipment;
+    private javax.swing.JButton currentToAvailableVolunteerButton;
+    private BusinessObjectListView currentVolunteers;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JButton resetButton;
+    private javax.swing.JButton saveSceneButton;
+    private javax.swing.JTextPane sceneDescriptionField;
+    private javax.swing.JTextField sceneNameField;
+    // End of variables declaration                
 
     /**
      * Creates new form SceneMenu
+     *
+     * @author Ryan La Forge
      */
-    public SceneMenu(java.awt.Frame parent,Database database, Script script, Scene scene) throws CloneNotSupportedException {
+    public SceneMenu(java.awt.Frame parent, Database database, Script script, Scene scene) throws CloneNotSupportedException {
         super(parent, true);
         this.parent = parent;
         this.database = database;
         this.script = script;
         originalScene = scene;
-        if (scene != null)
-        {
-               clonedScene = (Scene) scene.clone();
-        }
-        else
-        {
+        if (scene != null) {
+            clonedScene = (Scene) scene.clone();
+        } else {
             clonedScene = new Scene("enter scene name here", "Enter scene description here");
         }
-     
+
         currentVolunteerList = new BusinessObjectList<Volunteer>();
         currentVolunteerList.addAll(clonedScene.volunteers());
-        
+
         currentEquipmentList = new BusinessObjectList<Equipment>();
         currentEquipmentList.addAll(clonedScene.equipment());
-      
-        
-    
+
         availableVolunteerList = new BusinessObjectList<Volunteer>();
         availableVolunteerList.addAll(script.volunteers());
         availableEquipmentList = new BusinessObjectList<Equipment>();
-        availableEquipmentList.addAll(script.equipment()); 
-        
-         
-          availableVolunteers = new BusinessObjectListView(availableVolunteerList);
-                  //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
-          
-          currentVolunteers = new BusinessObjectListView(currentVolunteerList);
-       
-          
-         
-          
-          availableEquipment = new BusinessObjectListView(availableEquipmentList);
-         
-          
-          currentEquipment = new BusinessObjectListView(currentEquipmentList);
-         initComponents();
-        
-      
+        availableEquipmentList.addAll(script.equipment());
 
-         
-          jScrollPane1.setPreferredSize(new Dimension(150, 150));
-          jScrollPane2.setPreferredSize(new Dimension(150, 150));
-          jScrollPane3.setPreferredSize(new Dimension(150, 150));
-          jScrollPane4.setPreferredSize(new Dimension(150, 150));
-          currentEquipment.setPreferredSize(new Dimension(150, 150));
-          currentVolunteers.setPreferredSize(new Dimension(150, 150));
-          availableEquipment.setPreferredSize(new Dimension(150, 150));
-          availableVolunteers.setPreferredSize(new Dimension(150, 150));
-                
-   
-       
-        
-     
+        availableVolunteers = new BusinessObjectListView(availableVolunteerList);
+                  //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
+
+        currentVolunteers = new BusinessObjectListView(currentVolunteerList);
+
+        availableEquipment = new BusinessObjectListView(availableEquipmentList);
+
+        currentEquipment = new BusinessObjectListView(currentEquipmentList);
+        initComponents();
+
+        jScrollPane1.setPreferredSize(new Dimension(150, 150));
+        jScrollPane2.setPreferredSize(new Dimension(150, 150));
+        jScrollPane3.setPreferredSize(new Dimension(150, 150));
+        jScrollPane4.setPreferredSize(new Dimension(150, 150));
+        currentEquipment.setPreferredSize(new Dimension(150, 150));
+        currentVolunteers.setPreferredSize(new Dimension(150, 150));
+        availableEquipment.setPreferredSize(new Dimension(150, 150));
+        availableVolunteers.setPreferredSize(new Dimension(150, 150));
+
         //Make all of the lists proper
         //That is, make sure the current lists have all of the volunteers and equipment currently in the scene
         //and ensure the available equipment and volunteer lists only have ones not listed in the scenes list.
-        if (clonedScene != null)
-        {
-            sceneNameField.setText(clonedScene.name());
-            sceneDescriptionField.setText(clonedScene.description());
-       
-         
-          availableVolunteerList.removeAll(clonedScene.volunteers());
+        if (clonedScene != null) {
+            sceneNameField.setText(clonedScene.getName());
+            sceneDescriptionField.setText(clonedScene.getDescription());
 
-           availableEquipmentList.removeAll(clonedScene.equipment());
+            availableVolunteerList.removeAll(clonedScene.volunteers());
+
+            availableEquipmentList.removeAll(clonedScene.equipment());
         }
-        
-       
-  
-      
-     
+
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -191,13 +198,10 @@ public class SceneMenu extends javax.swing.JDialog{
 
         jScrollPane1.setViewportView(availableVolunteers);
 
-    
         jScrollPane2.setViewportView(availableEquipment);
 
-        
         jScrollPane3.setViewportView(currentEquipment);
 
-        
         jScrollPane4.setViewportView(currentVolunteers);
 
         cancelButton.setText("Cancel");
@@ -216,271 +220,275 @@ public class SceneMenu extends javax.swing.JDialog{
 
         jLabel2.setText("volunteers not in scene");
 
-        sceneDescriptionField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                sceneDescriptionFieldKeyPressed(evt);
-            }
-        });
+       
         jScrollPane6.setViewportView(sceneDescriptionField);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(28, 28, 28))
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(cancelButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(resetButton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(saveSceneButton))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane1)
-                                .addComponent(jScrollPane2))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(28, 28, 28))
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(currentToAvailableVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(availableToCurrentVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jScrollPane4)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(currentToAvailableEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(availableToCurrentEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jScrollPane3))))))
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(jLabel1)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGap(21, 21, 21)
+                                                        .addComponent(cancelButton)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(resetButton)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(saveSceneButton))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(jScrollPane1)
+                                                        .addComponent(jScrollPane2))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(currentToAvailableVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(availableToCurrentVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabel3)
+                                                                        .addComponent(jScrollPane4)))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(currentToAvailableEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(availableToCurrentEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabel5)
+                                                                        .addComponent(jScrollPane3))))))
+                                .addComponent(jLabel2))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(currentToAvailableVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(availableToCurrentVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(31, 31, 31))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(2, 2, 2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(currentToAvailableEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(availableToCurrentEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                .addComponent(currentToAvailableVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(availableToCurrentVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(31, 31, 31))
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(2, 2, 2)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jLabel3))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addComponent(currentToAvailableEquipment, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(availableToCurrentEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(35, 35, 35))
+                                                .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel4)
+                                                .addComponent(jLabel5))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel1)
+                                                .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveSceneButton)
-                    .addComponent(resetButton)
-                    .addComponent(cancelButton))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(saveSceneButton)
+                                .addComponent(resetButton)
+                                .addComponent(cancelButton))
+                        .addContainerGap())
         );
 
         pack();
     }// </editor-fold>                        
 
-    private void saveSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
-      Iterator<Scene> iter = script.sceneIterator();
-            while (iter.hasNext())
-            {
-                Scene tempScene = iter.next(); 
-                if ((tempScene.name().equals(clonedScene.name())) && (!tempScene.equals(originalScene)))
-                {
-                        ErrorDisplay displayError = new ErrorDisplay(parent, "The script already contains a scene with that name");    
-                }
+    /**
+     * The action that happens when the save button is pressed.
+     *
+     * @postcon if the scene is valid, it is saved to the database and inserted
+     * into the script.
+     * @param evt
+     */
+    private void saveSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        for (Scene tempScene : script.scenes()) {
+            if ((tempScene.getName().equals(clonedScene.getName())) && (!tempScene.equals(originalScene))) {
+                ErrorDisplay displayError = new ErrorDisplay(parent, "The script already contains a scene with that name");
+                displayError.setVisible(true);
+                return;
             }
-            
-        if (!clonedScene.isValid())
-        {
-            ErrorDisplay errorDisplay = new ErrorDisplay(parent, "The scene is currently not in a valid state. Unable to save it.\n Error: \n" + clonedScene.errorMessage());      
         }
-        
-        else
-        {
-            
-            }
-            clonedScene.setName(sceneNameField.getText());
-            clonedScene.setDescription(sceneDescriptionField.getText());
-            clonedScene.volunteers().clear();
-            clonedScene.equipment().clear();
-            clonedScene.volunteers().addAll(currentVolunteerList);
-            clonedScene.equipment().addAll(currentEquipmentList);
-            SaveSceneAction saveClonedScene;
-            if (originalScene != null)
-            {
-               saveClonedScene = new SaveSceneAction(database, clonedScene, originalScene.name(), script); 
-            }
-            else
-            {
-                saveClonedScene = new SaveSceneAction(database, clonedScene, null, script); 
-            }
-            
-            saveClonedScene.run();
-            if (saveClonedScene.wasSuccessful())
-            {
-                if (originalScene != null)
-                {
-                    originalScene.setHasChanged(false);
-                    originalScene.merge(clonedScene);
-                    originalScene.setHasChanged(true);
-                }
-                else
-                {
-                    script.addScene(clonedScene);
-                }
-                 
-                
-                if (this.getParent() != null)
-                {
-                  this.setVisible(false);
-                }
-                else
-                {
-                    System.exit(0);
-                 }
-            }
-            else
-            {
-               ErrorDisplay errorDisplay = new ErrorDisplay(null, "The scene failed to save to the database and the following error was returned:\n " + saveClonedScene.lastErrorMessage());      
-            }
-        
-    }                                               
 
-    private void currentToAvailableVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                                  
-       if (!currentVolunteers.isSelectionEmpty())
-       {
-           availableVolunteerList.addAll(currentVolunteers.getSelectedValuesList());
-       
-           currentVolunteerList.removeAll(currentVolunteers.getSelectedValuesList()); 
-          
-       }
-       
-    }                                                                 
+        if (!clonedScene.isValid()) {
+            ErrorDisplay errorDisplay = new ErrorDisplay(parent, "The scene is currently not in a valid state. Unable to save it.\n Error: \n" + clonedScene.errorMessage());
+            errorDisplay.setVisible(true);
+            return;
+        } else {
 
-    private void availableToCurrentVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                                  
-               if (!availableVolunteers.isSelectionEmpty())
-               {
-                   currentVolunteerList.addAll(availableVolunteers.getSelectedValuesList());
-                   
-                   availableVolunteerList.removeAll(availableVolunteers.getSelectedValuesList());
-                 
-               }
-    }                                                                 
+        }
+        clonedScene.setName(sceneNameField.getText());
+        clonedScene.setDescription(sceneDescriptionField.getText());
+        clonedScene.volunteers().clear();
+        clonedScene.equipment().clear();
+        clonedScene.volunteers().addAll(currentVolunteerList);
+        clonedScene.equipment().addAll(currentEquipmentList);
 
-    private void currentToAvailableEquipmentActionPerformed(java.awt.event.ActionEvent evt) {                                                            
-        if (!currentEquipment.isSelectionEmpty())
-        {
+        //build the saveSceneAction and attempt to save the scene.
+        SaveSceneAction saveClonedScene;
+        if (originalScene != null) {
+            saveClonedScene = new SaveSceneAction(database, clonedScene, originalScene.getName(), script);
+        } else {
+            saveClonedScene = new SaveSceneAction(database, clonedScene, null, script);
+        }
+
+        saveClonedScene.run();
+        if (saveClonedScene.wasSuccessful()) {
+            if (originalScene != null) {
+                //If this is editing a scene we need to merge the clone into the original.
+                originalScene.setHasChanged(false);
+                originalScene.merge(clonedScene);
+                originalScene.setHasChanged(true);
+            } else {
+                script.addScene(clonedScene);
+            }
+
+            if (this.getParent() != null) {
+                this.setVisible(false);
+            } else {
+                System.exit(0);
+            }
+        } else {
+            ErrorDisplay errorDisplay = new ErrorDisplay(null, "The scene failed to save to the database and the following error was returned:\n " + saveClonedScene.lastErrorMessage());
+            errorDisplay.setVisible(true);
+            return;
+        }
+
+    }
+
+    /**
+     * This button is used to switch the volunteers between the two lists.
+     *
+     * @postcon the selected volunteers are moved to the appropriate list.*
+     */
+    private void currentToAvailableVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!currentVolunteers.isSelectionEmpty()) {
+            availableVolunteerList.addAll(currentVolunteers.getSelectedValuesList());
+
+            currentVolunteerList.removeAll(currentVolunteers.getSelectedValuesList());
+
+        }
+
+    }
+
+    /**
+     * This button is used to switch the volunteers between the two lists.
+     *
+     * @postcon the selected volunteers are moved to the appropriate list.*
+     */
+    private void availableToCurrentVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!availableVolunteers.isSelectionEmpty()) {
+            currentVolunteerList.addAll(availableVolunteers.getSelectedValuesList());
+
+            availableVolunteerList.removeAll(availableVolunteers.getSelectedValuesList());
+
+        }
+    }
+
+    /**
+     * This button is used to switch the equipment between the two lists.
+     *
+     * @postcon the selected equipment are moved to the appropriate list.*
+     */
+    private void currentToAvailableEquipmentActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!currentEquipment.isSelectionEmpty()) {
             availableEquipmentList.addAll(currentEquipment.getSelectedValuesList());
-            
+
             currentEquipmentList.removeAll(currentEquipment.getSelectedValuesList());
-            
-        }
-        
-    }                                                           
 
-    private void availableToCurrentEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                                  
-        if (!availableEquipment.isSelectionEmpty())
-        {
+        }
+
+    }
+
+    /**
+     * This button is used to switch the equipment between the two lists.
+     *
+     * @postcon the selected equipment are moved to the appropriate list.*
+     */
+    private void availableToCurrentEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!availableEquipment.isSelectionEmpty()) {
             currentEquipmentList.addAll(availableEquipment.getSelectedValuesList());
-           
-            availableEquipmentList.removeAll(availableEquipment.getSelectedValuesList());
-            
-        }
-    }                                                                 
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        this.setVisible(false);
-        if (this.getParent() != null)
-        {
-            this.getParent().setVisible(true);
+            availableEquipmentList.removeAll(availableEquipment.getSelectedValuesList());
+
         }
-        else
-        {
+    }
+
+    /**
+     * Cancels all changes and exists the form. The scene is not saved.*
+     */
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        this.setVisible(false);
+        if (this.getParent() != null) {
+            this.getParent().setVisible(true);
+        } else {
             System.exit(0);
         }
-    }                                            
+    }
 
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    /**
+     * Refreshes the frame allowing the user to see the original, unchanged
+     * scene status.
+     *
+     * @param evt
+     */
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {
         //May replace later with a more effecient way of doing this.
         SceneMenu newSceneMenu;
-        try 
-        {
-        
-          this.setVisible(false);
+        try {
+
+            this.setVisible(false);
             newSceneMenu = new SceneMenu(parent, database, script, originalScene);
-            
-            
-          
+
             newSceneMenu.setVisible(true);
-        } 
-        catch (CloneNotSupportedException ex)
-        {
+        } catch (CloneNotSupportedException ex) {
             throw new RuntimeException("Refresh of the SceneMenu failed.");
         }
-        
-    }                                           
 
-    private void sceneDescriptionFieldKeyPressed(java.awt.event.KeyEvent evt) {                                                 
-        
-    }                                                
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -507,7 +515,7 @@ public class SceneMenu extends javax.swing.JDialog{
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run(){
+            public void run() {
                 try {
                     SceneMenu dialog = new SceneMenu(new javax.swing.JFrame(), null, null, null);
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -523,40 +531,4 @@ public class SceneMenu extends javax.swing.JDialog{
             }
         });
     }
-
-    private Scene clonedScene;
-    private Frame parent;
-   private  Database database;
-   private Script script;
-   private Scene originalScene;
-    BusinessObjectList<Volunteer> currentVolunteerList;
-    BusinessObjectList<Equipment> currentEquipmentList;
-    BusinessObjectList<Volunteer> availableVolunteerList;
-    BusinessObjectList<Equipment> availableEquipmentList;
-    // Variables declaration - do not modify                     
-    private BusinessObjectListView availableEquipment;
-    private javax.swing.JButton availableToCurrentEquipmentButton;
-    private javax.swing.JButton availableToCurrentVolunteerButton;
-    private BusinessObjectListView availableVolunteers;
-    private javax.swing.JButton cancelButton;
-    private BusinessObjectListView currentEquipment;
-    private javax.swing.JButton currentToAvailableEquipment;
-    private javax.swing.JButton currentToAvailableVolunteerButton;
-    private BusinessObjectListView currentVolunteers;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JButton resetButton;
-    private javax.swing.JButton saveSceneButton;
-    private javax.swing.JTextPane sceneDescriptionField;
-    private javax.swing.JTextField sceneNameField;
-    // End of variables declaration                   
 }
