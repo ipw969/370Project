@@ -307,7 +307,7 @@ public class Scene extends BaseBusinessObject{
         {
             newString.append("No volunteers currently assigned to this scene\n");
         }
-        
+         newString.append("\n");
         if (!necessaryEquipment.isEmpty())
         {
             newString.append("List of equipment:\n");
@@ -315,12 +315,13 @@ public class Scene extends BaseBusinessObject{
             while(equipmentIterator.hasNext())
             {
                 Equipment tempEquipment = equipmentIterator.next();
-                newString.append(tempEquipment.getEquipmentName() + " owner name:" + tempEquipment.getOwnerFirstName() + " " + tempEquipment.getOwnerLastName() + "\n owner email:" + tempEquipment.getOwnerEmail() + "\n" );
+                newString.append(tempEquipment.toDescriptiveString() + "\n" );
             }
+            newString.append("\n");
         }
         else
         {
-           newString.append("No equipment assigned to this scene\n");
+           newString.append("No equipment assigned to this scene\n\n");
         }
         
         if (this.isScheduled())

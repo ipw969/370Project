@@ -78,6 +78,15 @@ public class MainMenu extends javax.swing.JFrame
         {
             volunteerComboBox.addItem(new String("There are no scenes in the script"));
         }
+        
+        equipmentComboBox.removeAllItems();
+        if (theScript.hasEquipment())
+        {
+            for (Equipment equipmentToAdd: theScript.equipment())
+            {
+                equipmentComboBox.addItem(equipmentToAdd);
+            }
+        }
         SchedulePanel schedulePanel = new SchedulePanel();
         schedulePanel.setSript(theScript);
         schedulePanel.setDatabase(database);
@@ -390,8 +399,8 @@ public class MainMenu extends javax.swing.JFrame
         if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene))
         {
             Scene selectedScene = (Scene) sceneComboBox.getSelectedItem();
-            toString.setText(selectedScene.name());
-            toDescriptiveString.setText(selectedScene.description());
+            toString.setText(selectedScene.toString());
+            toDescriptiveString.setText(selectedScene.toDescriptiveString());
         }
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
