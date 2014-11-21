@@ -6,6 +6,7 @@
 package ui;
 
 import actions.DeleteSceneAction;
+import businessobjects.Equipment;
 import businessobjects.Scene;
 import businessobjects.Script;
 import businessobjects.Volunteer;
@@ -96,47 +97,24 @@ public class MainMenu extends javax.swing.JFrame
         mainTab = new javax.swing.JTabbedPane();
         scriptTabPanel = new javax.swing.JPanel();
         scriptContentPanel = new javax.swing.JPanel();
-        volunteerPanel = new javax.swing.JPanel();
         volunteerSectionLabel = new javax.swing.JLabel();
-        firstNameLabel = new javax.swing.JLabel();
-        lastNameLabel = new javax.swing.JLabel();
-        phoneNumberLabel = new javax.swing.JLabel();
-        emailLabel = new javax.swing.JLabel();
-        volunteerFirstNameField = new javax.swing.JTextField();
-        volunteerLastNameField = new javax.swing.JTextField();
-        volunteerPhoneNumberField = new javax.swing.JTextField();
-        volunteerEmailField = new javax.swing.JTextField();
-        viewAvailabilitiesButton = new javax.swing.JButton();
         addVolunteerButton = new javax.swing.JButton();
         editVolunteerButton = new javax.swing.JButton();
         removeVolunteerButton = new javax.swing.JButton();
         volunteerComboBox = new javax.swing.JComboBox();
-        equipmentPanel = new javax.swing.JPanel();
         equipmentSectionLabel = new javax.swing.JLabel();
-        equipmentTypeLabel = new javax.swing.JLabel();
-        stockLabel = new javax.swing.JLabel();
-        equipmentViewAdditionalInformationButton = new javax.swing.JButton();
-        equipmentIsRentalCheckbox = new javax.swing.JCheckBox();
         equipmentComboBox = new javax.swing.JComboBox();
         addEquipmentButton = new javax.swing.JButton();
         editEquipmentButton = new javax.swing.JButton();
         removeEquipmentButton = new javax.swing.JButton();
-        equipmentTypeField = new javax.swing.JTextField();
-        equipmentStockField = new javax.swing.JTextField();
-        scenePanel = new javax.swing.JPanel();
-        sceneNameLabel = new javax.swing.JLabel();
-        sceneDescriptionLabel = new javax.swing.JLabel();
-        sceneDescriptionScrollPane = new javax.swing.JScrollPane();
-        sceneDescriptionField = new javax.swing.JTextArea();
         sceneComboBox = new javax.swing.JComboBox();
-        sceneIsScheduledCheckBox = new javax.swing.JCheckBox();
-        sceneIsCompleteCheckBox = new javax.swing.JCheckBox();
         addSceneButton = new javax.swing.JButton();
         editSceneButton = new javax.swing.JButton();
         removeSceneButton = new javax.swing.JButton();
-        sceneNameField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        sceneViewRequirementsButton = new javax.swing.JButton();
+        toString = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        toDescriptiveString = new javax.swing.JTextArea();
         scheduleTabPanel = new javax.swing.JPanel();
 
         label1.setText("label1");
@@ -149,47 +127,18 @@ public class MainMenu extends javax.swing.JFrame
 
         mainPanel.setBorder(new javax.swing.border.MatteBorder(null));
 
-        scriptContentPanel.setLayout(new java.awt.GridLayout(1, 3));
-
         volunteerSectionLabel.setText("Volunteer");
 
-        firstNameLabel.setText("First Name:");
-
-        lastNameLabel.setText("Last Name:");
-
-        phoneNumberLabel.setText("Phone Number:");
-
-        emailLabel.setText("Email:");
-
-        volunteerFirstNameField.setText("first name here");
-        volunteerFirstNameField.setFocusable(false);
-        volunteerFirstNameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                volunteerFirstNameFieldActionPerformed(evt);
-            }
-        });
-
-        volunteerLastNameField.setText("last name here");
-        volunteerLastNameField.setFocusable(false);
-
-        volunteerPhoneNumberField.setText("phone number here");
-        volunteerPhoneNumberField.setFocusable(false);
-
-        volunteerEmailField.setText("email here");
-        volunteerEmailField.setFocusable(false);
-
-        viewAvailabilitiesButton.setText("View Availabilities");
-
-        addVolunteerButton.setText("Add Volunteer");
+        addVolunteerButton.setText("add");
         addVolunteerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addVolunteerButtonActionPerformed(evt);
             }
         });
 
-        editVolunteerButton.setText("Edit Volunteer");
+        editVolunteerButton.setText("edit");
 
-        removeVolunteerButton.setText("Remove Volunteer");
+        removeVolunteerButton.setText("remove");
 
         volunteerComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         volunteerComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -198,194 +147,25 @@ public class MainMenu extends javax.swing.JFrame
             }
         });
 
-        javax.swing.GroupLayout volunteerPanelLayout = new javax.swing.GroupLayout(volunteerPanel);
-        volunteerPanel.setLayout(volunteerPanelLayout);
-        volunteerPanelLayout.setHorizontalGroup(
-            volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(volunteerPanelLayout.createSequentialGroup()
-                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(volunteerSectionLabel)
-                                    .addComponent(firstNameLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(volunteerFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                        .addComponent(emailLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(volunteerEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                        .addComponent(lastNameLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(volunteerLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                                        .addComponent(phoneNumberLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(volunteerPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(viewAvailabilitiesButton))
-                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(addVolunteerButton))
-                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(editVolunteerButton))
-                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(removeVolunteerButton))
-                    .addGroup(volunteerPanelLayout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(volunteerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        volunteerPanelLayout.setVerticalGroup(
-            volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(volunteerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(volunteerSectionLabel)
-                .addGap(14, 14, 14)
-                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(firstNameLabel)
-                    .addComponent(volunteerFirstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lastNameLabel)
-                    .addComponent(volunteerLastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(phoneNumberLabel)
-                    .addComponent(volunteerPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(volunteerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(volunteerEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(viewAvailabilitiesButton)
-                .addGap(18, 18, 18)
-                .addComponent(volunteerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addVolunteerButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(editVolunteerButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeVolunteerButton))
-        );
-
-        scriptContentPanel.add(volunteerPanel);
-
         equipmentSectionLabel.setText("Equipment");
 
-        equipmentTypeLabel.setText("Type:");
-
-        stockLabel.setText("Stock:");
-
-        equipmentViewAdditionalInformationButton.setText("View Additional Information");
-
-        equipmentIsRentalCheckbox.setText("Rental");
-        equipmentIsRentalCheckbox.setFocusable(false);
-
         equipmentComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        equipmentComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                equipmentComboBoxActionPerformed(evt);
+            }
+        });
 
-        addEquipmentButton.setText("Add Equipment");
+        addEquipmentButton.setText("add");
         addEquipmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addEquipmentButtonActionPerformed(evt);
             }
         });
 
-        editEquipmentButton.setText("Edit Equipment");
+        editEquipmentButton.setText("edit");
 
-        removeEquipmentButton.setText("Remove Equipment");
-
-        equipmentTypeField.setText("type here");
-        equipmentTypeField.setFocusable(false);
-
-        equipmentStockField.setText("Stock here");
-        equipmentStockField.setFocusable(false);
-
-        javax.swing.GroupLayout equipmentPanelLayout = new javax.swing.GroupLayout(equipmentPanel);
-        equipmentPanel.setLayout(equipmentPanelLayout);
-        equipmentPanelLayout.setHorizontalGroup(
-            equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(equipmentPanelLayout.createSequentialGroup()
-                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(equipmentSectionLabel)
-                            .addComponent(equipmentIsRentalCheckbox)
-                            .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, equipmentPanelLayout.createSequentialGroup()
-                                    .addComponent(equipmentTypeLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(equipmentTypeField))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, equipmentPanelLayout.createSequentialGroup()
-                                    .addComponent(stockLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(equipmentStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(equipmentViewAdditionalInformationButton))
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(addEquipmentButton))
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(editEquipmentButton))
-                    .addGroup(equipmentPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(removeEquipmentButton)))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-        equipmentPanelLayout.setVerticalGroup(
-            equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(equipmentPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(equipmentSectionLabel)
-                .addGap(18, 18, 18)
-                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(equipmentTypeLabel)
-                    .addComponent(equipmentTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(equipmentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(stockLabel)
-                    .addComponent(equipmentStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(equipmentIsRentalCheckbox)
-                .addGap(23, 23, 23)
-                .addComponent(equipmentViewAdditionalInformationButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addEquipmentButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editEquipmentButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeEquipmentButton)
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-
-        scriptContentPanel.add(equipmentPanel);
-
-        sceneNameLabel.setText("Name:");
-
-        sceneDescriptionLabel.setText("Description");
-
-        sceneDescriptionField.setColumns(20);
-        sceneDescriptionField.setRows(5);
-        sceneDescriptionField.setText("Scene description here.");
-        sceneDescriptionField.setFocusable(false);
-        sceneDescriptionScrollPane.setViewportView(sceneDescriptionField);
+        removeEquipmentButton.setText("remove");
 
         sceneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         sceneComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -394,104 +174,117 @@ public class MainMenu extends javax.swing.JFrame
             }
         });
 
-        sceneIsScheduledCheckBox.setText("Scheduled");
-        sceneIsScheduledCheckBox.setFocusable(false);
-
-        sceneIsCompleteCheckBox.setText("Completed");
-        sceneIsCompleteCheckBox.setFocusable(false);
-
-        addSceneButton.setText("Add Scene");
+        addSceneButton.setText("add");
         addSceneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addSceneButtonActionPerformed(evt);
             }
         });
 
-        editSceneButton.setText("Edit Scene");
+        editSceneButton.setText("edit");
         editSceneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editSceneButtonActionPerformed(evt);
             }
         });
 
-        removeSceneButton.setText("remove Scene");
+        removeSceneButton.setText("remove");
         removeSceneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeSceneButtonActionPerformed(evt);
             }
         });
 
-        sceneNameField.setText("Scene name here");
-        sceneNameField.setFocusable(false);
-
         jLabel3.setText("Scenes");
 
-        sceneViewRequirementsButton.setText("View Requirements");
+        toString.setText("jTextField1");
 
-        javax.swing.GroupLayout scenePanelLayout = new javax.swing.GroupLayout(scenePanel);
-        scenePanel.setLayout(scenePanelLayout);
-        scenePanelLayout.setHorizontalGroup(
-            scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scenePanelLayout.createSequentialGroup()
-                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, scenePanelLayout.createSequentialGroup()
-                        .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sceneDescriptionLabel)
-                            .addComponent(jLabel3)
-                            .addGroup(scenePanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(sceneIsCompleteCheckBox)
-                                    .addComponent(sceneIsScheduledCheckBox)
-                                    .addComponent(addSceneButton)
-                                    .addComponent(editSceneButton)
-                                    .addComponent(removeSceneButton))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, scenePanelLayout.createSequentialGroup()
-                        .addComponent(sceneNameLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(sceneNameField))
-                    .addGroup(scenePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(sceneDescriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-                            .addComponent(sceneViewRequirementsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-            .addGroup(scenePanelLayout.createSequentialGroup()
+        toDescriptiveString.setColumns(20);
+        toDescriptiveString.setRows(5);
+        jScrollPane1.setViewportView(toDescriptiveString);
+
+        javax.swing.GroupLayout scriptContentPanelLayout = new javax.swing.GroupLayout(scriptContentPanel);
+        scriptContentPanel.setLayout(scriptContentPanelLayout);
+        scriptContentPanelLayout.setHorizontalGroup(
+            scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scriptContentPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(volunteerSectionLabel))
+                    .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                        .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(volunteerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(equipmentSectionLabel)
+                                    .addComponent(jLabel3)))
+                            .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addEquipmentButton)
+                            .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(addSceneButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(editSceneButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(removeVolunteerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(editVolunteerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addVolunteerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(removeEquipmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(editEquipmentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(removeSceneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGap(120, 120, 120)
+                        .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(toString, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
-        scenePanelLayout.setVerticalGroup(
-            scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(scenePanelLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(scenePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sceneNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sceneNameLabel))
+        scriptContentPanelLayout.setVerticalGroup(
+            scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(volunteerSectionLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sceneDescriptionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneDescriptionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(sceneIsScheduledCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneIsCompleteCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneViewRequirementsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addSceneButton)
+                .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(volunteerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addVolunteerButton)
+                    .addComponent(toString, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                        .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                                .addComponent(editVolunteerButton)
+                                .addGap(6, 6, 6)
+                                .addComponent(removeVolunteerButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addEquipmentButton))
+                            .addGroup(scriptContentPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(equipmentSectionLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(equipmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editEquipmentButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeEquipmentButton)
+                        .addGap(38, 38, 38)))
+                .addGroup(scriptContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addSceneButton)
+                    .addComponent(sceneComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editSceneButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeSceneButton))
+                .addComponent(removeSceneButton)
+                .addGap(112, 112, 112))
         );
-
-        scriptContentPanel.add(scenePanel);
 
         javax.swing.GroupLayout scriptTabPanelLayout = new javax.swing.GroupLayout(scriptTabPanel);
         scriptTabPanel.setLayout(scriptTabPanelLayout);
@@ -506,7 +299,7 @@ public class MainMenu extends javax.swing.JFrame
             scriptTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scriptTabPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scriptContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scriptContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 485, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -560,14 +353,65 @@ public class MainMenu extends javax.swing.JFrame
         System.exit(0);
     }//GEN-LAST:event_exitForm
 
+    private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
+        Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
+        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.name());
+        deleteSelectedScene.run();
+        if (deleteSelectedScene.wasSuccessful())
+        {
+            theScript.removeScene(sceneToDelete);
+            sceneComboBox.removeItem(sceneToDelete);
+        }
+        else
+        {
+            ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
+        }
+    }//GEN-LAST:event_removeSceneButtonActionPerformed
+
+    private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
+        try {
+            SceneMenu newSceneMenu = new SceneMenu(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
+            newSceneMenu.setVisible(true);
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_editSceneButtonActionPerformed
+
+    private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
+        try {
+            SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
+            sceneMenu.setVisible(true);
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addSceneButtonActionPerformed
+
     private void sceneComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sceneComboBoxActionPerformed
         if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene))
         {
             Scene selectedScene = (Scene) sceneComboBox.getSelectedItem();
-            sceneNameField.setText(selectedScene.name());
-            sceneDescriptionField.setText(selectedScene.description());
+            toString.setText(selectedScene.name());
+            toDescriptiveString.setText(selectedScene.description());
         }
     }//GEN-LAST:event_sceneComboBoxActionPerformed
+
+    private void addEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipmentButtonActionPerformed
+        this.setVisible(false);
+        this.dispose();
+        EquipmentForm equipmentForm = new EquipmentForm(theScript, database);
+        equipmentForm.setVisible(true);
+        this.repaint();
+    }//GEN-LAST:event_addEquipmentButtonActionPerformed
+
+    private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
+
+        if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
+        {
+            toString.setText(((Volunteer) volunteerComboBox.getSelectedItem()).toString());
+            toDescriptiveString.setText(((Volunteer) volunteerComboBox.getSelectedItem()).toDescriptiveString());
+        }
+
+    }//GEN-LAST:event_volunteerComboBoxActionPerformed
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
         {
@@ -580,64 +424,14 @@ public class MainMenu extends javax.swing.JFrame
         }                       // TODO add your handling code here:
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
-    private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
-
-        if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
+    private void equipmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipmentComboBoxActionPerformed
+        
+        if (equipmentComboBox.getSelectedItem() != null && (equipmentComboBox.getSelectedItem() instanceof Equipment))
         {
-            volunteerEmailField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getEmail());
-            volunteerFirstNameField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getFirstName());
-            volunteerLastNameField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getLastName());
-            volunteerPhoneNumberField.setText(((Volunteer) volunteerComboBox.getSelectedItem()).getPhone());
-
+            toString.setText(((Equipment) equipmentComboBox.getSelectedItem()).toString());
+            toDescriptiveString.setText(((Equipment) equipmentComboBox.getSelectedItem()).toDescriptiveString());
         }
-
-
-    }//GEN-LAST:event_volunteerComboBoxActionPerformed
-
-    private void volunteerFirstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerFirstNameFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_volunteerFirstNameFieldActionPerformed
-
-    private void addEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipmentButtonActionPerformed
-            this.setVisible(false);
-            this.dispose();
-            EquipmentForm equipmentForm = new EquipmentForm(theScript, database);
-            equipmentForm.setVisible(true);
-            this.repaint();
-    }//GEN-LAST:event_addEquipmentButtonActionPerformed
-
-    private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
-        try {
-            SceneMenu newSceneMenu = new SceneMenu(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
-            newSceneMenu.setVisible(true);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_editSceneButtonActionPerformed
-
-    private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
-        Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
-        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.name());
-        deleteSelectedScene.run();
-        if (deleteSelectedScene.wasSuccessful())
-        {
-           theScript.removeScene(sceneToDelete); 
-           sceneComboBox.removeItem(sceneToDelete);
-        }
-        else
-        {
-            ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
-        }
-    }//GEN-LAST:event_removeSceneButtonActionPerformed
-
-    private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
-        try {
-            SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
-            sceneMenu.setVisible(true);
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_addSceneButtonActionPerformed
+    }//GEN-LAST:event_equipmentComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -690,46 +484,23 @@ public class MainMenu extends javax.swing.JFrame
     private javax.swing.JButton editEquipmentButton;
     private javax.swing.JButton editSceneButton;
     private javax.swing.JButton editVolunteerButton;
-    private javax.swing.JLabel emailLabel;
     private javax.swing.JComboBox equipmentComboBox;
-    private javax.swing.JCheckBox equipmentIsRentalCheckbox;
-    private javax.swing.JPanel equipmentPanel;
     private javax.swing.JLabel equipmentSectionLabel;
-    private javax.swing.JTextField equipmentStockField;
-    private javax.swing.JTextField equipmentTypeField;
-    private javax.swing.JLabel equipmentTypeLabel;
-    private javax.swing.JButton equipmentViewAdditionalInformationButton;
-    private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Label label1;
-    private javax.swing.JLabel lastNameLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTabbedPane mainTab;
-    private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JButton removeEquipmentButton;
     private javax.swing.JButton removeSceneButton;
     private javax.swing.JButton removeVolunteerButton;
     private javax.swing.JComboBox sceneComboBox;
-    private javax.swing.JTextArea sceneDescriptionField;
-    private javax.swing.JLabel sceneDescriptionLabel;
-    private javax.swing.JScrollPane sceneDescriptionScrollPane;
-    private javax.swing.JCheckBox sceneIsCompleteCheckBox;
-    private javax.swing.JCheckBox sceneIsScheduledCheckBox;
-    private javax.swing.JTextField sceneNameField;
-    private javax.swing.JLabel sceneNameLabel;
-    private javax.swing.JPanel scenePanel;
-    private javax.swing.JButton sceneViewRequirementsButton;
     private javax.swing.JPanel scheduleTabPanel;
     private javax.swing.JPanel scriptContentPanel;
     private javax.swing.JPanel scriptTabPanel;
-    private javax.swing.JLabel stockLabel;
-    private javax.swing.JButton viewAvailabilitiesButton;
+    private javax.swing.JTextArea toDescriptiveString;
+    private javax.swing.JTextField toString;
     private javax.swing.JComboBox volunteerComboBox;
-    private javax.swing.JTextField volunteerEmailField;
-    private javax.swing.JTextField volunteerFirstNameField;
-    private javax.swing.JTextField volunteerLastNameField;
-    private javax.swing.JPanel volunteerPanel;
-    private javax.swing.JTextField volunteerPhoneNumberField;
     private javax.swing.JLabel volunteerSectionLabel;
     // End of variables declaration//GEN-END:variables
 }
