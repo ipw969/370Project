@@ -101,6 +101,7 @@ public class PopulateScriptVolunteersAction extends BaseAction{
                     Volunteer newVolunteer = new Volunteer(firstName,
                         surname, email, phone, availabilities);
                     
+                    newVolunteer.setIsNew(false);
                     volunteerList.add(newVolunteer);
                 }
         } catch(SQLException ex)
