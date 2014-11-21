@@ -50,7 +50,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         errorLabel.setVisible(!filmingDateToEdit.isValid());
         errorIcon.setToolTipText(filmingDateToEdit.errorMessage());
         filmingDateToEdit.addListener(this);
-        
+        filmingDateToEdit.sceneShootingInterval().addListener(this);
         okayButton.setEnabled(false);
         scenesComboBox = new BusinessObjectComboBoxView<>(script.scenes());
         sceneLabel.setText(filmingDateToEdit.scene().name());
