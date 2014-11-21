@@ -25,35 +25,11 @@ public class Login {
     
     
     //constructor with username and password
-    public Login(String username, String password) {
+    public Login(Database database, String username, String password) {
+        this.database = database;
         this.username = username;
         this.password = password;
         this.isValid = false;
-        try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException ex)
-        {
-            System.out.println("Could not load database driver with "
-                        + "message: " + ex.toString());
-            return;
-        }
-        
-       
-        try{
-            database = new JdbcDatabase(
-                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
-                "cmpt370_group06",
-                "Raptorjesusisawesome55775");
-        }
-        catch (SQLException ex)
-        {
-            System.out.println("Failed to connection to db with message: "
-                + ex.getMessage());
-            return;
-        }
-        
-   
     }
     
     /** 

@@ -6,6 +6,7 @@
 package volunteeravailability.ui;
 
 import businessobjects.Volunteer;
+import database.Database;
 
 /**
  * The main menu for the volunteer availability application
@@ -13,12 +14,16 @@ import businessobjects.Volunteer;
  */
 public class VolunteerMainMenu extends javax.swing.JFrame {
     
+    private final Volunteer theVolunteer;
+    private final Database database;
     /**
      * Creates new form MainMenu
      */
-    VolunteerMainMenu(Volunteer theVolunteer) {
+    VolunteerMainMenu(Volunteer theVolunteer, Database database) {
         initComponents();
-        this.nameField.setText(theVolunteer.getFirstName() + " " + theVolunteer.getLastName());
+        this.theVolunteer = theVolunteer;
+        this.database = database;
+        this.nameField.setText(theVolunteer.getFirstName()+ " " + theVolunteer.getLastName());
         this.phoneField.setText(theVolunteer.getPhone());
         this.emailField.setText(theVolunteer.getEmail());
         //FOR DEMONSTRATION: 
@@ -163,42 +168,6 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneFieldActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VolunteerMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VolunteerMainMenu(null).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel availabilityLabel;
