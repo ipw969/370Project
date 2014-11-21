@@ -5,10 +5,16 @@
  */
 package volunteeravailability.ui;
 
+import actions.LoadVolunteerAction;
 import businessobjects.BusinessObjectList;
 import businessobjects.TimeInterval;
 import businessobjects.Volunteer;
+import database.Database;
+import database.JdbcDatabase;
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import volunteeravailability.login.Login;
 import ui.ErrorDisplay;
 
@@ -19,13 +25,16 @@ import ui.ErrorDisplay;
  */
 public class LoginMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginMenu
-     */
-    public LoginMenu() {
-        initComponents();
+    private final Database database;
+    
+    public LoginMenu(Database database) {
+        this.initComponents();
+        this.database = database;
     }
-
+    public LoginMenu() {
+        this.initComponents();
+        database = null;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +52,7 @@ public class LoginMenu extends javax.swing.JFrame {
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         pswdField = new javax.swing.JPasswordField();
-        forgotPswdLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,11 +97,10 @@ public class LoginMenu extends javax.swing.JFrame {
 
         pswdField.setText("jPasswordField1");
 
-        forgotPswdLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        forgotPswdLabel.setText("<HTML> <u>Forgot your password?</u> </HTML>");
-        forgotPswdLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                forgotPswdLabelMouseClicked(evt);
+        jButton1.setText("Forgot password?");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -109,15 +117,15 @@ public class LoginMenu extends javax.swing.JFrame {
                             .addComponent(usernameLabel)
                             .addComponent(passwordLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(forgotPswdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(nameField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(pswdField, javax.swing.GroupLayout.Alignment.LEADING)))))
+                                .addComponent(nameField)
+                                .addComponent(pswdField)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -141,8 +149,8 @@ public class LoginMenu extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(okButton)
                             .addComponent(cancelButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addComponent(forgotPswdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -173,23 +181,33 @@ public class LoginMenu extends javax.swing.JFrame {
             GregorianCalendar testIntervalEnd = new GregorianCalendar(2014, 11, 01, 15, 0);
             TimeInterval testTimeInterval = new TimeInterval(testIntervalStart, testIntervalEnd);
             testVolunteer.addAvailability(testTimeInterval);
-            VolunteerMainMenu testMainMenu = new VolunteerMainMenu(testVolunteer);
+            VolunteerMainMenu testMainMenu = new VolunteerMainMenu(testVolunteer, database);
             testMainMenu.setVisible(true);
             this.setVisible(false);
             this.repaint();
         }
         else {
             //initialize login 
-            Login login = new Login(nameField.getText(), new String(pswdField.getPassword()));
-            login.sendUsernamePassword();
+            Login login = new Login(database, nameField.getText(), new String(pswdField.getPassword()));
+            try {
+                login.sendUsernamePassword();
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //create main menu with volunteer information if user validated
             if (login.userValidated()) {
-            //TODO: IMPLEMENT
+                LoadVolunteerAction loadVolunteer = new LoadVolunteerAction(nameField.getText(), database);
+                loadVolunteer.run();
+                Volunteer volunteer = (Volunteer) loadVolunteer.businessObject();
+                VolunteerMainMenu mainMenu = new VolunteerMainMenu(volunteer, database);
+                mainMenu.setVisible(true);
+                this.dispose();
+                this.setVisible(false);
             } 
             else { /*invalid username or password*/
                 ErrorDisplay invalidCredentialsError = new ErrorDisplay(this, "Sorry, you have entered"
                         + "and invalid username and password combination."
-                        + " Please try again!");
+                        + "\nPlease try again!");
                 invalidCredentialsError.setVisible(true);
             }
         }
@@ -200,48 +218,14 @@ public class LoginMenu extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void forgotPswdLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPswdLabelMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_forgotPswdLabelMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginMenu().setVisible(true);
-            }
-        });
-    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ForgotPasswordDialog forgotPassword = new ForgotPasswordDialog(this, true);
+        forgotPassword.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JLabel forgotPswdLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JTextField nameField;

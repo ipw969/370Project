@@ -6,6 +6,7 @@
 package ui;
 
 import actions.DeleteSceneAction;
+import actions.DeleteVolunteerAction;
 import businessobjects.Equipment;
 import businessobjects.Scene;
 import businessobjects.Script;
@@ -148,6 +149,11 @@ public class MainMenu extends javax.swing.JFrame
         editVolunteerButton.setText("edit");
 
         removeVolunteerButton.setText("remove");
+        removeVolunteerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeVolunteerButtonActionPerformed(evt);
+            }
+        });
 
         volunteerComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         volunteerComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -441,6 +447,20 @@ public class MainMenu extends javax.swing.JFrame
             toDescriptiveString.setText(((Equipment) equipmentComboBox.getSelectedItem()).toDescriptiveString());
         }
     }//GEN-LAST:event_equipmentComboBoxActionPerformed
+
+    private void removeVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeVolunteerButtonActionPerformed
+        Volunteer volunteerToDelete = (Volunteer) volunteerComboBox.getSelectedItem();
+        DeleteVolunteerAction deleteSelectedvolunteer = new DeleteVolunteerAction(database, volunteerToDelete.getEmail());
+        deleteSelectedvolunteer.run();
+        if (deleteSelectedvolunteer.wasSuccessful())
+        {
+            theScript.removeVolunteer(volunteerToDelete);
+            sceneComboBox.removeItem(volunteerToDelete);
+        }
+        else
+        {
+            ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove volunteer action failed.");
+        }    }//GEN-LAST:event_removeVolunteerButtonActionPerformed
 
     /**
      * @param args the command line arguments
