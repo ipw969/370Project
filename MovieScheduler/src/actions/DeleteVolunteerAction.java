@@ -33,19 +33,15 @@ public class DeleteVolunteerAction extends BaseAction
     @Override
     protected void runImplementation() 
     {
-      if (volunteerToDelete == null)
-      {
-          setErrorMessage("The given volunteer to delete was null ");
-      }
       database().clearCommandList();
-      database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToDelete + "';" );
-      
-      // unsure if i am supposed to delete the volunteer from anywhere else
-      // will it automatically delete the volunteer from any scenes he/she are in already
-      // will need to delete vol_availability after it is made
+      if (volunteerToDelete != null)
+      {      
+          //vov_emailaddress_volunteer is NOT correct
+            database().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToDelete + "';" );
+            database().addCommand("delete from t_volunteeravailability where vov_emailaddress_volunteer = '" + volunteerToDelete + "';" );
+            database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToDelete + "';" );
+      }
        
-      //database().addCommand("delete from t_scenevolunteer where snv_scenename = '" + sceneToDelete + "';");
-      //database().addCommand("delete from t_sceneequipment where sne_scenename = '" + sceneToDelete + "';");
       try
       {
           database().executeCommandList();

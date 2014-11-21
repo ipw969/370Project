@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package volunteeravailability;
+import database.Database;
+import database.JdbcDatabase;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -24,18 +26,30 @@ public class VolunteerAvailability {
         // Each time an init action fails, add an error message to this list
         ArrayList<String> errorsEncountered = new ArrayList<>();
         
-        // Attempt initialization of database driver
+        JdbcDatabase database;
         try {
             Class.forName("org.postgresql.Driver");
         }
         catch (ClassNotFoundException ex)
         {
-                initializedProperly = false;
-                errorsEncountered.add("Could not load database driver with "
+            System.out.println("Could not load database driver with "
                         + "message: " + ex.toString());
+            return;
+        }
+        try{
+            database = new JdbcDatabase(
+                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                "cmpt370_group06",
+                "Raptorjesusisawesome55775");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Failed to connection to db with message: "
+                + ex.getMessage());
+            return;
         }
         
-        LoginMenu loginMenu = new LoginMenu();
+        LoginMenu loginMenu = new LoginMenu(database);
         loginMenu.setVisible(true);
         
         // One of this inits failed. Display an error message and exit

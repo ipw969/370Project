@@ -320,6 +320,9 @@ public class Scene extends BaseBusinessObject {
         }
 
         if (!necessaryEquipment.isEmpty()) {
+         newString.append("\n");
+        if (!necessaryEquipment.isEmpty())
+        {
             newString.append("List of equipment:\n");
             Iterator<Equipment> equipmentIterator = equipmentIterator();
             while (equipmentIterator.hasNext()) {
@@ -331,6 +334,17 @@ public class Scene extends BaseBusinessObject {
         }
 
         if (this.isScheduled()) {
+                newString.append(tempEquipment.toDescriptiveString() + "\n" );
+            }
+            newString.append("\n");
+        }
+        else
+        {
+           newString.append("No equipment assigned to this scene\n\n");
+        }
+        
+        if (this.isScheduled())
+        {
             newString.append("Currently scheduled\n");
         } else {
             newString.append("Not scheduled\n");
