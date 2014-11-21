@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 public class MainMenu extends javax.swing.JFrame
 {
 
+    
     private final Script theScript;
     private final Database database;
 
@@ -560,6 +561,7 @@ public class MainMenu extends javax.swing.JFrame
         System.exit(0);
     }//GEN-LAST:event_exitForm
 
+    /**sets the description and name fields according to the item selected here.**/
     private void sceneComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sceneComboBoxActionPerformed
         if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene))
         {
@@ -569,6 +571,7 @@ public class MainMenu extends javax.swing.JFrame
         }
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
+    /**sets the description and name fields according to the item selected here.**/
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
         {
 
@@ -580,6 +583,7 @@ public class MainMenu extends javax.swing.JFrame
         }                       // TODO add your handling code here:
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
+    /**sets the description and name fields according to the item selected here.**/
     private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
 
         if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
@@ -598,6 +602,10 @@ public class MainMenu extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_volunteerFirstNameFieldActionPerformed
 
+    /** Activates the add equipment ui.
+     * @postcon the add equipment ui is presented to the user.
+     * @param evt 
+     */
     private void addEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipmentButtonActionPerformed
             this.setVisible(false);
             this.dispose();
@@ -606,6 +614,8 @@ public class MainMenu extends javax.swing.JFrame
             this.repaint();
     }//GEN-LAST:event_addEquipmentButtonActionPerformed
 
+        /** Activates the Scene UI.
+     * @postcon the Scene UI is presented to the user.**/
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
         try {
             SceneMenu newSceneMenu = new SceneMenu(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
@@ -615,6 +625,10 @@ public class MainMenu extends javax.swing.JFrame
         }
     }//GEN-LAST:event_editSceneButtonActionPerformed
 
+    /**Removes the selected scene from the script and database.
+     * @postcon the selected scene is removed from the database and from the script.
+     * @param evt 
+     */
     private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
         Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
         DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.getName());
@@ -630,6 +644,10 @@ public class MainMenu extends javax.swing.JFrame
         }
     }//GEN-LAST:event_removeSceneButtonActionPerformed
 
+    /**The Scene UI is presented to the user.
+     * @postcon the scene ui is presented to the user.
+     * @param evt 
+     */
     private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
         try {
             SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
