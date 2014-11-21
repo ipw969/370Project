@@ -12,6 +12,8 @@ import businessobjects.TimeInterval;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import database.JdbcDatabase;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author johnmason
@@ -44,7 +46,7 @@ public class SaveVolunteerAction extends BaseAction{
         if (volunteerToReplace != null)
         {      
             database().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToReplace + "';" );
-            database().addCommand("delete from t_volunteeravailability where vov_emailaddress_volunteer = '" + volunteerToReplace + "';" );
+            database().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToReplace + "';" );
             database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToReplace + "';" );
         }
         database().addCommand(buildInsertQueryString());
@@ -96,7 +98,7 @@ public class SaveVolunteerAction extends BaseAction{
                 setErrorMessage(ex.getMessage());
             }
         }
-       
+        
         
     
     
@@ -114,11 +116,13 @@ public class SaveVolunteerAction extends BaseAction{
                 + "vol_emailaddress,"
                 + "vol_firstname,"
                 + "vol_surname,"
-                + "vol_phone )" 
+                + "vol_phone,"
+                + "vol_password)" 
                 + "VALUES ('"
                 + volunteer().getEmail() + "','"
                 + volunteer().getFirstName() + "','"
                 + volunteer().getLastName()+ "','"
+                + volunteer().getPhone() + "','"
                 + volunteer().getPhone() + "');";
                 
         return returnString;
