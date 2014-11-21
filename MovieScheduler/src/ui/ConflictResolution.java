@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
+
 
 /**
  *
@@ -264,12 +264,7 @@ public class ConflictResolution extends javax.swing.JFrame {
 
     private void conflictEditSceneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictEditSceneButtonMouseClicked
         this.toBack();
-        /*
-        
-         Go to scene editing window  
-         Pass along scene to edit
-         Select that scene
-         */
+
     }//GEN-LAST:event_conflictEditSceneButtonMouseClicked
 
     private void conflictSceneListPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictSceneListPaneMouseClicked
