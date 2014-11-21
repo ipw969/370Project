@@ -1,5 +1,8 @@
-/* @author Ryan La Forge
- 
+/**
+ * @author ryan
+ * This action is used to save the given scene to the database. 
+ * This includes all information regarding the scene as well as all of the volunteers 
+ * and equipment associated with it.
  */
 package actions;
 
@@ -11,14 +14,10 @@ import database.Database;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-/**
- * @author ryan
- * This action is used to save the given scene to the database. 
- * This includes all information regarding the scene as well as all of the volunteers 
- * and equipment associated with it.
- */
+
 
 public class SaveSceneAction extends BaseAction {
+    
 //* This is the scene, if any that will be replaced. This is used if the scene to be saved is to replace another scene(when a scene is edited)*/  
 private final String replacedSceneName;
 
@@ -26,11 +25,12 @@ private final String replacedSceneName;
 private final Script script;
 
 /**The constructor for the saveSceneAction.
- * 
+ * @precon A connection must have been established with the database.
  * @param database -The database that contains all of the information for this project.
  * @param sceneToSave -The scene to save to the database.
  * @param replacedSceneName - The scene to be replaced, if any
  * @param script -The script that the sceneToSave belongs to.
+
  */
     public SaveSceneAction(Database database ,Scene sceneToSave, String replacedSceneName, Script script) 
     {
@@ -78,25 +78,21 @@ private final Script script;
       
        if (sceneToSave.hasEquipment())
        {
-             Iterator<Equipment> iter = sceneToSave.equipmentIterator();
-        while(iter.hasNext())
-        {
-            /**This needs to be changed because eventually the equipment will change to fit the database**/
-            Equipment equipmentToSave = iter.next();
+           for (Equipment equipmentToSave: sceneToSave.equipment())
+           {
+             
             database().addCommand("insert into t_sceneEquipment(sne_sceneName, sne_equipmentName) "
                     + "VALUES('" + sceneToSave.name() + "' , '" + equipmentToSave.getEquipmentName() + "');" );
-        }
+           }
        }
       
         if (sceneToSave.hasVolunteers())
         {
-           Iterator<Volunteer> iter = sceneToSave.volunteerIterator();
-           while (iter.hasNext())
-           {
-               Volunteer volunteerToSave = iter.next();
-               database().addCommand("insert into t_scenevolunteer(snv_sceneName, snv_emailaddress_volunteer) "
+            for (Volunteer volunteerToSave: sceneToSave.volunteers())
+            {
+                database().addCommand("insert into t_scenevolunteer(snv_sceneName, snv_emailaddress_volunteer) "
                        + "VALUES('" + sceneToSave.name() + "' , '" + volunteerToSave.getEmail() + "');");
-           }
+            }
         }
         
         try
