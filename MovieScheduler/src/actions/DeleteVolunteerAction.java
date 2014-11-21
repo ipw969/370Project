@@ -36,9 +36,8 @@ public class DeleteVolunteerAction extends BaseAction
       database().clearCommandList();
       if (volunteerToDelete != null)
       {      
-          //vov_emailaddress_volunteer is NOT correct
             database().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToDelete + "';" );
-            database().addCommand("delete from t_volunteeravailability where vov_emailaddress_volunteer = '" + volunteerToDelete + "';" );
+            database().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToDelete + "';" );
             database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToDelete + "';" );
       }
        

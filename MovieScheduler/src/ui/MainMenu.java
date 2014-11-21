@@ -447,6 +447,7 @@ public class MainMenu extends javax.swing.JFrame
         {
             theScript.removeVolunteer(volunteerToDelete);
             sceneComboBox.removeItem(volunteerToDelete);
+            volunteerComboBox.removeItem((Volunteer) volunteerComboBox.getSelectedItem());
         }
         else
         {
