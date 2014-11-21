@@ -46,6 +46,10 @@ public class Volunteer extends BaseBusinessObject
         setHasChanged(true);
     }
     
+    private void setAvailability(BusinessObjectList <TimeInterval> availabilityList)
+    {
+        this.availability = availabilityList;
+    }
     public void setFirstName(String name)
     {
         this.firstName = name;
@@ -98,15 +102,15 @@ public class Volunteer extends BaseBusinessObject
     @Override
     public String toString()
     {
-        return lastName + ", " + firstName;
+        return firstName + " " + lastName;
     }
 
     @Override
     public String toDescriptiveString()
     {
        StringBuilder newString = new StringBuilder();
-        newString.append("Last name: " + this.lastName + "\n");
         newString.append("First name: " + this.firstName + "\n");
+        newString.append("Last name: " + this.lastName + "\n");
         newString.append("Phone number: " + this.phone + "\n");
         newString.append("Email address: " + this.email + "\n");
    
@@ -122,6 +126,13 @@ public class Volunteer extends BaseBusinessObject
        cloneVolunteer.setEmail(this.getEmail());
        cloneVolunteer.setPhone(this.getPhone());
        
+       cloneVolunteer.setAvailability(new BusinessObjectList<TimeInterval>());
+       Iterator<TimeInterval> iter = cloneVolunteer.getAvailability().iterator();
+       while(iter.hasNext())
+       {
+           TimeInterval time = iter.next();
+           cloneVolunteer.addAvailability((TimeInterval)time.clone());
+       }
        return cloneVolunteer;
     }
 

@@ -106,7 +106,7 @@ public class Equipment extends BaseBusinessObject
     @Override
     public String toString() 
     {
-        return equipmentName + "," + ownerLastName + "," + ownerFirstName;
+        return equipmentName + ", " + ownerFirstName + " " + ownerLastName;
     }
 
     @Override
@@ -114,8 +114,8 @@ public class Equipment extends BaseBusinessObject
     {
         StringBuilder newString = new StringBuilder();
         newString.append("Equipment name: " + this.equipmentName + "\n");
-        newString.append("Owners last name: " + this.ownerLastName + "\n");
         newString.append("Owners first name: " + this.ownerFirstName + "\n");
+        newString.append("Owners last name: " + this.ownerLastName + "\n");
         newString.append("Owners email address: " + this.ownerEmail + "\n");
 
         return newString.toString();
