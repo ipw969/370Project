@@ -8,7 +8,10 @@ package volunteeravailability.ui;
 import businessobjects.BusinessObjectList;
 import businessobjects.TimeInterval;
 import businessobjects.Volunteer;
+import java.sql.SQLException;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import volunteeravailability.login.Login;
 import ui.ErrorDisplay;
 
@@ -181,15 +184,19 @@ public class LoginMenu extends javax.swing.JFrame {
         else {
             //initialize login 
             Login login = new Login(nameField.getText(), new String(pswdField.getPassword()));
-            login.sendUsernamePassword();
+            try {
+                login.sendUsernamePassword();
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
             //create main menu with volunteer information if user validated
             if (login.userValidated()) {
-            //TODO: IMPLEMENT
+                System.out.println("Sucessful login -- IMPLEMENT LOAD VOLUNTEER ACTION");
             } 
             else { /*invalid username or password*/
                 ErrorDisplay invalidCredentialsError = new ErrorDisplay(this, "Sorry, you have entered"
                         + "and invalid username and password combination."
-                        + " Please try again!");
+                        + "\nPlease try again!");
                 invalidCredentialsError.setVisible(true);
             }
         }
