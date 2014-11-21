@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  */
 public class SaveVolunteerAction extends BaseAction{
     
+    //volunteerToReplace is the email address of the volunteer that needs to be edited
     private String volunteerToReplace;
     private Volunteer volunteer;
     
@@ -59,7 +60,7 @@ public class SaveVolunteerAction extends BaseAction{
 
         if(!businessObject().isValid())
         {
-            setErrorMessage("Scene Filming Date is not Valid");
+            setErrorMessage("Scene volunteer object is not Valid");
             setWasSuccessful(false);
             return;
         }

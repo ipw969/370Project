@@ -237,6 +237,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="edit"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editVolunteerButtonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="removeVolunteerButton">
                       <Properties>
@@ -298,6 +301,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="remove"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeEquipmentButtonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="sceneComboBox">
                       <Properties>

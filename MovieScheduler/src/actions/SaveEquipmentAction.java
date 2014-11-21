@@ -13,16 +13,36 @@ import java.sql.SQLException;
  * @author johnmason
  */
 public class SaveEquipmentAction extends BaseAction{
-      
+    //volunteerToReplace is the email address of the volunteer that needs to be edited
+    private String equipmentToReplace;      
+    private Equipment equipment;
+    
+
     public SaveEquipmentAction(Database database, Equipment equipment)
     {
         super(database);
+        this.equipment = equipment;
+        setBusinessObject(equipment);
+    }
+    
+    public SaveEquipmentAction(Database database, Equipment equipment, String equipmentToReplace)
+    {
+        super(database);
+        this.equipment = equipment;
+        this.equipmentToReplace = equipmentToReplace;
         setBusinessObject(equipment);
     }
  
      @Override
     protected void runImplementation()
     {
+        database().clearCommandList();
+        if(equipmentToReplace != null)
+        {
+             {      
+            database().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace + "';" );
+        }
+        database().addCommand(buildInsertQueryString());
         if(database() == null)
         {
             setErrorMessage("Database is null");
@@ -32,7 +52,7 @@ public class SaveEquipmentAction extends BaseAction{
 
         if(!businessObject().isValid())
         {
-            setErrorMessage("Equipment is not valid");
+            setErrorMessage("Scene equipment object is not Valid");
             setWasSuccessful(false);
             return;
         }
@@ -70,11 +90,9 @@ public class SaveEquipmentAction extends BaseAction{
                 setWasSuccessful(false);
                 setErrorMessage(ex.getMessage());
             }
+        }  
+    
         }
-       
-        
-    
-    
     
 }    // Private Methods
     

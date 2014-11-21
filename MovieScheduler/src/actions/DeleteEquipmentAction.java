@@ -17,7 +17,7 @@ public class DeleteEquipmentAction extends BaseAction
     /** The constructor for this action
      * 
      * @param database -The database to delete the scene from
-     * @param sceneToDelete -The name of the equipment to delete from the database
+     * @param equipmentToDelete -The name of the equipment to delete from the database
      */
     public DeleteEquipmentAction(Database database, String equipmentToDelete)
     {

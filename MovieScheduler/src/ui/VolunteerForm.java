@@ -28,7 +28,7 @@ public class VolunteerForm extends javax.swing.JFrame {
     BusinessObjectList <TimeInterval> availabilityList = new BusinessObjectList();
     private Database database;
     private Script theScript;
-    
+    private Volunteer volunteerToEdit;
     @Override
     public void setDefaultCloseOperation(int operation) {
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
@@ -42,7 +42,24 @@ public class VolunteerForm extends javax.swing.JFrame {
         this.theScript = theScript;
         initComponents();
     }
-
+    
+    public VolunteerForm(Script theScript, Database database, Volunteer volunteerToEdit) {
+        this.database = database;
+        this.theScript = theScript;
+        this.volunteerToEdit = volunteerToEdit;
+        PopulateFormForEdit(volunteerToEdit);
+        initComponents();
+    }
+    
+    //method to populate the form with previously entered information
+    private void PopulateFormForEdit(Volunteer volunteerToEdit)
+    {
+        fName.setText(volunteerToEdit.getFirstName());
+        lName.setText(volunteerToEdit.getLastName());
+        email.setText(volunteerToEdit.getEmail());
+        phone.setText(volunteerToEdit.getPhone());
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

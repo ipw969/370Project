@@ -5,6 +5,7 @@
  */
 package ui;
 
+import actions.DeleteEquipmentAction;
 import actions.DeleteSceneAction;
 import actions.DeleteVolunteerAction;
 import businessobjects.Equipment;
@@ -26,8 +27,7 @@ import javax.swing.JOptionPane;
  *
  * @author iain
  */
-public class MainMenu extends javax.swing.JFrame
-{
+public class MainMenu extends javax.swing.JFrame {
 
     private final Script theScript;
     private final Database database;
@@ -38,8 +38,7 @@ public class MainMenu extends javax.swing.JFrame
      * @param database
      * @throws SQLException
      */
-    public MainMenu(Script theScript, Database database)
-    {
+    public MainMenu(Script theScript, Database database) {
         initComponents();
         this.database = database;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,41 +49,32 @@ public class MainMenu extends javax.swing.JFrame
 
         //   theScript.addVolunteer(new Volunteer("kyle", "west", "raeagaeg", "phonenumber"));
         volunteerComboBox.removeAllItems();
-        if (theScript.hasVolunteers())
-        {
+        if (theScript.hasVolunteers()) {
 
             Iterator<Volunteer> iter = theScript.volunteerIterator();
-            while (iter.hasNext())
-            {
+            while (iter.hasNext()) {
                 volunteerComboBox.addItem(iter.next());
             }
 
-        } else
-        {
+        } else {
             String noVolunteers;
             noVolunteers = "No volunteers currently in script";
             volunteerComboBox.addItem(noVolunteers);
         }
-        
+
         sceneComboBox.removeAllItems();
-        if (theScript.hasScenes())
-        {
+        if (theScript.hasScenes()) {
             Iterator<Scene> iter = theScript.sceneIterator();
-            while (iter.hasNext())
-            {
+            while (iter.hasNext()) {
                 sceneComboBox.addItem(iter.next());
             }
-        }
-        else
-        {
+        } else {
             volunteerComboBox.addItem(new String("There are no scenes in the script"));
         }
-        
+
         equipmentComboBox.removeAllItems();
-        if (theScript.hasEquipment())
-        {
-            for (Equipment equipmentToAdd: theScript.equipment())
-            {
+        if (theScript.hasEquipment()) {
+            for (Equipment equipmentToAdd : theScript.equipment()) {
                 equipmentComboBox.addItem(equipmentToAdd);
             }
         }
@@ -147,6 +137,11 @@ public class MainMenu extends javax.swing.JFrame
         });
 
         editVolunteerButton.setText("edit");
+        editVolunteerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editVolunteerButtonActionPerformed(evt);
+            }
+        });
 
         removeVolunteerButton.setText("remove");
         removeVolunteerButton.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +176,11 @@ public class MainMenu extends javax.swing.JFrame
         editEquipmentButton.setText("edit");
 
         removeEquipmentButton.setText("remove");
+        removeEquipmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeEquipmentButtonActionPerformed(evt);
+            }
+        });
 
         sceneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         sceneComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -314,7 +314,7 @@ public class MainMenu extends javax.swing.JFrame
             scriptTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scriptTabPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scriptContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 485, Short.MAX_VALUE)
+                .addComponent(scriptContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -372,20 +372,17 @@ public class MainMenu extends javax.swing.JFrame
         Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
         DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.name());
         deleteSelectedScene.run();
-        if (deleteSelectedScene.wasSuccessful())
-        {
+        if (deleteSelectedScene.wasSuccessful()) {
             theScript.removeScene(sceneToDelete);
             sceneComboBox.removeItem(sceneToDelete);
-        }
-        else
-        {
+        } else {
             ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
         }
     }//GEN-LAST:event_removeSceneButtonActionPerformed
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
         try {
-            SceneMenu newSceneMenu = new SceneMenu(this, database,theScript, (Scene) sceneComboBox.getSelectedItem());
+            SceneMenu newSceneMenu = new SceneMenu(this, database, theScript, (Scene) sceneComboBox.getSelectedItem());
             newSceneMenu.setVisible(true);
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -402,8 +399,7 @@ public class MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_addSceneButtonActionPerformed
 
     private void sceneComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sceneComboBoxActionPerformed
-        if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene))
-        {
+        if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene)) {
             Scene selectedScene = (Scene) sceneComboBox.getSelectedItem();
             toString.setText(selectedScene.toString());
             toDescriptiveString.setText(selectedScene.toDescriptiveString());
@@ -420,8 +416,7 @@ public class MainMenu extends javax.swing.JFrame
 
     private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
 
-        if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer))
-        {
+        if (volunteerComboBox.getSelectedItem() != null && (volunteerComboBox.getSelectedItem() instanceof Volunteer)) {
             toString.setText(((Volunteer) volunteerComboBox.getSelectedItem()).toString());
             toDescriptiveString.setText(((Volunteer) volunteerComboBox.getSelectedItem()).toDescriptiveString());
         }
@@ -440,9 +435,8 @@ public class MainMenu extends javax.swing.JFrame
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     private void equipmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipmentComboBoxActionPerformed
-        
-        if (equipmentComboBox.getSelectedItem() != null && (equipmentComboBox.getSelectedItem() instanceof Equipment))
-        {
+
+        if (equipmentComboBox.getSelectedItem() != null && (equipmentComboBox.getSelectedItem() instanceof Equipment)) {
             toString.setText(((Equipment) equipmentComboBox.getSelectedItem()).toString());
             toDescriptiveString.setText(((Equipment) equipmentComboBox.getSelectedItem()).toDescriptiveString());
         }
@@ -452,46 +446,59 @@ public class MainMenu extends javax.swing.JFrame
         Volunteer volunteerToDelete = (Volunteer) volunteerComboBox.getSelectedItem();
         DeleteVolunteerAction deleteSelectedvolunteer = new DeleteVolunteerAction(database, volunteerToDelete.getEmail());
         deleteSelectedvolunteer.run();
-        if (deleteSelectedvolunteer.wasSuccessful())
-        {
+        if (deleteSelectedvolunteer.wasSuccessful()) {
             theScript.removeVolunteer(volunteerToDelete);
-            sceneComboBox.removeItem(volunteerToDelete);
             volunteerComboBox.removeItem((Volunteer) volunteerComboBox.getSelectedItem());
-        }
-        else
-        {
+            volunteerComboBox.removeItem(volunteerToDelete);
+            toString.setText(null);
+            toDescriptiveString.setText(null);
+
+        } else {
             ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove volunteer action failed.");
         }    }//GEN-LAST:event_removeVolunteerButtonActionPerformed
+
+    private void removeEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEquipmentButtonActionPerformed
+        Equipment equipmentToDelete = (Equipment) equipmentComboBox.getSelectedItem();
+        DeleteEquipmentAction deleteSelectedEquipment = new DeleteEquipmentAction(database, equipmentToDelete.getOwnerEmail());
+        deleteSelectedEquipment.run();
+        if (deleteSelectedEquipment.wasSuccessful()) {
+            theScript.removeEquipment(equipmentToDelete);
+            equipmentComboBox.removeItem((Equipment) equipmentComboBox.getSelectedItem());
+            equipmentComboBox.removeItem(equipmentToDelete);
+            toString.setText(null);
+            toDescriptiveString.setText(null);
+        } else {
+            ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove equipment action failed.");
+        }    }//GEN-LAST:event_removeEquipmentButtonActionPerformed
+
+    private void editVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVolunteerButtonActionPerformed
+        
+            VolunteerForm newVolunteerForm = new VolunteerForm(theScript, database, (Volunteer) volunteerComboBox.getSelectedItem());
+            newVolunteerForm.setVisible(true);
+            }//GEN-LAST:event_editVolunteerButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
                     Class.forName("org.postgresql.Driver");
-                } catch (ClassNotFoundException ex)
-                {
+                } catch (ClassNotFoundException ex) {
                     System.out.println("Could not load database driver with "
                             + "message: " + ex.toString());
                     return;
                 }
 
                 JdbcDatabase testDatabase = null;
-                try
-                {
+                try {
                     testDatabase = new JdbcDatabase(
                             "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
                             "cmpt370_group06",
                             "Raptorjesusisawesome55775");
-                } catch (SQLException ex)
-                {
+                } catch (SQLException ex) {
                     System.out.println("Failed to connection to db with message: "
                             + ex.getMessage());
                     return;
