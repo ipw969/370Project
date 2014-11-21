@@ -5,6 +5,7 @@
  */
 package ui;
 
+import businessobjects.Scene;
 import javax.swing.JOptionPane;
 import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
@@ -20,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
-
 
 /**
  *
@@ -162,6 +162,11 @@ public class ConflictResolution extends javax.swing.JFrame {
                 conflictContactAllButtonMouseClicked(evt);
             }
         });
+        conflictContactAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conflictContactAllButtonActionPerformed(evt);
+            }
+        });
 
         conflictCancel.setText("Cancel");
         conflictCancel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -283,79 +288,81 @@ public class ConflictResolution extends javax.swing.JFrame {
      * @return a boolean confirming the success of the email
      */
     private boolean sendEmails() {
-        SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
-        if( selectedFilmSceneTime == null)
-        {
-            JOptionPane.showConfirmDialog(this, "Please select a scene!");
-            sendEmails();
-            return true;
-        }
-        Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
-
-        //String emailList = "";
-        String emailList = "cmpt370.06@gmail.com,achievatronunlimited@gmail.com,";
-        // Comma separated list of emails for the below code
-        while (volunteerIter.hasNext()) {
-            Volunteer currentVolunteer = volunteerIter.next();
-            emailList = emailList + currentVolunteer.getEmail() + ",";
-        }
-        System.out.println(emailList);
-
-        /* 
-         * The following code is modified for use here from
-         * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
-         */
-        final String username = JOptionPane.showInputDialog(this, "Please enter your gmail");
-        final String password = showPasswordDialog();
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-        try {
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(emailList));
-            message.setSubject("Filming Conflict");
-            String conflictMessage = "Hello team. We are unable to schedule a scene "
-                    + "due to scheduling conflicts. Please see the information about "
-                    + "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
-                    + " And the reason for conflict: "
-                    + selectedFilmSceneTime.getReasonList().toString();
-
-            message.setText(conflictMessage);
-
-            Transport.send(message);
-            return true;
-
-        } catch (MessagingException e) {
-            System.out.println(e.getMessage());
-            Object[] options = {"Try again",
-                "Show Emails",
-                "Cancel"};
-
-            int choice = JOptionPane.showOptionDialog(this, "An error has occured "
-                    + "in sending your message. What would you like to do?", "Error",
-                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                    null, options, options[2]);
-            if (choice == 0) {
-                sendEmails();
+        if (!(((Scene) conflictSceneListView.getSelectedValue().scene()).hasVolunteers())) {
+            JOptionPane.showConfirmDialog(this, "This scene has no volunteers associated with it.");
+        } else {
+            SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
+            if (selectedFilmSceneTime == null) {
+                JOptionPane.showConfirmDialog(this, "Please select a scene!");
                 return true;
             }
-            if (choice == 1) {
-                showEmails(emailList);
-                return false;
+            Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
+
+            //String emailList = "";
+            String emailList = "cmpt370.06@gmail.com,achievatronunlimited@gmail.com,";
+            // Comma separated list of emails for the below code
+            while (volunteerIter.hasNext()) {
+                Volunteer currentVolunteer = volunteerIter.next();
+                emailList = emailList + currentVolunteer.getEmail() + ",";
             }
-            //choice == 2 isn't needed since it's defined as the cancel op
+            System.out.println(emailList);
+
+            /* 
+             * The following code is modified for use here from
+             * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
+             */
+            final String username = JOptionPane.showInputDialog(this, "Please enter your gmail");
+            final String password = showPasswordDialog();
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            Session session = Session.getInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+
+            try {
+
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(username));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(emailList));
+                message.setSubject("Filming Conflict");
+                String conflictMessage = "Hello team. We are unable to schedule a scene "
+                        + "due to scheduling conflicts. Please see the information about "
+                        + "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
+                        + " And the reason for conflict: "
+                        + selectedFilmSceneTime.getReasonList().toString();
+
+                message.setText(conflictMessage);
+
+                Transport.send(message);
+                return true;
+
+            } catch (MessagingException e) {
+                System.out.println(e.getMessage());
+                Object[] options = {"Try again",
+                    "Show Emails",
+                    "Cancel"};
+
+                int choice = JOptionPane.showOptionDialog(this, "An error has occured "
+                        + "in sending your message. What would you like to do?", "Error",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        null, options, options[2]);
+                if (choice == 0) {
+                    sendEmails();
+                    return true;
+                }
+                if (choice == 1) {
+                    showEmails(emailList);
+                    return false;
+                }
+                //choice == 2 isn't needed since it's defined as the cancel op
+            }
         }
 
         return false;
@@ -388,6 +395,10 @@ public class ConflictResolution extends javax.swing.JFrame {
     private void conflictCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictCancelMouseClicked
         this.dispose();
     }//GEN-LAST:event_conflictCancelMouseClicked
+
+    private void conflictContactAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conflictContactAllButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_conflictContactAllButtonActionPerformed
 
     private Boolean ignoreCurrentConflict() {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();

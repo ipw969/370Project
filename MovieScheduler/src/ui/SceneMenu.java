@@ -478,6 +478,7 @@ public class SceneMenu extends javax.swing.JDialog {
             newSceneMenu = new SceneMenu(parent, database, script, originalScene);
 
             newSceneMenu.setVisible(true);
+            this.dispose();
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException("Refresh of the SceneMenu failed.");
         }
