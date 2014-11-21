@@ -134,13 +134,16 @@ public class CalendarMonth extends javax.swing.JPanel
                 {
                     currentCalendarDay.filmingDates().add(alteredFilmingDate);
                 }
+                SceneFilmingDate filmingDateToDelete = null;
                 for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
                 {
                     if (currentDayFilmingDate.scene().name().compareTo(alteredFilmingDate.scene().name()) == 0)
                     {
-                        currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
+                        filmingDateToDelete = currentDayFilmingDate;
                     }
                 }
+                if(filmingDateToDelete != null)
+                    currentCalendarDay.filmingDates().remove(filmingDateToDelete);
             }
         }
 

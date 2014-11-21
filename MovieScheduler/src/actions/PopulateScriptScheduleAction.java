@@ -117,6 +117,8 @@ public class PopulateScriptScheduleAction extends BaseAction {
                             currentFilmingDate.setSceneShootingInterval(
                                 new TimeInterval(startCalendar, endCalendar));
                             currentFilmingDate.setScene(currentScene);
+                            currentFilmingDate.setIsNew(false);
+                            currentFilmingDate.setHasChanged(false);
                         }
                     }
                     if(currentFilmingDate != null)
@@ -131,7 +133,6 @@ public class PopulateScriptScheduleAction extends BaseAction {
             if(selectResults != null)
                 selectResults.close();
         }
-        
         return returnSchedule;
     }
     

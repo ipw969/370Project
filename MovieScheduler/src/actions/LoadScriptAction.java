@@ -99,6 +99,7 @@ public class LoadScriptAction extends BaseAction
                 String scriptName = selectResults.getString(1);
                 //String scriptSynopsis = selectResults.getString(1);
                 returnScript = new Script(scriptName);
+                returnScript.setIsNew(false);
             }
         } catch (SQLException ex)
         {

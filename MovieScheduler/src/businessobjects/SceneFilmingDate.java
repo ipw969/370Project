@@ -264,19 +264,15 @@ public class SceneFilmingDate extends BaseBusinessObject
      */
     @Override
     public BaseBusinessObject clone() {
-        SceneFilmingDate clonedItem = new SceneFilmingDate();
-
-        //Clone has to contain a reference to the same scene:
-        clonedItem.setScene(scene);
-
-        GregorianCalendar start
-                = (GregorianCalendar) this.sceneShootingInterval.start().clone();
-        GregorianCalendar end
-                = (GregorianCalendar) this.sceneShootingInterval.end().clone();
-
-        clonedItem.setSceneShootingInterval(new TimeInterval(start, end));
-        clonedItem.setHasChanged(false);
-        return clonedItem;
+       try{
+           SceneFilmingDate other = (SceneFilmingDate)super.clone();
+           other.sceneShootingInterval = (TimeInterval)this.sceneShootingInterval().clone();
+           return other;
+       }catch (CloneNotSupportedException e)
+       {
+           throw new RuntimeException("Cannot clone type SceneFilmingDate");
+       }
+       
     }
 
 }

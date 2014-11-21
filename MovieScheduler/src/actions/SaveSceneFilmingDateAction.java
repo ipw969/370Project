@@ -112,15 +112,15 @@ public class SaveSceneFilmingDateAction extends BaseAction {
     {
         String returnString = 
                 "UPDATE t_schedule "
-                + "SET"
+                + "SET "
                 + "sch_scheduledatetime_start = '" + sceneFilmingDate().sceneShootingInterval().startIsoDate() + "', "
-                + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endIsoDate() + "', "
+                + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endIsoDate() + "' "
                 + "WHERE "
                 + "( sch_scenename = '" + sceneFilmingDate().scene().name() + "');";
         
         return returnString;
     }
-    
+      
     /**
      * Creates an SQL INSERT string for the current SceneSchedule
      * @return An SQL INSERT string for the current SceneSchedule
