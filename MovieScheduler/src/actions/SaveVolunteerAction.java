@@ -18,16 +18,36 @@ import database.JdbcDatabase;
  */
 public class SaveVolunteerAction extends BaseAction{
     
+    private String volunteerToReplace;
+    private Volunteer volunteer;
+    
+    public SaveVolunteerAction(Database database, Volunteer volunteer, String volunteerToReplace)
+    {
+        super(database);
+        this.volunteerToReplace = volunteerToReplace;
+        this.volunteer = volunteer;
+        setBusinessObject(volunteer);
+    }
     
     public SaveVolunteerAction(Database database, Volunteer volunteer)
     {
         super(database);
+        this.volunteer = volunteer;
         setBusinessObject(volunteer);
     }
  
      @Override
     protected void runImplementation()
     {
+
+        database().clearCommandList();
+        if (volunteerToReplace != null)
+        {      
+            database().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToReplace + "';" );
+            database().addCommand("delete from t_volunteeravailability where vov_emailaddress_volunteer = '" + volunteerToReplace + "';" );
+            database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToReplace + "';" );
+        }
+        database().addCommand(buildInsertQueryString());
         if(database() == null)
         {
             setErrorMessage("Database is null");
@@ -90,17 +110,17 @@ public class SaveVolunteerAction extends BaseAction{
     private String buildInsertQueryString()
     {
         String returnString = 
-                "INSERT into t_volunteer"
-                + "(vol_emailaddress, "
+                "INSERT into t_volunteer("
+                + "vol_emailaddress,"
                 + "vol_firstname,"
                 + "vol_surname,"
                 + "vol_phone )" 
-                + "VALUES "
-                + "('" + volunteer().getEmail() + "','"
+                + "VALUES ('"
+                + volunteer().getEmail() + "','"
                 + volunteer().getFirstName() + "','"
                 + volunteer().getLastName()+ "','"
                 + volunteer().getPhone() + "');";
-        
+                
         return returnString;
 
     }
@@ -118,6 +138,38 @@ public class SaveVolunteerAction extends BaseAction{
                 + "(vol_emailaddress = '" + volunteer().getEmail() + "')";
         return returnString;
     }
+    
+    public void buildInsertAvailabilityString()
+    {
+        database().addCommand("delete from t_volunteeravailablility where vol_emailaddress = '" + volunteer.getEmail() + "';" );
+
+        
+        for (TimeInterval currAvail: volunteer.getAvailability())
+        {
+                database().addCommand(
+                "INSERT into t_volunteeravailability("
+                + "vav_emailaddress_volunteer,"
+                + "vav_availability_start," 
+                + "vav_availability_end)"
+                  
+                + "VALUES(" 
+                + volunteer.getEmail() + "','"
+                + currAvail.startIsoDate() + "','"
+                + currAvail.endIsoDate() + "');");
+        }
+    }          
+        /*
+        String returnString =
+                "INSERT into t_volunteeravailability("
+                + "vav_emailaddress_volunteer = '" + volunteer().getAvailability() + "',"
+                + "vav_availability_start," + 
+                + "vav_availability_end)"
+        
+                + "WHERE "
+                + "(vav_emailaddress_volunteer = '" + volunteer().getEmail() + "')";
+        return returnString;
+        */
+        
         /*
     
         todo: 

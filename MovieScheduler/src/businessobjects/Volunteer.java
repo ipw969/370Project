@@ -46,6 +46,10 @@ public class Volunteer extends BaseBusinessObject
         setHasChanged(true);
     }
     
+    private void setAvailability(BusinessObjectList <TimeInterval> availabilityList)
+    {
+        this.availability = availabilityList;
+    }
     public void setFirstName(String name)
     {
         this.firstName = name;
@@ -122,6 +126,13 @@ public class Volunteer extends BaseBusinessObject
        cloneVolunteer.setEmail(this.getEmail());
        cloneVolunteer.setPhone(this.getPhone());
        
+       cloneVolunteer.setAvailability(new BusinessObjectList<TimeInterval>());
+       Iterator<TimeInterval> iter = cloneVolunteer.getAvailability().iterator();
+       while(iter.hasNext())
+       {
+           TimeInterval time = iter.next();
+           cloneVolunteer.addAvailability((TimeInterval)time.clone());
+       }
        return cloneVolunteer;
     }
 
