@@ -33,11 +33,9 @@ public class ConflictResolution extends javax.swing.JFrame {
                     + "ConflictResolution");
         }
         this.script = script;
-        conflictSceneListView = new BusinessObjectListView<>(script.getSchedule().getScheduleConflicts());
-
-        conflictSceneScrollPane.setViewportView(conflictSceneListView);
+        refreshScenes();
         this.setVisible(true);
-
+        //adding a mouse listener to load the confilct information
         conflictSceneListView.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 int indexUnderPointer
@@ -68,6 +66,14 @@ public class ConflictResolution extends javax.swing.JFrame {
 
     ConflictResolution() {
         throw new UnsupportedOperationException("Unsupported without script"); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * A function to refresh the scroll pane that shows the scenes in conflict
+     */
+    private void refreshScenes(){
+        conflictSceneListView = new BusinessObjectListView<>(script.getSchedule().getScheduleConflicts());
+        conflictSceneScrollPane.setViewportView(conflictSceneListView);
     }
 
     /**
@@ -256,7 +262,8 @@ public class ConflictResolution extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION);
         if (ignoreResult == 1) {
         } else {
-            JOptionPane.showConfirmDialog(this, "Ignore executed: " + ignoreCurrentConflict().toString());
+            JOptionPane.showMessageDialog( this, "Ignore executed: " + ignoreCurrentConflict().toString());
+            refreshScenes();
         }
 
     }//GEN-LAST:event_conflictIgnoreButtonMouseClicked
@@ -292,8 +299,7 @@ public class ConflictResolution extends javax.swing.JFrame {
             }
             Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.getScene().volunteerIterator();
 
-            //String emailList = "";
-            String emailList = "cmpt370.06@gmail.com,achievatronunlimited@gmail.com,";
+            String emailList = "";
             // Comma separated list of emails for the below code
             while (volunteerIter.hasNext()) {
                 Volunteer currentVolunteer = volunteerIter.next();
@@ -305,7 +311,8 @@ public class ConflictResolution extends javax.swing.JFrame {
              * The following code is modified for use here from
              * http://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
              */
-            final String username = JOptionPane.showInputDialog(this, "Please enter your gmail");
+            final String username = JOptionPane.showInputDialog(this,
+                    "Please enter your gmail.");
             final String password = showPasswordDialog();
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -362,10 +369,18 @@ public class ConflictResolution extends javax.swing.JFrame {
         return false;
     }
 
+    /**
+     * A function to show the user the list of emails so they can copy it.
+     * @param emailList 
+     */
     private void showEmails(String emailList) {
         JOptionPane.showMessageDialog(null, new JTextArea(emailList));
     }
-
+    
+    /**
+     * A function to show a dialog to take in the password securely.
+     * @return a string containing the password. 
+     */
     private String showPasswordDialog() {
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Enter a password:");
@@ -375,7 +390,7 @@ public class ConflictResolution extends javax.swing.JFrame {
         String[] options = new String[]{"OK", "Cancel"};
         int option = JOptionPane.showOptionDialog(null, panel, "Password",
                 JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, options, options[1]);
+                null, options, options[0]);
         System.out.println(option);
         if (option == 0) // pressing OK button
         {
