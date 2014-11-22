@@ -328,7 +328,6 @@ public class VolunteerForm extends javax.swing.JFrame {
             
             //create a query to the database that will send the volunteer and their availability there
             SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, volunteer);
-            saveVolunteerAction.getInsertAvailabilityString();
             saveVolunteerAction.run();
             
             //check to see if the volunteer was successfully added to the database
