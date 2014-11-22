@@ -6,12 +6,13 @@ import businessobjects.Script;
 import businessobjects.Volunteer;
 import database.Database;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 /**
- * @author ryan This action is used to save the given scene to the database.
- * This includes all information regarding the scene as well as all of the
- * volunteers and equipment associated with it.
+ * This action is used to save the given scene to the database. This includes
+ * all information regarding the scene as well as all of the volunteers and
+ * equipment associated with it.
+ *
+ * @author Ryan Laforge
  */
 public class SaveSceneAction extends BaseAction {
 
@@ -26,6 +27,7 @@ public class SaveSceneAction extends BaseAction {
 
     /**
      * The constructor for the saveSceneAction.
+     *
      * @precon A connection must have been established with the database.
      * @param database -The database that contains all of the information for
      * this project.
@@ -44,6 +46,7 @@ public class SaveSceneAction extends BaseAction {
 
     /**
      * This will save the scene to the database.
+     *
      * @precon The script that was given must not be null.
      * @postcon wasSuccessful is set to true if the scene was successfully
      * saved. wasSuccessful is set to false if the scene wasn't successfully

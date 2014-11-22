@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package actions;
 import database.Database;
 import businessobjects.SceneFilmingDate;
@@ -16,6 +11,7 @@ import database.JdbcDatabase;
  *
  * A class which performs the action of saving a scene filming date to the 
  * database
+ * @author Iain Workman
  */
 public class SaveSceneFilmingDateAction extends BaseAction {
     
@@ -49,7 +45,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
             setWasSuccessful(false);
             return;
         }
-        if(sceneFilmingDate() == null)
+        if(getSceneFilmingDate() == null)
         {
             setErrorMessage("Scene Filming Date is null");
             setWasSuccessful(false);
@@ -65,17 +61,17 @@ public class SaveSceneFilmingDateAction extends BaseAction {
         
         String queryString;
         
-        if(sceneFilmingDate().isNew())
+        if(getSceneFilmingDate().isNew())
         {
-            queryString = buildInsertQueryString();
+            queryString = getInsertQueryString();
             
             try
             {
                 getDatabase().executeInsert(queryString);
                 setWasSuccessful(true);
-                sceneFilmingDate().setHasChanged(false);
-                sceneFilmingDate().sceneShootingInterval().setHasChanged(false);
-                sceneFilmingDate().setIsNew(false);
+                getSceneFilmingDate().setHasChanged(false);
+                getSceneFilmingDate().sceneShootingInterval().setHasChanged(false);
+                getSceneFilmingDate().setIsNew(false);
                
             }
             catch(SQLException ex)
@@ -86,14 +82,14 @@ public class SaveSceneFilmingDateAction extends BaseAction {
         }
         else
         {
-            queryString = buildUpdateQueryString();
+            queryString = getUpdateQueryString();
             
             try
             {
                 getDatabase().executeUpdate(queryString);
                 setWasSuccessful(true);
-                sceneFilmingDate().setHasChanged(false);
-                sceneFilmingDate().sceneShootingInterval().setHasChanged(false);
+                getSceneFilmingDate().setHasChanged(false);
+                getSceneFilmingDate().sceneShootingInterval().setHasChanged(false);
             }
             catch(SQLException ex)
             {
@@ -111,15 +107,15 @@ public class SaveSceneFilmingDateAction extends BaseAction {
      * Creates an SQL UPDATE string for the current SceneSchedule
      * @return An SQL UPDATE string for the current SceneSchedule
      */
-    private String buildUpdateQueryString()
+    private String getUpdateQueryString()
     {
         String returnString = 
                 "UPDATE t_schedule "
                 + "SET "
-                + "sch_scheduledatetime_start = '" + sceneFilmingDate().sceneShootingInterval().startIsoDate() + "', "
-                + "sch_scheduledatetime_end = '" + sceneFilmingDate().sceneShootingInterval().endIsoDate() + "' "
+                + "sch_scheduledatetime_start = '" + getSceneFilmingDate().sceneShootingInterval().startIsoDate() + "', "
+                + "sch_scheduledatetime_end = '" + getSceneFilmingDate().sceneShootingInterval().endIsoDate() + "' "
                 + "WHERE "
-                + "( sch_scenename = '" + sceneFilmingDate().scene().getName() + "');";
+                + "( sch_scenename = '" + getSceneFilmingDate().scene().getName() + "');";
         
         return returnString;
     }
@@ -128,7 +124,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
      * Creates an SQL INSERT string for the current SceneSchedule
      * @return An SQL INSERT string for the current SceneSchedule
      */
-    private String buildInsertQueryString()
+    private String getInsertQueryString()
     {
         
         String returnString = 
@@ -137,9 +133,9 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 + "sch_scheduledatetime_end, "
                 + "sch_scenename ) "
                 + "VALUES "
-                + "('" + sceneFilmingDate().sceneShootingInterval().startIsoDate()
-                + "', '" + sceneFilmingDate().sceneShootingInterval().endIsoDate()
-                + "', '" + sceneFilmingDate().scene().getName() + "');";
+                + "('" + getSceneFilmingDate().sceneShootingInterval().startIsoDate()
+                + "', '" + getSceneFilmingDate().sceneShootingInterval().endIsoDate()
+                + "', '" + getSceneFilmingDate().scene().getName() + "');";
         
         return returnString;
     }
@@ -148,7 +144,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
      * Returns the SceneFilmingDate associated with this action
      * @return The SceneFilmingDate associated with this action
      */
-    private SceneFilmingDate sceneFilmingDate()
+    private SceneFilmingDate getSceneFilmingDate()
     {
         if(getBusinessObject() == null)
             return null;
