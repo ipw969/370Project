@@ -9,8 +9,7 @@ import java.sql.SQLException;
  * A class which represents an action to load all the data from the database
  * into a script object
  */
-public class LoadScriptAction extends BaseAction
-{
+public class LoadScriptAction extends BaseAction {
 
     // Constructor
     /**
@@ -19,8 +18,7 @@ public class LoadScriptAction extends BaseAction
      *
      * @param database::Database ~ The Database on which to perform the Action.
      */
-    public LoadScriptAction(Database database)
-    {
+    public LoadScriptAction(Database database) {
         super(database);
     }
 
@@ -34,39 +32,31 @@ public class LoadScriptAction extends BaseAction
      * database contained no script
      */
     @Override
-    protected void runImplementation()
-    {
+    protected void runImplementation() {
         Script loadedScript = null;
         boolean totalSuccess = false;
-        try
-        {
+        try {
             loadedScript = loadBasicScriptFromDatabase();
             totalSuccess = true;
 
-            if (loadedScript != null)
-            {
-                if (totalSuccess)
-                {
+            if (loadedScript != null) {
+                if (totalSuccess) {
                     totalSuccess &= populateVolunteers(loadedScript);
                 }
 
-                if (totalSuccess)
-                {
+                if (totalSuccess) {
                     totalSuccess &= populateEquipment(loadedScript);
                 }
 
-                if (totalSuccess)
-                {
+                if (totalSuccess) {
                     totalSuccess &= populateScenes(loadedScript);
                 }
 
-                if (totalSuccess)
-                {
+                if (totalSuccess) {
                     totalSuccess &= populateSchedule(loadedScript);
                 }
             }
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             setErrorMessage(ex.getMessage());
         }
 
@@ -81,8 +71,7 @@ public class LoadScriptAction extends BaseAction
      * @return The Script loaded from the database
      * @throws SQLException
      */
-    private Script loadBasicScriptFromDatabase() throws SQLException
-    {
+    private Script loadBasicScriptFromDatabase() throws SQLException {
         String selectScriptQuery
                 = "SELECT "
                 + "sct_scriptname, sct_scriptsynopsis "
@@ -90,38 +79,31 @@ public class LoadScriptAction extends BaseAction
 
         Script returnScript = null;
         ResultSet selectResults = null;
-        try
-        {
+        try {
             selectResults = getDatabase().executeSelect(selectScriptQuery);
 
-            while (selectResults.next())
-            {
+            while (selectResults.next()) {
                 String scriptName = selectResults.getString(1);
                 //String scriptSynopsis = selectResults.getString(1);
                 returnScript = new Script(scriptName);
                 returnScript.setIsNew(false);
             }
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw ex;
-        } finally
-        {
-            if (selectResults != null)
-            {
+        } finally {
+            if (selectResults != null) {
                 selectResults.close();
             }
         }
         return returnScript;
     }
 
-    private boolean populateVolunteers(Script script)
-    {
+    private boolean populateVolunteers(Script script) {
         PopulateScriptVolunteersAction populateVolunteersAction
                 = new PopulateScriptVolunteersAction(getDatabase(), script);
 
         populateVolunteersAction.run();
-        if (!populateVolunteersAction.wasSuccessful())
-        {
+        if (!populateVolunteersAction.wasSuccessful()) {
             setErrorMessage("Error populating volunteers into script: "
                     + populateVolunteersAction.lastErrorMessage());
         }
@@ -129,14 +111,12 @@ public class LoadScriptAction extends BaseAction
         return populateVolunteersAction.wasSuccessful();
     }
 
-    private boolean populateEquipment(Script script)
-    {
+    private boolean populateEquipment(Script script) {
         PopulateScriptEquipmentAction populateEquipmentAction
                 = new PopulateScriptEquipmentAction(getDatabase(), script);
 
         populateEquipmentAction.run();
-        if (!populateEquipmentAction.wasSuccessful())
-        {
+        if (!populateEquipmentAction.wasSuccessful()) {
             setErrorMessage("Error populating equipment into script: "
                     + populateEquipmentAction.lastErrorMessage());
         }
@@ -144,14 +124,12 @@ public class LoadScriptAction extends BaseAction
         return populateEquipmentAction.wasSuccessful();
     }
 
-    private boolean populateScenes(Script script)
-    {
+    private boolean populateScenes(Script script) {
         PopulateScriptScenesAction populateScenesAction
                 = new PopulateScriptScenesAction(getDatabase(), script);
 
         populateScenesAction.run();
-        if (!populateScenesAction.wasSuccessful())
-        {
+        if (!populateScenesAction.wasSuccessful()) {
             setErrorMessage("Error populating scenes into script: "
                     + populateScenesAction.lastErrorMessage());
         }
@@ -159,14 +137,12 @@ public class LoadScriptAction extends BaseAction
         return populateScenesAction.wasSuccessful();
     }
 
-    private boolean populateSchedule(Script script)
-    {
+    private boolean populateSchedule(Script script) {
         PopulateScriptScheduleAction populateScheduleAction
                 = new PopulateScriptScheduleAction(getDatabase(), script);
 
         populateScheduleAction.run();
-        if (!populateScheduleAction.wasSuccessful())
-        {
+        if (!populateScheduleAction.wasSuccessful()) {
             setErrorMessage("Error populating schedule into script: "
                     + populateScheduleAction.lastErrorMessage());
         }
