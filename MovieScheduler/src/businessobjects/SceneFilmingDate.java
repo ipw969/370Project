@@ -2,7 +2,6 @@ package businessobjects;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 /**
  * Class which represents the time interval that a scene is scheduled to filmed
@@ -253,6 +252,7 @@ public class SceneFilmingDate extends BaseBusinessObject
         super.merge(mergeObject);
         SceneFilmingDate otherFilmingDate = (SceneFilmingDate) mergeObject;
         this.setSceneShootingInterval(otherFilmingDate.sceneShootingInterval());
+        setHasChanged(false);
     }
 
     /**
@@ -261,17 +261,16 @@ public class SceneFilmingDate extends BaseBusinessObject
      * with a newly cloned TimeInterval
      *
      * @return A clone of the current SceneFilmingDate.
+     * @throws java.lang.CloneNotSupportedException
      */
     @Override
-    public BaseBusinessObject clone() {
-       try{
-           SceneFilmingDate other = (SceneFilmingDate)super.clone();
-           other.sceneShootingInterval = (TimeInterval)this.sceneShootingInterval().clone();
-           return other;
-       }catch (CloneNotSupportedException e)
-       {
-           throw new RuntimeException("Cannot clone type SceneFilmingDate");
-       }
+    public BaseBusinessObject clone() throws CloneNotSupportedException {
+       
+        SceneFilmingDate other = (SceneFilmingDate)super.clone();
+        other.sceneShootingInterval = (TimeInterval)this.sceneShootingInterval().clone();
+        other.sceneShootingInterval.addListener(other);
+        return other;
+       
        
     }
 

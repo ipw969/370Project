@@ -223,7 +223,7 @@ public abstract class BaseBusinessObject implements Cloneable{
             other.errorMessages = (HashSet<String>)errorMessages.clone();
             other.isNew = isNew;
             other.hasChanged = hasChanged;
-            listeners = new ArrayList<>();
+            other.listeners = new ArrayList<>();
             return other;
         }
         catch(CloneNotSupportedException e)
@@ -242,8 +242,10 @@ public abstract class BaseBusinessObject implements Cloneable{
             throw new RuntimeException("Cannot merge in a null object");
         
         errorMessages = mergeObject.errorMessages;
+        this.isNew = mergeObject.isNew;
         //Need to clear the listeners to mergeObject
         mergeObject.listeners.clear();
+        
     }
     
     // Private Methods

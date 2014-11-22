@@ -112,6 +112,7 @@ public class SchedulePanel extends javax.swing.JPanel
                     
                     filmingDate.setSceneShootingInterval(
                         new TimeInterval(start, end));
+                    filmingDate.setHasChanged(false);
                 }
                 
                 EditSceneFilmingDate editFilmingDate = new
