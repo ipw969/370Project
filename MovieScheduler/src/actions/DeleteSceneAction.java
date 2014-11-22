@@ -1,7 +1,5 @@
-
 package actions;
 
-import businessobjects.Scene;
 import database.Database;
 import java.sql.SQLException;
 
@@ -38,6 +36,7 @@ public class DeleteSceneAction extends BaseAction {
 
     /**
      * Deletes the scene from the database.
+     *
      * @postcon The given scene is deleted by the database.
      * @author Ryan
      */
