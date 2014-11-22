@@ -136,18 +136,18 @@ public class BaseBusinessObjectTest {
         
         assertTrue("BaseBusinessObject::errorMessage() test failed: "
                 + "Newly constructed instance doesn't return an empty error"
-                + "message", instance.errorMessage().isEmpty());
+                + "message", instance.getErrorMessage().isEmpty());
         
         // Force add an error
         instance.updateError("TestErrorMessage1", false);
         assertTrue("BaseBusinessObject::errorMessage() test failed: "
                 + "Did not return expected error message for a single error",
-                instance.errorMessage().compareTo("TestErrorMessage1") == 0);
+                instance.getErrorMessage().compareTo("TestErrorMessage1") == 0);
         
         instance.updateError("TestErrorMessage2", false);
         assertTrue("BaseBusinessObject::errorMessage() test failed: "
                 + "Did not return expected error message for two errors",
-                instance.errorMessage().compareTo("TestErrorMessage1\n"
+                instance.getErrorMessage().compareTo("TestErrorMessage1\n"
                         + "TestErrorMessage2") == 0);
         
     }
@@ -207,7 +207,7 @@ public class BaseBusinessObjectTest {
         instance.updateError("TestMessage1", false);
         assertFalse("BaseBusinessObject::updateError() test failed: "
                 + "Duplicated an error message", 
-                instance.errorMessage().compareTo("TestMessage1"
+                instance.getErrorMessage().compareTo("TestMessage1"
                         + "\nTestMessage1") == 0);
         
         instance.updateError("TestMessage1", true);
@@ -220,13 +220,13 @@ public class BaseBusinessObjectTest {
         instance.updateError("TestMessage4", false);
         assertTrue("BaseBusinessObject::updateError() test failed: "
                 + "Did not add two errors properly",
-                instance.errorMessage().compareTo("TestMessage2"
+                instance.getErrorMessage().compareTo("TestMessage2"
                         + "\nTestMessage3\nTestMessage4") == 0);
         
         instance.updateError("TestMessage3", true);
         assertTrue("BaseBusinessObject::updateError() test failed: "
                 + "Did not remove error properly", 
-                instance.errorMessage().compareTo("TestMessage2"
+                instance.getErrorMessage().compareTo("TestMessage2"
                         + "\nTestMessage4") == 0);
         
         

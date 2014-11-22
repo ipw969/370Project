@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 /**
  * A class representing an action to remove a single SceneFilmingDate from the
- * Schedule in the datebase.
+ * Schedule in the database.
  *
  * @author Iain Workman
  */
