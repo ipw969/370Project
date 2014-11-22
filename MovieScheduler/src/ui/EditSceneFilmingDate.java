@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import database.Database;
+import java.awt.event.WindowEvent;
 /**
  *
  * @author iain
@@ -45,12 +46,18 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         this.script = script;
         this.database = database;
         originalFilmingDate = filmingDate;
+        try{
         filmingDateToEdit = (SceneFilmingDate) filmingDate.clone();
+        } catch(CloneNotSupportedException e)
+        {
+            throw new RuntimeException("Error creating Edit Scene Filming Date"
+                    + " Panel: Clone not supported");
+        }
         errorIcon.setVisible(!filmingDateToEdit.isValid());
         errorLabel.setVisible(!filmingDateToEdit.isValid());
         errorIcon.setToolTipText(filmingDateToEdit.errorMessage());
         filmingDateToEdit.addListener(this);
-        filmingDateToEdit.sceneShootingInterval().addListener(this);
+        //filmingDateToEdit.sceneShootingInterval().addListener(this);
         okayButton.setEnabled(false);
         scenesComboBox = new BusinessObjectComboBoxView<>(script.scenes());
         sceneLabel.setText(filmingDateToEdit.scene().getName());
@@ -129,6 +136,51 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         }
     }
     
+    private boolean confirmClose()
+    {
+        if (filmingDateToEdit.hasChanged())
+        {
+            if (filmingDateToEdit.isValid())
+            {
+                int confirm = JOptionPane.showOptionDialog(this,
+                        "Changes have been made, do you wish to save?",
+                        "Save Changes?",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, null, null);
+                
+                if (confirm == JOptionPane.YES_OPTION)
+                {
+                    save();
+                    return true;
+                } else if (confirm == JOptionPane.NO_OPTION)
+                {
+                    return true;
+                }
+            } else
+            {
+                int confirm = JOptionPane.showOptionDialog(
+                        this,
+                        "Changes have been made, but cannot be saved because "
+                        + "they are not valid. Do you wish to return to editing",
+                        "Return to editing?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null, null, null);
+                
+                if (confirm == JOptionPane.NO_OPTION)
+                {
+                    return true;
+                }
+            }
+        } else
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,8 +188,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         bottomPanel = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
@@ -155,21 +206,22 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scene Filming Date");
-        addWindowListener(new java.awt.event.WindowAdapter()
-        {
-            public void windowClosing(java.awt.event.WindowEvent evt)
-            {
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
         cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         okayButton.setText("Okay");
-        okayButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        okayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okayButtonActionPerformed(evt);
             }
         });
@@ -290,50 +342,12 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
 
     private void formWindowClosing(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowClosing
     {//GEN-HEADEREND:event_formWindowClosing
-        
-        if (filmingDateToEdit.hasChanged())
+        if(confirmClose())
         {
-            if (filmingDateToEdit.isValid())
-            {
-                int confirm = JOptionPane.showOptionDialog(this,
-                        "Changes have been made, do you wish to save?",
-                        "Save Changes?",
-                        JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null, null, null);
-                
-                if (confirm == JOptionPane.YES_OPTION)
-                {
-                    //TODO: Perform save action
-                    filmingDateToEdit.removeListener(this);
-                } else if (confirm == JOptionPane.NO_OPTION)
-                {
-                    this.setVisible(false);
-                    filmingDateToEdit.removeListener(this);
-                }
-            } else
-            {
-                int confirm = JOptionPane.showOptionDialog(
-                        this,
-                        "Changes have been made, but cannot be saved because "
-                        + "they are not valid. Do you wish to return to editing",
-                        "Return to editing?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null, null, null);
-                
-                if (confirm == JOptionPane.NO_OPTION)
-                {
-                    this.setVisible(false);
-                    filmingDateToEdit.removeListener(this);
-                }
-            }
-        } else
-        {
-            this.setVisible(false);
             filmingDateToEdit.removeListener(this);
+            //filmingDateToEdit.sceneShootingInterval().removeListener(this);
+            this.setVisible(false);
         }
-        
     }//GEN-LAST:event_formWindowClosing
 
     private void okayButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_okayButtonActionPerformed
@@ -341,6 +355,10 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         this.save();
         this.setVisible(false);
     }//GEN-LAST:event_okayButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments

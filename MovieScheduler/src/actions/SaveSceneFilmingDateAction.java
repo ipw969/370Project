@@ -74,6 +74,8 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 database().executeInsert(queryString);
                 setWasSuccessful(true);
                 sceneFilmingDate().setHasChanged(false);
+                sceneFilmingDate().sceneShootingInterval().setHasChanged(false);
+                sceneFilmingDate().setIsNew(false);
                
             }
             catch(SQLException ex)
@@ -91,6 +93,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 database().executeUpdate(queryString);
                 setWasSuccessful(true);
                 sceneFilmingDate().setHasChanged(false);
+                sceneFilmingDate().sceneShootingInterval().setHasChanged(false);
             }
             catch(SQLException ex)
             {
@@ -128,7 +131,6 @@ public class SaveSceneFilmingDateAction extends BaseAction {
     private String buildInsertQueryString()
     {
         
-        System.out.println(sceneFilmingDate().sceneShootingInterval().startIsoDate());
         String returnString = 
                 "INSERT INTO t_schedule "
                 + "( sch_scheduledatetime_start, "
