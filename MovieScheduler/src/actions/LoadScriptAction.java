@@ -8,6 +8,7 @@ import java.sql.SQLException;
 /**
  * A class which represents an action to load all the data from the database
  * into a script object
+ * @author Iain Workman
  */
 public class LoadScriptAction extends BaseAction {
 

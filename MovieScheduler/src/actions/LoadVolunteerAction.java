@@ -55,7 +55,7 @@ public class LoadVolunteerAction extends BaseAction {
         boolean loadSuccess = false;
         try {
             System.out.println("Loading volunteer-- \n");
-                 
+
             loadedVolunteer = loadVolunteerFromDatabase();
             loadSuccess = true;
         } catch (SQLException ex) {
@@ -65,42 +65,38 @@ public class LoadVolunteerAction extends BaseAction {
         setBusinessObject(loadedVolunteer);
         setWasSuccessful(loadSuccess);
     }
+
     // Private Methods
+
     /**
      * Performs the action on the database of loading the Volunteer
      *
      * @return The Volunteer info loaded from the database
      * @throws SQLException
      */
-    private Volunteer loadVolunteerFromDatabase() throws SQLException
-    {
+    private Volunteer loadVolunteerFromDatabase() throws SQLException {
         Volunteer returnVolunteer = null;
         BusinessObjectList<TimeInterval> volunteerAvailabilities = loadVolunteerAvailabilities(volunteerEmail);
         ResultSet selectResults = null;
-        try
-        {
+        try {
             selectResults = getDatabase().executeSelect(buildVolunteerQueryString());
-            while (selectResults.next())
-            {
+            while (selectResults.next()) {
                 System.out.println("Name: ");
                 String firstName = selectResults.getString(1);
                 System.out.println(firstName);
-                        
+
                 String lastName = selectResults.getString(2);
                 String phone = selectResults.getString(3);
                 returnVolunteer = new Volunteer(firstName, lastName, volunteerEmail, phone, volunteerAvailabilities);
             }
-        } catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             throw ex;
-        } finally
-        {
-            if (selectResults != null)
-            {
+        } finally {
+            if (selectResults != null) {
                 selectResults.close();
             }
         }
-        
+
         System.out.println("success: loaded vol from db: TESTING::\n\n\n");
         //if (returnVolunteer != null) {
         //    System.out.println(returnVolunteer.getFirstName());
@@ -108,9 +104,10 @@ public class LoadVolunteerAction extends BaseAction {
         System.out.println("\n\n\n");
         return returnVolunteer;
     }
-    
+
     /**
      * Builds the query string for the volunteers contact information
+     *
      * @return the volunteer contact information query string
      */
     private String buildVolunteerQueryString() {
@@ -121,55 +118,52 @@ public class LoadVolunteerAction extends BaseAction {
                 + "WHERE vol_emailaddress = '" + volunteerEmail + "';";
         return returnString;
     }
-    
+
     /**
-     * Returns a list of the Availabilities for the Volunteer with the provided 
-     * email address 
+     * Returns a list of the Availabilities for the Volunteer with the provided
+     * email address
+     *
      * @param volunteerEmail::String ~ The email address of the Volunteer whose
      * availabilities are to be loaded from the Database
-     * @return A list of the Availabilities for the Volunteer with the provided 
+     * @return A list of the Availabilities for the Volunteer with the provided
      * email address
-     * @throws SQLException 
+     * @throws SQLException
      */
     private BusinessObjectList<TimeInterval> loadVolunteerAvailabilities(
-                                            String volunteerEmail)
-            throws SQLException
-    {
-        String selectAvailabilityQuery = 
-        "SELECT " + 
-        "vav_availability_start, vav_availability_end " +
-        "FROM t_volunteeravailability " +
-        "WHERE vav_emailaddress_volunteer = '" + volunteerEmail + "';";
+            String volunteerEmail)
+            throws SQLException {
+        String selectAvailabilityQuery
+                = "SELECT "
+                + "vav_availability_start, vav_availability_end "
+                + "FROM t_volunteeravailability "
+                + "WHERE vav_emailaddress_volunteer = '" + volunteerEmail + "';";
 
-        BusinessObjectList<TimeInterval> availabilityList = 
-                new BusinessObjectList<>();
+        BusinessObjectList<TimeInterval> availabilityList
+                = new BusinessObjectList<>();
         ResultSet selectResults = null;
-        
-        try{
-            selectResults = getDatabase().executeSelect(selectAvailabilityQuery);
-            
-                while (selectResults.next())
-                {
-                    Timestamp startDate = selectResults.getTimestamp(1);
-                    Timestamp endDate = selectResults.getTimestamp(2);
-                    GregorianCalendar startCalendar = new GregorianCalendar();
-                    startCalendar.setTime(startDate);
-                    
-                    GregorianCalendar endCalendar = new GregorianCalendar();
-                    endCalendar.setTime(endDate);
 
-                    TimeInterval availability = new TimeInterval(startCalendar, endCalendar);
-                
-                    availabilityList.add(availability);
-                }
-        } catch(SQLException ex)
-        {
+        try {
+            selectResults = getDatabase().executeSelect(selectAvailabilityQuery);
+
+            while (selectResults.next()) {
+                Timestamp startDate = selectResults.getTimestamp(1);
+                Timestamp endDate = selectResults.getTimestamp(2);
+                GregorianCalendar startCalendar = new GregorianCalendar();
+                startCalendar.setTime(startDate);
+
+                GregorianCalendar endCalendar = new GregorianCalendar();
+                endCalendar.setTime(endDate);
+
+                TimeInterval availability = new TimeInterval(startCalendar, endCalendar);
+
+                availabilityList.add(availability);
+            }
+        } catch (SQLException ex) {
             throw ex;
-        }
-        finally
-        {
-            if(selectResults != null)
+        } finally {
+            if (selectResults != null) {
                 selectResults.close();
+            }
         }
         return availabilityList;
     }

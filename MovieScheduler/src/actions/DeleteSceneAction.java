@@ -4,8 +4,9 @@ import database.Database;
 import java.sql.SQLException;
 
 /**
- * @author Ryan La Forge This action is used to delete the given scene from the
+ * This action is used to delete the given scene from the
  * database.
+ * @author Ryan La Forge 
  *
  */
 public class DeleteSceneAction extends BaseAction {
