@@ -270,7 +270,6 @@ public class ConflictResolution extends javax.swing.JFrame {
 
     private void conflictEditSceneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictEditSceneButtonMouseClicked
         this.toBack();
-
     }//GEN-LAST:event_conflictEditSceneButtonMouseClicked
 
     private void conflictSceneListPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictSceneListPaneMouseClicked
@@ -289,7 +288,11 @@ public class ConflictResolution extends javax.swing.JFrame {
      * @return a boolean confirming the success of the email
      */
     private boolean sendEmails() {
-        if (!(((Scene) conflictSceneListView.getSelectedValue().getScene()).hasVolunteers())) {
+       if (conflictSceneListView.getSelectedValue() == null)
+       {
+           JOptionPane.showConfirmDialog(this, "No scene has been selected.");
+       }
+       else if (!(((Scene) conflictSceneListView.getSelectedValue().getScene()).hasVolunteers())) {
             JOptionPane.showConfirmDialog(this, "This scene has no volunteers associated with it.");
         } else {
             SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
@@ -399,6 +402,11 @@ public class ConflictResolution extends javax.swing.JFrame {
             char[] cPassword = pass.getPassword();
             String password = new String(cPassword);
             return password;
+        }
+        if (option == 1)
+        {
+            this.setVisible(false);
+            this.dispose();
         }
         return null;
     }
