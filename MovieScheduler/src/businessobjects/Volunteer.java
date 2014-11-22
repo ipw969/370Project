@@ -126,13 +126,12 @@ public class Volunteer extends BaseBusinessObject
        cloneVolunteer.setEmail(this.getEmail());
        cloneVolunteer.setPhone(this.getPhone());
        
-       cloneVolunteer.setAvailability(new BusinessObjectList<TimeInterval>());
-       Iterator<TimeInterval> iter = cloneVolunteer.getAvailability().iterator();
-       while(iter.hasNext())
+       cloneVolunteer.setAvailability(new BusinessObjectList<>());
+       for(TimeInterval currentAvailability : getAvailability())
        {
-           TimeInterval time = iter.next();
-           cloneVolunteer.addAvailability((TimeInterval)time.clone());
+           cloneVolunteer.addAvailability(currentAvailability);
        }
+       cloneVolunteer.setHasChanged(false);
        return cloneVolunteer;
     }
 

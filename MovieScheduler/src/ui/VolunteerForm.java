@@ -47,8 +47,8 @@ public class VolunteerForm extends javax.swing.JFrame {
         this.database = database;
         this.theScript = theScript;
         this.volunteerToEdit = volunteerToEdit;
-        PopulateFormForEdit(volunteerToEdit);
         initComponents();
+        PopulateFormForEdit(volunteerToEdit);
     }
     
     //method to populate the form with previously entered information
