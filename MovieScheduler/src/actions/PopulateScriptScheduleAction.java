@@ -102,7 +102,7 @@ public class PopulateScriptScheduleAction extends BaseAction {
                 String sceneName = selectResults.getString(3);
 
                 SceneFilmingDate currentFilmingDate = null;
-                for (Scene currentScene : script().scenes()) {
+                for (Scene currentScene : script().getScenes()) {
                     if (currentScene.getName().compareTo(sceneName) == 0) {
                         currentFilmingDate = new SceneFilmingDate();
                         currentFilmingDate.setSceneShootingInterval(

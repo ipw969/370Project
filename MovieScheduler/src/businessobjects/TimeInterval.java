@@ -6,22 +6,20 @@ import java.util.Calendar;
 
 /**
  * Class representing a set interval of time
+ * @author Iain Workman
  */
 public class TimeInterval
         extends BaseBusinessObject
-        implements Comparable<TimeInterval>
-{
+        implements Comparable<TimeInterval> {
 
     // Constructor
-
     /**
      * Creates an instance of a TimeInterval from newStart to newEnd
      *
      * @param newStart::GregorianCalendar ~ The start of the time interval
      * @param newEnd::GregorianCalendar ~ The end of the time interval
      */
-    public TimeInterval(GregorianCalendar newStart, GregorianCalendar newEnd)
-    {
+    public TimeInterval(GregorianCalendar newStart, GregorianCalendar newEnd) {
 
         start = newStart;
         end = newEnd;
@@ -38,8 +36,7 @@ public class TimeInterval
      *
      * @return The start date/time of the TimeInterval
      */
-    public GregorianCalendar start()
-    {
+    public GregorianCalendar getStart() {
         return start;
     }
 
@@ -48,8 +45,7 @@ public class TimeInterval
      *
      * @return The end date/time of the TimeInterval
      */
-    public GregorianCalendar end()
-    {
+    public GregorianCalendar getEnd() {
         return end;
     }
 
@@ -59,13 +55,10 @@ public class TimeInterval
      * @return An ISO8601 compliant string for the start datetime
      * http://en.wikipedia.org/wiki/ISO_8601
      */
-    public String startIsoDate()
-    {
-        if (start != null)
-        {
+    public String getStartIsoDate() {
+        if (start != null) {
             return isoDateFormatter.format(start.getTime());
-        } else
-        {
+        } else {
             return "";
         }
     }
@@ -76,13 +69,10 @@ public class TimeInterval
      * @return An ISO8601 compliant string for the end datetime
      * http://en.wikipedia.org/wiki/ISO_8601
      */
-    public String endIsoDate()
-    {
-        if (end != null)
-        {
+    public String getEndIsoDate() {
+        if (end != null) {
             return isoDateFormatter.format(end.getTime());
-        } else
-        {
+        } else {
             return "";
         }
     }
@@ -94,12 +84,10 @@ public class TimeInterval
      * TimeInterval
      */
     public void setStart(GregorianCalendar newStart)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         start = newStart;
         updateError("Start cannot be null", start != null);
-        if (start != null && end != null)
-        {
+        if (start != null && end != null) {
             updateError("Start cannot be before end", start.compareTo(end) < 0);
         }
         setHasChanged(true);
@@ -112,12 +100,10 @@ public class TimeInterval
      * TimeInterval
      */
     public void setEnd(GregorianCalendar newEnd)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         end = newEnd;
         updateError("End cannot be null", end != null);
-        if (start != null && end != null)
-        {
+        if (start != null && end != null) {
             updateError("Start cannot be before end", start.compareTo(end) < 0);
         }
         setHasChanged(true);
@@ -133,17 +119,14 @@ public class TimeInterval
      * other 1 if this is strictly later than other
      */
     @Override
-    public int compareTo(TimeInterval other)
-    {
+    public int compareTo(TimeInterval other) {
         // this.start is later than other.end
-        if (this.start.compareTo(other.end) > 0)
-        {
+        if (this.start.compareTo(other.end) > 0) {
             return 1;
         }
 
         // this.end is earlier than other.start
-        if (this.end.compareTo(other.start) < 0)
-        {
+        if (this.end.compareTo(other.start) < 0) {
             return -1;
         }
 
@@ -158,53 +141,33 @@ public class TimeInterval
      * explicitly returns true if this.start is less than or equal to date AND
      * this.end is strictly greater than date
      */
-    public boolean overlaps(GregorianCalendar date)
-    {
+    public boolean overlaps(GregorianCalendar date) {
         return (start.compareTo(date) <= 0
                 && end.compareTo(date) > 0);
     }
-    
+
     /**
-     * Whether or not the TimeInverval is on the same date as the provided
-     * date
-     * @param date::GregorianCalendar ~ The date to check if the TimeInveral
-     * is on the same date as
+     * Whether or not the TimeInverval is on the same date as the provided date
+     *
+     * @param date::GregorianCalendar ~ The date to check if the TimeInveral is
+     * on the same date as
      * @return True if the TimeInterval is on the same date as the provided date
      * false otherwise. More specifically, true if and only if:
-     *  this.overlaps(date)
-     *  OR
-     *  date.day == start.day AND date.month = start.month AND date.year == start.year
-     *  OR
-     *  date.day == end.day AND date.month == end.month AND date.year == end.year
-     *  OR
-     *  start < date AND end > date
+     * this.overlaps(date) OR date.day == start.day AND date.month = start.month
+     * AND date.year == start.year OR date.day == end.day AND date.month ==
+     * end.month AND date.year == end.year OR start < date AND end > date
      */
-    public boolean isOnThisDate(GregorianCalendar date)
-    {
-        
-        return
-        (
-                overlaps(date)
-                ||
-                (date.get(Calendar.YEAR) == start.get(Calendar.YEAR)
-                 &&
-                 date.get(Calendar.MONTH) == start.get(Calendar.MONTH)
-                 &&
-                 date.get(Calendar.DAY_OF_MONTH) == start.get(Calendar.DAY_OF_MONTH))
-                ||
-                (date.get(Calendar.YEAR) == end.get(Calendar.YEAR)
-                 &&
-                 date.get(Calendar.MONTH) == end.get(Calendar.MONTH)
-                &&
-                 date.get(Calendar.DAY_OF_MONTH) == end.get(Calendar.DAY_OF_MONTH)
-                )
-                ||
-                (
-                    start.compareTo(date) < 0
-                    &&
-                    end.compareTo(date) > 0
-                )
-        );
+    public boolean isOnThisDate(GregorianCalendar date) {
+
+        return (overlaps(date)
+                || (date.get(Calendar.YEAR) == start.get(Calendar.YEAR)
+                && date.get(Calendar.MONTH) == start.get(Calendar.MONTH)
+                && date.get(Calendar.DAY_OF_MONTH) == start.get(Calendar.DAY_OF_MONTH))
+                || (date.get(Calendar.YEAR) == end.get(Calendar.YEAR)
+                && date.get(Calendar.MONTH) == end.get(Calendar.MONTH)
+                && date.get(Calendar.DAY_OF_MONTH) == end.get(Calendar.DAY_OF_MONTH))
+                || (start.compareTo(date) < 0
+                && end.compareTo(date) > 0));
     }
 
     /**
@@ -213,9 +176,8 @@ public class TimeInterval
      * @return The start and end date formatted in ISO format as a string
      */
     @Override
-    public String toString()
-    {
-        return startIsoDate() + " - " + endIsoDate();
+    public String toString() {
+        return getStartIsoDate() + " - " + getEndIsoDate();
     }
 
     /**
@@ -224,8 +186,7 @@ public class TimeInterval
      * @return The start and end date formatted in ISO format as a string
      */
     @Override
-    public String toDescriptiveString()
-    {
+    public String toDescriptiveString() {
         return toString();
     }
 
@@ -236,26 +197,21 @@ public class TimeInterval
      * @throws CloneNotSupportedException
      */
     @Override
-    public BaseBusinessObject clone() throws CloneNotSupportedException
-    {
+    public BaseBusinessObject clone() throws CloneNotSupportedException {
         TimeInterval other;
-        try
-        {
+        try {
             other = (TimeInterval) super.clone();
 
-            if (other.start != null)
-            {
+            if (other.start != null) {
                 start = (GregorianCalendar) other.start.clone();
             }
 
-            if (other.end != null)
-            {
+            if (other.end != null) {
                 end = (GregorianCalendar) other.end.clone();
             }
 
             return other;
-        } catch (CloneNotSupportedException e)
-        {
+        } catch (CloneNotSupportedException e) {
             throw new RuntimeException();
         }
     }
@@ -269,11 +225,11 @@ public class TimeInterval
      * information from
      */
     @Override
-    public void merge(BaseBusinessObject mergeObject)
-    {
-        if (!(mergeObject instanceof TimeInterval))
-                    throw new RuntimeException("Cannot merge a BusinessObject "
-                            + "of non TimeInterval type into a TimeInterval");
+    public void merge(BaseBusinessObject mergeObject) {
+        if (!(mergeObject instanceof TimeInterval)) {
+            throw new RuntimeException("Cannot merge a BusinessObject "
+                    + "of non TimeInterval type into a TimeInterval");
+        }
 
         super.merge(mergeObject);
         TimeInterval otherTimeInterval = (TimeInterval) mergeObject;
@@ -284,7 +240,6 @@ public class TimeInterval
     }
 
     // Private Methods
-    
     // Private Member Variables
     /**
      * The start of the interval

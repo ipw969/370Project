@@ -6,12 +6,13 @@ import java.util.GregorianCalendar;
 /**
  * Class which represents the time interval that a scene is scheduled to filmed
  * in
+ *
+ * @author Iain Workman
  */
 public class SceneFilmingDate extends BaseBusinessObject
         implements BusinessObjectListener {
 
     // Constructor
-
     /**
      * Creates a new instance of a SceneFilmingDate with no scene or shooting
      * interval.
@@ -30,7 +31,7 @@ public class SceneFilmingDate extends BaseBusinessObject
      *
      * @return The scene that is scheduled to be filmed in this time interval
      */
-    public Scene scene() {
+    public Scene getScene() {
         return scene;
     }
 
@@ -39,7 +40,7 @@ public class SceneFilmingDate extends BaseBusinessObject
      *
      * @return The TimeInterval during which the scene is scheduled to be shot
      */
-    public TimeInterval sceneShootingInterval() {
+    public TimeInterval getSceneShootingInterval() {
         return sceneShootingInterval;
     }
 
@@ -67,7 +68,7 @@ public class SceneFilmingDate extends BaseBusinessObject
 
         boolean filmingDateHasConflict = false;
 
-        for (Volunteer currentVolunteer : scene.volunteers()) {
+        for (Volunteer currentVolunteer : scene.getVolunteers()) {
             boolean volunteerIsAvailable = false;
             for (TimeInterval currentAvailability : currentVolunteer.getAvailability()) {
                 if (currentAvailability.compareTo(sceneShootingInterval) == 0) {
@@ -81,7 +82,7 @@ public class SceneFilmingDate extends BaseBusinessObject
             }
         }
 
-        for (Equipment currentEquipment : scene.equipment()) {
+        for (Equipment currentEquipment : scene.getEquipment()) {
             boolean equipmentIsAvailable = false;
             for (TimeInterval currentAvailability : currentEquipment.getAvailability()) {
                 if (currentAvailability.compareTo(sceneShootingInterval) == 0) {
@@ -105,7 +106,7 @@ public class SceneFilmingDate extends BaseBusinessObject
      * @return The start time that the scene will begin shooting
      */
     public GregorianCalendar sceneShootingStart() {
-        return sceneShootingInterval.start();
+        return sceneShootingInterval.getStart();
     }
 
     /**
@@ -115,7 +116,7 @@ public class SceneFilmingDate extends BaseBusinessObject
      * @return The end time that the scene is scheduled to be finished shooting
      */
     public GregorianCalendar sceneShootingEnd() {
-        return sceneShootingInterval.end();
+        return sceneShootingInterval.getEnd();
     }
 
     /**
@@ -231,12 +232,12 @@ public class SceneFilmingDate extends BaseBusinessObject
     @Override
     public String toDescriptiveString() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (scene() != null) {
-            stringBuilder.append(scene().toString());
+        if (getScene() != null) {
+            stringBuilder.append(getScene().toString());
         }
         stringBuilder.append(" - ");
-        if (sceneShootingInterval() != null) {
-            stringBuilder.append(sceneShootingInterval().toString());
+        if (getSceneShootingInterval() != null) {
+            stringBuilder.append(getSceneShootingInterval().toString());
         }
 
         return stringBuilder.toString();
@@ -251,7 +252,7 @@ public class SceneFilmingDate extends BaseBusinessObject
 
         super.merge(mergeObject);
         SceneFilmingDate otherFilmingDate = (SceneFilmingDate) mergeObject;
-        this.setSceneShootingInterval(otherFilmingDate.sceneShootingInterval());
+        this.setSceneShootingInterval(otherFilmingDate.getSceneShootingInterval());
         setHasChanged(false);
     }
 
@@ -265,13 +266,12 @@ public class SceneFilmingDate extends BaseBusinessObject
      */
     @Override
     public BaseBusinessObject clone() throws CloneNotSupportedException {
-       
-        SceneFilmingDate other = (SceneFilmingDate)super.clone();
-        other.sceneShootingInterval = (TimeInterval)this.sceneShootingInterval().clone();
+
+        SceneFilmingDate other = (SceneFilmingDate) super.clone();
+        other.sceneShootingInterval = (TimeInterval) this.getSceneShootingInterval().clone();
         other.sceneShootingInterval.addListener(other);
         return other;
-       
-       
+
     }
 
 }

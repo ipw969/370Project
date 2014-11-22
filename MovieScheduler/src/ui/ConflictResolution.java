@@ -38,8 +38,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                     + "ConflictResolution");
         }
         this.script = script;
-        conflictSceneListView = new BusinessObjectListView<>(script.schedule().
-                scheduleConflicts());
+        conflictSceneListView = new BusinessObjectListView<>(script.getSchedule().getScheduleConflicts());
 
         conflictSceneScrollPane.setViewportView(conflictSceneListView);
         this.setVisible(true);
@@ -60,7 +59,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                     String html2 = "px'>";
                     String confl = selectedFilmSceneTime.getReasonList().
                             toString();
-                    String info = selectedFilmSceneTime.scene().
+                    String info = selectedFilmSceneTime.getScene().
                             toDescriptiveString();
                     conflictConflictLabel.setText(html1 + "150" + html2 + confl);
                     conflictVolunteerLabel.setText(html1 + "150" + html2 + info);
@@ -275,7 +274,7 @@ public class ConflictResolution extends javax.swing.JFrame {
     private void conflictSceneListPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictSceneListPaneMouseClicked
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
         conflictConflictLabel.setText(selectedFilmSceneTime.getReasonList().toString());
-        conflictVolunteerLabel.setText(selectedFilmSceneTime.scene().toDescriptiveString());
+        conflictVolunteerLabel.setText(selectedFilmSceneTime.getScene().toDescriptiveString());
     }//GEN-LAST:event_conflictSceneListPaneMouseClicked
 
     private void conflictContactAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_conflictContactAllButtonMouseClicked
@@ -288,7 +287,7 @@ public class ConflictResolution extends javax.swing.JFrame {
      * @return a boolean confirming the success of the email
      */
     private boolean sendEmails() {
-        if (!(((Scene) conflictSceneListView.getSelectedValue().scene()).hasVolunteers())) {
+        if (!(((Scene) conflictSceneListView.getSelectedValue().getScene()).hasVolunteers())) {
             JOptionPane.showConfirmDialog(this, "This scene has no volunteers associated with it.");
         } else {
             SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
@@ -296,7 +295,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                 JOptionPane.showConfirmDialog(this, "Please select a scene!");
                 return true;
             }
-            Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.scene().volunteerIterator();
+            Iterator<Volunteer> volunteerIter = selectedFilmSceneTime.getScene().volunteerIterator();
 
             //String emailList = "";
             String emailList = "cmpt370.06@gmail.com,achievatronunlimited@gmail.com,";
@@ -334,7 +333,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                 message.setSubject("Filming Conflict");
                 String conflictMessage = "Hello team. We are unable to schedule a scene "
                         + "due to scheduling conflicts. Please see the information about "
-                        + "the conflict below. \n \n" + selectedFilmSceneTime.scene().toDescriptiveString()
+                        + "the conflict below. \n \n" + selectedFilmSceneTime.getScene().toDescriptiveString()
                         + " And the reason for conflict: "
                         + selectedFilmSceneTime.getReasonList().toString();
 

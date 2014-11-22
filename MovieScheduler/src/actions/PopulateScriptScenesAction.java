@@ -54,7 +54,7 @@ public class PopulateScriptScenesAction extends BaseAction {
         Script scriptToPopulate = (Script) getBusinessObject();
 
         try {
-            scriptToPopulate.setScenes(loadScenes(scriptToPopulate.name()));
+            scriptToPopulate.setScenes(loadScenes(scriptToPopulate.getName()));
             setWasSuccessful(true);
         } catch (SQLException ex) {
             setErrorMessage(ex.getMessage());
@@ -158,7 +158,7 @@ public class PopulateScriptScenesAction extends BaseAction {
             while (selectResults.next()) {
                 String volunteerEmail = selectResults.getString(1);
 
-                for (Volunteer currentVolunteer : script().volunteers()) {
+                for (Volunteer currentVolunteer : script().getVolunteers()) {
                     if (volunteerEmail.compareTo(currentVolunteer.getEmail()) == 0) {
                         volunteerList.add(currentVolunteer);
                     }
@@ -205,7 +205,7 @@ public class PopulateScriptScenesAction extends BaseAction {
             while (selectResults.next()) {
                 String equipmentName = selectResults.getString(1);
 
-                for (Equipment currentEquipment : script().equipment()) {
+                for (Equipment currentEquipment : script().getEquipment()) {
                     if (equipmentName.compareTo(currentEquipment.getEquipmentName()) == 0) {
                         equipmentList.add(currentEquipment);
                     }

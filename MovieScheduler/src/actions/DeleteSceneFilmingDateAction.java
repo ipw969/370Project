@@ -40,7 +40,7 @@ public class DeleteSceneFilmingDateAction extends BaseAction {
         if (filmingDate == null) {
             setErrorMessage("Cannot remove a null filming date");
             setWasSuccessful(false);
-        } else if (filmingDate.scene() == null) {
+        } else if (filmingDate.getScene() == null) {
             setErrorMessage("Cannot remove a filming date that contains no"
                     + " Scene");
             setWasSuccessful(false);
@@ -69,7 +69,7 @@ public class DeleteSceneFilmingDateAction extends BaseAction {
         SceneFilmingDate filmingDate = getSceneFilmingDate();
 
         String returnString = "DELETE FROM t_schedule "
-                + "WHERE shc_scenename = '" + filmingDate.scene() + "';";
+                + "WHERE shc_scenename = '" + filmingDate.getScene() + "';";
 
         return returnString;
     }

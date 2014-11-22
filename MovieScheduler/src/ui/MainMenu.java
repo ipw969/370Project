@@ -74,7 +74,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         equipmentComboBox.removeAllItems();
         if (theScript.hasEquipment()) {
-            for (Equipment equipmentToAdd : theScript.equipment()) {
+            for (Equipment equipmentToAdd : theScript.getEquipment()) {
                 equipmentComboBox.addItem(equipmentToAdd);
             }
         }

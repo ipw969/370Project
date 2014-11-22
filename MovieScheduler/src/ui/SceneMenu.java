@@ -74,15 +74,15 @@ public class SceneMenu extends javax.swing.JDialog {
         }
 
         currentVolunteerList = new BusinessObjectList<Volunteer>();
-        currentVolunteerList.addAll(clonedScene.volunteers());
+        currentVolunteerList.addAll(clonedScene.getVolunteers());
 
         currentEquipmentList = new BusinessObjectList<Equipment>();
-        currentEquipmentList.addAll(clonedScene.equipment());
+        currentEquipmentList.addAll(clonedScene.getEquipment());
 
         availableVolunteerList = new BusinessObjectList<Volunteer>();
-        availableVolunteerList.addAll(script.volunteers());
+        availableVolunteerList.addAll(script.getVolunteers());
         availableEquipmentList = new BusinessObjectList<Equipment>();
-        availableEquipmentList.addAll(script.equipment());
+        availableEquipmentList.addAll(script.getEquipment());
 
         availableVolunteers = new BusinessObjectListView(availableVolunteerList);
                   //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
@@ -110,9 +110,9 @@ public class SceneMenu extends javax.swing.JDialog {
             sceneNameField.setText(clonedScene.getName());
             sceneDescriptionField.setText(clonedScene.getDescription());
 
-            availableVolunteerList.removeAll(clonedScene.volunteers());
+            availableVolunteerList.removeAll(clonedScene.getVolunteers());
 
-            availableEquipmentList.removeAll(clonedScene.equipment());
+            availableEquipmentList.removeAll(clonedScene.getEquipment());
         }
 
     }
@@ -339,7 +339,7 @@ public class SceneMenu extends javax.swing.JDialog {
      * @param evt
      */
     private void saveSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        for (Scene tempScene : script.scenes()) {
+        for (Scene tempScene : script.getScenes()) {
             if ((tempScene.getName().equals(clonedScene.getName())) && (!tempScene.equals(originalScene))) {
                 ErrorDisplay displayError = new ErrorDisplay(parent, "The script already contains a scene with that name");
                 displayError.setVisible(true);
@@ -348,7 +348,7 @@ public class SceneMenu extends javax.swing.JDialog {
         }
 
         if (!clonedScene.isValid()) {
-            ErrorDisplay errorDisplay = new ErrorDisplay(parent, "The scene is currently not in a valid state. Unable to save it.\n Error: \n" + clonedScene.errorMessage());
+            ErrorDisplay errorDisplay = new ErrorDisplay(parent, "The scene is currently not in a valid state. Unable to save it.\n Error: \n" + clonedScene.getErrorMessage());
             errorDisplay.setVisible(true);
             return;
         } else {
@@ -356,10 +356,10 @@ public class SceneMenu extends javax.swing.JDialog {
         }
         clonedScene.setName(sceneNameField.getText());
         clonedScene.setDescription(sceneDescriptionField.getText());
-        clonedScene.volunteers().clear();
-        clonedScene.equipment().clear();
-        clonedScene.volunteers().addAll(currentVolunteerList);
-        clonedScene.equipment().addAll(currentEquipmentList);
+        clonedScene.getVolunteers().clear();
+        clonedScene.getEquipment().clear();
+        clonedScene.getVolunteers().addAll(currentVolunteerList);
+        clonedScene.getEquipment().addAll(currentEquipmentList);
 
         //build the saveSceneAction and attempt to save the scene.
         SaveSceneAction saveClonedScene;

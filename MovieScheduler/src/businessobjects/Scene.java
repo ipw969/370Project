@@ -1,12 +1,13 @@
 package businessobjects;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-/* @author Ryan
- * This class will hold all information  based on a scene including the associated volunteers and equipment.
+/**
+ * This class will hold all information based on a scene including the
+ * associated volunteers and equipment.
+ *
+ * @author Ryan La Forge
  */
 public class Scene extends BaseBusinessObject {
 
@@ -61,7 +62,7 @@ public class Scene extends BaseBusinessObject {
      * @return the list of volunteers associated with this scene.
      * @author Iain*
      */
-    public BusinessObjectList<Volunteer> volunteers() {
+    public BusinessObjectList<Volunteer> getVolunteers() {
         return this.necessaryVolunteers;
     }
 
@@ -71,7 +72,7 @@ public class Scene extends BaseBusinessObject {
      * @return the list of equipment associated with this scene
      * @author Iain*
      */
-    public BusinessObjectList<Equipment> equipment() {
+    public BusinessObjectList<Equipment> getEquipment() {
         return this.necessaryEquipment;
     }
 
@@ -144,7 +145,8 @@ public class Scene extends BaseBusinessObject {
     }
 
     /**
-     * @return true if the scene has volunteers associated with it ,false if not*
+     * @return true if the scene has volunteers associated with it ,false if
+     * not*
      */
     /**
      * @precon the list of volunteers must not be empty
@@ -310,37 +312,31 @@ public class Scene extends BaseBusinessObject {
         newString.append(this.name + "\n");
         if (!necessaryVolunteers.isEmpty()) {
             newString.append("List of volunteers:\n");
-            for (Volunteer tempVolunteer: necessaryVolunteers)
-            {
+            for (Volunteer tempVolunteer : necessaryVolunteers) {
                 newString.append(tempVolunteer.getFirstName() + " " + tempVolunteer.getLastName() + "\n");
             }
         } else {
             newString.append("No volunteers currently assigned to this scene\n");
         }
 
-        if (!necessaryEquipment.isEmpty())
-        {
+        if (!necessaryEquipment.isEmpty()) {
             newString.append("List of equipment:\n");
-            for (Equipment tempEquipment: necessaryEquipment)
-            {
+            for (Equipment tempEquipment : necessaryEquipment) {
                 newString.append(tempEquipment.getEquipmentName() + "\n owner name:" + tempEquipment.getOwnerFirstName() + " " + tempEquipment.getOwnerLastName() + "\n owner email:" + tempEquipment.getOwnerEmail() + "\n\n");
             }
-           
+
         } else {
             newString.append("No equipment assigned to this scene\n");
         }
 
         if (this.isScheduled()) {
-                newString.append("The scene is scheduled");
-            }
-        else
-        {
-           newString.append("The scene is not scheduled.");
+            newString.append("The scene is scheduled");
+        } else {
+            newString.append("The scene is not scheduled.");
         }
-        
+
         newString.append("\n");
-        if (this.isComplete())
-        {
+        if (this.isComplete()) {
             newString.append("Complete\n");
         } else {
             newString.append("Not Complete\n");

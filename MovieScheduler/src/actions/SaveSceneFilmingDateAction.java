@@ -70,7 +70,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 getDatabase().executeInsert(queryString);
                 setWasSuccessful(true);
                 getSceneFilmingDate().setHasChanged(false);
-                getSceneFilmingDate().sceneShootingInterval().setHasChanged(false);
+                getSceneFilmingDate().getSceneShootingInterval().setHasChanged(false);
                 getSceneFilmingDate().setIsNew(false);
                
             }
@@ -89,7 +89,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 getDatabase().executeUpdate(queryString);
                 setWasSuccessful(true);
                 getSceneFilmingDate().setHasChanged(false);
-                getSceneFilmingDate().sceneShootingInterval().setHasChanged(false);
+                getSceneFilmingDate().getSceneShootingInterval().setHasChanged(false);
             }
             catch(SQLException ex)
             {
@@ -112,10 +112,10 @@ public class SaveSceneFilmingDateAction extends BaseAction {
         String returnString = 
                 "UPDATE t_schedule "
                 + "SET "
-                + "sch_scheduledatetime_start = '" + getSceneFilmingDate().sceneShootingInterval().startIsoDate() + "', "
-                + "sch_scheduledatetime_end = '" + getSceneFilmingDate().sceneShootingInterval().endIsoDate() + "' "
+                + "sch_scheduledatetime_start = '" + getSceneFilmingDate().getSceneShootingInterval().getStartIsoDate() + "', "
+                + "sch_scheduledatetime_end = '" + getSceneFilmingDate().getSceneShootingInterval().getEndIsoDate() + "' "
                 + "WHERE "
-                + "( sch_scenename = '" + getSceneFilmingDate().scene().getName() + "');";
+                + "( sch_scenename = '" + getSceneFilmingDate().getScene().getName() + "');";
         
         return returnString;
     }
@@ -133,9 +133,9 @@ public class SaveSceneFilmingDateAction extends BaseAction {
                 + "sch_scheduledatetime_end, "
                 + "sch_scenename ) "
                 + "VALUES "
-                + "('" + getSceneFilmingDate().sceneShootingInterval().startIsoDate()
-                + "', '" + getSceneFilmingDate().sceneShootingInterval().endIsoDate()
-                + "', '" + getSceneFilmingDate().scene().getName() + "');";
+                + "('" + getSceneFilmingDate().getSceneShootingInterval().getStartIsoDate()
+                + "', '" + getSceneFilmingDate().getSceneShootingInterval().getEndIsoDate()
+                + "', '" + getSceneFilmingDate().getScene().getName() + "');";
         
         return returnString;
     }

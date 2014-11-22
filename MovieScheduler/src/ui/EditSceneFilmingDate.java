@@ -55,13 +55,13 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         }
         errorIcon.setVisible(!filmingDateToEdit.isValid());
         errorLabel.setVisible(!filmingDateToEdit.isValid());
-        errorIcon.setToolTipText(filmingDateToEdit.errorMessage());
+        errorIcon.setToolTipText(filmingDateToEdit.getErrorMessage());
         filmingDateToEdit.addListener(this);
         //filmingDateToEdit.sceneShootingInterval().addListener(this);
         okayButton.setEnabled(false);
-        scenesComboBox = new BusinessObjectComboBoxView<>(script.scenes());
-        sceneLabel.setText(filmingDateToEdit.scene().getName());
-        scenesComboBox.setSelectedItem(filmingDateToEdit.scene());
+        scenesComboBox = new BusinessObjectComboBoxView<>(script.getScenes());
+        sceneLabel.setText(filmingDateToEdit.getScene().getName());
+        scenesComboBox.setSelectedItem(filmingDateToEdit.getScene());
         
         startDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingStart().getTime());
         endDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingEnd().getTime());
@@ -76,7 +76,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                 GregorianCalendar newCalendarValue = new GregorianCalendar();
                 newCalendarValue.setTime(newValue);
                 
-                filmingDateToEdit.sceneShootingInterval().setStart(newCalendarValue);
+                filmingDateToEdit.getSceneShootingInterval().setStart(newCalendarValue);
             }
             
         });
@@ -90,7 +90,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                 GregorianCalendar newCalendarValue = new GregorianCalendar();
                 newCalendarValue.setTime(newValue);
                 
-                filmingDateToEdit.sceneShootingInterval().setEnd(newCalendarValue);
+                filmingDateToEdit.getSceneShootingInterval().setEnd(newCalendarValue);
             }
         });
     }
@@ -104,7 +104,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         errorLabel.setText(null);
         if (!newState)
         {
-            errorIcon.setToolTipText(sender.errorMessage());
+            errorIcon.setToolTipText(sender.getErrorMessage());
         }
     }
     
@@ -124,7 +124,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         if(saveAction.wasSuccessful())
         {
             originalFilmingDate.merge(filmingDateToEdit);
-            script.schedule().add(originalFilmingDate);
+            script.getSchedule().add(originalFilmingDate);
         }
         else
         {

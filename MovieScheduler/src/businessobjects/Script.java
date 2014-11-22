@@ -7,7 +7,7 @@ import java.util.Iterator;
  *This class encapsulates the Scene class to prevent scenes from being created anywhere else. This ensures that
  *-The scenes are strongly correlated with the script(there will be no cross-referencing if we decide to support multiple scripts
  *-Ensures that every scene is automatically put into the script. 
- @author Ryam La Forge
+ @author Ryan La Forge
  */
 public class Script extends BaseBusinessObject {
 
@@ -42,7 +42,7 @@ public class Script extends BaseBusinessObject {
      * @return The name of the script
      * @author Ryan La Forge
      */
-    public String name() {
+    public String getName() {
         return name;
     }
 
@@ -66,14 +66,14 @@ public class Script extends BaseBusinessObject {
      * @return A list of the Scenes which comprise this Script`
      * @author Iain Workman
      */
-    public BusinessObjectList<Scene> scenes() {
+    public BusinessObjectList<Scene> getScenes() {
         return scenes;
     }
 
     /**
      * @return true if the script contains scenes, false if not.
      * @author Ryan La Forge
-   *
+     *
      */
     public boolean hasScenes() {
         return !scenes.isEmpty();
@@ -95,7 +95,8 @@ public class Script extends BaseBusinessObject {
         }
         /**
          * This whole thing is necessary because we need to check whether a
-         * scene with that name already exists regardless of whether they are identical
+         * scene with that name already exists regardless of whether they are
+         * identical
          */
         if (this.hasScenes()) {
             Iterator<Scene> iter = this.sceneIterator();
@@ -131,7 +132,7 @@ public class Script extends BaseBusinessObject {
      *
      * @return the number of scenes in the script
      * @author Ryan La Forge
-   *
+     *
      */
     public int numberOfScenes() {
         return scenes.size();
@@ -144,7 +145,7 @@ public class Script extends BaseBusinessObject {
      * @return true if all scenes have been scheduled or if the script is empty,
      * false if not.
      * @author Ryan La Forge
-   *
+     *
      */
     public boolean isEverySceneScheduled() {
         if (scenes.isEmpty()) {
@@ -227,7 +228,7 @@ public class Script extends BaseBusinessObject {
      * @return A list of all the volunteers associated with the Script.
      * @author Iain Workman
      */
-    public BusinessObjectList<Volunteer> volunteers() {
+    public BusinessObjectList<Volunteer> getVolunteers() {
         return volunteers;
     }
 
@@ -309,7 +310,8 @@ public class Script extends BaseBusinessObject {
         }
         /**
          * This whole thing is necessary because we need to check whether a
-         * scene with that name already exists regardless of whether they are identical
+         * scene with that name already exists regardless of whether they are
+         * identical
          */
         if (this.hasEquipment()) {
             Iterator<Equipment> iter = this.equipmentIterator();
@@ -357,7 +359,7 @@ public class Script extends BaseBusinessObject {
      * @return The list of the equipment associated with the Script.
      * @author Iain Workman
      */
-    public BusinessObjectList<Equipment> equipment() {
+    public BusinessObjectList<Equipment> getEquipment() {
         return equipment;
     }
 
@@ -379,7 +381,7 @@ public class Script extends BaseBusinessObject {
      * @return The current filming schedule for the script
      * @author Iain Workman
      */
-    public Schedule schedule() {
+    public Schedule getSchedule() {
         return schedule;
     }
 
@@ -400,7 +402,8 @@ public class Script extends BaseBusinessObject {
     }
 
     /**
-     * The following methods are not implemented for the script, as they are not needed.*
+     * The following methods are not implemented for the script, as they are not
+     * needed.*
      */
     @Override
     public String toString() {

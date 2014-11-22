@@ -160,7 +160,7 @@ public class StartMenu extends javax.swing.JFrame
         if (!script.isValid())
         {
 
-            ErrorDisplay displayError = new ErrorDisplay(this, script.errorMessage());
+            ErrorDisplay displayError = new ErrorDisplay(this, script.getErrorMessage());
             displayError.setVisible(true);
 
         } else

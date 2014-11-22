@@ -125,8 +125,8 @@ public class SaveVolunteerAction extends BaseAction {
                     + "vav_availability_end)"
                     + "VALUES("
                     + volunteer.getEmail() + "','"
-                    + currAvail.startIsoDate() + "','"
-                    + currAvail.endIsoDate() + "');");
+                    + currAvail.getStartIsoDate() + "','"
+                    + currAvail.getEndIsoDate() + "');");
         }
     }
     /*

@@ -14,18 +14,17 @@ import java.util.Collection;
  * notified if any of the contained BusinessObjects change state.
  *
  * @param <T extends BaseBusinessObject> ~ The type to store
+ * @author Iain Workman
  */
 public class BusinessObjectList<T extends BaseBusinessObject> extends
         ArrayList<T>
-        implements BusinessObjectListener
-{
+        implements BusinessObjectListener {
 
     // Constructor
     /**
      * Creates a new instance of an empty BusinessObjectCollection
      */
-    public BusinessObjectList()
-    {
+    public BusinessObjectList() {
         listeners = new ArrayList<>();
     }
 
@@ -40,12 +39,9 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      */
     @Override
     public void changedStateAltered(boolean currentState,
-            BaseBusinessObject sender)
-    {
-        for (BusinessObjectListener listener : listeners)
-        {
-            if (listener != null)
-            {
+            BaseBusinessObject sender) {
+        for (BusinessObjectListener listener : listeners) {
+            if (listener != null) {
                 listener.changedStateAltered(currentState, sender);
             }
         }
@@ -61,12 +57,9 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      */
     @Override
     public void validStateAltered(boolean currentState,
-            BaseBusinessObject sender)
-    {
-        for (BusinessObjectListener listener : listeners)
-        {
-            if (listener != null)
-            {
+            BaseBusinessObject sender) {
+        for (BusinessObjectListener listener : listeners) {
+            if (listener != null) {
                 listener.validStateAltered(currentState, sender);
             }
         }
@@ -81,10 +74,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @param listener::BusinessObjectListener ~ The object to be added to the
      * notified listeners list
      */
-    public void addListener(BusinessObjectListListener listener)
-    {
-        if (listener != null && !listeners.contains(listener))
-        {
+    public void addListener(BusinessObjectListListener listener) {
+        if (listener != null && !listeners.contains(listener)) {
             listeners.add(listener);
         }
     }
@@ -98,10 +89,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @param listener::BusinessObjectListener ~ The object to be removed from
      * the list of notified listeners.
      */
-    public void removeListener(BusinessObjectListListener listener)
-    {
-        if (listener != null && listeners.contains(listener))
-        {
+    public void removeListener(BusinessObjectListListener listener) {
+        if (listener != null && listeners.contains(listener)) {
             listeners.remove(listener);
         }
     }
@@ -113,10 +102,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @return true (as specified by Collection.add(E))
      */
     @Override
-    public boolean add(T businessObject)
-    {
-        if (businessObject != null)
-        {
+    public boolean add(T businessObject) {
+        if (businessObject != null) {
             businessObject.addListener(this);
         }
         boolean result = super.add(businessObject);
@@ -134,10 +121,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @param businessObject::T ~ BusinessObject to be inserted
      */
     @Override
-    public void add(int index, T businessObject)
-    {
-        if (businessObject != null)
-        {
+    public void add(int index, T businessObject) {
+        if (businessObject != null) {
             businessObject.addListener(this);
         }
         super.add(index, businessObject);
@@ -153,11 +138,9 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @return The BusinessObject that was removed from the list
      */
     @Override
-    public T remove(int index)
-    {
+    public T remove(int index) {
         T retrievedBusinessObject = super.remove(index);
-        if (retrievedBusinessObject != null)
-        {
+        if (retrievedBusinessObject != null) {
             retrievedBusinessObject.removeListener(this);
         }
         notifyListenersOfRemove(retrievedBusinessObject);
@@ -176,13 +159,10 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @return true if this list contained the specified element
      */
     @Override
-    public boolean remove(Object object)
-    {
+    public boolean remove(Object object) {
         boolean result = super.remove(object);
-        if (result)
-        {
-            if (object instanceof BaseBusinessObject)
-            {
+        if (result) {
+            if (object instanceof BaseBusinessObject) {
                 BaseBusinessObject passedBusinessObject
                         = (BaseBusinessObject) object;
 
@@ -199,12 +179,9 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * after this call returns.
      */
     @Override
-    public void clear()
-    {
-        for (T currentBusinessObject : this)
-        {
-            if (currentBusinessObject != null)
-            {
+    public void clear() {
+        for (T currentBusinessObject : this) {
+            if (currentBusinessObject != null) {
                 currentBusinessObject.removeListener(this);
             }
         }
@@ -225,13 +202,10 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @return true if this list changed as a result of the call
      */
     @Override
-    public boolean addAll(Collection<? extends T> collection)
-    {
+    public boolean addAll(Collection<? extends T> collection) {
         boolean superChanged = super.addAll(collection);
-        for (BaseBusinessObject currentBusinessObject : collection)
-        {
-            if (currentBusinessObject != null)
-            {
+        for (BaseBusinessObject currentBusinessObject : collection) {
+            if (currentBusinessObject != null) {
                 currentBusinessObject.addListener(this);
                 notifyListenersOfAdd(currentBusinessObject);
             }
@@ -256,11 +230,9 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      */
     @Override
     public boolean addAll(int index,
-            Collection<? extends T> collection)
-    {
+            Collection<? extends T> collection) {
         boolean superChanged = super.addAll(index, collection);
-        for (BaseBusinessObject currentBusinessObject : collection)
-        {
+        for (BaseBusinessObject currentBusinessObject : collection) {
             currentBusinessObject.addListener(this);
             notifyListenersOfAdd(currentBusinessObject);
         }
@@ -277,24 +249,20 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @return true if this list changed as a result of the call
      */
     @Override
-    public boolean removeAll(Collection<?> collection)
-    {
+    public boolean removeAll(Collection<?> collection) {
         boolean returnResult = false;
 
-        for (Object obj : collection)
-        {
-            if (obj instanceof BaseBusinessObject)
-            {
+        for (Object obj : collection) {
+            if (obj instanceof BaseBusinessObject) {
                 T currentBusinessObject
                         = (T) obj;
 
                 boolean currentItemRemoved = remove(currentBusinessObject);
-                if(currentItemRemoved)
-                {
+                if (currentItemRemoved) {
                     notifyListenersOfRemove(currentBusinessObject);
                 }
                 returnResult |= currentItemRemoved;
-                
+
             }
         }
         return returnResult;
@@ -310,15 +278,12 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @return true if this list changed as a result of the call
      */
     @Override
-    public boolean retainAll(Collection<?> collection)
-    {
+    public boolean retainAll(Collection<?> collection) {
         boolean returnResult = false;
         clear();
         notifyListenersOfCleared();
-        for (Object obj : collection)
-        {
-            if (obj instanceof BaseBusinessObject)
-            {
+        for (Object obj : collection) {
+            if (obj instanceof BaseBusinessObject) {
                 returnResult = true;
                 T currentBusinessObject
                         = (T) obj;
@@ -339,10 +304,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @param sender::BaseBusinessObject ~ The BusinessObject which was added to
      * the list
      */
-    private void notifyListenersOfAdd(BaseBusinessObject sender)
-    {
-        for (BusinessObjectListListener currentListener : listeners)
-        {
+    private void notifyListenersOfAdd(BaseBusinessObject sender) {
+        for (BusinessObjectListListener currentListener : listeners) {
             currentListener.businessObjectAdded(sender);
         }
     }
@@ -354,10 +317,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * @param sender::BaseBusinessObject ~ The BusinessObject which was removed
      * from the list
      */
-    private void notifyListenersOfRemove(BaseBusinessObject sender)
-    {
-        for (BusinessObjectListListener currentListener : listeners)
-        {
+    private void notifyListenersOfRemove(BaseBusinessObject sender) {
+        for (BusinessObjectListListener currentListener : listeners) {
             currentListener.businessObjectRemoved(sender);
         }
     }
@@ -366,10 +327,8 @@ public class BusinessObjectList<T extends BaseBusinessObject> extends
      * Helper function which notifies all current listeners the
      * BusinessObjectList was cleared.
      */
-    private void notifyListenersOfCleared()
-    {
-        for (BusinessObjectListListener currentListener : listeners)
-        {
+    private void notifyListenersOfCleared() {
+        for (BusinessObjectListListener currentListener : listeners) {
             currentListener.listCleared();
         }
     }
