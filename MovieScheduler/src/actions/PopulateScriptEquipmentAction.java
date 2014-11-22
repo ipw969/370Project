@@ -1,6 +1,3 @@
-/*
- * error on line 106 I commented it out to get rid of compilor errors -john
- */
 package actions;
 
 import businessobjects.BusinessObjectList;
@@ -16,6 +13,7 @@ import java.util.GregorianCalendar;
 /**
  * Class which represents an Action which takes a Script and loads in the
  * Equipment associated with it.
+ * @author Iain Workman
  */
 public class PopulateScriptEquipmentAction extends BaseAction {
 
