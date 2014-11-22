@@ -67,11 +67,11 @@ public class ConflictResolution extends javax.swing.JFrame {
     ConflictResolution() {
         throw new UnsupportedOperationException("Unsupported without script"); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     /**
      * A function to refresh the scroll pane that shows the scenes in conflict
      */
-    private void refreshScenes(){
+    private void refreshScenes() {
         conflictSceneListView = new BusinessObjectListView<>(script.getSchedule().getScheduleConflicts());
         conflictSceneScrollPane.setViewportView(conflictSceneListView);
     }
@@ -262,7 +262,7 @@ public class ConflictResolution extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION);
         if (ignoreResult == 1) {
         } else {
-            JOptionPane.showMessageDialog( this, "Ignore executed: " + ignoreCurrentConflict().toString());
+            JOptionPane.showMessageDialog(this, "Ignore executed: " + ignoreCurrentConflict().toString());
             refreshScenes();
         }
 
@@ -284,7 +284,7 @@ public class ConflictResolution extends javax.swing.JFrame {
     }//GEN-LAST:event_conflictContactAllButtonMouseClicked
 
     /**
-     * sends emails to the volunteers in the selected scene
+     * sends e-mails to the volunteers in the selected scene
      *
      * @return a boolean confirming the success of the email
      */
@@ -370,16 +370,18 @@ public class ConflictResolution extends javax.swing.JFrame {
     }
 
     /**
-     * A function to show the user the list of emails so they can copy it.
-     * @param emailList 
+     * A function to show the user the list of e-mails so they can copy it.
+     *
+     * @param emailList
      */
     private void showEmails(String emailList) {
         JOptionPane.showMessageDialog(null, new JTextArea(emailList));
     }
-    
+
     /**
      * A function to show a dialog to take in the password securely.
-     * @return a string containing the password. 
+     *
+     * @return a string containing the password.
      */
     private String showPasswordDialog() {
         JPanel panel = new JPanel();
@@ -409,6 +411,10 @@ public class ConflictResolution extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_conflictContactAllButtonActionPerformed
 
+    /**
+     * a function to set ignore to true in a conflict.
+     * @return a boolean describing the success of the ignore
+     */
     private Boolean ignoreCurrentConflict() {
         SceneFilmingDate selectedFilmSceneTime = this.conflictSceneListView.getSelectedValue();
         selectedFilmSceneTime.ignoreConflict(true);
