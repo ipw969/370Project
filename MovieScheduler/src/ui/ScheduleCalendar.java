@@ -7,17 +7,16 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
+ * UI class representing a visual calendar representation of the Schedule
  *
- * @author iain
+ * @author Iain Workman
  */
-public class ScheduleCalendar extends javax.swing.JPanel
-{
+public class ScheduleCalendar extends javax.swing.JPanel {
 
     /**
      * Creates new form ScheduleCalendar
      */
-    public ScheduleCalendar()
-    {
+    public ScheduleCalendar() {
         initComponents();
         calendarMonth = new CalendarMonth();
         calendarPanel.add(calendarMonth, BorderLayout.CENTER);
@@ -30,27 +29,27 @@ public class ScheduleCalendar extends javax.swing.JPanel
 
     /**
      * Sets the date of focus for the ScheduleCalendar
+     *
      * @param year::int the year to display on the ScheduleCalendar
      * @param month::int the month to display on the ScheduleCalendar NOTE: Java
      * indexes month from 00 ie. 0=Jan, 1=Feb, 2=Mar, ... , 10=Nov, 11=Dec
      */
-    public void setDate(int year, int month)
-    {
+    public void setDate(int year, int month) {
         currentDateDisplayed = new GregorianCalendar(year, month, 01);
         calendarMonth.setDate(year, month);
         currentDateLabel.setText(
                 dateFormatter.format(currentDateDisplayed.getTime()));
     }
-    
+
     /**
      * Sets the Schedule that this ScheduleCalendar is to visualize.
+     *
      * @param schedule::Schedule ~ The schedule to display
      */
-    public void setSchedule(Schedule schedule)
-    {
+    public void setSchedule(Schedule schedule) {
         calendarMonth.setSchedule(schedule);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,7 +133,7 @@ public class ScheduleCalendar extends javax.swing.JPanel
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_backButtonActionPerformed
     {//GEN-HEADEREND:event_backButtonActionPerformed
         currentDateDisplayed.add(Calendar.MONTH, -1);
-        calendarMonth.setDate(currentDateDisplayed.get(Calendar.YEAR), 
+        calendarMonth.setDate(currentDateDisplayed.get(Calendar.YEAR),
                 currentDateDisplayed.get(Calendar.MONTH));
         currentDateLabel.setText(
                 dateFormatter.format(currentDateDisplayed.getTime()));
@@ -143,7 +142,7 @@ public class ScheduleCalendar extends javax.swing.JPanel
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_nextButtonActionPerformed
     {//GEN-HEADEREND:event_nextButtonActionPerformed
         currentDateDisplayed.add(Calendar.MONTH, 1);
-        calendarMonth.setDate(currentDateDisplayed.get(Calendar.YEAR), 
+        calendarMonth.setDate(currentDateDisplayed.get(Calendar.YEAR),
                 currentDateDisplayed.get(Calendar.MONTH));
         currentDateLabel.setText(
                 dateFormatter.format(currentDateDisplayed.getTime()));

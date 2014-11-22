@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.sql.SQLException;
@@ -11,7 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 /**
@@ -19,6 +13,7 @@ import java.util.LinkedList;
  * interface. The JDBC driver must be registered with the system before any call
  * to this class can be made, using:
  * Class.forName("DRIVER_NAME");
+ * @author Iain Workman, Ryan La Forge
  */
 public class JdbcDatabase extends Database {
     

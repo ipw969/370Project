@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import businessobjects.BaseBusinessObject;
@@ -17,22 +12,19 @@ import java.util.GregorianCalendar;
 
 /**
  *
- * @author iain
+ * @author Iain Workman
  */
 public class CalendarMonth extends javax.swing.JPanel
-        implements BusinessObjectListListener
-{
+        implements BusinessObjectListListener {
 
     // Constructor
     /**
      * Creates new form CalendarMonth
      */
-    public CalendarMonth()
-    {
+    public CalendarMonth() {
         // Setup the list of CalendarDays which will be displayed in the panel
         calendarDays = new ArrayList<>(42);
-        for (int iCalendarDay = 0; iCalendarDay < 42; iCalendarDay++)
-        {
+        for (int iCalendarDay = 0; iCalendarDay < 42; iCalendarDay++) {
             calendarDays.add(new CalendarDay());
         }
         // Set the currentMonthStart to this month
@@ -43,8 +35,7 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     // Public Methods
-    public void setDate(int year, int month)
-    {
+    public void setDate(int year, int month) {
         currentMonthStart = new GregorianCalendar(year, month, 1);
         currentMonthStart.set(Calendar.HOUR, 0);
         currentMonthStart.set(Calendar.MINUTE, 0);
@@ -52,10 +43,8 @@ public class CalendarMonth extends javax.swing.JPanel
         refreshCalendarDays();
     }
 
-    public void setSchedule(Schedule schedule)
-    {
-        if (filmingSchedule != null)
-        {
+    public void setSchedule(Schedule schedule) {
+        if (filmingSchedule != null) {
             filmingSchedule.removeListener(this);
         }
 
@@ -65,20 +54,16 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     @Override
-    public void businessObjectAdded(BaseBusinessObject itemAdded)
-    {
-        if (itemAdded instanceof SceneFilmingDate)
-        {
+    public void businessObjectAdded(BaseBusinessObject itemAdded) {
+        if (itemAdded instanceof SceneFilmingDate) {
             SceneFilmingDate addedFilmingDate = (SceneFilmingDate) itemAdded;
 
-            for (CalendarDay currentCalendarDay : calendarDays)
-            {
-                java.text.SimpleDateFormat sdf = 
-                        new java.text.SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
-                
+            for (CalendarDay currentCalendarDay : calendarDays) {
+                java.text.SimpleDateFormat sdf
+                        = new java.text.SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
+
                 System.out.println(sdf.format(currentCalendarDay.date().getTime()));
-                if (addedFilmingDate.getSceneShootingInterval().isOnThisDate(currentCalendarDay.date()))
-                {
+                if (addedFilmingDate.getSceneShootingInterval().isOnThisDate(currentCalendarDay.date())) {
                     currentCalendarDay.filmingDates().add(addedFilmingDate);
                 }
             }
@@ -86,18 +71,13 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     @Override
-    public void businessObjectRemoved(BaseBusinessObject itemRemoved)
-    {
-        if (itemRemoved instanceof SceneFilmingDate)
-        {
+    public void businessObjectRemoved(BaseBusinessObject itemRemoved) {
+        if (itemRemoved instanceof SceneFilmingDate) {
             SceneFilmingDate removedFilmingDate = (SceneFilmingDate) itemRemoved;
 
-            for (CalendarDay currentCalendarDay : calendarDays)
-            {
-                for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
-                {
-                    if (currentDayFilmingDate.getScene().getName().compareTo(removedFilmingDate.getScene().getName()) == 0)
-                    {
+            for (CalendarDay currentCalendarDay : calendarDays) {
+                for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates()) {
+                    if (currentDayFilmingDate.getScene().getName().compareTo(removedFilmingDate.getScene().getName()) == 0) {
                         currentCalendarDay.filmingDates().remove(currentDayFilmingDate);
                     }
                 }
@@ -106,52 +86,43 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     @Override
-    public void listCleared()
-    {
+    public void listCleared() {
         //Shouldn't really happen, but we'll deal with the case anyway
-        for (CalendarDay currentCalendarDay : calendarDays)
-        {
+        for (CalendarDay currentCalendarDay : calendarDays) {
             currentCalendarDay.filmingDates().clear();
         }
     }
 
     @Override
-    public void validStateAltered(boolean newState, BaseBusinessObject sender)
-    {
+    public void validStateAltered(boolean newState, BaseBusinessObject sender) {
         // We're not editing the items here, so we don't need to handle this
     }
 
     @Override
-    public void changedStateAltered(boolean newState, BaseBusinessObject sender)
-    {
-        if (sender instanceof SceneFilmingDate)
-        {
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
+        if (sender instanceof SceneFilmingDate) {
             SceneFilmingDate alteredFilmingDate = (SceneFilmingDate) sender;
 
-            for (CalendarDay currentCalendarDay : calendarDays)
-            {
-                if (alteredFilmingDate.getSceneShootingInterval().overlaps(currentCalendarDay.date()))
-                {
+            for (CalendarDay currentCalendarDay : calendarDays) {
+                if (alteredFilmingDate.getSceneShootingInterval().overlaps(currentCalendarDay.date())) {
                     currentCalendarDay.filmingDates().add(alteredFilmingDate);
                 }
                 SceneFilmingDate filmingDateToDelete = null;
-                for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates())
-                {
-                    if (currentDayFilmingDate.getScene().getName().compareTo(alteredFilmingDate.getScene().getName()) == 0)
-                    {
+                for (SceneFilmingDate currentDayFilmingDate : currentCalendarDay.filmingDates()) {
+                    if (currentDayFilmingDate.getScene().getName().compareTo(alteredFilmingDate.getScene().getName()) == 0) {
                         filmingDateToDelete = currentDayFilmingDate;
                     }
                 }
-                if(filmingDateToDelete != null)
+                if (filmingDateToDelete != null) {
                     currentCalendarDay.filmingDates().remove(filmingDateToDelete);
+                }
             }
         }
 
     }
 
     // Private Methods
-    private void refreshCalendarDays()
-    {
+    private void refreshCalendarDays() {
         // Clear the current compoenents from the Panel
         this.removeAll();
 
@@ -165,21 +136,18 @@ public class CalendarMonth extends javax.swing.JPanel
                 = (GregorianCalendar) currentMonthStart.clone();
 
         // Then we need to iterate back to the first day of the week
-        while (calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek())
-        {
+        while (calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek()) {
             calendarDate.add(Calendar.DAY_OF_WEEK, -1);
         }
 
         // Then we need to add each day to the calendarDays list, until we're
         // at the start of the month we want
-        while (calendarDate.get(Calendar.MONTH) != currentMonthStart.get(Calendar.MONTH))
-        {
+        while (calendarDate.get(Calendar.MONTH) != currentMonthStart.get(Calendar.MONTH)) {
             CalendarDay currentCalendarDay = calendarDays.get(calendarDaysAdded);
             currentCalendarDay.setDate(calendarDate);
             currentCalendarDay.setForeground(Color.LIGHT_GRAY);
 
-            if (filmingSchedule != null)
-            {
+            if (filmingSchedule != null) {
                 populateCalendarDay(currentCalendarDay, calendarDate);
             }
             add(currentCalendarDay);
@@ -189,14 +157,12 @@ public class CalendarMonth extends javax.swing.JPanel
 
         // Then we need to add each day to the calendarDays list, until we've
         // reached the end of the last day in this calendar month
-        while (calendarDate.get(Calendar.MONTH) == currentMonthStart.get(Calendar.MONTH))
-        {
+        while (calendarDate.get(Calendar.MONTH) == currentMonthStart.get(Calendar.MONTH)) {
             CalendarDay currentCalendarDay = calendarDays.get(calendarDaysAdded);
             currentCalendarDay.setDate(calendarDate);
             currentCalendarDay.setForeground(Color.BLACK);
 
-            if (filmingSchedule != null)
-            {
+            if (filmingSchedule != null) {
                 populateCalendarDay(currentCalendarDay, calendarDate);
             }
             add(currentCalendarDay);
@@ -206,14 +172,12 @@ public class CalendarMonth extends javax.swing.JPanel
 
         // Then we need to fill up the rest of the list with the remaining days
         // left in this week
-        while (calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek())
-        {
+        while (calendarDate.get(Calendar.DAY_OF_WEEK) != calendarDate.getFirstDayOfWeek()) {
             CalendarDay currentCalendarDay = calendarDays.get(calendarDaysAdded);
             currentCalendarDay.setDate(calendarDate);
             currentCalendarDay.setForeground(Color.LIGHT_GRAY);
 
-            if (filmingSchedule != null)
-            {
+            if (filmingSchedule != null) {
                 populateCalendarDay(currentCalendarDay, calendarDate);
             }
             add(currentCalendarDay);
@@ -226,13 +190,11 @@ public class CalendarMonth extends javax.swing.JPanel
         this.repaint();
     }
 
-    private void populateCalendarDay(CalendarDay calendarDay, GregorianCalendar date)
-    {
+    private void populateCalendarDay(CalendarDay calendarDay, GregorianCalendar date) {
         BusinessObjectList<SceneFilmingDate> daysSchedule
                 = filmingSchedule.getScheduleFor(date);
 
-        for (SceneFilmingDate currentFilmingDate : daysSchedule)
-        {
+        for (SceneFilmingDate currentFilmingDate : daysSchedule) {
             calendarDay.filmingDates().add(currentFilmingDate);
         }
     }

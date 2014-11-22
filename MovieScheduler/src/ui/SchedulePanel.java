@@ -20,6 +20,7 @@ import javax.swing.event.PopupMenuListener;
 
 /**
  * A class which represents the scene panel for display in the MainMenu
+ * @author Iain Workman
  */
 public class SchedulePanel extends javax.swing.JPanel
 {

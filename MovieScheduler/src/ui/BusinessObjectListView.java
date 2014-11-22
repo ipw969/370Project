@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import businessobjects.BaseBusinessObject;
@@ -17,15 +12,14 @@ import javax.swing.ListModel;
 /**
  * A ui view class for displaying information from a BusinessObjectList
  *
+ * @author Iain Workman
  * @param <T extends BaseBusinessObject> ~ The type of BusinessObject contained
  * in the list whose data is to be displayed.
  */
 public class BusinessObjectListView<T extends BaseBusinessObject>
-        extends JList<T>
-{
+        extends JList<T> {
 
     // Constructor
-
     /**
      * Creates an instance of a BusinessObjectListView to display the data in
      * the provided BusinessObjectList
@@ -33,24 +27,21 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
      * @param list::BusinessObjectList ~ The list which the view will use as a
      * model
      */
-    BusinessObjectListView(BusinessObjectList<T> list)
-    {
+    BusinessObjectListView(BusinessObjectList<T> list) {
         BusinessObjectListModel<T> listModel = new BusinessObjectListModel<>();
         listModel.setData(list);
         this.setModel(listModel);
     }
-    
+
     // Public Methods
-    public void stopModelListening()
-    {
+    public void stopModelListening() {
         ListModel model = getModel();
-        if(model != null && model instanceof BusinessObjectListModel)
-        {
-            BusinessObjectListModel<T> listModel = (BusinessObjectListModel<T>)model;
+        if (model != null && model instanceof BusinessObjectListModel) {
+            BusinessObjectListModel<T> listModel = (BusinessObjectListModel<T>) model;
             listModel.stopListening();
         }
     }
-    
+
     /**
      * Private class which represents the model which the BusinessObjectListView
      * will use to display its data
@@ -59,8 +50,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
      * the model class will manage.
      */
     private class BusinessObjectListModel<T extends BaseBusinessObject> extends
-            AbstractListModel<T> implements BusinessObjectListListener
-    {
+            AbstractListModel<T> implements BusinessObjectListListener {
 
         /**
          * Sets the data for the model to the provided BusinessObjectList
@@ -68,8 +58,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          * @param data::BusinessObjectList<T> ~ The list of BusinessObjects to
          * use as data for the model.
          */
-        public void setData(BusinessObjectList<T> data)
-        {
+        public void setData(BusinessObjectList<T> data) {
             this.data = data;
             data.addListener(this);
         }
@@ -81,8 +70,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          * @return The BusinessObject at the provided index
          */
         @Override
-        public T getElementAt(int index)
-        {
+        public T getElementAt(int index) {
             return data.get(index);
         }
 
@@ -92,8 +80,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          * @return The number of items within the model
          */
         @Override
-        public int getSize()
-        {
+        public int getSize() {
             return data.size();
         }
 
@@ -108,9 +95,8 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          */
         @Override
         public void changedStateAltered(boolean currentState,
-                BaseBusinessObject sender)
-        {
-                refreshBusinessObject(sender);
+                BaseBusinessObject sender) {
+            refreshBusinessObject(sender);
         }
 
         /**
@@ -126,8 +112,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          */
         @Override
         public void validStateAltered(boolean currentState,
-                BaseBusinessObject sender)
-        {
+                BaseBusinessObject sender) {
             // We're not editing the object, so the validState doesn't matter.
         }
 
@@ -139,8 +124,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          * the list.
          */
         @Override
-        public void businessObjectAdded(BaseBusinessObject itemAdded)
-        {
+        public void businessObjectAdded(BaseBusinessObject itemAdded) {
             refreshBusinessObject(itemAdded);
             revalidate();
             repaint();
@@ -149,12 +133,12 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         /**
          * Handles the managed list notifying the model that it has had a
          * BusinessObject removed from it.
+         *
          * @param itemRemoved::BaseBusinessObject ~ The BusinessObject which was
          * removed from the list.
          */
         @Override
-        public void businessObjectRemoved(BaseBusinessObject itemRemoved)
-        {
+        public void businessObjectRemoved(BaseBusinessObject itemRemoved) {
             refreshBusinessObject(itemRemoved);
             revalidate();
             repaint();
@@ -164,55 +148,47 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
          * Handles the managed list notifying the model that it has been emptied
          */
         @Override
-        public void listCleared()
-        {
+        public void listCleared() {
             revalidate();
             repaint();
         }
-        
+
         /**
-         * Stops the model listening to changes to the underlying BusinessObjectList.
-         * This should only be called immediately prior to stopping using the model.
+         * Stops the model listening to changes to the underlying
+         * BusinessObjectList. This should only be called immediately prior to
+         * stopping using the model.
          */
-        public void stopListening()
-        {
+        public void stopListening() {
             data.removeListener(this);
         }
-        
-        private void refreshBusinessObject(BaseBusinessObject businessObject)
-        {
+
+        private void refreshBusinessObject(BaseBusinessObject businessObject) {
             // Iterate through the list to find the index of the changed 
             // businessObject
             boolean objectFound = false;
             int indexOfSender = -1;
             for (int iCurrentObject = 0, count = data.size();
                     iCurrentObject < count && !objectFound;
-                    iCurrentObject++)
-            {
-                if (data.get(iCurrentObject) == businessObject)
-                {
+                    iCurrentObject++) {
+                if (data.get(iCurrentObject) == businessObject) {
                     objectFound = true;
                     indexOfSender = iCurrentObject;
                 }
             }
 
-            if (objectFound)
-            {
+            if (objectFound) {
                 fireContentsChanged(businessObject, indexOfSender, indexOfSender);
             }
         }
-        
+
         /**
          * The BusinessObjectList that the Model is presenting to Views.
          */
         private BusinessObjectList<T> data;
 
-        
-        
     }
 
     // Static Methods
-
     /**
      * Simple class for displaying a BusinessObjectListView. This methods does
      * not provide unit testing. Rather it is simply to visualize the view as it
@@ -220,8 +196,7 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
      *
      * @param args
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         javax.swing.JFrame testFrame = new javax.swing.JFrame();
         testFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         testFrame.setSize(100, 100);
@@ -241,10 +216,8 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
         testList.add(testScene3);
 
         javax.swing.JButton testAlterDataButton = new javax.swing.JButton();
-        testAlterDataButton.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        testAlterDataButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 testList.clear();
             }
         });

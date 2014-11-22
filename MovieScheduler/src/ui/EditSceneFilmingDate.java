@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import actions.SaveSceneFilmingDateAction;
@@ -18,38 +13,36 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import database.Database;
 import java.awt.event.WindowEvent;
+
 /**
  *
- * @author iain
+ * @author Iain Workman
  */
 public class EditSceneFilmingDate extends javax.swing.JFrame
-        implements BusinessObjectListener
-{
+        implements BusinessObjectListener {
 
     /**
      * Creates new form EditSceneFilmingDate
+     *
      * @param script
      * @param filmingDate
      * @param database
      */
-    public EditSceneFilmingDate(Script script, 
-            SceneFilmingDate filmingDate, Database database)
-    {
-        if (script == null)
-        {
+    public EditSceneFilmingDate(Script script,
+            SceneFilmingDate filmingDate, Database database) {
+        if (script == null) {
             throw new RuntimeException("Cannot edit Scene Filming Dates for"
                     + "a null script");
-        }        
+        }
         initComponents();
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-        
+
         this.script = script;
         this.database = database;
         originalFilmingDate = filmingDate;
-        try{
-        filmingDateToEdit = (SceneFilmingDate) filmingDate.clone();
-        } catch(CloneNotSupportedException e)
-        {
+        try {
+            filmingDateToEdit = (SceneFilmingDate) filmingDate.clone();
+        } catch (CloneNotSupportedException e) {
             throw new RuntimeException("Error creating Edit Scene Filming Date"
                     + " Panel: Clone not supported");
         }
@@ -62,103 +55,86 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         scenesComboBox = new BusinessObjectComboBoxView<>(script.getScenes());
         sceneLabel.setText(filmingDateToEdit.getScene().getName());
         scenesComboBox.setSelectedItem(filmingDateToEdit.getScene());
-        
+
         startDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingStart().getTime());
         endDateTimeSpinner.setValue(filmingDateToEdit.sceneShootingEnd().getTime());
-        
-        startDateTimeSpinner.addChangeListener(new ChangeListener()
-        {
-            
+
+        startDateTimeSpinner.addChangeListener(new ChangeListener() {
+
             @Override
-            public void stateChanged(ChangeEvent e)
-            {
+            public void stateChanged(ChangeEvent e) {
                 Date newValue = (Date) startDateTimeSpinner.getValue();
                 GregorianCalendar newCalendarValue = new GregorianCalendar();
                 newCalendarValue.setTime(newValue);
-                
+
                 filmingDateToEdit.getSceneShootingInterval().setStart(newCalendarValue);
             }
-            
+
         });
-        
-        endDateTimeSpinner.addChangeListener(new ChangeListener()
-        {
+
+        endDateTimeSpinner.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e)
-            {
+            public void stateChanged(ChangeEvent e) {
                 Date newValue = (Date) endDateTimeSpinner.getValue();
                 GregorianCalendar newCalendarValue = new GregorianCalendar();
                 newCalendarValue.setTime(newValue);
-                
+
                 filmingDateToEdit.getSceneShootingInterval().setEnd(newCalendarValue);
             }
         });
     }
-    
+
     @Override
-    public void validStateAltered(boolean newState, BaseBusinessObject sender)
-    {
+    public void validStateAltered(boolean newState, BaseBusinessObject sender) {
         okayButton.setEnabled(newState);
         errorIcon.setVisible(!newState);
         errorLabel.setVisible(!newState);
         errorLabel.setText(null);
-        if (!newState)
-        {
+        if (!newState) {
             errorIcon.setToolTipText(sender.getErrorMessage());
         }
     }
-    
+
     @Override
-    public void changedStateAltered(boolean newState, BaseBusinessObject sender)
-    {
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
         okayButton.setEnabled(newState);
     }
 
-    public void save()
-    {
+    public void save() {
         SaveSceneFilmingDateAction saveAction = new SaveSceneFilmingDateAction(
                 database, filmingDateToEdit);
-        
+
         saveAction.run();
-        
-        if(saveAction.wasSuccessful())
-        {
+
+        if (saveAction.wasSuccessful()) {
             originalFilmingDate.merge(filmingDateToEdit);
             script.getSchedule().add(originalFilmingDate);
-        }
-        else
-        {
+        } else {
             //Show error message
             JOptionPane.showMessageDialog(null, "Could not save scheduled "
-                    + "filming date with message: " 
+                    + "filming date with message: "
                     + saveAction.lastErrorMessage(),
                     "Error Loading System!", 0);
         }
     }
-    
-    private boolean confirmClose()
-    {
-        if (filmingDateToEdit.hasChanged())
-        {
-            if (filmingDateToEdit.isValid())
-            {
+
+    private boolean confirmClose() {
+        if (filmingDateToEdit.hasChanged()) {
+            if (filmingDateToEdit.isValid()) {
                 int confirm = JOptionPane.showOptionDialog(this,
                         "Changes have been made, do you wish to save?",
                         "Save Changes?",
                         JOptionPane.YES_NO_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null, null, null);
-                
-                if (confirm == JOptionPane.YES_OPTION)
-                {
+
+                if (confirm == JOptionPane.YES_OPTION) {
                     save();
                     return true;
-                } else if (confirm == JOptionPane.NO_OPTION)
-                {
+                } else if (confirm == JOptionPane.NO_OPTION) {
                     return true;
                 }
-            } else
-            {
+            } else {
                 int confirm = JOptionPane.showOptionDialog(
                         this,
                         "Changes have been made, but cannot be saved because "
@@ -167,20 +143,18 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,
                         null, null, null);
-                
-                if (confirm == JOptionPane.NO_OPTION)
-                {
+
+                if (confirm == JOptionPane.NO_OPTION) {
                     return true;
                 }
             }
-        } else
-        {
+        } else {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -342,8 +316,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
 
     private void formWindowClosing(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowClosing
     {//GEN-HEADEREND:event_formWindowClosing
-        if(confirmClose())
-        {
+        if (confirmClose()) {
             filmingDateToEdit.removeListener(this);
             //filmingDateToEdit.sceneShootingInterval().removeListener(this);
             this.setVisible(false);
@@ -363,43 +336,33 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 //new EditSceneFilmingDate().setVisible(true);
             }
         });

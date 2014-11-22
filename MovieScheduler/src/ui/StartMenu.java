@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- This JFrame should only be used if it is the first time the project is opened, or there is no script in the database. 
- */
 package ui;
 
 import java.sql.SQLException;
@@ -11,23 +5,19 @@ import businessobjects.Script;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author ryan
+ * @author Ryan La Forge
  */
-public class StartMenu extends javax.swing.JFrame
-{
+public class StartMenu extends javax.swing.JFrame {
 
     Database database;
 
     /**
      * Creates new form CreateScript
      */
-    public StartMenu(Database database)
-    {
+    public StartMenu(Database database) {
         this.database = database;
         initComponents();
         scriptNameField.setMinimumSize(new Dimension(50, 23));
@@ -157,14 +147,12 @@ public class StartMenu extends javax.swing.JFrame
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         Script script = new Script(scriptNameField.getText());
 
-        if (!script.isValid())
-        {
+        if (!script.isValid()) {
 
             ErrorDisplay displayError = new ErrorDisplay(this, script.getErrorMessage());
             displayError.setVisible(true);
 
-        } else
-        {
+        } else {
 
             this.setVisible(false);
             MainMenu mainMenu = new MainMenu(script, database);
@@ -178,63 +166,49 @@ public class StartMenu extends javax.swing.JFrame
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(StartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(StartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(StartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(StartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                try
-                {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
                     Class.forName("org.postgresql.Driver");
-                } catch (ClassNotFoundException ex)
-                {
+                } catch (ClassNotFoundException ex) {
                     System.out.println("Could not load database driver with "
                             + "message: " + ex.toString());
                     return;
                 }
 
                 JdbcDatabase testDatabase = null;
-                try
-                {
+                try {
                     testDatabase = new JdbcDatabase(
                             "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
                             "cmpt370_group06",
                             "Raptorjesusisawesome55775");
-                } catch (SQLException ex)
-                {
+                } catch (SQLException ex) {
                     System.out.println("Failed to connection to db with message: "
                             + ex.getMessage());
                     return;

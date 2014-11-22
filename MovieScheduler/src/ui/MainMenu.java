@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import actions.DeleteEquipmentAction;
@@ -25,7 +20,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author iain
+ * @author Iain Workman, Ryan La Forge, John Mason, Matthew Galbraith
  */
 public class MainMenu extends javax.swing.JFrame {
 
@@ -472,9 +467,9 @@ public class MainMenu extends javax.swing.JFrame {
         }    }//GEN-LAST:event_removeEquipmentButtonActionPerformed
 
     private void editVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVolunteerButtonActionPerformed
-        
-            VolunteerForm newVolunteerForm = new VolunteerForm(theScript, database, (Volunteer) volunteerComboBox.getSelectedItem());
-            newVolunteerForm.setVisible(true);
+
+        VolunteerForm newVolunteerForm = new VolunteerForm(theScript, database, (Volunteer) volunteerComboBox.getSelectedItem());
+        newVolunteerForm.setVisible(true);
             }//GEN-LAST:event_editVolunteerButtonActionPerformed
 
     /**

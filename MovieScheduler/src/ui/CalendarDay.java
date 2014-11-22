@@ -1,7 +1,6 @@
 package ui;
 
 import businessobjects.BusinessObjectList;
-import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,6 +22,8 @@ import javax.swing.event.PopupMenuListener;
 /**
  * A ui class representing a single day in the schedule calendar. Displays the
  * day of the month, then a list of all the scenes scheduled on that day.
+ *
+ * @author Iain Workman
  */
 public class CalendarDay extends javax.swing.JPanel {
 
@@ -41,25 +42,20 @@ public class CalendarDay extends javax.swing.JPanel {
         JPopupMenu filmingDateViewPopupMenu = new JPopupMenu();
         JMenuItem filmingDateMenuItem = new JMenuItem("Remove From Schedule");
         filmingDateViewPopupMenu.add(filmingDateMenuItem);
-        
-        filmingDateViewPopupMenu.addPopupMenuListener(new PopupMenuListener()
-        {
-            public void popupMenuCanceled(PopupMenuEvent e)
-            {
+
+        filmingDateViewPopupMenu.addPopupMenuListener(new PopupMenuListener() {
+            public void popupMenuCanceled(PopupMenuEvent e) {
                 //No action taken when menu is canceled
             }
 
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e)
-            {
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
                 //No action taken before menu becomes invisible
             }
 
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e)
-            {
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
                 SceneFilmingDate selectedSceneFilmingDate
                         = filmingDateView.getSelectedValue();
-                if (selectedSceneFilmingDate == null)
-                {
+                if (selectedSceneFilmingDate == null) {
                     return;
                 }
 
@@ -68,24 +64,18 @@ public class CalendarDay extends javax.swing.JPanel {
                         + " from the schedule");
             }
         });
-        
-        filmingDateView.addMouseListener(new MouseAdapter()
-        {
-            public void mousePressed(MouseEvent e)
-            {
-                if (SwingUtilities.isRightMouseButton(e))
-                {
+
+        filmingDateView.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
 
                     int indexUnderPointer
                             = filmingDateView.locationToIndex(e.getPoint());
 
                     if (!filmingDateView.getCellBounds(indexUnderPointer,
-                            indexUnderPointer).contains(e.getPoint()))
-                    {
+                            indexUnderPointer).contains(e.getPoint())) {
                         filmingDateView.clearSelection();
-                    } 
-                    else
-                    {
+                    } else {
 
                         filmingDateView.setSelectedIndex(indexUnderPointer);
 
@@ -96,17 +86,16 @@ public class CalendarDay extends javax.swing.JPanel {
                 super.mousePressed(e);
             }
         });
-        
+
         filmingDateMenuItem.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
 
         });
-        
-        
+
     }
 
     // Public Methods
@@ -157,19 +146,15 @@ public class CalendarDay extends javax.swing.JPanel {
 
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             // Assumes the stuff in the list has a pretty toString
-            SceneFilmingDate filmingDate = (SceneFilmingDate)value;
-            if(filmingDate.hasConflict())
-            {
+            SceneFilmingDate filmingDate = (SceneFilmingDate) value;
+            if (filmingDate.hasConflict()) {
                 this.setBorder(new LineBorder(Color.RED));
                 this.setBackground(Color.PINK);
-            }
-            else
-            {
+            } else {
                 this.setBorder(new LineBorder(Color.GRAY));
-                this.setBackground(Color.GREEN);    
+                this.setBackground(Color.GREEN);
             }
             this.setText(value.toString());
-            
 
             return this;
         }

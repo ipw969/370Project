@@ -9,7 +9,6 @@ import businessobjects.Volunteer;
 import database.Database;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,7 +84,7 @@ public class SceneMenu extends javax.swing.JDialog {
         availableEquipmentList.addAll(script.getEquipment());
 
         availableVolunteers = new BusinessObjectListView(availableVolunteerList);
-                  //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
+        //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
 
         currentVolunteers = new BusinessObjectListView(currentVolunteerList);
 
@@ -220,7 +219,6 @@ public class SceneMenu extends javax.swing.JDialog {
 
         jLabel2.setText("volunteers not in scene");
 
-       
         jScrollPane6.setViewportView(sceneDescriptionField);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -1,19 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 /**
  *
- * @author ryan
+ * @author Ryan La Forge
  */
 public class ErrorDisplay extends javax.swing.JDialog {
 
     String errorMessages;
+
     /**
      * Creates new form NewJDialog
+     *
      * @param parent the parent JFrame
      * @param errorMessages the errorMessages to display
      */
@@ -21,7 +18,7 @@ public class ErrorDisplay extends javax.swing.JDialog {
         super(parent, true);
         this.errorMessages = errorMessages;
         initComponents();
-          errorBody.setText(errorMessages);
+        errorBody.setText(errorMessages);
     }
 
     /**
@@ -110,12 +107,9 @@ public class ErrorDisplay extends javax.swing.JDialog {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         this.setVisible(false);
-        if (this.getParent() != null)
-        {
+        if (this.getParent() != null) {
             this.getParent().setVisible(true);
-        }
-        else
-        {
+        } else {
             System.exit(0);
         }
 

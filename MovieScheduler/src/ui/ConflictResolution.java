@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import businessobjects.Scene;
@@ -24,7 +19,7 @@ import javax.swing.JTextArea;
 
 /**
  *
- * @author Mitchell
+ * @author Mitchell Corbett
  */
 public class ConflictResolution extends javax.swing.JFrame {
 

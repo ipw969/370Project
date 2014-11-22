@@ -7,8 +7,8 @@ package ui;
 
 /**
  *
- * @author ryan
+ * @author Ryan La Forge
  */
 public class sceneMenuEdited {
-    
+
 }
