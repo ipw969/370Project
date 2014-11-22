@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package actions;
 
 import businessobjects.SceneFilmingDate;
@@ -58,9 +53,9 @@ public class DeleteSceneFilmingDateAction extends BaseAction {
                 getDatabase().executeDelete(queryString);
                 setWasSuccessful(true);
             } catch (SQLException ex) {
-                    setErrorMessage("Unable to remove filming date with message: "
-                            + ex.getMessage());
-                    setWasSuccessful(false);
+                setErrorMessage("Unable to remove filming date with message: "
+                        + ex.getMessage());
+                setWasSuccessful(false);
             }
         }
 
