@@ -36,21 +36,21 @@ public class SaveEquipmentAction extends BaseAction{
      @Override
     protected void runImplementation()
     {
-        database().clearCommandList();
+        getDatabase().clearCommandList();
         if(equipmentToReplace != null)
         {
              {      
-            database().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace + "';" );
+            getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace + "';" );
         }
-        database().addCommand(buildInsertQueryString());
-        if(database() == null)
+        getDatabase().addCommand(buildInsertQueryString());
+        if(getDatabase() == null)
         {
             setErrorMessage("Database is null");
             setWasSuccessful(false);
             return;
         }
 
-        if(!businessObject().isValid())
+        if(!getBusinessObject().isValid())
         {
             setErrorMessage("Scene equipment object is not Valid");
             setWasSuccessful(false);
@@ -65,7 +65,7 @@ public class SaveEquipmentAction extends BaseAction{
             
             try
             {
-                database().executeInsert(queryString);
+                getDatabase().executeInsert(queryString);
                 setWasSuccessful(true);
                 equipment().setHasChanged(false);
             }
@@ -81,7 +81,7 @@ public class SaveEquipmentAction extends BaseAction{
             
             try
             {
-                database().executeUpdate(queryString);
+                getDatabase().executeUpdate(queryString);
                 setWasSuccessful(true);
                 equipment().setHasChanged(false);
             }
@@ -141,10 +141,10 @@ public class SaveEquipmentAction extends BaseAction{
      */ 
     private Equipment equipment()
     {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
             return null;
         
-        return (Equipment)businessObject();
+        return (Equipment)getBusinessObject();
     }
     
     

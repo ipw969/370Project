@@ -92,7 +92,7 @@ public class LoadScriptAction extends BaseAction
         ResultSet selectResults = null;
         try
         {
-            selectResults = database().executeSelect(selectScriptQuery);
+            selectResults = getDatabase().executeSelect(selectScriptQuery);
 
             while (selectResults.next())
             {
@@ -117,7 +117,7 @@ public class LoadScriptAction extends BaseAction
     private boolean populateVolunteers(Script script)
     {
         PopulateScriptVolunteersAction populateVolunteersAction
-                = new PopulateScriptVolunteersAction(database(), script);
+                = new PopulateScriptVolunteersAction(getDatabase(), script);
 
         populateVolunteersAction.run();
         if (!populateVolunteersAction.wasSuccessful())
@@ -132,7 +132,7 @@ public class LoadScriptAction extends BaseAction
     private boolean populateEquipment(Script script)
     {
         PopulateScriptEquipmentAction populateEquipmentAction
-                = new PopulateScriptEquipmentAction(database(), script);
+                = new PopulateScriptEquipmentAction(getDatabase(), script);
 
         populateEquipmentAction.run();
         if (!populateEquipmentAction.wasSuccessful())
@@ -147,7 +147,7 @@ public class LoadScriptAction extends BaseAction
     private boolean populateScenes(Script script)
     {
         PopulateScriptScenesAction populateScenesAction
-                = new PopulateScriptScenesAction(database(), script);
+                = new PopulateScriptScenesAction(getDatabase(), script);
 
         populateScenesAction.run();
         if (!populateScenesAction.wasSuccessful())
@@ -162,7 +162,7 @@ public class LoadScriptAction extends BaseAction
     private boolean populateSchedule(Script script)
     {
         PopulateScriptScheduleAction populateScheduleAction
-                = new PopulateScriptScheduleAction(database(), script);
+                = new PopulateScriptScheduleAction(getDatabase(), script);
 
         populateScheduleAction.run();
         if (!populateScheduleAction.wasSuccessful())

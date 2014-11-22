@@ -41,20 +41,20 @@ public class PopulateScriptScenesAction extends BaseAction{
      */
     @Override
     protected void runImplementation() {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
         {
             setErrorMessage("Can't populate data for a null script.");
             setWasSuccessful(false);
             return;
         }
         
-        if(!(businessObject() instanceof Script))
+        if(!(getBusinessObject() instanceof Script))
         {
             setErrorMessage("Can't populate data into an object which is not"
                     + " a script.");
         }
         
-        Script scriptToPopulate = (Script)businessObject();
+        Script scriptToPopulate = (Script)getBusinessObject();
         
         try{
             scriptToPopulate.setScenes(loadScenes(scriptToPopulate.name()));
@@ -74,10 +74,10 @@ public class PopulateScriptScenesAction extends BaseAction{
      */
     private Script script()
     {
-        if (businessObject() == null || !(businessObject() instanceof Script))
+        if (getBusinessObject() == null || !(getBusinessObject() instanceof Script))
             return null;
         
-        return (Script)businessObject();
+        return (Script)getBusinessObject();
     }
     
     /**
@@ -100,7 +100,7 @@ public class PopulateScriptScenesAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectScenesQuery);
+            selectResults = getDatabase().executeSelect(selectScenesQuery);
             
             while (selectResults.next())
             {
@@ -160,7 +160,7 @@ public class PopulateScriptScenesAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectSceneVolunteersQuery);
+            selectResults = getDatabase().executeSelect(selectSceneVolunteersQuery);
             
             while (selectResults.next())
             {
@@ -210,7 +210,7 @@ public class PopulateScriptScenesAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectSceneEquipmentQuery);
+            selectResults = getDatabase().executeSelect(selectSceneEquipmentQuery);
             
             while (selectResults.next())
             {

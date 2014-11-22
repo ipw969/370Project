@@ -43,7 +43,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
     @Override
     protected void runImplementation()
     {
-        if(database() == null)
+        if(getDatabase() == null)
         {
             setErrorMessage("Database is null");
             setWasSuccessful(false);
@@ -56,7 +56,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
             return;
         }
         
-        if(!businessObject().isValid())
+        if(!getBusinessObject().isValid())
         {
             setErrorMessage("Scene Filming Date is not Valid");
             setWasSuccessful(false);
@@ -71,7 +71,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
             
             try
             {
-                database().executeInsert(queryString);
+                getDatabase().executeInsert(queryString);
                 setWasSuccessful(true);
                 sceneFilmingDate().setHasChanged(false);
                 sceneFilmingDate().sceneShootingInterval().setHasChanged(false);
@@ -90,7 +90,7 @@ public class SaveSceneFilmingDateAction extends BaseAction {
             
             try
             {
-                database().executeUpdate(queryString);
+                getDatabase().executeUpdate(queryString);
                 setWasSuccessful(true);
                 sceneFilmingDate().setHasChanged(false);
                 sceneFilmingDate().sceneShootingInterval().setHasChanged(false);
@@ -150,10 +150,10 @@ public class SaveSceneFilmingDateAction extends BaseAction {
      */
     private SceneFilmingDate sceneFilmingDate()
     {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
             return null;
         
-        return (SceneFilmingDate)businessObject();
+        return (SceneFilmingDate)getBusinessObject();
     }
     
     // Static Methods

@@ -49,13 +49,13 @@ public class DeleteSceneFilmingDateAction extends BaseAction {
             setErrorMessage("Cannot remove a filming date that contains no"
                     + " Scene");
             setWasSuccessful(false);
-        } else if (database() == null) {
+        } else if (getDatabase() == null) {
             setErrorMessage("Cannot remove a filming date from a null database");
             setWasSuccessful(false);
         } else {
             String queryString = getDeleteString();
             try {
-                database().executeDelete(queryString);
+                getDatabase().executeDelete(queryString);
                 setWasSuccessful(true);
             } catch (SQLException ex) {
                     setErrorMessage("Unable to remove filming date with message: "
@@ -83,6 +83,6 @@ public class DeleteSceneFilmingDateAction extends BaseAction {
      * Returns the SceneFilmingDate on which this action is being performed
      */
     private SceneFilmingDate getSceneFilmingDate() {
-        return (SceneFilmingDate) businessObject();
+        return (SceneFilmingDate) getBusinessObject();
     }
 }

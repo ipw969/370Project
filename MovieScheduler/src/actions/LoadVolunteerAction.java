@@ -79,7 +79,7 @@ public class LoadVolunteerAction extends BaseAction {
         ResultSet selectResults = null;
         try
         {
-            selectResults = database().executeSelect(buildVolunteerQueryString());
+            selectResults = getDatabase().executeSelect(buildVolunteerQueryString());
             while (selectResults.next())
             {
                 System.out.println("Name: ");
@@ -146,7 +146,7 @@ public class LoadVolunteerAction extends BaseAction {
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectAvailabilityQuery);
+            selectResults = getDatabase().executeSelect(selectAvailabilityQuery);
             
                 while (selectResults.next())
                 {

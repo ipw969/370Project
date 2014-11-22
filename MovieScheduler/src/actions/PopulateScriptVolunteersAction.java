@@ -41,20 +41,20 @@ public class PopulateScriptVolunteersAction extends BaseAction{
      */
     @Override
     protected void runImplementation() {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
         {
             setErrorMessage("Can't populate data for a null script.");
             setWasSuccessful(false);
             return;
         }
         
-        if(!(businessObject() instanceof Script))
+        if(!(getBusinessObject() instanceof Script))
         {
             setErrorMessage("Can't populate data into an object which is not"
                     + " a script.");
         }
         
-        Script scriptToPopulate = (Script)businessObject();
+        Script scriptToPopulate = (Script)getBusinessObject();
         
         try{
             scriptToPopulate.setVolunteers(loadVolunteers());
@@ -86,7 +86,7 @@ public class PopulateScriptVolunteersAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectVolunteersQuery);
+            selectResults = getDatabase().executeSelect(selectVolunteersQuery);
             
                 while (selectResults.next())
                 {
@@ -141,7 +141,7 @@ public class PopulateScriptVolunteersAction extends BaseAction{
         ResultSet selectResults = null;
         
         try{
-            selectResults = database().executeSelect(selectAvailabilityQuery);
+            selectResults = getDatabase().executeSelect(selectAvailabilityQuery);
             
                 while (selectResults.next())
                 {

@@ -33,17 +33,17 @@ public class DeleteVolunteerAction extends BaseAction
     @Override
     protected void runImplementation() 
     {
-      database().clearCommandList();
+      getDatabase().clearCommandList();
       if (volunteerToDelete != null)
       {      
-            database().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToDelete + "';" );
-            database().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToDelete + "';" );
-            database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToDelete + "';" );
+            getDatabase().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToDelete + "';" );
+            getDatabase().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToDelete + "';" );
+            getDatabase().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToDelete + "';" );
       }
        
       try
       {
-          database().executeCommandList();
+          getDatabase().executeCommandList();
           this.setWasSuccessful(true);
       }
       catch (SQLException e)
@@ -53,7 +53,7 @@ public class DeleteVolunteerAction extends BaseAction
       }
       finally
       {
-          database().clearCommandList();
+          getDatabase().clearCommandList();
       }
       
     }

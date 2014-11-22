@@ -43,22 +43,22 @@ public class SaveVolunteerAction extends BaseAction{
     protected void runImplementation()
     {
 
-        database().clearCommandList();
+        getDatabase().clearCommandList();
         if (volunteerToReplace != null)
         {      
-            database().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToReplace + "';" );
-            database().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToReplace + "';" );
-            database().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToReplace + "';" );
+            getDatabase().addCommand("delete from t_scenevolunteer where snv_emailaddress_volunteer = '" + volunteerToReplace + "';" );
+            getDatabase().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToReplace + "';" );
+            getDatabase().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToReplace + "';" );
         }
-        database().addCommand(buildInsertQueryString());
-        if(database() == null)
+        getDatabase().addCommand(buildInsertQueryString());
+        if(getDatabase() == null)
         {
             setErrorMessage("Database is null");
             setWasSuccessful(false);
             return;
         }
 
-        if(!businessObject().isValid())
+        if(!getBusinessObject().isValid())
         {
             setErrorMessage("Scene volunteer object is not Valid");
             setWasSuccessful(false);
@@ -73,7 +73,7 @@ public class SaveVolunteerAction extends BaseAction{
             
             try
             {
-                database().executeInsert(queryString);
+                getDatabase().executeInsert(queryString);
                 setWasSuccessful(true);
                 volunteer().setHasChanged(false);
             }
@@ -89,7 +89,7 @@ public class SaveVolunteerAction extends BaseAction{
             
             try
             {
-                database().executeUpdate(queryString);
+                getDatabase().executeUpdate(queryString);
                 setWasSuccessful(true);
                 volunteer().setHasChanged(false);
             }
@@ -146,12 +146,12 @@ public class SaveVolunteerAction extends BaseAction{
     
     public void buildInsertAvailabilityString()
     {
-        database().addCommand("delete from t_volunteeravailablility where vol_emailaddress = '" + volunteer.getEmail() + "';" );
+        getDatabase().addCommand("delete from t_volunteeravailablility where vol_emailaddress = '" + volunteer.getEmail() + "';" );
 
         
         for (TimeInterval currAvail: volunteer.getAvailability())
         {
-                database().addCommand(
+                getDatabase().addCommand(
                 "INSERT into t_volunteeravailability("
                 + "vav_emailaddress_volunteer,"
                 + "vav_availability_start," 
@@ -195,10 +195,10 @@ public class SaveVolunteerAction extends BaseAction{
      */ 
     private Volunteer volunteer()
     {
-        if(businessObject() == null)
+        if(getBusinessObject() == null)
             return null;
         
-        return (Volunteer)businessObject();
+        return (Volunteer)getBusinessObject();
     }
     
     // Static Methods

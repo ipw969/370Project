@@ -46,20 +46,20 @@ public class DeleteSceneAction extends BaseAction {
         if (sceneToDelete == null) {
             setErrorMessage("The given scene to delete was null ");
         }
-        database().clearCommandList();
-        database().addCommand("delete from t_scenevolunteer where snv_scenename = '" + sceneToDelete + "';");
-        database().addCommand("delete from t_sceneequipment where sne_scenename = '" + sceneToDelete + "';");
-        database().addCommand("delete from t_schedule where sch_scenename = '" + sceneToDelete + "';");
-        database().addCommand("delete from t_scene where scn_sceneName = '" + sceneToDelete + "';");
+        getDatabase().clearCommandList();
+        getDatabase().addCommand("delete from t_scenevolunteer where snv_scenename = '" + sceneToDelete + "';");
+        getDatabase().addCommand("delete from t_sceneequipment where sne_scenename = '" + sceneToDelete + "';");
+        getDatabase().addCommand("delete from t_schedule where sch_scenename = '" + sceneToDelete + "';");
+        getDatabase().addCommand("delete from t_scene where scn_sceneName = '" + sceneToDelete + "';");
 
         try {
-            database().executeCommandList();
+            getDatabase().executeCommandList();
             this.setWasSuccessful(true);
         } catch (SQLException e) {
             this.setErrorMessage(e.getMessage());
             this.setWasSuccessful(false);
         } finally {
-            database().clearCommandList();
+            getDatabase().clearCommandList();
         }
 
     }

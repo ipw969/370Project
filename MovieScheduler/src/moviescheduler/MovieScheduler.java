@@ -73,7 +73,7 @@ public class MovieScheduler
             errorsEncountered.add(loadScriptAction.lastErrorMessage());
         }
 
-        final Script loadedScript = (Script) loadScriptAction.businessObject();
+        final Script loadedScript = (Script) loadScriptAction.getBusinessObject();
         if (loadedScript == null && initializedProperly)
         {
             // No errors were encountered, but we didn't find a script, must

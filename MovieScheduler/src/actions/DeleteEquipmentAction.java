@@ -37,8 +37,8 @@ public class DeleteEquipmentAction extends BaseAction
       {
           setErrorMessage("The given equipment to delete was null ");
       }
-      database().clearCommandList();
-      database().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToDelete + "';" );
+      getDatabase().clearCommandList();
+      getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToDelete + "';" );
       
       // unsure if i am supposed to delete the equipment from anywhere else
       // will it automatically delete the equipment from any scenes it is in already
@@ -47,7 +47,7 @@ public class DeleteEquipmentAction extends BaseAction
       //database().addCommand("delete from t_sceneequipment where sne_scenename = '" + sceneToDelete + "';");
       try
       {
-          database().executeCommandList();
+          getDatabase().executeCommandList();
           this.setWasSuccessful(true);
       }
       catch (SQLException e)
@@ -57,7 +57,7 @@ public class DeleteEquipmentAction extends BaseAction
       }
       finally
       {
-          database().clearCommandList();
+          getDatabase().clearCommandList();
       }
       
     }
