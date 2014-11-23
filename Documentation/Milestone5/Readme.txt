@@ -10,6 +10,16 @@ Table Of Contents
 4.Overview ~ A Brief overview of the interface for MovieScheduler and VolunteerAvailability
 5.Running the Primary Success Scenario #1 ~ Using MovieScheduler to add a Volunteer to the script/database
 6.Running the Primary Success Scenario #2 ~ Using VolunteerAvailability to login as as volunteer to view Contact/Availability information
+7.Running the Primary Success Scenario #3 ~ Using the MovieScheduler to add a scene to the script/database.
+8.Running the Primary Success Scenario #4 ~ Using the MovieScheduler to schedule a scene.
+9.Running the Primary Success Scenario #5 ~ Using the Movie Scheduler to resolve conflicts.
+10.Running the Primary Success Scenario #6 ~ Using the MovieScheduler to add equipment to the script.
+
+--------------------other success scenarios-------------------
+11.Running Success Scenario #7 ~ Using the MovieScheduler to remove a scene from the script.
+12.Running Success Scenario #8 ~ Using the MovieScheduler to edit a scene. 
+13.Running Success Scenario #9 ~ Using the MovieScheduler to remove a volunteer from the script.
+14.Running Success Scenario #10 ~ Using the MovieScheduler to remove equipment from the script. 
 
 0. Introduction
 ---------------
@@ -164,7 +174,7 @@ and saves the scene to  the script and to the database.
 3. The producer is presented with the SceneUI screen.
 4. The producer is presented boxes to insert the scene information to, as well as a list of all of the volunteers and equipment available in the script. 
 5. The producer enters information about the scene including the name, description, and volunteers and equipment.
-6. The user presses the save button.
+6. The user presses the submit button.
 7. The scene is saved to the database and to the script.
 
 8.Running primary success scenario #4 Setting a scene filming date
@@ -201,3 +211,56 @@ As a result, our member Mitchel has included a video labelled, primary success s
 4. The producer can then click on a scene to see all of the conflicts that are involved with it.
 5. If the selected scene has any conflicts, the producer is presented with a list of those conflicts.
 6. The producer may then email the members involved, or edit the scene to resolve the conflict. 
+
+
+10.Running the Primary Success Scenario #6 ~ Using the MovieScheduler to add equipment to the script.
+-----------------------------------------------------------------------------------------------------
+Using the MovieScheduler to add a piece of equipment to the script and database.
+
+1.The producer opens up the main menu.
+2.The producer clicks on the add button next to the equipment list.
+3.The add equipment ui opens up.
+4.The producer enters all of the informmation regarding the equipment as well as the time periods in which the equipment is available.
+5.The producer presses the submit button.
+6.The equipment is saved to the script and database.
+
+--------------------other success scenarios------------------------------------------------------------
+
+11.Running Success Scenario #7 ~ Using the MovieScheduler to remove a scene from the script.
+--------------------------------------------------------------------------------------------
+Using the MovieScheduler to remove a scene from the script and database.
+
+1.The producer opens up the main menu.
+2.The producer presses the remove button next to the scene list.
+3.The scene is removed from the script and from the database.
+
+12.Running Success Scenario #8 ~ Using the MovieScheduler to edit a scene.
+--------------------------------------------------------------------------
+Using the MovieScheduler to edit a scene.
+
+1.The producer opens up the main menu.
+2.The producer clicks the edit button next to the scene list.
+3.The Scene menu will open up with all of the selected scenes information already listed.
+4.The producer edits the scene name, description, volunteers, equipment or a combination of the two.
+5.The producer presses the submit button. 
+6.The scene is saved to the database and the script.  
+
+
+13.Running Success Scenario #9 ~ Using the MovieScheduler to remove a volunteer from the script.
+------------------------------------------------------------------------------------------------
+Using the MovieScheduler to remove a volunteer.
+
+1.The producer opens up the main menu.
+2.The producer selects a volunteer.
+3.The producer clicks on the remove button beside the volunteer list.
+4.The volunteer is removed from the script and database.
+
+14.Running Success Scenario #10 ~ Using the MovieScheduler to remove equipment from the script. 
+-----------------------------------------------------------------------------------------------
+Using the MovieScheduler to remove equipment.
+
+1.The producer opens up the main menu.
+2.The producer selects the equipment he or she wants to remove.
+3.The producer clicks the remove button beside the equipment list.
+4.The equipment is removed from the script and database.
+

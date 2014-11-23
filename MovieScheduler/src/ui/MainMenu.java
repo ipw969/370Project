@@ -169,6 +169,11 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         editEquipmentButton.setText("edit");
+        editEquipmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editEquipmentButtonActionPerformed(evt);
+            }
+        });
 
         removeEquipmentButton.setText("remove");
         removeEquipmentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -471,6 +476,10 @@ public class MainMenu extends javax.swing.JFrame {
         VolunteerForm newVolunteerForm = new VolunteerForm(theScript, database, (Volunteer) volunteerComboBox.getSelectedItem());
         newVolunteerForm.setVisible(true);
             }//GEN-LAST:event_editVolunteerButtonActionPerformed
+
+    private void editEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEquipmentButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editEquipmentButtonActionPerformed
 
     /**
      * @param args the command line arguments

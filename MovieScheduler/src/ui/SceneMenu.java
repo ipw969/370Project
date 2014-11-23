@@ -113,7 +113,7 @@ public class SceneMenu extends javax.swing.JDialog {
 
             availableEquipmentList.removeAll(clonedScene.getEquipment());
         }
-
+        saveSceneButton.setText("Submit");
     }
 
     /**
