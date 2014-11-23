@@ -369,15 +369,18 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_exitForm
 
     private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
-        Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
-        DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.getName());
-        deleteSelectedScene.run();
-        if (deleteSelectedScene.wasSuccessful()) {
-            theScript.removeScene(sceneToDelete);
-            sceneComboBox.removeItem(sceneToDelete);
-        } else {
-            ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
+        if (ensureUserWantsRemoved()) {
+            Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
+            DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.getName());
+            deleteSelectedScene.run();
+            if (deleteSelectedScene.wasSuccessful()) {
+                theScript.removeScene(sceneToDelete);
+                sceneComboBox.removeItem(sceneToDelete);
+            } else {
+                ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
+            }
         }
+
     }//GEN-LAST:event_removeSceneButtonActionPerformed
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
@@ -443,32 +446,40 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_equipmentComboBoxActionPerformed
 
     private void removeVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeVolunteerButtonActionPerformed
-        Volunteer volunteerToDelete = (Volunteer) volunteerComboBox.getSelectedItem();
-        DeleteVolunteerAction deleteSelectedvolunteer = new DeleteVolunteerAction(database, volunteerToDelete.getEmail());
-        deleteSelectedvolunteer.run();
-        if (deleteSelectedvolunteer.wasSuccessful()) {
-            theScript.removeVolunteer(volunteerToDelete);
-            volunteerComboBox.removeItem((Volunteer) volunteerComboBox.getSelectedItem());
-            volunteerComboBox.removeItem(volunteerToDelete);
-            toString.setText(null);
-            toDescriptiveString.setText(null);
 
-        } else {
-            ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove volunteer action failed.");
+        if (ensureUserWantsRemoved()) {
+            Volunteer volunteerToDelete = (Volunteer) volunteerComboBox.getSelectedItem();
+            DeleteVolunteerAction deleteSelectedvolunteer = new DeleteVolunteerAction(database, volunteerToDelete.getEmail());
+            deleteSelectedvolunteer.run();
+            if (deleteSelectedvolunteer.wasSuccessful()) {
+                theScript.removeVolunteer(volunteerToDelete);
+                volunteerComboBox.removeItem((Volunteer) volunteerComboBox.getSelectedItem());
+                volunteerComboBox.removeItem(volunteerToDelete);
+                toString.setText(null);
+                toDescriptiveString.setText(null);
+
+            } else {
+                ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove volunteer action failed.");
+            }
+
         }    }//GEN-LAST:event_removeVolunteerButtonActionPerformed
 
     private void removeEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEquipmentButtonActionPerformed
-        Equipment equipmentToDelete = (Equipment) equipmentComboBox.getSelectedItem();
-        DeleteEquipmentAction deleteSelectedEquipment = new DeleteEquipmentAction(database, equipmentToDelete.getOwnerEmail());
-        deleteSelectedEquipment.run();
-        if (deleteSelectedEquipment.wasSuccessful()) {
-            theScript.removeEquipment(equipmentToDelete);
-            equipmentComboBox.removeItem((Equipment) equipmentComboBox.getSelectedItem());
-            equipmentComboBox.removeItem(equipmentToDelete);
-            toString.setText(null);
-            toDescriptiveString.setText(null);
-        } else {
-            ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove equipment action failed.");
+        if (ensureUserWantsRemoved()) {
+            Equipment equipmentToDelete = (Equipment) equipmentComboBox.getSelectedItem();
+            DeleteEquipmentAction deleteSelectedEquipment = new DeleteEquipmentAction(database, equipmentToDelete.getOwnerEmail());
+            deleteSelectedEquipment.run();
+            if (deleteSelectedEquipment.wasSuccessful()) {
+                theScript.removeEquipment(equipmentToDelete);
+                equipmentComboBox.removeItem((Equipment) equipmentComboBox.getSelectedItem());
+                equipmentComboBox.removeItem(equipmentToDelete);
+                toString.setText(null);
+                toDescriptiveString.setText(null);
+            } else {
+                ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove equipment action failed.");
+            }
+
+
         }    }//GEN-LAST:event_removeEquipmentButtonActionPerformed
 
     private void editVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVolunteerButtonActionPerformed
@@ -481,6 +492,26 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_editEquipmentButtonActionPerformed
 
+    /**Makes a dialogue popup that asks the user whether they really want to remove the selected item.
+     * @return true if they click yes, false if not.
+     */
+    private boolean ensureUserWantsRemoved()
+    {
+       String[] options = new String[]{"Cancel", "Yes"};
+         int choice = JOptionPane.showOptionDialog(this, "Are you sure you want to delete? " , "Error",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                        null, options, options[1]);
+               
+        if (choice == 0) // pressing OK button
+        {
+            return false;
+        }
+        else if (choice == 1)
+        {
+           return true;
+        }
+        return false;
+    }
     /**
      * @param args the command line arguments
      */
