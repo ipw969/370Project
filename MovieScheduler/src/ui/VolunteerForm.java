@@ -41,6 +41,7 @@ public class VolunteerForm extends javax.swing.JFrame {
         this.database = database;
         this.theScript = theScript;
         initComponents();
+        
     }
     
     /**
@@ -61,6 +62,10 @@ public class VolunteerForm extends javax.swing.JFrame {
         lName.setText(volunteerToEdit.getLastName());
         email.setText(volunteerToEdit.getEmail());
         phone.setText(volunteerToEdit.getPhone());
+        for (TimeInterval interval: volunteerToEdit.getAvailability())
+        {
+            currentAvailabilities.addItem(interval);
+        }
         
     }
     /**

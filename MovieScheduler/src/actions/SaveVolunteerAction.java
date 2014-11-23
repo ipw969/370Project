@@ -4,6 +4,8 @@ import database.Database;
 import businessobjects.*;
 import java.sql.SQLException;
 import businessobjects.TimeInterval;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * an action class to save a volunteer object to the database
@@ -39,7 +41,6 @@ public class SaveVolunteerAction extends BaseAction {
             getDatabase().addCommand("delete from t_volunteeravailability where vav_emailaddress_volunteer = '" + volunteerToReplace + "';");
             getDatabase().addCommand("delete from t_volunteer where vol_emailaddress = '" + volunteerToReplace + "';");
         }
-        getDatabase().addCommand(getInsertQueryString());
         if (getDatabase() == null) {
             setErrorMessage("Database is null");
             setWasSuccessful(false);
@@ -57,25 +58,18 @@ public class SaveVolunteerAction extends BaseAction {
         if (volunteer().isNew()) {
             queryString = getInsertQueryString();
 
-            try {
-                getDatabase().executeInsert(queryString);
-                setWasSuccessful(true);
-                volunteer().setHasChanged(false);
-            } catch (SQLException ex) {
-                setWasSuccessful(false);
-                setErrorMessage(ex.getMessage());
-            }
-        } else {
-            queryString = getUpdateQueryString();
+            getDatabase().addCommand(queryString);
+            getDatabase().addCommand(getUpdateQueryString());
+            getDatabase().addCommand(getInsertAvailabilityString());
 
             try {
-                getDatabase().executeUpdate(queryString);
-                setWasSuccessful(true);
-                volunteer().setHasChanged(false);
+                getDatabase().executeCommandList();
+                this.setWasSuccessful(true);
             } catch (SQLException ex) {
-                setWasSuccessful(false);
-                setErrorMessage(ex.getMessage());
+                this.setErrorMessage("Saving the volunteer to the database was a failure.");
+                this.setWasSuccessful(false);
             }
+
         }
 
     }    // Private Methods
@@ -93,7 +87,7 @@ public class SaveVolunteerAction extends BaseAction {
                 + "vol_surname,"
                 + "vol_phone,"
                 + "vol_password)"
-                + "VALUES ('"
+                + " VALUES('"
                 + volunteer().getEmail() + "','"
                 + volunteer().getFirstName() + "','"
                 + volunteer().getLastName() + "','"
@@ -107,29 +101,30 @@ public class SaveVolunteerAction extends BaseAction {
     private String getUpdateQueryString() {
         String returnString
                 = "UPDATE t_volunteer"
-                + "SET"
-                + "vol_firstname ='" + volunteer().getFirstName() + "',"
-                + "vol_surname ='" + volunteer().getLastName() + "',"
+                + " SET "
+                + "vol_firstname = '" + volunteer().getFirstName() + "',"
+                + "vol_surname = '" + volunteer().getLastName() + "',"
                 + "vol_phone = '" + volunteer().getPhone() + "'"
                 + "WHERE "
                 + "(vol_emailaddress = '" + volunteer().getEmail() + "')";
         return returnString;
     }
 
-    private void getInsertAvailabilityString() {
-        getDatabase().addCommand("delete from t_volunteeravailablility where vol_emailaddress = '" + volunteer.getEmail() + "';");
-
-        for (TimeInterval currAvail : volunteer.getAvailability()) {
-            getDatabase().addCommand(
-                    "INSERT into t_volunteeravailability("
+    private String getInsertAvailabilityString() {
+        String insertAvailabilityString = "";
+        for (TimeInterval currAvail : volunteer.getAvailability()) 
+        {
+            insertAvailabilityString = insertAvailabilityString + " "  
+                    + "INSERT into t_volunteeravailability("
                     + "vav_emailaddress_volunteer,"
                     + "vav_availability_start,"
                     + "vav_availability_end)"
-                    + "VALUES("
+                    + " VALUES('"
                     + volunteer.getEmail() + "','"
                     + currAvail.getStartIsoDate() + "','"
-                    + currAvail.getEndIsoDate() + "');");
+                    + currAvail.getEndIsoDate() + "');";
         }
+        return insertAvailabilityString;
     }
     /*
      String returnString =

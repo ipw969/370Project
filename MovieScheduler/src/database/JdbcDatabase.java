@@ -216,19 +216,19 @@ public class JdbcDatabase extends Database {
                  while(commandIterator.hasNext())
                  {
                   queryText = commandIterator.next();
-                  if (queryText.contains("update"))
+                  if (queryText.contains("update") || queryText.contains("UPDATE"))
                      {
                          this.executeUpdateImplementation(queryText);
                      }
-                  else if (queryText.contains("insert"))
+                  else if (queryText.contains("insert") || queryText.contains("INSERT"))
                     {
                         this.executeInsertImplementation(queryText);
                     }
-                     else if (queryText.contains("delete"))
+                     else if (queryText.contains("delete") || queryText.contains("DELETE"))
                      {
                          this.executeDeleteImplementation(queryText);
                      }
-                     else if (queryText.contains("select"))
+                     else if (queryText.contains("select") || queryText.contains("SELECT"))
                      {
                         this.executeSelectImplementation(queryText);
                     }
