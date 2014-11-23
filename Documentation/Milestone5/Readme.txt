@@ -1,6 +1,6 @@
 MovieScheduler - User Manual
 ----------------------------
-Author: Matthew Galbraith
+
 
 Table Of Contents
 0. Introduction
