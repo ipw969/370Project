@@ -199,6 +199,7 @@ public class LoginMenu extends javax.swing.JFrame {
                 LoadVolunteerAction loadVolunteer = new LoadVolunteerAction(nameField.getText(), database);
                 loadVolunteer.run();
                 Volunteer volunteer = (Volunteer) loadVolunteer.getBusinessObject();
+                
                 VolunteerMainMenu mainMenu = new VolunteerMainMenu(volunteer, database);
                 mainMenu.setVisible(true);
                 this.dispose();

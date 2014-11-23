@@ -5,6 +5,8 @@
  */
 package volunteeravailability.ui;
 
+import businessobjects.BusinessObjectList;
+import businessobjects.TimeInterval;
 import businessobjects.Volunteer;
 import database.Database;
 
@@ -26,15 +28,15 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
         this.nameField.setText(theVolunteer.getFirstName()+ " " + theVolunteer.getLastName());
         this.phoneField.setText(theVolunteer.getPhone());
         this.emailField.setText(theVolunteer.getEmail());
-        //FOR DEMONSTRATION: 
-        String testAvailability = "2014-11-01 12:00 - 2014-11-01 15:00\n"
-                + "2014-11-01 15:00 - 2014-11-01 18:00\n"
-                + "2014-11-02 09:00 - 2014-11-02 12:00\n";
-                        
-        this.availabilityTextArea.append(testAvailability);
-        this.repaint();
+        BusinessObjectList<TimeInterval> availabilities = theVolunteer.getAvailability();
         
-        //TODO: Volunteer needs something like GetAvailability() 
+        
+        availabilities.stream().forEach((TimeInterval availability) -> {
+            System.out.println(availability.getStartIsoDate() + " - " + availability.getEndIsoDate());
+            this.currentAvailability.addItem(availability.getStartIsoDate() + " - " + availability.getEndIsoDate());
+        });
+        
+        this.repaint();
     }
 
     /**
@@ -48,20 +50,22 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         contactInfoLabel = new javax.swing.JLabel();
-        availabilityLabel = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
         nameField = new javax.swing.JTextField();
         phoneField = new javax.swing.JTextField();
         emailField = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        availabilityTextArea = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        startSpinner = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
+        endSpinner = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        currentAvailability = new javax.swing.JComboBox();
         loggedInLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         contactInfoLabel.setText("Contact Information");
-
-        availabilityLabel.setText("Current availability");
 
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +75,11 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
         });
 
         nameField.setText("Name");
+        nameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameFieldActionPerformed(evt);
+            }
+        });
 
         phoneField.setText("Phone");
         phoneField.addActionListener(new java.awt.event.ActionListener() {
@@ -81,9 +90,19 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
 
         emailField.setText("Email");
 
-        availabilityTextArea.setColumns(20);
-        availabilityTextArea.setRows(5);
-        jScrollPane1.setViewportView(availabilityTextArea);
+        jLabel1.setText("Add an availability");
+
+        jLabel2.setText("Start");
+
+        jLabel3.setText("End");
+
+        jLabel4.setText("Current availability");
+
+        currentAvailability.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                currentAvailabilityActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,45 +110,51 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(availabilityLabel)
-                        .addGap(280, 280, 280))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(emailField)
-                                .addComponent(phoneField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                                .addComponent(contactInfoLabel, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(logoutButton)
-                                .addGap(41, 41, 41)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(emailField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(contactInfoLabel)
+                    .addComponent(logoutButton)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(startSpinner)
+                    .addComponent(endSpinner)
+                    .addComponent(jLabel3))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(currentAvailability, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(contactInfoLabel)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(contactInfoLabel)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(currentAvailability, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addComponent(availabilityLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(logoutButton)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(12, 12, 12)
+                .addComponent(startSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(endSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addComponent(logoutButton)
+                .addContainerGap())
         );
 
         loggedInLabel.setText("Logged In");
@@ -140,21 +165,18 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(loggedInLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(loggedInLabel)
+                .addContainerGap(495, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(loggedInLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(4, 4, 4))
         );
 
         pack();
@@ -168,17 +190,29 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneFieldActionPerformed
 
+    private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameFieldActionPerformed
+
+    private void currentAvailabilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentAvailabilityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_currentAvailabilityActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel availabilityLabel;
-    private javax.swing.JTextArea availabilityTextArea;
     private javax.swing.JLabel contactInfoLabel;
+    private javax.swing.JComboBox currentAvailability;
     private javax.swing.JTextField emailField;
+    private javax.swing.JSpinner endSpinner;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel loggedInLabel;
     private javax.swing.JButton logoutButton;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField phoneField;
+    private javax.swing.JSpinner startSpinner;
     // End of variables declaration//GEN-END:variables
 }
