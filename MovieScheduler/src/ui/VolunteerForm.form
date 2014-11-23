@@ -59,7 +59,7 @@
                                               <Component id="phone" min="-2" max="-2" attributes="0"/>
                                               <Component id="lName" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -77,7 +77,7 @@
                                                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="75" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="153" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
                                               <Component id="currentAvailabilities" alignment="1" min="-2" pref="132" max="-2" attributes="0"/>
@@ -239,14 +239,14 @@
         <Component class="javax.swing.JSpinner" name="start">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="now" minimum="now" stepSize="10" type="date"/>
+              <SpinnerModel initial="now" stepSize="10" type="date"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JSpinner" name="end">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="now" minimum="now" stepSize="10" type="date"/>
+              <SpinnerModel initial="now" stepSize="10" type="date"/>
             </Property>
           </Properties>
         </Component>
