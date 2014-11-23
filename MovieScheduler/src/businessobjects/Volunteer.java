@@ -2,8 +2,8 @@ package businessobjects;
 
 /**
  * volunteer data class
- *
- * @author john mason
+ * stores the name, email, phone, and availabilities of a volunteer
+ * @author John Mason
  */
 public class Volunteer extends BaseBusinessObject {
 
@@ -18,7 +18,7 @@ public class Volunteer extends BaseBusinessObject {
         setIsNew(true);
     }
 
-    //general constructor
+    //constructor with availabilitiy included
     public Volunteer(String fName, String lName, String email, String phone,
             BusinessObjectList<TimeInterval> avail) {
         this.firstName = fName;
@@ -29,7 +29,7 @@ public class Volunteer extends BaseBusinessObject {
         setIsNew(true);
     }
 
-    //general constructor
+    //general constructor without an availability
     public Volunteer(String fName, String lName, String email, String phone) {
         this.firstName = fName;
         this.lastName = lName;

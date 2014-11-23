@@ -17,10 +17,11 @@ public class EquipmentForm extends javax.swing.JFrame {
     BusinessObjectList<TimeInterval> availabilityList = new BusinessObjectList();
     private Database database;
     private Script theScript;
+    private Equipment equipmentToEdit;
 
     @Override
     public void setDefaultCloseOperation(int operation) {
-        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
+        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
     }
 
     /**
@@ -31,7 +32,29 @@ public class EquipmentForm extends javax.swing.JFrame {
         this.theScript = theScript;
         initComponents();
     }
+    
+    /**
+     * Creates a volunteer form and populates it with previous volunteer info
+     */    
+    public EquipmentForm(Script theScript, Database database, Equipment equipmentToEdit) {
+        this.database = database;
+        this.theScript = theScript;
+        this.equipmentToEdit = equipmentToEdit;
+        initComponents();
+        PopulateFormForEdit(equipmentToEdit);
+    }
 
+    
+    //method to populate the form with previously entered information
+    private void PopulateFormForEdit(Equipment equipmentToEdit)
+    {
+        ownerFirstName.setText(equipmentToEdit.getOwnerFirstName());
+        ownerLastName.setText(equipmentToEdit.getOwnerLastName());
+        ownerEmail.setText(equipmentToEdit.getOwnerEmail());
+        equipmentName.setText(equipmentToEdit.getEquipmentName());
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,6 +130,11 @@ public class EquipmentForm extends javax.swing.JFrame {
         });
 
         cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,7 +221,10 @@ public class EquipmentForm extends javax.swing.JFrame {
     private void ownerLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ownerLastNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ownerLastNameActionPerformed
-
+    /**
+     * add an availability to the equipment <TimeInterval> list
+     * @param evt 
+     */
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         //display the availability in the drop down box currentavailabilities
         currentAvailabilities.addItem(start.getValue() + " to " + end.getValue());
@@ -217,6 +248,7 @@ public class EquipmentForm extends javax.swing.JFrame {
           
         
          NOTE: month goes from 0-11 everything else is normal
+         constructor:
          public GregorianCalendar(int year,
          int month,
          int dayOfMonth,
@@ -228,9 +260,14 @@ public class EquipmentForm extends javax.swing.JFrame {
          */
             }//GEN-LAST:event_addActionPerformed
 
+    /**
+     * save the equipment to the database
+     * open the main menu back up
+     * dispose of the current window
+     * @param evt 
+     */
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
 
-// Equipment(equipmentName,  ownerFirstName,  ownerLastName,  ownerEmail) {
         //create a new equipment and populate it with all of the information
         Equipment equipment = new Equipment(equipmentName.getText().toString(),
                 ownerFirstName.getText().toString(),
@@ -257,6 +294,19 @@ public class EquipmentForm extends javax.swing.JFrame {
 
         this.setVisible(false);
             this.dispose();    }//GEN-LAST:event_submitActionPerformed
+
+    /**
+     * exit the current menu and go back to the main menu
+     * @param evt 
+     */
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        MainMenu mainMenu;
+
+        mainMenu = new MainMenu(theScript, database);
+        mainMenu.setVisible(true);
+
+        this.setVisible(false);
+        this.dispose();       }//GEN-LAST:event_cancelActionPerformed
 
     /**
      * @param args the command line arguments

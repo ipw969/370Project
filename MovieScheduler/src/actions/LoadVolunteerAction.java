@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+
  */
 package actions;
 
@@ -16,9 +14,9 @@ import java.util.GregorianCalendar;
 
 /**
  * A class which represents an action to load the data of a volunteer from the
- * database corresponding to an e-mail into a volunteer objectv
+ * database corresponding to an e-mail into a volunteer object
  *
- * @author Matthew Galbraith
+ * @author Matthew Galbraith, John Mason
  */
 public class LoadVolunteerAction extends BaseAction {
 

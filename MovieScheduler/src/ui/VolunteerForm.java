@@ -43,6 +43,9 @@ public class VolunteerForm extends javax.swing.JFrame {
         initComponents();
     }
     
+    /**
+     * Creates a volunteer form and populates it with previous volunteer info
+     */    
     public VolunteerForm(Script theScript, Database database, Volunteer volunteerToEdit) {
         this.database = database;
         this.theScript = theScript;
@@ -250,16 +253,14 @@ public class VolunteerForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /* upon clicking this button the text in both the start and end dates are added to the 
+    /**
+     * upon clicking this button the text in both the start and end dates are added to the 
      * drop down list of availabilities
      */
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
        
-        currentAvailabilities.addItem(start.getValue()
-                +" to "+end.getValue());
+        currentAvailabilities.addItem(start.getValue() +" to " + end.getValue());
         
-        
-
         //parse the values to date values
         Date sDate, eDate;                  
         sDate = (Date) start.getValue();
@@ -275,11 +276,7 @@ public class VolunteerForm extends javax.swing.JFrame {
         TimeInterval timeInterval = new TimeInterval(startDate,endDate);
         
         availabilityList.add(timeInterval);
-        /* 
-            to implement how the times entered are entered into the gregorian calendar
-            are we actually going to make the user enter the date,specific start time, specific end time
-            and the year for every single availability.... id go mad just trying to complete the form :)
-           
+        /*   
         this is the GregorianCalendar constructor we will need
         
         NOTE: month goes from 0-11 everything else is normal
@@ -288,17 +285,8 @@ public class VolunteerForm extends javax.swing.JFrame {
                  int dayOfMonth,
                  int hourOfDay,
                  int minute)
-        
-            this is essentially how it will be called
-            GregorianCalendar start = new GregoranCalendar jTextField5.getText();  // parse it to the proper format
-            GregorianCalendar end = jTextField6.getText();  // parse it to the proper format
-            TimeInterval timeInterval = new TimeInterval(start,end);
-           
-         
         */
-        //reset the text in the start and end fields
-        //start.setText("");
-        //end.setText("");
+
         
     }//GEN-LAST:event_addActionPerformed
 
@@ -340,13 +328,8 @@ public class VolunteerForm extends javax.swing.JFrame {
             //add the volunteer to the script so it appears in the main menu
             theScript.addVolunteer(volunteer);
             MainMenu mainMenu;
-
             mainMenu = new MainMenu(theScript, database);
             mainMenu.setVisible(true);
-            
-            
-            
-            
             this.setVisible(false);
             this.dispose();
 

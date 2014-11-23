@@ -2,7 +2,7 @@ package businessobjects;
 
 /**
  * Equipment data class
- *
+ * stores the name of the equipment, its owners name and email, and its availability for use 
  * @author John Mason
  */
 public class Equipment extends BaseBusinessObject {

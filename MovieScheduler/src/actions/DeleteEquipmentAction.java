@@ -1,4 +1,4 @@
-/**
+/*
  * TODO: go to line 40 and figure out if there is anything else to delete.
  */
 package actions;
@@ -7,7 +7,7 @@ import database.Database;
 import java.sql.SQLException;
 
 /**
- *
+ * an action class to delete all instances of an equipment object throughout the program
  * @author John Mason
  */
 public class DeleteEquipmentAction extends BaseAction {

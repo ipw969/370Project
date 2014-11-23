@@ -1,3 +1,9 @@
+/*
+*   TODO:   perhaps we should use the equipment name as the key in the database
+*           one owner may have donated several peices of equipment (this would
+*           overwrite them in the database due to the owner having 1 email address)
+*/
+
 package actions;
 
 import database.Database;
@@ -5,21 +11,23 @@ import businessobjects.*;
 import java.sql.SQLException;
 
 /**
+ * an action class to save a equipment object to the database
  * @author John Mason
  */
 public class SaveEquipmentAction extends BaseAction {
 
-    //volunteerToReplace is the email address of the volunteer that needs to be edited
-
+    //equipmentToReplace is the email address of the equipment that needs to be edited
     private String equipmentToReplace;
     private Equipment equipment;
 
+    //general constructor for equpiment not in the database
     public SaveEquipmentAction(Database database, Equipment equipment) {
         super(database);
         this.equipment = equipment;
         setBusinessObject(equipment);
     }
 
+    //used if you want to replace equpiment in the database
     public SaveEquipmentAction(Database database, Equipment equipment, String equipmentToReplace) {
         super(database);
         this.equipment = equipment;
@@ -78,9 +86,9 @@ public class SaveEquipmentAction extends BaseAction {
     }    // Private Methods
 
     /**
-     * Creates an SQL UPDATE string for the current Volunteer
+     * Creates an SQL UPDATE string for the current equipment
      *
-     * @return An SQL UPDATE string for the current Volunteer
+     * @return An SQL UPDATE string for the current equipment
      */
     private String buildInsertQueryString() {
         String returnString
@@ -113,9 +121,7 @@ public class SaveEquipmentAction extends BaseAction {
     }
 
     /**
-     * Returns the Volunteer associated with this action
-     *
-     * @return The Volunteer associated with this action
+     * @return The equipment associated with this action
      */
     private Equipment equipment() {
         if (getBusinessObject() == null) {

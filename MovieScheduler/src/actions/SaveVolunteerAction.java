@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import businessobjects.TimeInterval;
 
 /**
- *
+ * an action class to save a volunteer object to the database
  * @author John Mason
  */
 public class SaveVolunteerAction extends BaseAction {
@@ -15,6 +15,7 @@ public class SaveVolunteerAction extends BaseAction {
     private String volunteerToReplace;
     private Volunteer volunteer;
 
+    //constructor for editing a volunteer
     public SaveVolunteerAction(Database database, Volunteer volunteer, String volunteerToReplace) {
         super(database);
         this.volunteerToReplace = volunteerToReplace;
@@ -22,6 +23,7 @@ public class SaveVolunteerAction extends BaseAction {
         setBusinessObject(volunteer);
     }
 
+    //constructor for creating a new volunteer in the database
     public SaveVolunteerAction(Database database, Volunteer volunteer) {
         super(database);
         this.volunteer = volunteer;

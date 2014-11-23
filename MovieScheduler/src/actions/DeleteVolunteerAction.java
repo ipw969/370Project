@@ -7,7 +7,7 @@ import database.Database;
 import java.sql.SQLException;
 
 /**
- *
+ * an action class to delete all instances of a volunteer object throughout the program
  * @author John Mason
  */
 public class DeleteVolunteerAction extends BaseAction {
