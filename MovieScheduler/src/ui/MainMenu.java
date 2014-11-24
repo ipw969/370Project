@@ -489,7 +489,9 @@ public class MainMenu extends javax.swing.JFrame {
             }//GEN-LAST:event_editVolunteerButtonActionPerformed
 
     private void editEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEquipmentButtonActionPerformed
-        // TODO add your handling code here:
+       EquipmentForm equipmentForm = new EquipmentForm(theScript, database, (Equipment) equipmentComboBox.getSelectedItem());
+       equipmentForm.setVisible(true);
+       this.setVisible(false);
     }//GEN-LAST:event_editEquipmentButtonActionPerformed
 
     /**Makes a dialogue popup that asks the user whether they really want to remove the selected item.

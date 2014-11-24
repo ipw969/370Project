@@ -52,6 +52,10 @@ public class EquipmentForm extends javax.swing.JFrame {
         ownerLastName.setText(equipmentToEdit.getOwnerLastName());
         ownerEmail.setText(equipmentToEdit.getOwnerEmail());
         equipmentName.setText(equipmentToEdit.getEquipmentName());
+        for (TimeInterval availability: equipmentToEdit.getAvailability())
+        {
+            currentAvailabilities.addItem(availability);
+        }
         
     }
     
@@ -276,7 +280,15 @@ public class EquipmentForm extends javax.swing.JFrame {
                 availabilityList);
 
         //create a query to the database that will send the equipment data there
-        SaveEquipmentAction saveEquipmentAction = new SaveEquipmentAction(database, equipment);
+        SaveEquipmentAction saveEquipmentAction;
+        if (equipmentToEdit != null)
+        {
+            saveEquipmentAction = new SaveEquipmentAction(database, equipment, equipmentToEdit.getEquipmentName());
+        }
+       else
+        {
+            saveEquipmentAction = new SaveEquipmentAction(database, equipment);
+        }
         saveEquipmentAction.run();
 
         //check to see if the equipment was successfully added to the database

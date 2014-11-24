@@ -9,6 +9,8 @@ package actions;
 import database.Database;
 import businessobjects.*;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * an action class to save a equipment object to the database
@@ -37,53 +39,42 @@ public class SaveEquipmentAction extends BaseAction {
 
     @Override
     protected void runImplementation() {
+        if (getDatabase() == null) {
+            setErrorMessage("Database is null");
+            setWasSuccessful(false);
+            return;
+        }
         getDatabase().clearCommandList();
         if (equipmentToReplace != null) {
-            {
-                getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace + "';");
-            }
-            getDatabase().addCommand(buildInsertQueryString());
-            if (getDatabase() == null) {
-                setErrorMessage("Database is null");
-                setWasSuccessful(false);
-                return;
-            }
-
-            if (!getBusinessObject().isValid()) {
-                setErrorMessage("Scene equipment object is not Valid");
-                setWasSuccessful(false);
-                return;
-            }
-
-            String queryString;
-
-            if (equipment().isNew()) {
-                queryString = buildInsertQueryString();
-
-                try {
-                    getDatabase().executeInsert(queryString);
-                    setWasSuccessful(true);
-                    equipment().setHasChanged(false);
-                } catch (SQLException ex) {
-                    setWasSuccessful(false);
-                    setErrorMessage(ex.getMessage());
-                }
-            } else {
-                queryString = buildUpdateQueryString();
-
-                try {
-                    getDatabase().executeUpdate(queryString);
-                    setWasSuccessful(true);
-                    equipment().setHasChanged(false);
-                } catch (SQLException ex) {
-                    setWasSuccessful(false);
-                    setErrorMessage(ex.getMessage());
-                }
-            }
-
+            getDatabase().addCommand("delete from t_equipmentavailability where eav_equipmentname = '" + equipmentToReplace + "';");
+            getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace + "';");
         }
 
-    }    // Private Methods
+        getDatabase().addCommand("insert into t_equipmentowner(own_firstname, own_surname, own_emailaddress) VALUES('" + equipment.getOwnerFirstName() + "','" + equipment.getOwnerLastName() + "','" + equipment.getOwnerEmail() + "');");
+        getDatabase().addCommand(buildInsertQueryString());
+        getDatabase().addCommand(buildUpdateQueryString());
+
+        for (TimeInterval interval : equipment.getAvailability()) {
+            getDatabase().addCommand("insert into t_equipmentavailability(eav_equipmentname, eav_availability_start, eav_availability_end) VALUES('"
+                    + equipment.getEquipmentName() + "','"
+                    + interval.getStartIsoDate() + "','"
+                    + interval.getEndIsoDate() + "');");
+        }
+        if (!getBusinessObject().isValid()) {
+            setErrorMessage("Scene equipment object is not Valid");
+            setWasSuccessful(false);
+            return;
+        }
+        
+        try {
+            getDatabase().executeCommandList();
+            this.setWasSuccessful(true);
+        } catch (SQLException ex) {
+            this.setWasSuccessful(false);
+            System.out.println("failed to save the equipment.\n Error:" + ex.getMessage());
+        }
+
+    }  
 
     /**
      * Creates an SQL UPDATE string for the current equipment
@@ -93,10 +84,10 @@ public class SaveEquipmentAction extends BaseAction {
     private String buildInsertQueryString() {
         String returnString
                 = "INSERT into t_equipment"
-                + "(eqp_equipmentname, "
+                + "(eqp_emailaddress_owner, "
                 + "eqp_firstname_owner,"
                 + "eqp_surname_owner,"
-                + "eqp_emailaddress_owner)"
+                + "eqp_equipmentname)"
                 + "VALUES "
                 + "('"
                 + equipment().getOwnerEmail() + "','"
@@ -111,11 +102,11 @@ public class SaveEquipmentAction extends BaseAction {
     private String buildUpdateQueryString() {
         String returnString
                 = "UPDATE t_equipment"
-                + "SET"
+                + " SET "
                 + "eqp_equipmentname = '" + equipment().getEquipmentName() + "',"
                 + "eqp_firstname_owner ='" + equipment().getOwnerFirstName() + "',"
                 + "eqp_surname_owner = '" + equipment().getOwnerLastName() + "'"
-                + "WHERE "
+                + " WHERE "
                 + "(eqp_emailaddress_owner = '" + equipment().getOwnerEmail() + "')";
         return returnString;
     }
