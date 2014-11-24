@@ -65,12 +65,12 @@
                           <Component id="usernameLabel" min="-2" max="-2" attributes="0"/>
                           <Component id="nameField" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="passwordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="pswdField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="passwordLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="pswdField" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="okButton" min="-2" max="-2" attributes="0"/>
                           <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
@@ -120,9 +120,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nameField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="abc@xyz.com"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameFieldActionPerformed"/>
       </Events>
@@ -144,9 +141,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="pswdField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pswdFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>

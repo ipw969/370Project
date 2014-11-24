@@ -74,7 +74,6 @@ public class LoginMenu extends javax.swing.JFrame {
 
         passwordLabel.setText("Password:");
 
-        nameField.setText("abc@xyz.com");
         nameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameFieldActionPerformed(evt);
@@ -95,7 +94,11 @@ public class LoginMenu extends javax.swing.JFrame {
             }
         });
 
-        pswdField.setText("jPasswordField1");
+        pswdField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pswdFieldActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Forgot password?");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -141,11 +144,11 @@ public class LoginMenu extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(usernameLabel)
                             .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(passwordLabel)
                             .addComponent(pswdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(okButton)
                             .addComponent(cancelButton))
@@ -223,6 +226,10 @@ public class LoginMenu extends javax.swing.JFrame {
         ForgotPasswordDialog forgotPassword = new ForgotPasswordDialog(this, true);
         forgotPassword.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void pswdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswdFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pswdFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
