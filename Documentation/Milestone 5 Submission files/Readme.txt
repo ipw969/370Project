@@ -20,6 +20,7 @@ Table Of Contents
 12.Running Success Scenario #8 ~ Using the MovieScheduler to edit a scene. 
 13.Running Success Scenario #9 ~ Using the MovieScheduler to remove a volunteer from the script.
 14.Running Success Scenario #10 ~ Using the MovieScheduler to remove equipment from the script. 
+15.Running Success Scenario #11 ~ using the MovieScheduler to edit equipment in the script.
 
 0. Introduction
 ---------------
@@ -263,4 +264,15 @@ Using the MovieScheduler to remove equipment.
 2.The producer selects the equipment he or she wants to remove.
 3.The producer clicks the remove button beside the equipment list.
 4.The equipment is removed from the script and database.
+
+
+15.Running Success Scenario #11 ~ using the MovieScheduler to edit equipment in the script.
+-------------------------------------------------------------------------------------------
+Using the MovieScheduler to edit equipment. 
+
+1.The producer opens up the main menu.
+2.The producer selects a piece of equipment from the equipment list.
+3.The producer clicks the edit button next to the equipment list.
+4.The producer edits the values of the equipment.
+5.The producer clicks submit and the new equipment values are written to the script and database.
 
