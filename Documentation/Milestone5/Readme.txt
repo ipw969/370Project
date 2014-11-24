@@ -20,7 +20,7 @@ Table Of Contents
 12.Running Success Scenario #8 ~ Using the MovieScheduler to edit a scene. 
 13.Running Success Scenario #9 ~ Using the MovieScheduler to remove a volunteer from the script.
 14.Running Success Scenario #10 ~ Using the MovieScheduler to remove equipment from the script. 
-15.Running Success Scenario #11 ~ Using the MovieScheduler to edit equipment in the script.
+15.Running Success Scenario #11 ~ using the MovieScheduler to edit equipment in the script.
 
 0. Introduction
 ---------------
@@ -155,9 +155,8 @@ This primary success scenario occurs on the secondary application, VolunteerAvai
 In this success scenario, a Volunteer successfully logs in to the VolunteerAvailability application to viev their contact / availability info on file.
 1. The volunteer opens the VolunteerApp application
 2. On the Login Screen, the volunteer enters their e-mail and password credentials. If either field is left blank, an appropriate error message is displayed. 
-USERNAME: myEmail [case sensitive]
-PASSWORD: 1234
-Note: You can use any volunteer that exists in the database, with the appropirate username/password. By default on creation, the password is the phone number.
+USERNAME: Passme [case sensitive]
+PASSWORD: password
 3. If the login was not successful, an appropriate error message is displayed notifying the volunteer, and they can try again.
 4. If the login was successful, the main screen of the VolunteerAvailability application is initialized with that volunteers Information.
 5. The volunteer sees the information they have on file, and clicks "Logout", ending the session.
@@ -266,6 +265,7 @@ Using the MovieScheduler to remove equipment.
 3.The producer clicks the remove button beside the equipment list.
 4.The equipment is removed from the script and database.
 
+
 15.Running Success Scenario #11 ~ using the MovieScheduler to edit equipment in the script.
 -------------------------------------------------------------------------------------------
 Using the MovieScheduler to edit equipment. 
@@ -275,3 +275,4 @@ Using the MovieScheduler to edit equipment.
 3.The producer clicks the edit button next to the equipment list.
 4.The producer edits the values of the equipment.
 5.The producer clicks submit and the new equipment values are written to the script and database.
+
