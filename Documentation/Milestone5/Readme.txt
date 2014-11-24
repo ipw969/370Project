@@ -155,8 +155,9 @@ This primary success scenario occurs on the secondary application, VolunteerAvai
 In this success scenario, a Volunteer successfully logs in to the VolunteerAvailability application to viev their contact / availability info on file.
 1. The volunteer opens the VolunteerApp application
 2. On the Login Screen, the volunteer enters their e-mail and password credentials. If either field is left blank, an appropriate error message is displayed. 
-USERNAME: Passme [case sensitive]
-PASSWORD: password
+USERNAME: myEmail [case sensitive]
+PASSWORD: 1234
+Note: You can use any volunteer that exists in the database, with the appropirate username/password. By default on creation, the password is the phone number.
 3. If the login was not successful, an appropriate error message is displayed notifying the volunteer, and they can try again.
 4. If the login was successful, the main screen of the VolunteerAvailability application is initialized with that volunteers Information.
 5. The volunteer sees the information they have on file, and clicks "Logout", ending the session.
