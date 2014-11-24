@@ -74,6 +74,10 @@ public class SaveSceneAction extends BaseAction {
             getDatabase().addCommand("update t_scene set scn_scenename = '" + sceneToSave.getName() + "' where scn_scenename = '" + replacedSceneName + "';");
 
         }
+        else
+        {
+            getDatabase().addCommand("insert into t_scene(scn_scenename, scn_scenedescription, scn_scriptname, scn_sceneisfilmed) VALUES('" + sceneToSave.getName() + "','" + sceneToSave.getDescription() + "','" + script.getName() + "','" + sceneToSave.isComplete() + "');"); 
+        }
 
         if (sceneToSave.hasEquipment()) {
             for (Equipment equipmentToSave : sceneToSave.getEquipment()) {

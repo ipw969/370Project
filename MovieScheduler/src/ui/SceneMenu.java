@@ -380,6 +380,11 @@ public class SceneMenu extends javax.swing.JDialog {
 
             if (this.getParent() != null) {
                 this.setVisible(false);
+                if (parent instanceof MainMenu)
+                {
+                    MainMenu newMainMenu = new MainMenu(script, database);
+                    newMainMenu.setVisible(true);
+                }
             } else {
                 System.exit(0);
             }

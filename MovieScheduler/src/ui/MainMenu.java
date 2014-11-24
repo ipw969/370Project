@@ -387,6 +387,8 @@ public class MainMenu extends javax.swing.JFrame {
         try {
             SceneMenu newSceneMenu = new SceneMenu(this, database, theScript, (Scene) sceneComboBox.getSelectedItem());
             newSceneMenu.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -396,6 +398,8 @@ public class MainMenu extends javax.swing.JFrame {
         try {
             SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
             sceneMenu.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
