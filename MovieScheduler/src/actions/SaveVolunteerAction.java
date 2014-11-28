@@ -61,7 +61,6 @@ public class SaveVolunteerAction extends BaseAction {
             getDatabase().addCommand(queryString);
             getDatabase().addCommand(getUpdateQueryString());
             getDatabase().addCommand(getInsertAvailabilityString());
-
             try {
                 getDatabase().executeCommandList();
                 this.setWasSuccessful(true);
@@ -92,7 +91,7 @@ public class SaveVolunteerAction extends BaseAction {
                 + volunteer().getFirstName() + "','"
                 + volunteer().getLastName() + "','"
                 + volunteer().getPhone() + "','"
-                + volunteer().getPhone() + "');";
+                + volunteer().getFirstName() + volunteer().getPhone() + "');";
 
         return returnString;
 
@@ -111,19 +110,20 @@ public class SaveVolunteerAction extends BaseAction {
     }
 
     private String getInsertAvailabilityString() {
-        String insertAvailabilityString = "";
-        for (TimeInterval currAvail : volunteer.getAvailability()) 
-        {
-            insertAvailabilityString = insertAvailabilityString + " "  
-                    + "INSERT into t_volunteeravailability("
+        String insertAvailabilityString = "INSERT into t_volunteeravailability("
                     + "vav_emailaddress_volunteer,"
                     + "vav_availability_start,"
                     + "vav_availability_end)"
-                    + " VALUES('"
+                    + " VALUES ";
+        for (TimeInterval currAvail : volunteer.getAvailability()) 
+        {
+            insertAvailabilityString += ("('"  
                     + volunteer.getEmail() + "','"
                     + currAvail.getStartIsoDate() + "','"
-                    + currAvail.getEndIsoDate() + "');";
+                    + currAvail.getEndIsoDate() + "'), ");
         }
+        insertAvailabilityString = insertAvailabilityString.substring(0, insertAvailabilityString.length() - 2);
+        insertAvailabilityString += (";");
         return insertAvailabilityString;
     }
     /*
