@@ -1,5 +1,6 @@
 package ui;
 
+import actions.DeleteSceneFilmingDateAction;
 import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
 import businessobjects.Script;
@@ -150,10 +151,37 @@ public class SchedulePanel extends javax.swing.JPanel
         });
         ScheduleCalendar scheduleCalendar = new ScheduleCalendar();
         scheduleCalendar.setSchedule(script.getSchedule());
+        scheduleCalendar.addDeleteActionListener(
+                new DeleteFilmingDateActionListener(){
+
+            @Override
+            public void deleteActionPerformed(DeleteFilmingDateEvent e) {
+                deleteSceneFilmingDate(e.getSceneFilmingDate());
+            }
+                
+        });
         calendarPanel.add(scheduleCalendar);
     }
 
     // Private Methods
+    
+    private void deleteSceneFilmingDate(SceneFilmingDate sceneFilmingDate)
+    {
+        DeleteSceneFilmingDateAction action = 
+                new DeleteSceneFilmingDateAction(database, sceneFilmingDate);
+        
+        action.run();
+        
+        if(action.wasSuccessful())
+        {
+            this.script.getSchedule().remove(sceneFilmingDate);
+        }
+        else
+        {
+            
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -1,8 +1,10 @@
 package ui;
 
+import businessobjects.SceneFilmingDate;
 import businessobjects.Schedule;
 import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -25,6 +27,17 @@ public class ScheduleCalendar extends javax.swing.JPanel {
         dateFormatter = new SimpleDateFormat("MMMM YYYY");
         currentDateLabel.setText(
                 dateFormatter.format(currentDateDisplayed.getTime()));
+        deleteListeners = new ArrayList<>();
+        calendarMonth.addDeleteActionListener(new DeleteFilmingDateActionListener() {
+
+            @Override
+            public void deleteActionPerformed(DeleteFilmingDateEvent e) {
+                for (DeleteFilmingDateActionListener listener : deleteListeners) {
+                    listener.deleteActionPerformed(e);
+                }
+            }
+
+        });
     }
 
     /**
@@ -39,6 +52,25 @@ public class ScheduleCalendar extends javax.swing.JPanel {
         calendarMonth.setDate(year, month);
         currentDateLabel.setText(
                 dateFormatter.format(currentDateDisplayed.getTime()));
+    }
+
+    /**
+     * Adds a DeleteFilmingDateActionListener to this item. Added listeners will
+     * be informed when the delete action is performed on a SceneFilmingDate
+     *
+     * @param listener::DeleteFilmingDateActionListener ~ The listener to add
+     */
+    public void addDeleteActionListener(DeleteFilmingDateActionListener listener) {
+        deleteListeners.add(listener);
+    }
+
+    /**
+     * Removes a DeleteFilmingDateActionListener from this item.
+     *
+     * @param listener::DeleteFilmingDateActionListener ~ The listener to remove
+     */
+    public void removeDeleteActionListener(DeleteFilmingDateActionListener listener) {
+        deleteListeners.remove(listener);
     }
 
     /**
@@ -152,6 +184,7 @@ public class ScheduleCalendar extends javax.swing.JPanel {
     private GregorianCalendar currentDateDisplayed;
     private final CalendarMonth calendarMonth;
     private final SimpleDateFormat dateFormatter;
+    private ArrayList<DeleteFilmingDateActionListener> deleteListeners;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JPanel calendarPanel;

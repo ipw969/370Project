@@ -24,8 +24,22 @@ public class CalendarMonth extends javax.swing.JPanel
     public CalendarMonth() {
         // Setup the list of CalendarDays which will be displayed in the panel
         calendarDays = new ArrayList<>(42);
+        deleteListeners = new ArrayList<>();
         for (int iCalendarDay = 0; iCalendarDay < 42; iCalendarDay++) {
+            CalendarDay calendarDay = new CalendarDay();
+            calendarDay.addDeleteActionListener(new DeleteFilmingDateActionListener(){
+
+                @Override
+                public void deleteActionPerformed(DeleteFilmingDateEvent e) {
+                    for(DeleteFilmingDateActionListener listener : deleteListeners)
+                    {
+                        listener.deleteActionPerformed(e);
+                    }
+                }
+                
+            });
             calendarDays.add(new CalendarDay());
+            
         }
         // Set the currentMonthStart to this month
         currentMonthStart = new GregorianCalendar();
@@ -35,6 +49,25 @@ public class CalendarMonth extends javax.swing.JPanel
     }
 
     // Public Methods
+    /**
+     * Adds a DeleteFilmingDateActionListener to this item. Added listeners will
+     * be informed when the delete action is performed on a SceneFilmingDate
+     * @param listener::DeleteFilmingDateActionListener ~ The listener to add
+     */
+    public void addDeleteActionListener(DeleteFilmingDateActionListener listener)
+    {
+        deleteListeners.add(listener);
+    }
+    
+    /**
+     * Removes a DeleteFilmingDateActionListener from this item.
+     * @param listener::DeleteFilmingDateActionListener ~ The listener to remove
+     */
+    public void removeDeleteActionListener(DeleteFilmingDateActionListener listener)
+    {
+        deleteListeners.remove(listener);
+    }
+    
     public void setDate(int year, int month) {
         currentMonthStart = new GregorianCalendar(year, month, 1);
         currentMonthStart.set(Calendar.HOUR, 0);
@@ -215,6 +248,7 @@ public class CalendarMonth extends javax.swing.JPanel
 
     // Private Member Variables
     private final ArrayList<CalendarDay> calendarDays;
+    private final ArrayList<DeleteFilmingDateActionListener> deleteListeners;
     private GregorianCalendar currentMonthStart;
     private Schedule filmingSchedule;
     // Variables declaration - do not modify//GEN-BEGIN:variables

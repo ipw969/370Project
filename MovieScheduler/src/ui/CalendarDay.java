@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
@@ -34,6 +35,7 @@ public class CalendarDay extends javax.swing.JPanel {
      */
     public CalendarDay() {
         initComponents();
+        deleteListeners = new ArrayList<>();
         dateFormatter = new SimpleDateFormat("dd");
         filmingDates = new BusinessObjectList<>();
         filmingDateView = new BusinessObjectListView<>(filmingDates);
@@ -91,7 +93,22 @@ public class CalendarDay extends javax.swing.JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(deleteListeners.isEmpty())
+                    return;
+                
+                SceneFilmingDate selectedFilmingDate = 
+                        filmingDateView.getSelectedValue();
+                
+                if(selectedFilmingDate == null)
+                    return;
+                
+                DeleteFilmingDateEvent deleteEvent = 
+                        new DeleteFilmingDateEvent(selectedFilmingDate);
+                
+                for(DeleteFilmingDateActionListener listener : deleteListeners)
+                {
+                    listener.deleteActionPerformed(deleteEvent);
+                }
             }
 
         });
@@ -99,6 +116,26 @@ public class CalendarDay extends javax.swing.JPanel {
     }
 
     // Public Methods
+    
+    /**
+     * Adds a DeleteFilmingDateActionListener to this item. Added listeners will
+     * be informed when the delete action is performed on a SceneFilmingDate
+     * @param listener::DeleteFilmingDateActionListener ~ The listener to add
+     */
+    public void addDeleteActionListener(DeleteFilmingDateActionListener listener)
+    {
+        deleteListeners.add(listener);
+    }
+    
+    /**
+     * Removes a DeleteFilmingDateActionListener from this item.
+     * @param listener::DeleteFilmingDateActionListener ~ The listener to remove
+     */
+    public void removeDeleteActionListener(DeleteFilmingDateActionListener listener)
+    {
+        deleteListeners.remove(listener);
+    }
+    
     /**
      * Sets the Foreground Color of the panel.
      *
@@ -205,6 +242,7 @@ public class CalendarDay extends javax.swing.JPanel {
     // Private Member Variables
     private final BusinessObjectListView<SceneFilmingDate> filmingDateView;
     private final BusinessObjectList<SceneFilmingDate> filmingDates;
+    private final ArrayList<DeleteFilmingDateActionListener> deleteListeners;
     private GregorianCalendar date;
     private final SimpleDateFormat dateFormatter;
     // Variables declaration - do not modify//GEN-BEGIN:variables
