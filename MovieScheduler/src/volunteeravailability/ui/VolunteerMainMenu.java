@@ -12,6 +12,8 @@ import businessobjects.Volunteer;
 import database.Database;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  * The main menu for the volunteer availability application
@@ -221,6 +223,7 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        JOptionPane.showMessageDialog(this, "Unsaved changes will be discarded");
         System.exit(0);
     }//GEN-LAST:event_logoutButtonActionPerformed
 
@@ -237,8 +240,7 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_currentAvailabilityActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        currentAvailability.addItem(start.getValue() +" to " + end.getValue());
-        
+       
         //parse the values to date values
         Date sDate, eDate;                  
         sDate = (Date) start.getValue();
@@ -252,7 +254,8 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
         startDate.setTime(sDate);
         endDate.setTime(eDate);
         TimeInterval timeInterval = new TimeInterval(startDate,endDate);
-        
+
+        currentAvailability.addItem(timeInterval.getStartIsoDate() +" to " + timeInterval.getEndIsoDate());
         availabilityList.add(timeInterval);
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -263,7 +266,11 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
             saveVolunteerAction.run();
             //check to see if the volunteer was successfully added to the database
             //if not give an error message
-            if(!saveVolunteerAction.wasSuccessful())
+            if(saveVolunteerAction.wasSuccessful())
+            {
+                JOptionPane.showMessageDialog(this, "Saved successfully! You can now log out.");
+            }
+            else 
             {
                 System.out.println("fail" + saveVolunteerAction.lastErrorMessage());
             }        // TODO add your handling code here:
