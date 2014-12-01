@@ -299,7 +299,8 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        ChangePasswordForm changePassword = new ChangePasswordForm();
+        changePassword.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
