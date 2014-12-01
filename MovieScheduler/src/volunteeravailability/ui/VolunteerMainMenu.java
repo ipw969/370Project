@@ -304,8 +304,10 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        availabilityList.remove(currentAvailability.getSelectedIndex());
-        currentAvailability.removeItemAt(currentAvailability.getSelectedIndex());
+        if (!availabilityList.isEmpty()) {
+            availabilityList.remove(currentAvailability.getSelectedIndex());
+            currentAvailability.removeItemAt(currentAvailability.getSelectedIndex());
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
 
