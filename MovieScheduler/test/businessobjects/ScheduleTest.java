@@ -23,6 +23,14 @@ public class ScheduleTest {
     {
         
     }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
     
     
     @Before
@@ -92,4 +100,48 @@ public class ScheduleTest {
     
     //public BusinessObjectList<SceneFilmingDate> getScheduleFor(GregorianCalendar date);
    // public SceneFilmingDate getScenesFilmingDate(Scene scene);
+
+    /**
+     * Test of getScheduleConflicts method, of class Schedule.
+     */
+    @Test
+    public void testGetScheduleConflicts() {
+        System.out.println("getScheduleConflicts");
+        Schedule instance = new Schedule();
+        BusinessObjectList<SceneFilmingDate> expResult = null;
+        BusinessObjectList<SceneFilmingDate> result = instance.getScheduleConflicts();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getScheduleFor method, of class Schedule.
+     */
+    @Test
+    public void testGetScheduleFor() {
+        System.out.println("getScheduleFor");
+        GregorianCalendar date = null;
+        Schedule instance = new Schedule();
+        BusinessObjectList<SceneFilmingDate> expResult = null;
+        BusinessObjectList<SceneFilmingDate> result = instance.getScheduleFor(date);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getScenesFilmingDate method, of class Schedule.
+     */
+    @Test
+    public void testGetScenesFilmingDate() {
+        System.out.println("getScenesFilmingDate");
+        Scene scene = null;
+        Schedule instance = new Schedule();
+        SceneFilmingDate expResult = null;
+        SceneFilmingDate result = instance.getScenesFilmingDate(scene);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }
