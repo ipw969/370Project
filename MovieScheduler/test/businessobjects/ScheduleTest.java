@@ -18,14 +18,7 @@ import java.util.GregorianCalendar;
  * @author Ryan
  */
 public class ScheduleTest {
-    
-    public ScheduleTest() 
-    {
-        testgetScheduleConflicts();
-        testgetScheduleFor();
-        testGetScenesFilmingDate();
-        
-    }
+
 
     /**Test getScheduledConflicts statement level.
      *
@@ -35,39 +28,54 @@ public class ScheduleTest {
     {
         //Construct a new volunteer to add to the scene.
         Volunteer volunteerInConflict = new Volunteer("Bobby", "lat", "testemail", "2490053");
-        volunteerInConflict.addAvailability(new TimeInterval(new GregorianCalendar(2014,10,20,12,0), new GregorianCalendar(2014,10,20,13, 0)));
+       
         
         //Crete a scene that will be in conflict and add the volunteer to is.
-         Scene sceneInConflict = new Scene("Test Scene", "This is a test scene");
+        Scene sceneInConflict = new Scene("Test Scene", "This is a test scene");
         sceneInConflict.addVolunteer(volunteerInConflict);
        
         //Add the scene to a sceneFilmingDate and set the time to conflict with that of the voluntters availability. 
         SceneFilmingDate sceneFilmingDate = new SceneFilmingDate();
         sceneFilmingDate.setScene(sceneInConflict);
-        sceneFilmingDate.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,11,20,12,0), new GregorianCalendar(2014,11,20,13,0)));
-        
+       
         //Create the schedule and add the sceneFilmingDate. This sceneFilmingDate should be in conflict with its volunteer 
         //because its shooting date is scheduled to occur when The volunteer is not available.
         Schedule schedule = new Schedule();
         schedule.add(sceneFilmingDate);
         
-        //Assert that the conflict was caught.
+        //The scene will be filmed on 2014-11-20 from 12:00 - 13:00
+        TimeInterval filmingDate =  new TimeInterval(new GregorianCalendar(2014,11,20,12,0), new GregorianCalendar(2014,11,20,13,0));
+        
+        //This availability is for 2014-10-20 12:00 - 13:00      this should not resolve the conflict because it is on the wrong day.
+        TimeInterval conflict1Availability = new TimeInterval(new GregorianCalendar(2014,10,20,12,0), new GregorianCalendar(2014,10,20,13, 0));
+        
+        //This availability is for 2014-11-20 12:30 - 13:00    this should not resolve the conflict because it does not span the length of the filming date.
+        TimeInterval conflict2Availability = new TimeInterval(new GregorianCalendar(2014,11,20,12,30), new GregorianCalendar(2014,11,20,13,00));
+        
+        //This availability is same as the scene filming date  2014-11-20 12:00 - 13:00 so it should resolve the conflict. 
+        TimeInterval solvedConflictAvailability = new TimeInterval(new GregorianCalendar(2014,11,20,12,00), new GregorianCalendar(2014,11,22,13,00));
+        
+        
+        sceneFilmingDate.setSceneShootingInterval(filmingDate);
+        
+        volunteerInConflict.addAvailability(conflict1Availability);
+        
+        //Assert that the conflict was caught. 
         //Note: This has stepped through all statements of the code.
-        assertFalse(schedule.getScheduleConflicts().isEmpty());
+        assert(!schedule.getScheduleConflicts().isEmpty());
         
-        volunteerInConflict.addAvailability(new TimeInterval(new GregorianCalendar(2014,11,20,12,30), new GregorianCalendar(2014,11,20,13,00)));
-        assertTrue("Scene should be in conflict, but getScheduleConflicts() is Empty", 
-                schedule.getScheduleConflicts().isEmpty());
+        volunteerInConflict.addAvailability(conflict2Availability);
+        //The scene should still be in conflict.
+        //Note: This has again stepped through all lines of the code.
+        assert(!schedule.getScheduleConflicts().isEmpty());
         
-        
+         volunteerInConflict.addAvailability(solvedConflictAvailability);
         //SceneShooting interval 2014-12-20 12:00 to 2014-12-20 1:00,   this volunteer now has
-        //2014-12-20 11:30 - 2014-12-22  13:00 and the scene is not in conflict
-        volunteerInConflict.addAvailability(new TimeInterval(new GregorianCalendar(2014,11,20,11,30), new GregorianCalendar(2014,11,22,13,00)));
+        //2014-12-20 12:00 - 2014-12-22  13:00 and the scene is not in conflict
+       
 		
-		assertTrue( "Scene should not be in conflict, but getScheduleConflicts() is not Empty",
-                schedule.getScheduleConflicts().isEmpty());    
+        assert(schedule.getScheduleConflicts().isEmpty());    
 				
-        assertTrue(schedule.getScheduleConflicts().isEmpty());
  
     }  
     
