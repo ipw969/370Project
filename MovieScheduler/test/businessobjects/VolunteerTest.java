@@ -60,7 +60,7 @@ public class VolunteerTest {
     @Test
     public void testSetFirstName() {
         System.out.println("setFirstName");
-        String name = "";
+        String name = "TestFirstName";
         Volunteer instance = new Volunteer();
         instance.setFirstName(name);
         assertEquals(name, instance.firstName);
@@ -72,11 +72,10 @@ public class VolunteerTest {
     @Test
     public void testSetLastName() {
         System.out.println("setLastName");
-        String name = "";
+        String name = "TestLastName";
         Volunteer instance = new Volunteer();
         instance.setLastName(name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(name, instance.lastName);
     }
 
     /**
@@ -85,11 +84,10 @@ public class VolunteerTest {
     @Test
     public void testSetEmail() {
         System.out.println("setEmail");
-        String email = "";
+        String email = "myEmail@mail.com";
         Volunteer instance = new Volunteer();
         instance.setEmail(email);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(email, instance.email);
     }
 
     /**
@@ -101,8 +99,7 @@ public class VolunteerTest {
         String phone = "";
         Volunteer instance = new Volunteer();
         instance.setPhone(phone);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(phone, instance.phone);
     }
 
     /**
@@ -111,12 +108,10 @@ public class VolunteerTest {
     @Test
     public void testGetFirstName() {
         System.out.println("getFirstName");
-        Volunteer instance = new Volunteer();
-        String expResult = "";
+        Volunteer instance = new Volunteer("Bob", "Dobbers", "email", "phone");
+        String expResult = "Bob";
         String result = instance.getFirstName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -125,12 +120,10 @@ public class VolunteerTest {
     @Test
     public void testGetLastName() {
         System.out.println("getLastName");
-        Volunteer instance = new Volunteer();
-        String expResult = "";
+        Volunteer instance = new Volunteer("Bob", "Dobbers", "email", "phone");
+        String expResult = "Dobbers";
         String result = instance.getLastName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -139,12 +132,10 @@ public class VolunteerTest {
     @Test
     public void testGetEmail() {
         System.out.println("getEmail");
-        Volunteer instance = new Volunteer();
-        String expResult = "";
+        Volunteer instance = new Volunteer("Bob", "Dobbers", "email", "phone");
+        String expResult = "email";
         String result = instance.getEmail();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -153,12 +144,10 @@ public class VolunteerTest {
     @Test
     public void testGetPhone() {
         System.out.println("getPhone");
-        Volunteer instance = new Volunteer();
-        String expResult = "";
+        Volunteer instance = new Volunteer("Bob", "Dobbers", "email", "phone");
+        String expResult = "phone";
         String result = instance.getPhone();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -167,12 +156,15 @@ public class VolunteerTest {
     @Test
     public void testGetAvailability() {
         System.out.println("getAvailability");
-        Volunteer instance = new Volunteer();
-        BusinessObjectList<TimeInterval> expResult = null;
+        BusinessObjectList<TimeInterval> expResult = new BusinessObjectList<>();
+        TimeInterval avail = new TimeInterval(
+                                new GregorianCalendar(2014, 12, 12, 9, 0),
+                                new GregorianCalendar(2014, 12, 12, 12, 0));
+        
+        expResult.add(avail);
+        Volunteer instance = new Volunteer("Bob", "Dobbers", "lol", "test", expResult);
         BusinessObjectList<TimeInterval> result = instance.getAvailability();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -181,12 +173,10 @@ public class VolunteerTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Volunteer instance = new Volunteer();
-        String expResult = "";
+        Volunteer instance = new Volunteer("1", "2", "3", "4");
+        String expResult = "1 2";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -195,12 +185,10 @@ public class VolunteerTest {
     @Test
     public void testToDescriptiveString() {
         System.out.println("toDescriptiveString");
-        Volunteer instance = new Volunteer();
-        String expResult = "";
+        Volunteer instance = new Volunteer("1", "2","3", "4");
+        String expResult = "First name: 1\nLast name: 2\nPhone number: 4\nEmail address: 3\n";
         String result = instance.toDescriptiveString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -209,12 +197,14 @@ public class VolunteerTest {
     @Test
     public void testClone() throws Exception {
         System.out.println("clone");
-        Volunteer instance = new Volunteer();
-        BaseBusinessObject expResult = null;
-        BaseBusinessObject result = instance.clone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Volunteer instance = new Volunteer("Test", "Name", "testMail", "testPhone");
+        Volunteer result = (Volunteer)instance.clone();
+        
+        assertTrue(result.email.equals(instance.email) &&
+                   result.firstName.equals(instance.firstName) &&
+                   result.firstName.equals(instance.firstName) &&
+                   result.phone.equals(instance.phone) &&
+                   result.availability.toString().equals(instance.availability.toString()));
     }
 
     /**
@@ -222,10 +212,11 @@ public class VolunteerTest {
      */
     @Test
     public void testMerge() {
-        System.out.println("merge");
-        BaseBusinessObject mergeObject = null;
-        Volunteer instance = new Volunteer();
-        instance.merge(mergeObject);
+        /* I'm not too certain about the whole merging and scene shebang -  if 
+        one of you guys want to write this test that'd be great! Thanks :)
+        */
+        assertTrue("Apples"=="Bananas");
+        
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
