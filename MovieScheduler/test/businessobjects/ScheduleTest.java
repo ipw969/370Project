@@ -155,50 +155,125 @@ public class ScheduleTest {
     
     
     
-    //public BusinessObjectList<SceneFilmingDate> getScheduleFor(GregorianCalendar date);
-   // public SceneFilmingDate getScenesFilmingDate(Scene scene);
-
-    /**
-     * Test of getScheduleConflicts method, of class Schedule.
-     */
-    @Test
-    public void testGetScheduleConflicts() {
-        System.out.println("getScheduleConflicts");
-        Schedule instance = new Schedule();
-        BusinessObjectList<SceneFilmingDate> expResult = null;
-        BusinessObjectList<SceneFilmingDate> result = instance.getScheduleConflicts();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getScheduleFor method, of class Schedule.
-     */
-    @Test
-    public void testGetScheduleFor() {
-        System.out.println("getScheduleFor");
-        GregorianCalendar date = null;
-        Schedule instance = new Schedule();
-        BusinessObjectList<SceneFilmingDate> expResult = null;
-        BusinessObjectList<SceneFilmingDate> result = instance.getScheduleFor(date);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of getScenesFilmingDate method, of class Schedule.
      */
     @Test
-    public void testGetScenesFilmingDate() {
-        System.out.println("getScenesFilmingDate");
-        Scene scene = null;
-        Schedule instance = new Schedule();
-        SceneFilmingDate expResult = null;
-        SceneFilmingDate result = instance.getScenesFilmingDate(scene);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetScenesFilmingDate() 
+    {
+        Scene scene1 = new Scene("Test1", "test1");
+        Scene scene2 = new Scene("Test2", "test2");
+        Scene scene3 = new Scene("3", "test3");
+        Scene scene4 = new Scene("Test4", "test4");
+        Scene scene5 = new Scene("Test5", "test5");
+        Scene scene6 = new Scene("Test6", "test6");
+        Scene scene7 = new Scene("Test7", "test7");
+        Scene scene8 = new Scene("Test8", "test8");
+        Scene scene9 = new Scene("Test9", "test9");
+        Scene scene10 = new Scene("Test10", "test10");
+        Scene scene11 = new Scene("Test11", "test11");
+        Scene scene12 = new Scene("Test12", "test12");
+        Scene scene13 = new Scene("Test13", "test13");
+        Scene scene14 = new Scene("Test14", "test14");
+        
+        SceneFilmingDate filmingDate1 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate2 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate3 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate4 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate5 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate6 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate7 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate8 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate9 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate10 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate11 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate12 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate13 = new SceneFilmingDate();
+        SceneFilmingDate filmingDate14 = new SceneFilmingDate();
+        
+        
+        filmingDate1.setScene(scene1);
+        filmingDate2.setScene(scene2);
+        filmingDate3.setScene(scene3);
+        filmingDate4.setScene(scene4);
+        filmingDate5.setScene(scene5);
+        filmingDate6.setScene(scene6);
+        filmingDate7.setScene(scene7);
+        filmingDate8.setScene(scene8);
+        filmingDate9.setScene(scene9);
+        filmingDate10.setScene(scene10);
+        filmingDate11.setScene(scene11);
+        filmingDate12.setScene(scene12);
+        filmingDate13.setScene(scene13);
+        filmingDate14.setScene(scene14);
+        
+        //These are filmed on 2014-11-20
+        filmingDate1.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,11,20,0,00), new GregorianCalendar(2014,11,20,0,0)));
+         filmingDate2.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,11,20,23,59), new GregorianCalendar(2014,11,20,23,59)));
+         
+         // 2014-11-21
+          filmingDate3.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,11,21,0,0), new GregorianCalendar(2014,11,21,0,0)));
+          //2014-11-19
+           filmingDate4.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,11,19,23,59), new GregorianCalendar(2014,11,19,23,59)));
+           
+           //2014-10-20
+            filmingDate5.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,10,20,0,00), new GregorianCalendar(2014,10,20,00,00)));
+              filmingDate6.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,10,20,23,59), new GregorianCalendar(2014,10,20,23,59)));
+               
+              //2014-12-20
+                filmingDate7.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,12,20,0,00), new GregorianCalendar(2014,12,20,00,00)));
+                  filmingDate8.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2014,12,20,23,59),new GregorianCalendar(2014,12,20,23,59)));
+                  
+                  //0000-10-20
+                    filmingDate9.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(0000,10,20,0,00), new GregorianCalendar(0000,10,20,00,00)));
+                    //10000-10-20-23-59
+                     filmingDate10.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(10000,10,20,23,59), new GregorianCalendar(10000,10,20,23,59)));
+                     
+                     //2015-11-20
+                filmingDate11.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2015,11,20,0,00), new GregorianCalendar(2015,11,20,00,00)));
+                  filmingDate12.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2015,11,20,23,59),new GregorianCalendar(2015,11,20,23,59)));
+                  
+                  //2013-11-20
+                    filmingDate13.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2013,11,20,0,00), new GregorianCalendar(2013,11,20,00,00)));
+                    filmingDate14.setSceneShootingInterval(new TimeInterval(new GregorianCalendar(2013,11,20,23,59), new GregorianCalendar(2013,11,20,23,59)));
+                    
+            
+        Schedule schedule = new Schedule();
+        schedule.add(filmingDate1);
+        schedule.add(filmingDate2);
+        schedule.add(filmingDate3);
+        schedule.add(filmingDate4);
+        schedule.add(filmingDate5);
+        schedule.add(filmingDate6);
+        schedule.add(filmingDate7);
+        schedule.add(filmingDate8);
+        schedule.add(filmingDate9);
+        schedule.add(filmingDate10);
+        schedule.add(filmingDate11);
+        schedule.add(filmingDate12);
+        schedule.add(filmingDate13);
+        schedule.add(filmingDate14);
+        
+        
+        //Ensure that the sceneFilmingDates are paired with the correct scenes.
+        assert(schedule.getScenesFilmingDate(scene1).equals(filmingDate1));
+        assert(schedule.getScenesFilmingDate(scene2).equals(filmingDate2));
+        assert(schedule.getScenesFilmingDate(scene3).equals(filmingDate3));
+        assert(schedule.getScenesFilmingDate(scene4).equals(filmingDate4));
+        assert(schedule.getScenesFilmingDate(scene5).equals(filmingDate5));
+        assert(schedule.getScenesFilmingDate(scene6).equals(filmingDate6));
+        assert(schedule.getScenesFilmingDate(scene7).equals(filmingDate7));
+        assert(schedule.getScenesFilmingDate(scene8).equals(filmingDate8));
+        assert(schedule.getScenesFilmingDate(scene9).equals(filmingDate9));
+        assert(schedule.getScenesFilmingDate(scene10).equals(filmingDate10));
+        assert(schedule.getScenesFilmingDate(scene11).equals(filmingDate11));
+        assert(schedule.getScenesFilmingDate(scene12).equals(filmingDate12));
+        assert(schedule.getScenesFilmingDate(scene13).equals(filmingDate13));
+        assert(schedule.getScenesFilmingDate(scene14).equals(filmingDate14));
+        
+        
+        
+       
     }
 }
