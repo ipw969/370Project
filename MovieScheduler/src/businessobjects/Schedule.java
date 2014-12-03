@@ -12,7 +12,6 @@ public class Schedule extends BusinessObjectList<SceneFilmingDate> {
     /**
      * Returns a list of all the SceneFilmingDates in the Schedule which are
      * currently in conflict.
-     *
      * @return A list of all the SceneFilmingDates in the Schedule which are
      * currently in conflict.
      */
@@ -32,7 +31,7 @@ public class Schedule extends BusinessObjectList<SceneFilmingDate> {
     /**
      * Returns a list of all the SceneFilmingDates which are scheduled to occur
      * on the provided date
-     *
+     * @precon The given date must be a valid valid
      * @param date::GregorianCalendar ~ The date to returns the list of
      * scheduled SceneFilmingDates, note that the time elements are ignored
      * @return A list of all the SceneFilmingDates which occur on the provided
