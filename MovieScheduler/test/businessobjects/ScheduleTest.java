@@ -72,12 +72,17 @@ public class ScheduleTest {
         assertFalse(schedule.getScheduleConflicts().isEmpty());
         
         volunteerInConflict.addAvailability(new TimeInterval(new GregorianCalendar(2014,11,20,12,30), new GregorianCalendar(2014,11,20,13,00)));
-        assertFalse(schedule.getScheduleConflicts().isEmpty());
+        assertTrue("Scene should be in conflict, but getScheduleConflicts() is Empty", 
+                schedule.getScheduleConflicts().isEmpty());
         
         
         //SceneShooting interval 2014-12-20 12:00 to 2014-12-20 1:00,   this volunteer now has
-        //2014-12-20 11:30 - 2014-12-22  13:00
+        //2014-12-20 11:30 - 2014-12-22  13:00 and the scene is not in conflict
         volunteerInConflict.addAvailability(new TimeInterval(new GregorianCalendar(2014,11,20,11,30), new GregorianCalendar(2014,11,22,13,00)));
+		
+		assertTrue( "Scene should not be in conflict, but getScheduleConflicts() is not Empty",
+                schedule.getScheduleConflicts().isEmpty());    
+				
         assertTrue(schedule.getScheduleConflicts().isEmpty());
  
     }  
