@@ -12,7 +12,6 @@ import businessobjects.Volunteer;
 import database.Database;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,9 +30,9 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
         this.theVolunteer = theVolunteer;
         this.database = database;
         this.nameField.setText(theVolunteer.getFirstName()+ " " + theVolunteer.getLastName());
-        this.phoneField.setText(theVolunteer.getPhone());
+        this.phoneField.setText(theVolunteer.getPhoneNumber());
         this.emailField.setText(theVolunteer.getEmail());
-        availabilityList = theVolunteer.getAvailability();
+        availabilityList = theVolunteer.getAvailabilities();
         
         
         availabilityList.stream().forEach((TimeInterval availability) -> {
@@ -282,7 +281,8 @@ public class VolunteerMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-            Volunteer updateVolunteer = new Volunteer(theVolunteer.getFirstName(), theVolunteer.getLastName(), theVolunteer.getEmail(), theVolunteer.getPhone(), availabilityList);
+            Volunteer updateVolunteer = new Volunteer(theVolunteer.getFirstName(), theVolunteer.getLastName(), theVolunteer.getEmail(), theVolunteer.getPhoneNumber());
+            updateVolunteer.setAvailabilties(availabilityList);
             //create a query to the database that will send the volunteer and their availability there
             SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, updateVolunteer, updateVolunteer.getEmail());
             saveVolunteerAction.run();

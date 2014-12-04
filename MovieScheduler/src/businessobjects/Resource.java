@@ -15,27 +15,31 @@ public class Resource extends BaseBusinessObject
      * Availabilities
      */
     public Resource() {
+        firstName = new String();
+        lastName = new String();
+        email = new String();
+        phoneNumber = new String();
         availabilities = new BusinessObjectList<>();
     }
 
     /**
      * Convenience constructor for a Resource which has been loaded from the
      * database.
-     * @param firstName::String ~ The first name to be associated with the 
+     *
+     * @param firstName::String ~ The first name to be associated with the
      * Resource
      * @param lastName::String ~ The last name to be associated with the
      * Resource
      * @param email::String ~ The email contact to be associated with the
      * Resource
-     * @param phoneNumber::String ~ The contact phone number to be associated 
+     * @param phoneNumber::String ~ The contact phone number to be associated
      * with the Resource
      */
     public Resource(
             String firstName,
             String lastName,
             String email,
-            String phoneNumber)
-    {
+            String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -43,7 +47,7 @@ public class Resource extends BaseBusinessObject
         availabilities = new BusinessObjectList<>();
         setIsNew(false);
     }
-    
+
     // Public Methods
     /**
      * The first name associated with the Resource
@@ -61,6 +65,9 @@ public class Resource extends BaseBusinessObject
      * Resource
      */
     public void setFirstName(String firstName) {
+        if(firstName.compareTo(this.firstName) == 0)
+            return;
+        
         boolean isValid = firstName.length() <= 60;
         updateError(FIRST_NAME_TOO_LONG, isValid);
         this.firstName = firstName;
@@ -83,6 +90,9 @@ public class Resource extends BaseBusinessObject
      * Resource
      */
     public void setLastName(String lastName) {
+        if(lastName.compareTo(this.lastName) == 0)
+            return;
+        
         boolean isValid = lastName.length() <= 60;
         updateError(LAST_NAME_TOO_LONG, isValid);
         this.lastName = lastName;
@@ -105,6 +115,9 @@ public class Resource extends BaseBusinessObject
      * Resource
      */
     public void setEmail(String email) {
+        if(email.compareTo(this.email)==0)
+            return;
+        
         boolean isValid = email.length() <= 60;
         updateError(EMAIL_TOO_LONG, isValid);
         this.email = email;
@@ -127,6 +140,9 @@ public class Resource extends BaseBusinessObject
      * with the Resource
      */
     public void setPhoneNumber(String phoneNumber) {
+        if(phoneNumber.compareTo(this.phoneNumber) == 0)
+            return;
+            
         boolean isValid = phoneNumber.length() <= 15;
         updateError(PHONE_NUMBER_TOO_LONG, isValid);
         this.phoneNumber = phoneNumber;
@@ -198,33 +214,33 @@ public class Resource extends BaseBusinessObject
      *
      * @param mergeObject::BaseBusinessObject ~ The BusinessObject to merge into
      * this
-     * @precond mergeObject instanceof Resource
-     *          mergeObject != null
+     * @precond mergeObject instanceof Resource mergeObject != null
      */
     @Override
     public void merge(BaseBusinessObject mergeObject) {
-        if(mergeObject == null)
+        if (mergeObject == null) {
             throw new RuntimeException("Cannot merge a null object into a "
                     + "Resource");
-        
-        if(!(mergeObject instanceof Resource))
+        }
+
+        if (!(mergeObject instanceof Resource)) {
             throw new RuntimeException("Cannot merge an object of non Resource"
                     + " type into a Resource");
-        
-        Resource other = (Resource)mergeObject;
-        
+        }
+
+        Resource other = (Resource) mergeObject;
+
         this.firstName = other.firstName;
         this.lastName = other.lastName;
         this.email = other.email;
         this.phoneNumber = other.phoneNumber;
-        
+
         this.availabilities.clear();
-        
-        for(TimeInterval currentOtherAvailability : other.availabilities)
-        {
+
+        for (TimeInterval currentOtherAvailability : other.availabilities) {
             this.availabilities.add(currentOtherAvailability);
         }
-        
+
     }
 
     /**
@@ -242,9 +258,9 @@ public class Resource extends BaseBusinessObject
         other.lastName = this.lastName;
         other.email = this.email;
         other.phoneNumber = this.phoneNumber;
-
-        for (TimeInterval currentAvailability : availabilities) {
-            other.availabilities.add((TimeInterval) currentAvailability.clone());
+        other.availabilities = new BusinessObjectList<>();
+        for (TimeInterval currentAvailability : this.availabilities) {
+            other.availabilities.add((TimeInterval)currentAvailability.clone());
         }
 
         return other;
@@ -272,8 +288,8 @@ public class Resource extends BaseBusinessObject
      * the list of Availabilities. Paradigm of use insists that if something
      * wishes to be informed of changes to a Resource's availabilities, then it
      * registers itself with the availability list directly using:
-     * resource.getAvailabilities().addListener(this); 
-     * As such this method does nothing.
+     * resource.getAvailabilities().addListener(this); As such this method does
+     * nothing.
      *
      * @param itemRemoved
      */
@@ -288,8 +304,8 @@ public class Resource extends BaseBusinessObject
      * resource has been cleared. Paradigm of use insists that if something
      * wishes to be informed of changes to a Resource's availabilities, then it
      * registers itself with the availability list directly using:
-     * resource.getAvailabilities().addListener(this);
-     * As such this method does nothing.
+     * resource.getAvailabilities().addListener(this); As such this method does
+     * nothing.
      */
     @Override
     public void listCleared() {

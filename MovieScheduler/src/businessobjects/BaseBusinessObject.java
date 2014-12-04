@@ -165,17 +165,15 @@ public abstract class BaseBusinessObject implements Cloneable {
      * http://en.wikipedia.org/wiki/Fragile_base_class for justification.
      */
     protected final void updateError(String errorMessage, boolean passesTest) {
-        boolean validStateBefore = isValid();
+
         if (passesTest) {
             errorMessages.remove(errorMessage);
         } else {
             errorMessages.add(errorMessage);
         }
-        boolean validStateAfter = isValid();
 
-        if (validStateBefore != validStateAfter) {
-            notifyListenersOfValidStateAltered();
-        }
+
+        notifyListenersOfValidStateAltered();
     }
 
     /**
@@ -234,6 +232,11 @@ public abstract class BaseBusinessObject implements Cloneable {
 
     }
 
+    // Protected Methods
+    protected ArrayList<BusinessObjectListener> getListeners() {
+        return listeners;
+    }
+    
     // Private Methods
     /**
      * Notifies all the listeners that the valid state of the BusinessObject has

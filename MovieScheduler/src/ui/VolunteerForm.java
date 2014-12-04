@@ -3,71 +3,225 @@
  * @author johnmason
  */
 package ui;
+
 import actions.SaveVolunteerAction;
 import businessobjects.Volunteer;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.swing.*;
 import businessobjects.*;
 import database.Database;
 import database.JdbcDatabase;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 /**
+ * A ui class for editing or adding Volunteers
  *
  * @author johnmason
  */
-public class VolunteerForm extends javax.swing.JFrame {
+public class VolunteerForm extends javax.swing.JFrame
+        implements BusinessObjectListener {
 
-    BusinessObjectList <TimeInterval> availabilityList = new BusinessObjectList();
-    private Database database;
-    private Script theScript;
-    private Volunteer volunteerToEdit;
-    @Override
-    public void setDefaultCloseOperation(int operation) {
-        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //To change body of generated methods, choose Tools | Templates.
-    }
+    BusinessObjectList<TimeInterval> availabilityList = new BusinessObjectList();
+    private final Database database;
+    private final Script script;
+    private final Volunteer originalVolunteer;
+    private final Volunteer volunteerToEdit;
 
-    /**
-     * Creates new form VolunteerForm
-     */
-    public VolunteerForm(Script theScript, Database database) {
-        this.database = database;
-        this.theScript = theScript;
-        initComponents();
-        
-    }
-    
     /**
      * Creates a volunteer form and populates it with previous volunteer info
-     */    
-    public VolunteerForm(Script theScript, Database database, Volunteer volunteerToEdit) {
+     */
+    public VolunteerForm(Script theScript,
+            Database database,
+            Volunteer volunteer) {
+
+        
         this.database = database;
-        this.theScript = theScript;
-        this.volunteerToEdit = volunteerToEdit;
+        this.script = theScript;
+        this.originalVolunteer = volunteer;
+        this.volunteerToEdit = (Volunteer) volunteer.clone();
+
         initComponents();
+        BusinessObjectListView<TimeInterval> availabilitiesListView
+                = new BusinessObjectListView<>(volunteerToEdit.getAvailabilities());
+        this.availabilitiesScrollPane.setViewportView(availabilitiesListView);
         PopulateFormForEdit(volunteerToEdit);
+        this.firstNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                updateFirstName();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updateFirstName();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                updateFirstName();
+            }
+
+            private void updateFirstName() {
+                volunteerToEdit.setFirstName(firstNameTextField.getText());
+
+            }
+        });
+
+        this.lastNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                updateLastName();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updateLastName();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                updateLastName();
+            }
+
+            private void updateLastName() {
+                volunteerToEdit.setLastName(lastNameTextField.getText());
+            }
+        });
+
+        this.emailTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                updateEmail();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updateEmail();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                updateEmail();
+            }
+
+            private void updateEmail() {
+                volunteerToEdit.setEmail(emailTextField.getText());
+            }
+        });
+
+        this.phoneNumberTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                updatePhoneNumber();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updatePhoneNumber();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                updatePhoneNumber();
+            }
+
+            private void updatePhoneNumber() {
+                volunteerToEdit.setPhoneNumber(phoneNumberTextField.getText());
+            }
+        });
     }
-    
+
+    // Private Methods
+    @Override
+    public void validStateAltered(boolean newState, BaseBusinessObject sender) {
+        okayButton.setEnabled(newState);
+        errorLabel.setVisible(!newState);
+        errorIcon.setVisible(!newState);
+
+        if (!newState) {
+            errorIcon.setToolTipText(sender.getErrorMessage());
+        } else {
+            errorIcon.setToolTipText("");
+        }
+    }
+
+    @Override
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
+        okayButton.setEnabled(sender.isValid() && !newState);
+    }
+
+    private void save() {
+        SaveVolunteerAction saveVolunteerAction
+                = new SaveVolunteerAction(database, volunteerToEdit);
+        boolean wasNew = volunteerToEdit.isNew();
+
+        saveVolunteerAction.run();
+
+        if (saveVolunteerAction.wasSuccessful()) {
+            originalVolunteer.merge((Volunteer) volunteerToEdit);
+            if (wasNew) {
+                script.getVolunteers().add(originalVolunteer);
+            }
+        } else {
+            //Show error message
+            JOptionPane.showMessageDialog(null, "Could not save volunteer "
+                    + "with message: "
+                    + saveVolunteerAction.lastErrorMessage(),
+                    "Error Saving Volunteer!", 0);
+        }
+
+    }
+
+    private boolean confirmClose() {
+        if (volunteerToEdit.hasChanged()) {
+            if (volunteerToEdit.isValid()) {
+                int confirm = JOptionPane.showOptionDialog(this,
+                        "Changes have been made, do you wish to save?",
+                        "Save Changes?",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, null, null);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    save();
+                    return true;
+                } else if (confirm == JOptionPane.NO_OPTION) {
+                    return true;
+                }
+            } else {
+                int confirm = JOptionPane.showOptionDialog(
+                        this,
+                        "Changes have been made, but cannot be saved because "
+                        + "they are not valid. Do you wish to return to editing",
+                        "Return to editing?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null, null, null);
+
+                if (confirm == JOptionPane.NO_OPTION) {
+                    return true;
+                }
+            }
+        } else {
+            return true;
+        }
+
+        return false;
+    }
+
     //method to populate the form with previously entered information
-    private void PopulateFormForEdit(Volunteer volunteerToEdit)
-    {
-        fName.setText(volunteerToEdit.getFirstName());
-        lName.setText(volunteerToEdit.getLastName());
-        email.setText(volunteerToEdit.getEmail());
-        phone.setText(volunteerToEdit.getPhone());
-        for (TimeInterval interval: volunteerToEdit.getAvailability())
+    private void PopulateFormForEdit(Volunteer volunteerToEdit) {
+        if(!volunteerToEdit.isNew())
         {
-            currentAvailabilities.addItem(interval);
+            firstNameTextField.setText(volunteerToEdit.getFirstName());
+            lastNameTextField.setText(volunteerToEdit.getLastName());
+            emailTextField.setText(volunteerToEdit.getEmail());
+            phoneNumberTextField.setText(volunteerToEdit.getPhoneNumber());
         }
         
+        errorLabel.setVisible(!volunteerToEdit.isValid());
+        errorIcon.setVisible(!volunteerToEdit.isValid());
+
+        validStateAltered(volunteerToEdit.isValid(), volunteerToEdit);
+        okayButton.setEnabled(false);
+
+        volunteerToEdit.addListener(this);
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,274 +231,279 @@ public class VolunteerForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        fName = new javax.swing.JTextField();
-        submit = new javax.swing.JButton();
-        lName = new javax.swing.JTextField();
-        email = new javax.swing.JTextField();
-        phone = new javax.swing.JTextField();
-        cancel = new javax.swing.JButton();
-        currentAvailabilities = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        add = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        start = new javax.swing.JSpinner();
-        end = new javax.swing.JSpinner();
+        mainPanel = new javax.swing.JPanel();
+        firstNameTextField = new javax.swing.JTextField();
+        lastNameTextField = new javax.swing.JTextField();
+        emailTextField = new javax.swing.JTextField();
+        phoneNumberTextField = new javax.swing.JTextField();
+        addAvailabilityLabel = new javax.swing.JLabel();
+        startAvailabilityLabel = new javax.swing.JLabel();
+        endAvailabilityLabel = new javax.swing.JLabel();
+        addAvailabilityButton = new javax.swing.JButton();
+        currentAvailabilitiesLabel = new javax.swing.JLabel();
+        startAvailabilitySpinner = new javax.swing.JSpinner();
+        endAvailabilitySpinner = new javax.swing.JSpinner();
+        firstNameLabel = new javax.swing.JLabel();
+        lastNameLabel = new javax.swing.JLabel();
+        emailLabel = new javax.swing.JLabel();
+        phoneNumberLabel = new javax.swing.JLabel();
+        availabilitiesScrollPane = new javax.swing.JScrollPane();
+        topPanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        bottomPanel = new javax.swing.JPanel();
+        cancelButton = new javax.swing.JButton();
+        okayButton = new javax.swing.JButton();
+        errorIcon = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Volunteer Signup Sheet");
-
-        fName.setText("First Name");
-        fName.setName(""); // NOI18N
-        fName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fNameActionPerformed(evt);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Volunteer");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
-        submit.setText("Submit");
-        submit.addActionListener(new java.awt.event.ActionListener() {
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        firstNameTextField.setText("First Name");
+        firstNameTextField.setName(""); // NOI18N
+
+        lastNameTextField.setText("Last Name ");
+        lastNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitActionPerformed(evt);
+                lastNameTextFieldActionPerformed(evt);
             }
         });
 
-        lName.setText("Last Name ");
-        lName.addActionListener(new java.awt.event.ActionListener() {
+        emailTextField.setText("Email Address");
+
+        phoneNumberTextField.setText("Phone Number");
+
+        addAvailabilityLabel.setFont(new java.awt.Font("Dialog", 3, 14)); // NOI18N
+        addAvailabilityLabel.setText("Add an Availability:");
+        addAvailabilityLabel.setToolTipText("Add a start time and an endtime to indicate your availability.\nClick add once you have indicated a time and it will be added to your current availabilities.");
+
+        startAvailabilityLabel.setText("Start:");
+
+        endAvailabilityLabel.setText("End:");
+
+        addAvailabilityButton.setText("Add Availability");
+        addAvailabilityButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lNameActionPerformed(evt);
+                addAvailabilityButtonActionPerformed(evt);
             }
         });
 
-        email.setText("Email Address");
+        currentAvailabilitiesLabel.setFont(new java.awt.Font("Dialog", 3, 14)); // NOI18N
+        currentAvailabilitiesLabel.setText("Current Availabilities:");
 
-        phone.setText("Phone Number");
+        startAvailabilitySpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
 
-        cancel.setText("Cancel");
-        cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelActionPerformed(evt);
-            }
-        });
+        endAvailabilitySpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
 
-        currentAvailabilities.setName(""); // NOI18N
-        currentAvailabilities.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                currentAvailabilitiesActionPerformed(evt);
-            }
-        });
+        firstNameLabel.setText("First Name:");
 
-        jLabel2.setText("Add an Availability");
-        jLabel2.setToolTipText("Add a start time and an endtime to indicate your availability.\nClick add once you have indicated a time and it will be added to your current availabilities.");
+        lastNameLabel.setText("Last Name:");
 
-        jLabel3.setText("Start");
+        emailLabel.setText("Email Address:");
 
-        jLabel4.setText("End");
+        phoneNumberLabel.setText("Phone Number:");
 
-        add.setText("Add Availability");
-        add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Current Availabilities");
-
-        start.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
-
-        end.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel2)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel3)
-                                                    .addComponent(jLabel4))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(end)
-                                                    .addComponent(start))
-                                                .addGap(45, 45, 45)))
-                                        .addGap(0, 153, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(currentAvailabilities, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(43, 43, 43))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(submit)
-                        .addGap(9, 9, 9)
-                        .addComponent(cancel)))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(add)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(firstNameLabel)
+                            .addComponent(lastNameLabel)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneNumberLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(firstNameTextField)
+                            .addComponent(lastNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(emailTextField)
+                            .addComponent(phoneNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)))
+                    .addComponent(addAvailabilityLabel)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startAvailabilityLabel)
+                            .addComponent(endAvailabilityLabel))
+                        .addGap(99, 99, 99)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(startAvailabilitySpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(endAvailabilitySpinner)))
+                    .addComponent(addAvailabilityButton))
+                .addGap(51, 51, 51)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(availabilitiesScrollPane)
+                    .addComponent(currentAvailabilitiesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstNameLabel)
+                    .addComponent(currentAvailabilitiesLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lastNameLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneNumberLabel))
+                        .addGap(30, 30, 30)
+                        .addComponent(addAvailabilityLabel)
+                        .addGap(32, 32, 32)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(startAvailabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startAvailabilityLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(endAvailabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(endAvailabilityLabel))
+                        .addGap(18, 18, 18)
+                        .addComponent(addAvailabilityButton))
+                    .addComponent(availabilitiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
+        );
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+
+        titleLabel.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
+        titleLabel.setText("Volunteer");
+
+        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
+        topPanel.setLayout(topPanelLayout);
+        topPanelLayout.setHorizontalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel)
+                .addContainerGap(478, Short.MAX_VALUE))
+        );
+        topPanelLayout.setVerticalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jLabel1)
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+        getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        okayButton.setText("Okay");
+        okayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okayButtonActionPerformed(evt);
+            }
+        });
+
+        errorIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Error.png"))); // NOI18N
+
+        errorLabel.setText("Warning: Cannot Save");
+
+        javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
+        bottomPanel.setLayout(bottomPanelLayout);
+        bottomPanelLayout.setHorizontalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(errorIcon)
+                .addGap(18, 18, 18)
+                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(78, 78, 78)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(currentAvailabilities, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(okayButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(end, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(add)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submit)
-                    .addComponent(cancel))
-                .addGap(87, 87, 87))
+                .addComponent(cancelButton)
+                .addContainerGap())
+        );
+        bottomPanelLayout.setVerticalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bottomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bottomPanelLayout.createSequentialGroup()
+                        .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cancelButton)
+                            .addComponent(okayButton)
+                            .addComponent(errorIcon))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void okayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okayButtonActionPerformed
+        this.save();
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_okayButtonActionPerformed
+
     /**
-     * upon clicking this button the text in both the start and end dates are added to the 
-     * drop down list of availabilities
+     * upon clicking this button the text in both the start and end dates are
+     * added to the drop down list of availabilities
      */
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-       
-        currentAvailabilities.addItem(start.getValue() +" to " + end.getValue());
-        
+    private void addAvailabilityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAvailabilityButtonActionPerformed
+
         //parse the values to date values
-        Date sDate, eDate;                  
-        sDate = (Date) start.getValue();
-        eDate = (Date) end.getValue();
-        
+        Date sDate, eDate;
+        sDate = (Date) startAvailabilitySpinner.getValue();
+        eDate = (Date) endAvailabilitySpinner.getValue();
+
         //initialize the Gregorian dates
         GregorianCalendar startDate = new GregorianCalendar();
         GregorianCalendar endDate = new GregorianCalendar();
-        
+
         //give the gregorian calendars the times obtained from the date values obtained from the gui
         startDate.setTime(sDate);
         endDate.setTime(eDate);
-        TimeInterval timeInterval = new TimeInterval(startDate,endDate);
-        
-        availabilityList.add(timeInterval);
-        /*   
-        this is the GregorianCalendar constructor we will need
-        
-        NOTE: month goes from 0-11 everything else is normal
-            public GregorianCalendar(int year,
-                 int month,
-                 int dayOfMonth,
-                 int hourOfDay,
-                 int minute)
-        */
+        TimeInterval timeInterval = new TimeInterval(startDate, endDate);
 
-        
-    }//GEN-LAST:event_addActionPerformed
+        volunteerToEdit.getAvailabilities().add(timeInterval);
 
-    private void currentAvailabilitiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentAvailabilitiesActionPerformed
+    }//GEN-LAST:event_addAvailabilityButtonActionPerformed
+
+    private void lastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_currentAvailabilitiesActionPerformed
+    }//GEN-LAST:event_lastNameTextFieldActionPerformed
 
-    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        setVisible(false); //you can't see me!
-        dispose(); //Destroy the JFrame object
-    }//GEN-LAST:event_cancelActionPerformed
-
-    private void lNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lNameActionPerformed
-
-    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-
-        
- 
-       
-            //create a new volunteer and populate it with all of the information
-            Volunteer volunteer = new Volunteer(fName.getText().toString(),lName.getText().toString(),
-                    email.getText().toString(), phone.getText().toString(),
-                    availabilityList);
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (confirmClose()) {
+            volunteerToEdit.removeListener(this);
             
-            
-            //create a query to the database that will send the volunteer and their availability there
-            SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, volunteer);
-            saveVolunteerAction.run();
-            
-            //check to see if the volunteer was successfully added to the database
-            //if not give an error message
-            if(!saveVolunteerAction.wasSuccessful())
-            {
-                System.out.println("fail" + saveVolunteerAction.lastErrorMessage());
-            }
-           
-            //add the volunteer to the script so it appears in the main menu
-            theScript.addVolunteer(volunteer);
-            MainMenu mainMenu;
-            mainMenu = new MainMenu(theScript, database);
-            mainMenu.setVisible(true);
             this.setVisible(false);
-            this.dispose();
-
-        
-        
-    }//GEN-LAST:event_submitActionPerformed
-
-    private void fNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fNameActionPerformed
+        } 
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -377,49 +536,54 @@ public class VolunteerForm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException ex)
-        {
-            System.out.println("Could not load database driver with "
-                        + "message: " + ex.toString());
-            return;
-        }
-        
-        JdbcDatabase testDatabase = null;
-        try{
-            testDatabase = new JdbcDatabase(
-                "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
-                "cmpt370_group06",
-                "Raptorjesusisawesome55775");
-        }
-        catch (SQLException ex)
-        {
-            System.out.println("Failed to connection to db with message: "
-                + ex.getMessage());
-            return;
-        }
+                    Class.forName("org.postgresql.Driver");
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("Could not load database driver with "
+                            + "message: " + ex.toString());
+                    return;
+                }
+
+                JdbcDatabase testDatabase = null;
+                try {
+                    testDatabase = new JdbcDatabase(
+                            "jdbc:postgresql://edjo.usask.ca/cmpt370_group06",
+                            "cmpt370_group06",
+                            "Raptorjesusisawesome55775");
+                } catch (SQLException ex) {
+                    System.out.println("Failed to connection to db with message: "
+                            + ex.getMessage());
+                    return;
+                }
                 //new VolunteerForm(theScript, testDatabase).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add;
-    private javax.swing.JButton cancel;
-    private javax.swing.JComboBox currentAvailabilities;
-    private javax.swing.JTextField email;
-    private javax.swing.JSpinner end;
-    private javax.swing.JTextField fName;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField lName;
-    private javax.swing.JTextField phone;
-    private javax.swing.JSpinner start;
-    private javax.swing.JButton submit;
+    private javax.swing.JButton addAvailabilityButton;
+    private javax.swing.JLabel addAvailabilityLabel;
+    private javax.swing.JScrollPane availabilitiesScrollPane;
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel currentAvailabilitiesLabel;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JTextField emailTextField;
+    private javax.swing.JLabel endAvailabilityLabel;
+    private javax.swing.JSpinner endAvailabilitySpinner;
+    private javax.swing.JLabel errorIcon;
+    private javax.swing.JLabel errorLabel;
+    private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JLabel lastNameLabel;
+    private javax.swing.JTextField lastNameTextField;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton okayButton;
+    private javax.swing.JLabel phoneNumberLabel;
+    private javax.swing.JTextField phoneNumberTextField;
+    private javax.swing.JLabel startAvailabilityLabel;
+    private javax.swing.JSpinner startAvailabilitySpinner;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
+
 }

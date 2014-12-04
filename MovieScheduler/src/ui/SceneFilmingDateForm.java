@@ -18,7 +18,7 @@ import java.awt.event.WindowEvent;
  *
  * @author Iain Workman
  */
-public class EditSceneFilmingDate extends javax.swing.JFrame
+public class SceneFilmingDateForm extends javax.swing.JFrame
         implements BusinessObjectListener {
 
     /**
@@ -28,7 +28,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
      * @param filmingDate
      * @param database
      */
-    public EditSceneFilmingDate(Script script,
+    public SceneFilmingDateForm(Script script,
             SceneFilmingDate filmingDate, Database database) {
         if (script == null) {
             throw new RuntimeException("Cannot edit Scene Filming Dates for"
@@ -114,7 +114,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null, "Could not save scheduled "
                     + "filming date with message: "
                     + saveAction.lastErrorMessage(),
-                    "Error Loading System!", 0);
+                    "Error Saving Filming Date!", 0);
         }
     }
 
@@ -178,7 +178,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
         startDateTimeSpinner = new javax.swing.JSpinner();
         endDateTimeSpinner = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Scene Filming Date");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -326,7 +326,7 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
     private void okayButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_okayButtonActionPerformed
     {//GEN-HEADEREND:event_okayButtonActionPerformed
         this.save();
-        this.setVisible(false);
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_okayButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -350,14 +350,15 @@ public class EditSceneFilmingDate extends javax.swing.JFrame
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SceneFilmingDateForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SceneFilmingDateForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SceneFilmingDateForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditSceneFilmingDate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SceneFilmingDateForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

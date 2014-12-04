@@ -70,7 +70,7 @@ public class SceneFilmingDate extends BaseBusinessObject
 
         for (Volunteer currentVolunteer : scene.getVolunteers()) {
             boolean volunteerIsAvailable = false;
-            for (TimeInterval currentAvailability : currentVolunteer.getAvailability()) {
+            for (TimeInterval currentAvailability : currentVolunteer.getAvailabilities()) {
                 if (sceneShootingInterval.isContainedBy(currentAvailability)) {
                     volunteerIsAvailable = true;
                 }
