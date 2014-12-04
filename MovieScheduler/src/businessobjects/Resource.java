@@ -1,0 +1,301 @@
+package businessobjects;
+
+/**
+ * A class representing a Resource that will be required to film a Scene; either
+ * a Volunteer or a piece of Equipment
+ *
+ * @author Iain Workman
+ */
+public class Resource extends BaseBusinessObject
+        implements BusinessObjectListListener {
+
+    // Constructor
+    /**
+     * Default constructor for a Resource. Creates an empty resource with no
+     * Availabilities
+     */
+    public Resource() {
+        availabilities = new BusinessObjectList<>();
+    }
+
+    // Public Methods
+    /**
+     * The first name associated with the Resource
+     *
+     * @return The first name associated with the Resource
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Set the first name associated with the Resource
+     *
+     * @param firstName::String ~ The new first name to associate with the
+     * Resource
+     */
+    public void setFirstName(String firstName) {
+        boolean isValid = firstName.length() <= 60;
+        updateError(FIRST_NAME_TOO_LONG, isValid);
+        this.firstName = firstName;
+        setHasChanged(true);
+    }
+
+    /**
+     * The last name associated with the Resource
+     *
+     * @return The last name associated with the Resource
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Sets the last name associated with the Resource
+     *
+     * @param lastName::String ~ The new last name to associate with the
+     * Resource
+     */
+    public void setLastName(String lastName) {
+        boolean isValid = lastName.length() <= 60;
+        updateError(LAST_NAME_TOO_LONG, isValid);
+        this.lastName = lastName;
+        setHasChanged(true);
+    }
+
+    /**
+     * The email contact associated with the Resource
+     *
+     * @return The email contact associated with the Resource
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the email contact associated with the Resource
+     *
+     * @param email::String ~ The new email contact to associate with the
+     * Resource
+     */
+    public void setEmail(String email) {
+        boolean isValid = email.length() <= 60;
+        updateError(EMAIL_TOO_LONG, isValid);
+        this.email = email;
+        setHasChanged(true);
+    }
+
+    /**
+     * The contact phone number associated with the Resource
+     *
+     * @return The contact phone number associated with the Resource
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * Sets the contact phone number associated with the Resource
+     *
+     * @param phoneNumber::String ~ The new contact phone number to associate
+     * with the Resource
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        boolean isValid = phoneNumber.length() <= 15;
+        updateError(PHONE_NUMBER_TOO_LONG, isValid);
+        this.phoneNumber = phoneNumber;
+        setHasChanged(true);
+    }
+
+    /**
+     * The list of TimeIntervals over which the Resource is available.
+     *
+     * @return The list of TimeIntervals over which the Resource is available.
+     */
+    public BusinessObjectList<TimeInterval> getAvailabilities() {
+        return availabilities;
+    }
+
+    /**
+     * Sets the list of TimeIntervals over which the Resource is available.
+     *
+     * @param availabilities::BusinessObjectList<TimeInterval> ~ The list of
+     * TimeIntervals over which the Resource is available.
+     * @precond ~ availabilities != null
+     */
+    public void setAvailabilties(BusinessObjectList<TimeInterval> availabilities)
+            throws IllegalArgumentException {
+        if (availabilities == null) {
+            throw new IllegalArgumentException("A resource cannot have a null"
+                    + " set of availabilities provided.");
+        }
+
+        if (this.availabilities != null) {
+            this.availabilities.removeListener(this);
+        }
+
+        this.availabilities = availabilities;
+        this.availabilities.addListener(this);
+    }
+
+    /**
+     * The firstName and lastName associated with the Resource.
+     *
+     * @return The firstName and lastName associated with the Resource.
+     */
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+
+    /**
+     * A longer descriptive String describing the Resource. Includes a
+     * formatted: First name: firstName Last name: lastName Phone number:
+     * phoneNumber emailAddress: emailAddress
+     *
+     * @return A longer descriptive String describing the Resource.
+     */
+    @Override
+    public String toDescriptiveString() {
+
+        StringBuilder newString = new StringBuilder();
+        newString.append("First name: ").append(this.firstName).append("\n");
+        newString.append("Last name: ").append(this.lastName).append("\n");
+        newString.append("Phone number: ").append(this.phoneNumber).append("\n");
+        newString.append("Email address: ").append(this.email).append("\n");
+
+        return newString.toString();
+    }
+
+    /**
+     * Method for merging the provided BusinessObject into this.
+     *
+     * @param mergeObject::BaseBusinessObject ~ The BusinessObject to merge into
+     * this
+     * @precond mergeObject instanceof Resource
+     */
+    @Override
+    public void merge(BaseBusinessObject mergeObject) {
+
+    }
+
+    /**
+     * Creates a deep clone of the Resource, including unique version of its
+     * attributes and availabilities
+     *
+     * @return A deep clone of this Resource
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    public BaseBusinessObject clone() throws CloneNotSupportedException {
+        Resource other = (Resource) super.clone();
+
+        other.firstName = this.firstName;
+        other.lastName = this.lastName;
+        other.email = this.email;
+        other.phoneNumber = this.phoneNumber;
+
+        for (TimeInterval currentAvailability : availabilities) {
+            other.availabilities.add((TimeInterval) currentAvailability.clone());
+        }
+
+        return other;
+    }
+
+    // Observer notifications from availabilities
+    /**
+     * Method to handle a notification that a TimeInterval has been added to the
+     * list of Availabilities. Paradigm of use insists that if something wishes
+     * to be informed of changes to a Resource's availabilities, then it
+     * registers itself with the availability list directly using:
+     * resource.getAvailabilities().addListener(this); As such this method does
+     * nothing.
+     *
+     * @param itemAdded
+     */
+    @Override
+    public void businessObjectAdded(BaseBusinessObject itemAdded) {
+        // We need take no action here, as we don't need to notify observers of
+        // an item added to the list
+    }
+
+    /**
+     * Method to handle a notification that a TimeInterval has been removed from
+     * the list of Availabilities. Paradigm of use insists that if something
+     * wishes to be informed of changes to a Resource's availabilities, then it
+     * registers itself with the availability list directly using:
+     * resource.getAvailabilities().addListener(this); 
+     * As such this method does nothing.
+     *
+     * @param itemRemoved
+     */
+    @Override
+    public void businessObjectRemoved(BaseBusinessObject itemRemoved) {
+        // We need take no action here, as we don't need to notify observers of
+        // an item removed from the list
+    }
+
+    /**
+     * Method to handle a notification that the list of availabilities for the
+     * resource has been cleared. Paradigm of use insists that if something
+     * wishes to be informed of changes to a Resource's availabilities, then it
+     * registers itself with the availability list directly using:
+     * resource.getAvailabilities().addListener(this);
+     * As such this method does nothing.
+     */
+    @Override
+    public void listCleared() {
+        // We need take no action here, as we don't need to notify observers of
+        // the list being cleared
+    }
+
+    /**
+     * Method to handle notification from the availability list that a contained
+     * BusinessObject has had its valid state altered.
+     * @param newState::boolean ~ The new valid state of the sender
+     * @param sender::BaseBusinessObject ~ The BusinessObject sending the
+     * notification.
+     */
+    @Override
+    public void validStateAltered(boolean newState, BaseBusinessObject sender) {
+        if (sender instanceof TimeInterval) {
+            TimeInterval sendingTimeInterval = (TimeInterval) sender;
+            updateError("Time interval " + sendingTimeInterval.toString()
+                    + " is not valid", newState);
+        }
+    }
+
+    /**
+     * Method to handle notification from the availability list that a contained
+     * BusinessObject has had its changed state altered.
+     * @param newState::boolean ~ The new changed state of the sender
+     * @param sender::BaseBusinessObject ~ The BusinessObject sending the
+     * notification.
+     */
+    @Override
+    public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
+
+    }
+
+    // Private Methods
+    /// The first name associated with the Resource
+    private String firstName;
+    /// The last name associated with the Resource
+    private String lastName;
+    /// The email contact associated with the Resource
+    private String email;
+    /// The contact phone number associated with the Resource
+    private String phoneNumber;
+    /// The list of availabilities for the Resource
+    private BusinessObjectList<TimeInterval> availabilities;
+
+    // Error Message Strings associated with this class
+    private final String EMAIL_TOO_LONG
+            = "Email cannot be longer than 60 characters.";
+    private final String FIRST_NAME_TOO_LONG
+            = "First name cannot be longer than 60 characters.";
+    private final String LAST_NAME_TOO_LONG
+            = "Last name cannot be longer than 60 characters.";
+    private final String PHONE_NUMBER_TOO_LONG
+            = "Phone number cannot be longer than 15 characters.";
+}
