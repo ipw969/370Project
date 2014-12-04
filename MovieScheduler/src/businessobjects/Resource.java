@@ -199,10 +199,32 @@ public class Resource extends BaseBusinessObject
      * @param mergeObject::BaseBusinessObject ~ The BusinessObject to merge into
      * this
      * @precond mergeObject instanceof Resource
+     *          mergeObject != null
      */
     @Override
     public void merge(BaseBusinessObject mergeObject) {
-
+        if(mergeObject == null)
+            throw new RuntimeException("Cannot merge a null object into a "
+                    + "Resource");
+        
+        if(!(mergeObject instanceof Resource))
+            throw new RuntimeException("Cannot merge an object of non Resource"
+                    + " type into a Resource");
+        
+        Resource other = (Resource)mergeObject;
+        
+        this.firstName = other.firstName;
+        this.lastName = other.lastName;
+        this.email = other.email;
+        this.phoneNumber = other.phoneNumber;
+        
+        this.availabilities.clear();
+        
+        for(TimeInterval currentOtherAvailability : other.availabilities)
+        {
+            this.availabilities.add(currentOtherAvailability);
+        }
+        
     }
 
     /**
