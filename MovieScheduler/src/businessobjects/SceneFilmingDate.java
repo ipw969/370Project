@@ -71,7 +71,7 @@ public class SceneFilmingDate extends BaseBusinessObject
         for (Volunteer currentVolunteer : scene.getVolunteers()) {
             boolean volunteerIsAvailable = false;
             for (TimeInterval currentAvailability : currentVolunteer.getAvailability()) {
-                if (currentAvailability.compareTo(sceneShootingInterval) == 0) {
+                if (sceneShootingInterval.isContainedBy(currentAvailability)) {
                     volunteerIsAvailable = true;
                 }
             }
@@ -85,7 +85,7 @@ public class SceneFilmingDate extends BaseBusinessObject
         for (Equipment currentEquipment : scene.getEquipment()) {
             boolean equipmentIsAvailable = false;
             for (TimeInterval currentAvailability : currentEquipment.getAvailability()) {
-                if (currentAvailability.compareTo(sceneShootingInterval) == 0) {
+                if (sceneShootingInterval.isContainedBy(currentAvailability)) {
                     equipmentIsAvailable = true;
                 }
             }

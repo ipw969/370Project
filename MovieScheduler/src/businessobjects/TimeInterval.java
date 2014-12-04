@@ -120,6 +120,7 @@ public class TimeInterval
      */
     @Override
     public int compareTo(TimeInterval other) {
+
         // this.start is later than other.end
         if (this.start.compareTo(other.end) > 0) {
             return 1;
@@ -133,6 +134,24 @@ public class TimeInterval
         return 0;
     }
 
+    /**Checks to if the given time interval spans the length of this time interval.
+     * That is, whether this time lies inside of the given time.
+     * @precon the given start dates must be less than their corresponding end dates.
+     * @return
+     * if other.startTime <= this.startTime <= this.endTime <= other.endTime return true
+     * else return false
+     * */
+    public boolean isContainedBy(TimeInterval other)
+    {
+        
+        if ((this.start.compareTo(other.start) >= 0) && (this.end.compareTo(other.end) <= 0))
+        {
+            return true;
+        }
+       
+            return false;  
+    }
+    
     /**
      * Whether or not the provided date lies within this TimeInterval
      *
