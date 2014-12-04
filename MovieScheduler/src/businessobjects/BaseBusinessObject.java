@@ -226,7 +226,8 @@ public abstract class BaseBusinessObject implements Cloneable {
             throw new RuntimeException("Cannot merge in a null object");
         }
 
-        errorMessages = mergeObject.errorMessages;
+        errorMessages.clear();
+        errorMessages.addAll(mergeObject.errorMessages);
         this.isNew = mergeObject.isNew;
         //Need to clear the listeners to mergeObject
         mergeObject.listeners.clear();
