@@ -18,6 +18,32 @@ public class Resource extends BaseBusinessObject
         availabilities = new BusinessObjectList<>();
     }
 
+    /**
+     * Convenience constructor for a Resource which has been loaded from the
+     * database.
+     * @param firstName::String ~ The first name to be associated with the 
+     * Resource
+     * @param lastName::String ~ The last name to be associated with the
+     * Resource
+     * @param email::String ~ The email contact to be associated with the
+     * Resource
+     * @param phoneNumber::String ~ The contact phone number to be associated 
+     * with the Resource
+     */
+    public Resource(
+            String firstName,
+            String lastName,
+            String email,
+            String phoneNumber)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        availabilities = new BusinessObjectList<>();
+        setIsNew(false);
+    }
+    
     // Public Methods
     /**
      * The first name associated with the Resource
