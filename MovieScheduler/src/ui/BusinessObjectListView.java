@@ -43,6 +43,23 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
     }
 
     /**
+     * Returns the BusinessObjectList that the view is representing
+     * @return The BusinessObjectList that the view is representing
+     */
+    public BusinessObjectList<T> getDataList() {
+        if (this.getModel() == null)
+            return null;
+        
+        BusinessObjectListModel<T> currentModel =
+                (BusinessObjectListModel<T>)getModel();
+        
+        if(currentModel == null)
+            return null;
+        
+        return currentModel.getData();
+    }
+    
+    /**
      * Private class which represents the model which the BusinessObjectListView
      * will use to display its data
      *
@@ -63,6 +80,14 @@ public class BusinessObjectListView<T extends BaseBusinessObject>
             data.addListener(this);
         }
 
+        /**
+         * The data this model is representing
+         * @return The data this model is representing
+         */
+        public BusinessObjectList<T> getData() {
+            return this.data;
+        }
+        
         /**
          * Returns the BusinessObject at the given index
          *

@@ -25,11 +25,39 @@ public class ResourcePanel extends javax.swing.JPanel {
         this.database = database;
         this.script = script;
         volunteerList = new EditableBusinessObjectListView<>(script.getVolunteers());
+        registerVolunteerActionListeners();
         equipmentList = new EditableBusinessObjectListView<>(script.getEquipment());
         sceneList = new EditableBusinessObjectListView<>(script.getScenes());
         volunteerListPanel.add(volunteerList);
         equipmentListPanel.add(equipmentList);
         sceneListPanel.add(sceneList);
+    }
+    
+    private void registerVolunteerActionListeners ()
+    {
+        volunteerList.addAddActionListener(
+            new BusinessObjectListViewAddActionListener<Volunteer>() {
+
+            @Override
+            public void onAddActionPerformed(BusinessObjectListViewAddEvent<Volunteer> event) {
+                VolunteerForm volunteerForm = new VolunteerForm(
+                    script, database, new Volunteer());
+                volunteerForm.setVisible(true);
+            }
+                
+            });
+        
+        volunteerList.addEditActionListener(
+            new BusinessObjectListViewEditActionListener() {
+
+            @Override
+            public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
+                VolunteerForm volunteerForm = new VolunteerForm(
+                    script, database, (Volunteer)event.getObjectBeingEdited());
+                volunteerForm.setVisible(true);
+            }
+                
+            });
     }
 
     /**

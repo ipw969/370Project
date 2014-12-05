@@ -202,7 +202,7 @@ public class VolunteerForm extends javax.swing.JFrame
 
     //method to populate the form with previously entered information
     private void PopulateFormForEdit(Volunteer volunteerToEdit) {
-        if(!volunteerToEdit.isNew())
+        if(volunteerToEdit.isNew())
         {
             firstNameTextField.setText(volunteerToEdit.getFirstName());
             lastNameTextField.setText(volunteerToEdit.getLastName());
