@@ -35,9 +35,7 @@ public class VolunteerForm extends javax.swing.JFrame
     /**
      * Creates a volunteer form and populates it with previous volunteer info
      */
-    public VolunteerForm(Script theScript,
-            Database database,
-            Volunteer volunteer) {
+    public VolunteerForm(Volunteer originalVolunteer) {
 
         this.database = database;
         this.script = theScript;
