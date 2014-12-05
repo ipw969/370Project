@@ -85,7 +85,8 @@ public class LoadVolunteerAction extends BaseAction {
 
                 String lastName = selectResults.getString(2);
                 String phone = selectResults.getString(3);
-                returnVolunteer = new Volunteer(firstName, lastName, volunteerEmail, phone, volunteerAvailabilities);
+                returnVolunteer = new Volunteer(firstName, lastName, volunteerEmail, phone);
+                returnVolunteer.setAvailabilties(volunteerAvailabilities);
             }
         } catch (SQLException ex) {
             throw ex;

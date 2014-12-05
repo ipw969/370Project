@@ -10,6 +10,7 @@ import businessobjects.Volunteer;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -114,6 +115,8 @@ public class MainMenu extends javax.swing.JFrame {
 
         label1.setText("label1");
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Movie Scheduler");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 exitForm(evt);
@@ -432,13 +435,11 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
         {
-
-            this.setVisible(false);
-            this.dispose();
-            VolunteerForm volunteerForm = new VolunteerForm(theScript, database);
+            VolunteerForm volunteerForm = new VolunteerForm(
+                    theScript, 
+                    database, new Volunteer());
             volunteerForm.setVisible(true);
-            this.repaint();
-        }                       // TODO add your handling code here:
+        }                      
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     private void equipmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipmentComboBoxActionPerformed

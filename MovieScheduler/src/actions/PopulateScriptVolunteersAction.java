@@ -94,8 +94,9 @@ public class PopulateScriptVolunteersAction extends BaseAction {
                         = loadVolunteerAvailabilities(email);
 
                 Volunteer newVolunteer = new Volunteer(firstName,
-                        surname, email, phone, availabilities);
+                        surname, email, phone);
 
+                newVolunteer.setAvailabilties(availabilities);
                 newVolunteer.setIsNew(false);
                 volunteerList.add(newVolunteer);
             }

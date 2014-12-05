@@ -46,7 +46,7 @@ public class EditSceneFilmingDateTest {
         System.out.println("validStateAltered");
         boolean newState = false;
         BaseBusinessObject sender = null;
-        EditSceneFilmingDate instance = null;
+        SceneFilmingDateForm instance = null;
         instance.validStateAltered(newState, sender);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -60,7 +60,7 @@ public class EditSceneFilmingDateTest {
         System.out.println("changedStateAltered");
         boolean newState = false;
         BaseBusinessObject sender = null;
-        EditSceneFilmingDate instance = null;
+        SceneFilmingDateForm instance = null;
         instance.changedStateAltered(newState, sender);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -72,7 +72,7 @@ public class EditSceneFilmingDateTest {
     @Test
     public void testSave() {
         System.out.println("save");
-        EditSceneFilmingDate instance = null;
+        SceneFilmingDateForm instance = null;
         instance.save();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -85,7 +85,7 @@ public class EditSceneFilmingDateTest {
     public void testMain() {
         System.out.println("main");
         String[] args = null;
-        EditSceneFilmingDate.main(args);
+        SceneFilmingDateForm.main(args);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

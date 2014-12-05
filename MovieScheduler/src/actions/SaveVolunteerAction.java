@@ -4,8 +4,6 @@ import database.Database;
 import businessobjects.*;
 import java.sql.SQLException;
 import businessobjects.TimeInterval;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * an action class to save a volunteer object to the database
@@ -68,9 +66,10 @@ public class SaveVolunteerAction extends BaseAction {
                 this.setErrorMessage("Saving the volunteer to the database was a failure.");
                 this.setWasSuccessful(false);
             }
-
+            volunteer().setIsNew(false);
+            volunteer().setHasChanged(false);
         }
-
+        
     }    // Private Methods
 
     /**
@@ -90,8 +89,8 @@ public class SaveVolunteerAction extends BaseAction {
                 + volunteer().getEmail() + "','"
                 + volunteer().getFirstName() + "','"
                 + volunteer().getLastName() + "','"
-                + volunteer().getPhone() + "','"
-                + volunteer().getFirstName() + volunteer().getPhone() + "');";
+                + volunteer().getPhoneNumber() + "','"
+                + volunteer().getFirstName() + volunteer().getPhoneNumber() + "');";
 
         return returnString;
 
@@ -103,7 +102,7 @@ public class SaveVolunteerAction extends BaseAction {
                 + " SET "
                 + "vol_firstname = '" + volunteer().getFirstName() + "',"
                 + "vol_surname = '" + volunteer().getLastName() + "',"
-                + "vol_phone = '" + volunteer().getPhone() + "'"
+                + "vol_phone = '" + volunteer().getPhoneNumber() + "'"
                 + "WHERE "
                 + "(vol_emailaddress = '" + volunteer().getEmail() + "')";
         return returnString;
@@ -115,7 +114,7 @@ public class SaveVolunteerAction extends BaseAction {
                     + "vav_availability_start,"
                     + "vav_availability_end)"
                     + " VALUES ";
-        for (TimeInterval currAvail : volunteer.getAvailability()) 
+        for (TimeInterval currAvail : volunteer.getAvailabilities()) 
         {
             insertAvailabilityString += ("('"  
                     + volunteer.getEmail() + "','"

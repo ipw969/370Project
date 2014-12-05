@@ -1,5 +1,7 @@
 package businessobjects;
 
+import businessobjects.BaseBusinessObject;
+
 /**
  * Interface which classes implement if they wish to listen to changes to a
  * BusinessObjectList. Classes should implements the functions: public void

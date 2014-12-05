@@ -183,7 +183,7 @@ public class LoginMenu extends javax.swing.JFrame {
             GregorianCalendar testIntervalStart = new GregorianCalendar(2014, 11, 01, 12, 0);
             GregorianCalendar testIntervalEnd = new GregorianCalendar(2014, 11, 01, 15, 0);
             TimeInterval testTimeInterval = new TimeInterval(testIntervalStart, testIntervalEnd);
-            testVolunteer.addAvailability(testTimeInterval);
+            testVolunteer.getAvailabilities().add(testTimeInterval);
             VolunteerMainMenu testMainMenu = new VolunteerMainMenu(testVolunteer, database);
             testMainMenu.setVisible(true);
             this.setVisible(false);

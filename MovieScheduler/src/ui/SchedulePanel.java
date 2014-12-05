@@ -117,8 +117,8 @@ public class SchedulePanel extends javax.swing.JPanel
                     filmingDate.setHasChanged(false);
                 }
                 
-                EditSceneFilmingDate editFilmingDate = new
-                    EditSceneFilmingDate(script, filmingDate, database);
+                SceneFilmingDateForm editFilmingDate = new
+                    SceneFilmingDateForm(script, filmingDate, database);
                 editFilmingDate.setVisible(true);
             }
         });

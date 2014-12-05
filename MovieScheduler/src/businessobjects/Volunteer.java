@@ -1,137 +1,134 @@
 package businessobjects;
 
 /**
- * volunteer data class
- * stores the name, email, phone, and availabilities of a volunteer
- * @author John Mason
+ * volunteer data class stores the name, email, phone, and availabilities of a
+ * volunteer
+ *
+ * @author John Mason, Iain Workman
  */
-public class Volunteer extends BaseBusinessObject {
+public class Volunteer extends Resource {
 
-    String firstName;
-    String lastName;
-    String email;
-    String phone;   //since we are not actually doing anything with it having it as a string will get rid of many errors
-    BusinessObjectList<TimeInterval> availability = new BusinessObjectList<>();
-
-    //empty constructor
+    // Constructors
+    /**
+     * Creates a new Empty Volunteer class which is not known to the Database
+     */
     public Volunteer() {
-        setIsNew(true);
+        super();
+        boolean isEmailValid = getEmail() != null && getEmail().length() > 0;
+        updateError(EMAIL_CANNOT_BE_NULL, isEmailValid);
+
+        boolean isPhoneValid = getPhoneNumber() != null && getPhoneNumber().length() > 0;
+        updateError(PHONE_NUMBER_CANNOT_BE_NULL, isPhoneValid);
+
+        boolean isFNameValid = getFirstName() != null && getFirstName().length() > 0;
+        updateError(FIRST_NAME_CANNOT_BE_NULL, isFNameValid);
+
+        boolean isLNameValid = getLastName() != null && getLastName().length() > 0;
+        updateError(LAST_NAME_CANNOT_BE_NULL, isLNameValid);
     }
 
-    //constructor with availabilitiy included
-    public Volunteer(String fName, String lName, String email, String phone,
-            BusinessObjectList<TimeInterval> avail) {
-        this.firstName = fName;
-        this.lastName = lName;
-        this.email = email;
-        this.phone = phone;
-        this.availability = avail;
-        setIsNew(true);
-    }
-
-    //general constructor without an availability
+    /**
+     * Convenience Constructor to create a new instance of a Volunteer from data
+     * loaded from the Database
+     *
+     * @param fName::String ~ The first name of the Volunteer
+     * @param lName::String ~ The last name of the Volunteer
+     * @param email::String ~ The email address of the Volunteer
+     * @param phone::String ~ The phone number of the Volunteer
+     */
     public Volunteer(String fName, String lName, String email, String phone) {
-        this.firstName = fName;
-        this.lastName = lName;
-        this.email = email;
-        this.phone = phone;
-        setIsNew(true);
+        super(fName, lName, email, phone);
+
     }
 
-    public void addAvailability(TimeInterval avail) {
-        this.availability.add(avail);
-        setHasChanged(true);
-    }
-
-    private void setAvailability(BusinessObjectList<TimeInterval> availabilityList) {
-        this.availability = availabilityList;
-    }
-
-    public void setFirstName(String name) {
-        this.firstName = name;
-        setHasChanged(true);
-    }
-
-    public void setLastName(String name) {
-        this.lastName = name;
-        setHasChanged(true);
-    }
-
+    // Public Methods
+    /**
+     * Sets the email of the Volunteer
+     *
+     * @param email::String ~ The email address of the Volunteer
+     */
+    @Override
     public void setEmail(String email) {
-        this.email = email;
-        setHasChanged(true);
+        boolean isValid = email != null && email.length() > 0;
+        updateError(EMAIL_CANNOT_BE_NULL, isValid);
+        super.setEmail(email);
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-        setHasChanged(true);
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public BusinessObjectList<TimeInterval> getAvailability() {
-        return availability;
-    }
-
+    /**
+     * Sets the phone number of the Volunteer
+     *
+     * @param phoneNumber::String ~ The phone number of the Volunteer
+     */
     @Override
-    public String toString() {
-        return firstName + " " + lastName;
+    public void setPhoneNumber(String phoneNumber) {
+        boolean isValid = phoneNumber != null && phoneNumber.length() > 0;
+        updateError(PHONE_NUMBER_CANNOT_BE_NULL, isValid);
+        super.setPhoneNumber(phoneNumber);
     }
 
+    /**
+     * Sets the first name of the Volunteer
+     *
+     * @param firstName::String ~ The first name of the Volunteer
+     */
     @Override
-    public String toDescriptiveString() {
-        StringBuilder newString = new StringBuilder();
-        newString.append("First name: " + this.firstName + "\n");
-        newString.append("Last name: " + this.lastName + "\n");
-        newString.append("Phone number: " + this.phone + "\n");
-        newString.append("Email address: " + this.email + "\n");
-
-        return newString.toString();
+    public void setFirstName(String firstName) {
+        boolean isValid = firstName != null && firstName.length() > 0;
+        updateError(FIRST_NAME_CANNOT_BE_NULL, isValid);
+        super.setFirstName(firstName);
     }
 
+    /**
+     * Sets the last name of the Volunteer
+     *
+     * @param lastName::String ~ The last name of the Volunteer
+     */
     @Override
-    public BaseBusinessObject clone() throws CloneNotSupportedException {
-        Volunteer cloneVolunteer = (Volunteer) super.clone();
-        cloneVolunteer.setFirstName(this.getFirstName());
-        cloneVolunteer.setLastName(this.getLastName());
-        cloneVolunteer.setEmail(this.getEmail());
-        cloneVolunteer.setPhone(this.getPhone());
+    public void setLastName(String lastName) {
+        boolean isValid = lastName != null && lastName.length() > 0;
+        updateError(LAST_NAME_CANNOT_BE_NULL, isValid);
+        super.setLastName(lastName);
+    }
 
-        cloneVolunteer.setAvailability(new BusinessObjectList<>());
-        for (TimeInterval currentAvailability : getAvailability()) {
-            cloneVolunteer.addAvailability(currentAvailability);
+    /**
+     * Creates a deep clone of this Volunteer
+     *
+     * @return A new instance of a Volunteer which shares all the same
+     * attributes as this one
+     */
+    @Override
+    public BaseBusinessObject clone() {
+        try {
+            return (Volunteer) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Base class of Volunteer does not"
+                    + " support cloning.");
         }
-        cloneVolunteer.setHasChanged(false);
-        return cloneVolunteer;
     }
 
+    /**
+     * Merges the provided BusinessObject's attributes into this Volunteer,
+     * provided that the provided BaseBusinessObject is of Volunteer or derived
+     * type and is not null
+     *
+     * @param mergeObject::BaseBusinessObject ~ The BusinessObject whose
+     * attributes are to be merged into this.
+     * @precond mergeObject instanceof Volunteer mergeObject != null
+     */
     @Override
     public void merge(BaseBusinessObject mergeObject) {
-        if (mergeObject == null) {
-            throw new RuntimeException("The given mergeObject was null for the volunteer merge.");
-        } else if (!(mergeObject instanceof Scene)) {
-            throw new RuntimeException("The given mergeObject is not an instance of volunteer for the volunteer merge");
-        }
-
-        Volunteer mergeVolunteer = (Volunteer) mergeObject;
-
-        this.setFirstName(mergeVolunteer.getFirstName());
-        this.setLastName(mergeVolunteer.getLastName());
-        this.setEmail(mergeVolunteer.getEmail());
-        this.setPhone(mergeVolunteer.getPhone());
+        super.merge(mergeObject);
     }
+
+    // Private Member Variables
+    // Error Message Strings associated with this class
+    private final String EMAIL_CANNOT_BE_NULL
+            = "Email address is a required field.";
+    private final String PHONE_NUMBER_CANNOT_BE_NULL
+            = "Phone number is a required field.";
+    private final String FIRST_NAME_CANNOT_BE_NULL
+            = "First name is a required field.";
+    private final String LAST_NAME_CANNOT_BE_NULL
+            = "Last name is a required field.";
+
 }

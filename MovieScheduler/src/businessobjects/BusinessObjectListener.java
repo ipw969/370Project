@@ -1,5 +1,7 @@
 package businessobjects;
 
+import businessobjects.BaseBusinessObject;
+
 /**
  * An interface which is implemented by any class which wishes to listen to
  * changes to the state of a BusinessObject. State changes which are signalled
@@ -34,4 +36,5 @@ public interface BusinessObjectListener {
      * signal
      */
     public void changedStateAltered(boolean newState, BaseBusinessObject sender);
+    
 }
