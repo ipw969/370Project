@@ -259,58 +259,43 @@ public class Resource extends BaseBusinessObject
         other.email = this.email;
         other.phoneNumber = this.phoneNumber;
         other.availabilities = new BusinessObjectList<>();
+        other.availabilities.addListener(other);
         for (TimeInterval currentAvailability : this.availabilities) {
             other.availabilities.add((TimeInterval)currentAvailability.clone());
         }
-
+        other.setHasChanged(false);
         return other;
     }
 
     // Observer notifications from availabilities
     /**
      * Method to handle a notification that a TimeInterval has been added to the
-     * list of Availabilities. Paradigm of use insists that if something wishes
-     * to be informed of changes to a Resource's availabilities, then it
-     * registers itself with the availability list directly using:
-     * resource.getAvailabilities().addListener(this); As such this method does
-     * nothing.
+     * list of Availabilities. 
      *
      * @param itemAdded
      */
     @Override
     public void businessObjectAdded(BaseBusinessObject itemAdded) {
-        // We need take no action here, as we don't need to notify observers of
-        // an item added to the list
+        this.setHasChanged(true);
     }
 
     /**
      * Method to handle a notification that a TimeInterval has been removed from
-     * the list of Availabilities. Paradigm of use insists that if something
-     * wishes to be informed of changes to a Resource's availabilities, then it
-     * registers itself with the availability list directly using:
-     * resource.getAvailabilities().addListener(this); As such this method does
-     * nothing.
-     *
+     * the list of Availabilities.
      * @param itemRemoved
      */
     @Override
     public void businessObjectRemoved(BaseBusinessObject itemRemoved) {
-        // We need take no action here, as we don't need to notify observers of
-        // an item removed from the list
+        this.setHasChanged(true);
     }
 
     /**
      * Method to handle a notification that the list of availabilities for the
-     * resource has been cleared. Paradigm of use insists that if something
-     * wishes to be informed of changes to a Resource's availabilities, then it
-     * registers itself with the availability list directly using:
-     * resource.getAvailabilities().addListener(this); As such this method does
-     * nothing.
+     * resource has been cleared.
      */
     @Override
     public void listCleared() {
-        // We need take no action here, as we don't need to notify observers of
-        // the list being cleared
+        this.setHasChanged(true);
     }
 
     /**
@@ -338,7 +323,7 @@ public class Resource extends BaseBusinessObject
      */
     @Override
     public void changedStateAltered(boolean newState, BaseBusinessObject sender) {
-
+        this.setHasChanged(true);
     }
 
     // Private Methods

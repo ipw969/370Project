@@ -95,7 +95,6 @@ public class Volunteer extends Resource {
      *
      * @return A new instance of a Volunteer which shares all the same
      * attributes as this one
-     * @throws CloneNotSupportedException
      */
     @Override
     public BaseBusinessObject clone() {
@@ -128,8 +127,8 @@ public class Volunteer extends Resource {
     private final String PHONE_NUMBER_CANNOT_BE_NULL
             = "Phone number is a required field.";
     private final String FIRST_NAME_CANNOT_BE_NULL
-            = "First name cannot be null.";
+            = "First name is a required field.";
     private final String LAST_NAME_CANNOT_BE_NULL
-            = "Last name cannot be null.";
+            = "Last name is a required field.";
 
 }

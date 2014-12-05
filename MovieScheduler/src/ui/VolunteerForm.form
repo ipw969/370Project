@@ -22,7 +22,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-94,0,0,2,65"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-116,0,0,2,47"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -45,41 +45,47 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="firstNameLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="firstNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lastNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="emailLabel" min="-2" pref="122" max="-2" attributes="0"/>
+                              <Component id="emailLabel" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                               <Component id="phoneNumberLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="firstNameTextField" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lastNameTextField" alignment="0" pref="151" max="32767" attributes="0"/>
-                              <Component id="emailTextField" max="32767" attributes="0"/>
                               <Component id="phoneNumberTextField" alignment="0" pref="151" max="32767" attributes="0"/>
+                              <Component id="lastNameTextField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="emailTextField" alignment="0" pref="151" max="32767" attributes="0"/>
+                              <Component id="firstNameTextField" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="addAvailabilityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="75" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="availabilitiesScrollPane" max="32767" attributes="0"/>
+                      <Component id="currentAvailabilitiesLabel" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="addAvailabilityButton" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="startAvailabilityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="endAvailabilityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="startAvailabilitySpinner" pref="151" max="32767" attributes="0"/>
-                              <Component id="endAvailabilitySpinner" max="32767" attributes="0"/>
+                          <EmptySpace min="99" pref="99" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="startAvailabilitySpinner" min="-2" pref="145" max="-2" attributes="0"/>
+                              <Component id="endAvailabilitySpinner" alignment="1" min="-2" pref="145" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="addAvailabilityButton" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="availabilitiesScrollPane" max="32767" attributes="0"/>
-                      <Component id="currentAvailabilitiesLabel" pref="211" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -92,31 +98,31 @@
                       <Component id="firstNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="currentAvailabilitiesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lastNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lastNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lastNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="emailTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="emailLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="emailTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="10" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="phoneNumberTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="phoneNumberLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="phoneNumberTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace pref="24" max="32767" attributes="0"/>
                           <Component id="addAvailabilityLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="startAvailabilitySpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="startAvailabilityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="endAvailabilitySpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="endAvailabilityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -124,9 +130,9 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="addAvailabilityButton" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="availabilitiesScrollPane" pref="250" max="32767" attributes="0"/>
+                      <Component id="availabilitiesScrollPane" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -244,7 +250,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="478" max="32767" attributes="0"/>
+                  <EmptySpace pref="416" max="32767" attributes="0"/>
+                  <Component id="errorIcon" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -255,6 +263,7 @@
                   <Component id="titleLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
+              <Component id="errorIcon" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -265,6 +274,13 @@
               <Font name="Dialog" size="18" style="2"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Volunteer"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="errorIcon">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/Error.png"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
@@ -280,11 +296,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="errorIcon" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="errorLabel" pref="328" max="32767" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace pref="390" max="32767" attributes="0"/>
                   <Component id="okayButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
@@ -294,18 +306,11 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="okayButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="errorIcon" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="errorLabel" alignment="1" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="okayButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -313,14 +318,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="cancelButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JButton" name="okayButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Okay"/>
@@ -329,17 +326,13 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="okayButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="errorIcon">
+        <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/Error.png"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="errorLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Warning: Cannot Save"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

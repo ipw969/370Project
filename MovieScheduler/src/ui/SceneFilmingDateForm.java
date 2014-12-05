@@ -47,7 +47,6 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
                     + " Panel: Clone not supported");
         }
         errorIcon.setVisible(!filmingDateToEdit.isValid());
-        errorLabel.setVisible(!filmingDateToEdit.isValid());
         errorIcon.setToolTipText(filmingDateToEdit.getErrorMessage());
         filmingDateToEdit.addListener(this);
         //filmingDateToEdit.sceneShootingInterval().addListener(this);
@@ -88,8 +87,6 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
     public void validStateAltered(boolean newState, BaseBusinessObject sender) {
         okayButton.setEnabled(newState);
         errorIcon.setVisible(!newState);
-        errorLabel.setVisible(!newState);
-        errorLabel.setText(null);
         if (!newState) {
             errorIcon.setToolTipText(sender.getErrorMessage());
         }
@@ -165,12 +162,11 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
     private void initComponents() {
 
         bottomPanel = new javax.swing.JPanel();
-        cancelButton = new javax.swing.JButton();
         okayButton = new javax.swing.JButton();
-        errorIcon = new javax.swing.JLabel();
-        errorLabel = new javax.swing.JLabel();
+        cancelButton = new javax.swing.JButton();
         topPanel = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
+        errorIcon = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         startDateTimeLabel = new javax.swing.JLabel();
         endDateTimeLabel = new javax.swing.JLabel();
@@ -186,13 +182,6 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
             }
         });
 
-        cancelButton.setText("Cancel");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
-
         okayButton.setText("Okay");
         okayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,46 +189,40 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
             }
         });
 
-        errorIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Error.png"))); // NOI18N
-
-        errorLabel.setText("Warning: Cannot Save");
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(errorIcon)
+                .addContainerGap(259, Short.MAX_VALUE)
+                .addComponent(okayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                .addGap(52, 52, 52)
-                .addComponent(okayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(cancelButton)
                 .addContainerGap())
         );
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bottomPanelLayout.createSequentialGroup()
-                .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cancelButton)
-                            .addComponent(okayButton)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(errorIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(5, 5, 5))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(okayButton)
+                    .addComponent(cancelButton))
+                .addContainerGap())
         );
 
         getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
 
         titleLabel.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
         titleLabel.setText("Create Scene Filming Date");
+
+        errorIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Error.png"))); // NOI18N
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
@@ -248,7 +231,9 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
             .addGroup(topPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleLabel)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                .addComponent(errorIcon)
+                .addContainerGap())
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,6 +241,7 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
                 .addContainerGap()
                 .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(errorIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
@@ -283,15 +269,16 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(startDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(endDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(111, 111, 111)
+                                .addComponent(endDateTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(sceneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(194, 194, 194))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(startDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(endDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(101, 101, 101))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,7 +293,7 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(endDateTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
@@ -323,8 +310,7 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void okayButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_okayButtonActionPerformed
-    {//GEN-HEADEREND:event_okayButtonActionPerformed
+    private void okayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okayButtonActionPerformed
         this.save();
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_okayButtonActionPerformed
@@ -381,7 +367,6 @@ public class SceneFilmingDateForm extends javax.swing.JFrame
     private javax.swing.JLabel endDateTimeLabel;
     private javax.swing.JSpinner endDateTimeSpinner;
     private javax.swing.JLabel errorIcon;
-    private javax.swing.JLabel errorLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton okayButton;
     private javax.swing.JLabel sceneLabel;
