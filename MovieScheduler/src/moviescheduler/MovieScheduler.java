@@ -5,7 +5,8 @@ import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import actions.LoadScriptAction;
-import businessobjects.Script;
+import businessobjects.BaseBusinessObject;
+import businessobjects.*;
 import ui.*;
 
 /**
@@ -14,6 +15,85 @@ import ui.*;
  * @author Iain Workman, Ryan La Forge, John Mason
  */
 public class MovieScheduler {
+
+    public static void saveBusinessObject(BaseBusinessObject objectToSave, BaseBusinessObject objectToReplace)
+    {
+        if (objectToSave instanceof Volunteer)
+        {
+            if (objectToReplace != null && !(objectToReplace instanceof Volunteer))
+            {
+                ///Error occurred.
+            }
+            //Save the Volunteer
+                    
+        }
+        else if (objectToSave instanceof Equipment)
+        {
+            if (objectToReplace != null && !(objectToReplace instanceof Equipment))
+            {
+                ///Error occurred.
+            } 
+            //Save Equipment
+        }
+        else if (objectToSave instanceof Scene)
+        {
+             if (objectToReplace != null && !(objectToReplace instanceof Scene))
+            {
+                ///Error occurred.
+            }
+             //Save Scene
+        }
+        else if (objectToSave instanceof SceneFilmingDate)
+        {
+             if (objectToReplace != null && !(objectToReplace instanceof SceneFilmingDate))
+            {
+                ///Error occurred.
+            }
+             //Save SceneFilmingDate
+        }         
+    }
+    
+    public static void deleteBusinessObject(BaseBusinessObject objectToDelete)
+    {
+        if (objectToDelete instanceof Volunteer)
+        {
+            //delete volunteer
+        }
+        else if (objectToDelete instanceof Equipment)
+        {
+            //delete equipment
+        }
+        else if (objectToDelete instanceof SceneFilmingDate)
+        {
+            //delete sceneFilmingDate
+        }
+    }
+    
+    public static void openMainMenu(Script theScript)
+    {
+        //activate the main menu. 
+    }
+    
+    public static void openSceneMenu(Scene sceneToEdit)
+    {
+        //activate the scene menu.
+    }
+    
+    public static void openVolunteerMenu(Volunteer volunteerToEdit)
+    {
+        //activate the volunteer menu
+    }
+    
+    public static void openEquipmentMenu(Equipment equipmentToEdit)
+    {
+        //activate the equipment menu.
+    }
+    
+    public void displayError(String errorMessage)
+    {
+        //display an error message to the user.
+    }
+    
 
     /**
      * Main entry point for the GUI of the movie scheduler system.
