@@ -48,18 +48,15 @@ public class LoadVolunteerAction extends BaseAction {
     @Override
     protected void runImplementation() {
         //TEST
-        System.out.println("Running implementation");
         Volunteer loadedVolunteer = null;
         boolean loadSuccess = false;
         try {
-            System.out.println("Loading volunteer-- \n");
 
             loadedVolunteer = loadVolunteerFromDatabase();
             loadSuccess = true;
         } catch (SQLException ex) {
             setErrorMessage(ex.getMessage());
         }
-        System.out.println("Loaded Volunteer successfully");
         setBusinessObject(loadedVolunteer);
         setWasSuccessful(loadSuccess);
     }
@@ -79,9 +76,7 @@ public class LoadVolunteerAction extends BaseAction {
         try {
             selectResults = getDatabase().executeSelect(buildVolunteerQueryString());
             while (selectResults.next()) {
-                System.out.println("Name: ");
                 String firstName = selectResults.getString(1);
-                System.out.println(firstName);
 
                 String lastName = selectResults.getString(2);
                 String phone = selectResults.getString(3);
@@ -96,11 +91,6 @@ public class LoadVolunteerAction extends BaseAction {
             }
         }
 
-        System.out.println("success: loaded vol from db: TESTING::\n\n\n");
-        //if (returnVolunteer != null) {
-        //    System.out.println(returnVolunteer.getFirstName());
-        //}
-        System.out.println("\n\n\n");
         return returnVolunteer;
     }
 
