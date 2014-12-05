@@ -95,7 +95,6 @@ public class CalendarMonth extends javax.swing.JPanel
                 java.text.SimpleDateFormat sdf
                         = new java.text.SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
 
-                System.out.println(sdf.format(currentCalendarDay.date().getTime()));
                 if (addedFilmingDate.getSceneShootingInterval().isOnThisDate(currentCalendarDay.date())) {
                     currentCalendarDay.filmingDates().add(addedFilmingDate);
                 }

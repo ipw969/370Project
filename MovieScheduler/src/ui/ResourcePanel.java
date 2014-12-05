@@ -1,5 +1,6 @@
 package ui;
 
+import actions.DeleteEquipmentAction;
 import actions.DeleteSceneAction;
 import actions.DeleteVolunteerAction;
 import businessobjects.BusinessObjectList;
@@ -9,6 +10,8 @@ import businessobjects.Script;
 import businessobjects.Volunteer;
 import database.Database;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * Ui class representing a panel of information for the different resources for
@@ -33,6 +36,7 @@ public class ResourcePanel extends javax.swing.JPanel {
         volunteerList = new EditableBusinessObjectListView<>(script.getVolunteers());
         registerVolunteerActionListeners();
         equipmentList = new EditableBusinessObjectListView<>(script.getEquipment());
+        registerEquipmentActionListeners();
         sceneList = new EditableBusinessObjectListView<>(script.getScenes());
         registerSceneActionListeners();
         volunteerListPanel.add(volunteerList);
@@ -93,6 +97,21 @@ public class ResourcePanel extends javax.swing.JPanel {
                     }
 
                 });
+        
+        volunteerList.addListSelectionListener(new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(volunteerList.getSelectedValue() == null)
+                    return;
+                
+                Volunteer selectedVolunteer = volunteerList.getSelectedValue();
+                
+                itemBriefTextField.setText(selectedVolunteer.toString());
+                itemDescriptionTextArea.setText(selectedVolunteer.toDescriptiveString());
+            }
+            
+        });
     }
 
     /**
@@ -100,37 +119,37 @@ public class ResourcePanel extends javax.swing.JPanel {
      * the EquipmentList
      */
     private void registerEquipmentActionListeners() {
-        volunteerList.addAddActionListener(
-                new BusinessObjectListViewAddActionListener<Volunteer>() {
+        equipmentList.addAddActionListener(
+                new BusinessObjectListViewAddActionListener<Equipment>() {
 
                     @Override
-                    public void onAddActionPerformed(BusinessObjectListViewAddEvent<Volunteer> event) {
-                        VolunteerForm volunteerForm = new VolunteerForm(
-                                script, database, new Volunteer());
-                        volunteerForm.setVisible(true);
+                    public void onAddActionPerformed(BusinessObjectListViewAddEvent<Equipment> event) {
+                        EquipmentForm equipmentForm = new EquipmentForm(
+                                script, database, new Equipment());
+                        equipmentForm.setVisible(true);
                     }
 
                 });
 
-        volunteerList.addEditActionListener(
+        equipmentList.addEditActionListener(
                 new BusinessObjectListViewEditActionListener() {
 
                     @Override
                     public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
-                        VolunteerForm volunteerForm = new VolunteerForm(
-                                script, database, (Volunteer) event.getObjectBeingEdited());
-                        volunteerForm.setVisible(true);
+                        EquipmentForm equipmentForm = new EquipmentForm(
+                                script, database, (Equipment) event.getObjectBeingEdited());
+                        equipmentForm.setVisible(true);
                     }
 
                 });
 
-        volunteerList.addDeleteActionListener(
-                new BusinessObjectListViewDeleteActionListener<Volunteer>() {
+        equipmentList.addDeleteActionListener(
+                new BusinessObjectListViewDeleteActionListener<Equipment>() {
 
                     @Override
-                    public void onDeleteActionPerformed(BusinessObjectListViewDeleteEvent<Volunteer> event) {
+                    public void onDeleteActionPerformed(BusinessObjectListViewDeleteEvent<Equipment> event) {
 
-                        if (!(event.getObjectBeingDeleted() instanceof Volunteer)) {
+                        if (!(event.getObjectBeingDeleted() instanceof Equipment)) {
                             return;
                         }
 
@@ -143,11 +162,26 @@ public class ResourcePanel extends javax.swing.JPanel {
                                 null, null, null);
 
                         if (confirm == JOptionPane.YES_OPTION) {
-                            deleteVolunteer((Volunteer) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
+                            deleteEquipment((Equipment) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
                         }
                     }
 
                 });
+        
+        equipmentList.addListSelectionListener(new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(equipmentList.getSelectedValue() == null)
+                    return;
+                
+                Equipment selectedEquipment = equipmentList.getSelectedValue();
+                
+                itemBriefTextField.setText(selectedEquipment.toString());
+                itemDescriptionTextArea.setText(selectedEquipment.toDescriptiveString());
+            }
+            
+        });
     }
 
     /**
@@ -160,7 +194,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onAddActionPerformed(BusinessObjectListViewAddEvent<Scene> event) {
-                        
+
                         SceneMenu newSceneMenu = new SceneMenu(null, database, script, null);
                         newSceneMenu.setVisible(true);
                     }
@@ -172,8 +206,8 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
-                        SceneMenu sceneMenu = new SceneMenu(null, 
-                                database, script, (Scene)event.getObjectBeingEdited());
+                        SceneMenu sceneMenu = new SceneMenu(null,
+                                database, script, (Scene) event.getObjectBeingEdited());
                         sceneMenu.setVisible(true);
                     }
 
@@ -203,6 +237,21 @@ public class ResourcePanel extends javax.swing.JPanel {
                     }
 
                 });
+        
+        sceneList.addListSelectionListener(new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(sceneList.getSelectedValue() == null)
+                    return;
+                
+                Scene selectedScene = sceneList.getSelectedValue();
+                
+                itemBriefTextField.setText(selectedScene.toString());
+                itemDescriptionTextArea.setText(selectedScene.toDescriptiveString());
+            }
+            
+        });
     }
 
     /**
@@ -230,25 +279,39 @@ public class ResourcePanel extends javax.swing.JPanel {
 
     /**
      * Method which handles deleting of a scene
+     *
      * @param sceneToDelete::Scene ~ The scene to delete
      * @param scenes::BusinessObjectList<Scene> ~ The master list of Scenes
      */
     private void deleteScene(Scene sceneToDelete,
-            BusinessObjectList<Scene> scenes)
-    {
-        DeleteSceneAction deleteSceneAction = new DeleteSceneAction
-            (database, sceneToDelete.getName());
-        
+            BusinessObjectList<Scene> scenes) {
+        DeleteSceneAction deleteSceneAction = new DeleteSceneAction(database, sceneToDelete.getName());
+
         deleteSceneAction.run();
-        
-        if(deleteSceneAction.wasSuccessful())
+
+        if (deleteSceneAction.wasSuccessful()) {
             scenes.remove(sceneToDelete);
-        else
-        {
-             JOptionPane.showMessageDialog(this, "Could not delete Scene"
-                    + " with message " + deleteSceneAction.lastErrorMessage());           
+        } else {
+            JOptionPane.showMessageDialog(this, "Could not delete Scene"
+                    + " with message " + deleteSceneAction.lastErrorMessage());
         }
     }
+
+    private void deleteEquipment(Equipment equipmentToDelete,
+            BusinessObjectList<Equipment> equipment) {
+        DeleteEquipmentAction deleteEquipmentAction
+                = new DeleteEquipmentAction(database, equipmentToDelete.getEquipmentName());
+
+        deleteEquipmentAction.run();
+
+        if (deleteEquipmentAction.wasSuccessful()) {
+            equipment.remove(equipmentToDelete);
+        } else {
+            JOptionPane.showMessageDialog(this, "Could not delete Equipment"
+                    + " with message " + deleteEquipmentAction.lastErrorMessage());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

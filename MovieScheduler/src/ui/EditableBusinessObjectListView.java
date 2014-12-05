@@ -7,6 +7,7 @@ package ui;
 
 import businessobjects.BaseBusinessObject;
 import businessobjects.BusinessObjectList;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * Ui class representing a standard ListView for BusinessObjects with
@@ -25,9 +26,31 @@ public class EditableBusinessObjectListView<T extends BaseBusinessObject>
         initComponents();
         businessObjectListView = new BusinessObjectListView<>(data);
         listViewScrollPane.setViewportView(businessObjectListView);
+        
     }
 
     // Public Method
+    
+    /**
+     * Adds a ListSelectionListener to the List, to be notified when the list
+     * selection changes
+     * @param listener::ListSelectionListener ~ The class to be notified when
+     * the selection in the list is altered
+     */
+    public void addListSelectionListener(ListSelectionListener listener)
+    {
+        businessObjectListView.addListSelectionListener(listener);
+    }
+    
+    /**
+     * Returns the current selected object in the List
+     * @return The current selected object in the list, or null if nothing is
+     * selected.
+     */
+    public T getSelectedValue()
+    {
+        return businessObjectListView.getSelectedValue();
+    }
     
     /**
      * Sets whether to allow editing of the items in the list
@@ -137,6 +160,7 @@ public class EditableBusinessObjectListView<T extends BaseBusinessObject>
         buttonPanel.add(addButton);
 
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Edit.png"))); // NOI18N
+        editButton.setToolTipText("Edit");
         editButton.setBorder(null);
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +170,7 @@ public class EditableBusinessObjectListView<T extends BaseBusinessObject>
         buttonPanel.add(editButton);
 
         deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Close.png"))); // NOI18N
+        deleteButton.setToolTipText("Delete");
         deleteButton.setBorder(null);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
