@@ -31,7 +31,7 @@ public class VolunteerForm extends javax.swing.JFrame
     private final Script script;
     private final Volunteer originalVolunteer;
     private final Volunteer volunteerToEdit;
-
+   
     /**
      * Creates a volunteer form and populates it with previous volunteer info
      */
@@ -39,7 +39,6 @@ public class VolunteerForm extends javax.swing.JFrame
             Database database,
             Volunteer volunteer) {
 
-        
         this.database = database;
         this.script = theScript;
         this.originalVolunteer = volunteer;
@@ -144,8 +143,8 @@ public class VolunteerForm extends javax.swing.JFrame
 
     private void save() {
         SaveVolunteerAction saveVolunteerAction
-                = new SaveVolunteerAction(database, volunteerToEdit);
-        boolean wasNew = volunteerToEdit.isNew();
+                = new SaveVolunteerAction(database, volunteerToEdit, volunteerToEdit.getEmail());
+        boolean wasNew = originalVolunteer.isNew();
 
         saveVolunteerAction.run();
 
