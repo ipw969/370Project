@@ -1,12 +1,21 @@
 package moviescheduler;
 
+import actions.DeleteEquipmentAction;
+import actions.DeleteSceneFilmingDateAction;
+import actions.DeleteVolunteerAction;
 import database.JdbcDatabase;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import actions.LoadScriptAction;
+import actions.SaveEquipmentAction;
+import actions.SaveSceneAction;
+import actions.SaveSceneFilmingDateAction;
+import actions.SaveVolunteerAction;
 import businessobjects.BaseBusinessObject;
 import businessobjects.*;
+import database.Database;
+import static moviescheduler.MovieScheduler.script;
 import ui.*;
 
 /**
@@ -16,96 +25,18 @@ import ui.*;
  */
 public class MovieScheduler {
 
-    public static void saveBusinessObject(BaseBusinessObject objectToSave, BaseBusinessObject objectToReplace)
+protected static boolean initializedProperly;
+protected static ArrayList<String> errorsEncountered;
+protected static Script script;
+protected static Database database;
+    protected static void initializeDatabase()
     {
-        if (objectToSave instanceof Volunteer)
-        {
-            if (objectToReplace != null && !(objectToReplace instanceof Volunteer))
-            {
-                ///Error occurred.
-            }
-            //Save the Volunteer
-                    
-        }
-        else if (objectToSave instanceof Equipment)
-        {
-            if (objectToReplace != null && !(objectToReplace instanceof Equipment))
-            {
-                ///Error occurred.
-            } 
-            //Save Equipment
-        }
-        else if (objectToSave instanceof Scene)
-        {
-             if (objectToReplace != null && !(objectToReplace instanceof Scene))
-            {
-                ///Error occurred.
-            }
-             //Save Scene
-        }
-        else if (objectToSave instanceof SceneFilmingDate)
-        {
-             if (objectToReplace != null && !(objectToReplace instanceof SceneFilmingDate))
-            {
-                ///Error occurred.
-            }
-             //Save SceneFilmingDate
-        }         
-    }
-    
-    public static void deleteBusinessObject(BaseBusinessObject objectToDelete)
-    {
-        if (objectToDelete instanceof Volunteer)
-        {
-            //delete volunteer
-        }
-        else if (objectToDelete instanceof Equipment)
-        {
-            //delete equipment
-        }
-        else if (objectToDelete instanceof SceneFilmingDate)
-        {
-            //delete sceneFilmingDate
-        }
-    }
-    
-    public static void openMainMenu(Script theScript)
-    {
-        //activate the main menu. 
-    }
-    
-    public static void openSceneMenu(Scene sceneToEdit)
-    {
-        //activate the scene menu.
-    }
-    
-    public static void openVolunteerMenu(Volunteer volunteerToEdit)
-    {
-        //activate the volunteer menu
-    }
-    
-    public static void openEquipmentMenu(Equipment equipmentToEdit)
-    {
-        //activate the equipment menu.
-    }
-    
-    public void displayError(String errorMessage)
-    {
-        //display an error message to the user.
-    }
-    
-
-    /**
-     * Main entry point for the GUI of the movie scheduler system.
-     *
-     * @param args the command line arguments (unused)
-     */
-    public static void main(String[] args) {
+        
         // initialze sub systems. If fail any of the required inits, then
         // initializedProperly is set to false
-        boolean initializedProperly = true;
+        initializedProperly = true;
         // Each time an init action fails, add an error message to this list
-        final ArrayList<String> errorsEncountered = new ArrayList<>();
+        errorsEncountered = new ArrayList<>();
 
         // Attempt initialization of database driver
         try {
@@ -129,7 +60,12 @@ public class MovieScheduler {
             return;
         }
 
-        // Attempt to load a script
+        MovieScheduler.database = database;
+    }
+
+protected static void initializeScript()
+{
+    // Attempt to load a script
         LoadScriptAction loadScriptAction = new LoadScriptAction(database);
         loadScriptAction.run();
 
@@ -138,15 +74,27 @@ public class MovieScheduler {
             errorsEncountered.add(loadScriptAction.lastErrorMessage());
         }
 
-        final Script loadedScript = (Script) loadScriptAction.getBusinessObject();
-        if (loadedScript == null && initializedProperly) {
+        script = (Script) loadScriptAction.getBusinessObject();
+}
+
+    /**
+     * Main entry point for the GUI of the movie scheduler system.
+     *
+     * @param args the command line arguments (unused)
+     */
+    public static void main(String[] args) 
+    {
+        MovieScheduler.initializeDatabase();
+        MovieScheduler.initializeScript();
+        MovieSchedulerController controller = new MovieSchedulerController(script,database);
+        
+        if (script == null && initializedProperly) {
             // No errors were encountered, but we didn't find a script, must
             // be the first time loading. Display the start menu.
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    StartMenu startMenu = new StartMenu(database);
-                    startMenu.setVisible(true);
+                    controller.displayStartMenu();     
                 }
             });
         } else if (initializedProperly) {
@@ -154,8 +102,7 @@ public class MovieScheduler {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    MainMenu mainMenu = new MainMenu(loadedScript, database);
-                    mainMenu.setVisible(true);
+                    controller.displayMainMenu();
                 }
             });
 
@@ -164,7 +111,6 @@ public class MovieScheduler {
             JOptionPane.showMessageDialog(null, "Could not load the system,"
                     + " with errors:\n" + errorsEncountered.toString(),
                     "Error Loading System!", 0);
-        }
-
+        } 
     }
 }
