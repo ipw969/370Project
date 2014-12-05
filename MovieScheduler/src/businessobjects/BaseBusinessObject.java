@@ -205,7 +205,7 @@ public abstract class BaseBusinessObject implements Cloneable {
         try {
             other = (BaseBusinessObject) super.clone();
             other.errorMessages = (HashSet<String>) errorMessages.clone();
-            other.isNew = isNew;
+            other.isNew = true;
             other.hasChanged = hasChanged;
             other.listeners = new ArrayList<>();
             return other;
