@@ -1,18 +1,11 @@
 package moviescheduler;
 
-import actions.DeleteEquipmentAction;
-import actions.DeleteSceneFilmingDateAction;
-import actions.DeleteVolunteerAction;
+
 import database.JdbcDatabase;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.sql.SQLException;
-import actions.LoadScriptAction;
-import actions.SaveEquipmentAction;
-import actions.SaveSceneAction;
-import actions.SaveSceneFilmingDateAction;
-import actions.SaveVolunteerAction;
-import businessobjects.BaseBusinessObject;
+import actions.*;
 import businessobjects.*;
 import database.Database;
 import static moviescheduler.MovieScheduler.script;

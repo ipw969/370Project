@@ -21,8 +21,6 @@ public class SceneMenu extends javax.swing.JDialog {
 
     private Scene clonedScene;
     private Frame parent;
-    private Database database;
-    private Script script;
     private Scene originalScene;
     BusinessObjectList<Volunteer> currentVolunteerList;
     BusinessObjectList<Equipment> currentEquipmentList;
@@ -60,7 +58,7 @@ public class SceneMenu extends javax.swing.JDialog {
      *
      * @author Ryan La Forge
      */
-    public SceneMenu(java.awt.Frame parent, Database database, Script script, Scene scene) throws CloneNotSupportedException {
+    public SceneMenu(java.awt.Frame parent, Scene scene) throws CloneNotSupportedException {
         super(parent, true);
         this.parent = parent;
         this.database = database;
