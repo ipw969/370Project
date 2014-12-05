@@ -68,6 +68,7 @@ public class EditableBusinessObjectListView<T extends BaseBusinessObject>
         listPanel = new javax.swing.JPanel();
         listViewScrollPane = new javax.swing.JScrollPane();
 
+        setMaximumSize(new java.awt.Dimension(152, 2147483647));
         setLayout(new java.awt.BorderLayout());
 
         buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));

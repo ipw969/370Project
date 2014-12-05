@@ -10,7 +10,6 @@ import businessobjects.Volunteer;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.BorderLayout;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -78,6 +77,10 @@ public class MainMenu extends javax.swing.JFrame {
         schedulePanel.setSript(theScript);
         schedulePanel.setDatabase(database);
         scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
+        
+        ResourcePanel resourcePanel = new ResourcePanel(theScript, database);
+        resourceTabPanel.add(resourcePanel);
+        
     }
 
     /**
@@ -112,6 +115,7 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         toDescriptiveString = new javax.swing.JTextArea();
         scheduleTabPanel = new javax.swing.JPanel();
+        resourceTabPanel = new javax.swing.JPanel();
 
         label1.setText("label1");
 
@@ -325,6 +329,9 @@ public class MainMenu extends javax.swing.JFrame {
 
         scheduleTabPanel.setLayout(new java.awt.BorderLayout());
         mainTab.addTab("Schedule", scheduleTabPanel);
+
+        resourceTabPanel.setLayout(new java.awt.BorderLayout());
+        mainTab.addTab("Resources", resourceTabPanel);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -573,6 +580,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton removeEquipmentButton;
     private javax.swing.JButton removeSceneButton;
     private javax.swing.JButton removeVolunteerButton;
+    private javax.swing.JPanel resourceTabPanel;
     private javax.swing.JComboBox sceneComboBox;
     private javax.swing.JPanel scheduleTabPanel;
     private javax.swing.JPanel scriptContentPanel;
