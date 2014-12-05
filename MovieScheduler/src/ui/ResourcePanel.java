@@ -1,23 +1,29 @@
 package ui;
 
+import actions.DeleteSceneAction;
+import actions.DeleteVolunteerAction;
+import businessobjects.BusinessObjectList;
 import businessobjects.Equipment;
 import businessobjects.Scene;
 import businessobjects.Script;
 import businessobjects.Volunteer;
 import database.Database;
+import javax.swing.JOptionPane;
 
 /**
  * Ui class representing a panel of information for the different resources for
  * the system, including Scenes, Equipment and Volunteers.
+ *
  * @author Iain Workman
  */
 public class ResourcePanel extends javax.swing.JPanel {
 
     /**
      * Creates new form ResourcePanel
+     *
      * @param script::Script ~ The Script which the panel will be displaying the
      * resources of.
-     * @param database::Database ~ The Database which will be used to update the 
+     * @param database::Database ~ The Database which will be used to update the
      * data from the script on editing
      */
     public ResourcePanel(Script script, Database database) {
@@ -28,38 +34,221 @@ public class ResourcePanel extends javax.swing.JPanel {
         registerVolunteerActionListeners();
         equipmentList = new EditableBusinessObjectListView<>(script.getEquipment());
         sceneList = new EditableBusinessObjectListView<>(script.getScenes());
+        registerSceneActionListeners();
         volunteerListPanel.add(volunteerList);
         equipmentListPanel.add(equipmentList);
         sceneListPanel.add(sceneList);
     }
-    
-    private void registerVolunteerActionListeners ()
-    {
+
+    /**
+     * Registers all the action listeners to respond to Add, Edit and Delete for
+     * the VolunteerList
+     */
+    private void registerVolunteerActionListeners() {
         volunteerList.addAddActionListener(
-            new BusinessObjectListViewAddActionListener<Volunteer>() {
+                new BusinessObjectListViewAddActionListener<Volunteer>() {
 
-            @Override
-            public void onAddActionPerformed(BusinessObjectListViewAddEvent<Volunteer> event) {
-                VolunteerForm volunteerForm = new VolunteerForm(
-                    script, database, new Volunteer());
-                volunteerForm.setVisible(true);
-            }
-                
-            });
-        
+                    @Override
+                    public void onAddActionPerformed(BusinessObjectListViewAddEvent<Volunteer> event) {
+                        VolunteerForm volunteerForm = new VolunteerForm(
+                                script, database, new Volunteer());
+                        volunteerForm.setVisible(true);
+                    }
+
+                });
+
         volunteerList.addEditActionListener(
-            new BusinessObjectListViewEditActionListener() {
+                new BusinessObjectListViewEditActionListener() {
 
-            @Override
-            public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
-                VolunteerForm volunteerForm = new VolunteerForm(
-                    script, database, (Volunteer)event.getObjectBeingEdited());
-                volunteerForm.setVisible(true);
-            }
-                
-            });
+                    @Override
+                    public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
+                        VolunteerForm volunteerForm = new VolunteerForm(
+                                script, database, (Volunteer) event.getObjectBeingEdited());
+                        volunteerForm.setVisible(true);
+                    }
+
+                });
+
+        volunteerList.addDeleteActionListener(
+                new BusinessObjectListViewDeleteActionListener<Volunteer>() {
+
+                    @Override
+                    public void onDeleteActionPerformed(BusinessObjectListViewDeleteEvent<Volunteer> event) {
+
+                        if (!(event.getObjectBeingDeleted() instanceof Volunteer)) {
+                            return;
+                        }
+
+                        int confirm = JOptionPane.showOptionDialog(
+                                ResourcePanel.this,
+                                "Are you sure you wish to delete " + event.getObjectBeingDeleted().toString(),
+                                "Are you sure?",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE,
+                                null, null, null);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            deleteVolunteer((Volunteer) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
+                        }
+                    }
+
+                });
     }
 
+    /**
+     * Registers all the action listeners to respond to Add, Edit and Delete for
+     * the EquipmentList
+     */
+    private void registerEquipmentActionListeners() {
+        volunteerList.addAddActionListener(
+                new BusinessObjectListViewAddActionListener<Volunteer>() {
+
+                    @Override
+                    public void onAddActionPerformed(BusinessObjectListViewAddEvent<Volunteer> event) {
+                        VolunteerForm volunteerForm = new VolunteerForm(
+                                script, database, new Volunteer());
+                        volunteerForm.setVisible(true);
+                    }
+
+                });
+
+        volunteerList.addEditActionListener(
+                new BusinessObjectListViewEditActionListener() {
+
+                    @Override
+                    public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
+                        VolunteerForm volunteerForm = new VolunteerForm(
+                                script, database, (Volunteer) event.getObjectBeingEdited());
+                        volunteerForm.setVisible(true);
+                    }
+
+                });
+
+        volunteerList.addDeleteActionListener(
+                new BusinessObjectListViewDeleteActionListener<Volunteer>() {
+
+                    @Override
+                    public void onDeleteActionPerformed(BusinessObjectListViewDeleteEvent<Volunteer> event) {
+
+                        if (!(event.getObjectBeingDeleted() instanceof Volunteer)) {
+                            return;
+                        }
+
+                        int confirm = JOptionPane.showOptionDialog(
+                                ResourcePanel.this,
+                                "Are you sure you wish to delete " + event.getObjectBeingDeleted().toString(),
+                                "Are you sure?",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE,
+                                null, null, null);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            deleteVolunteer((Volunteer) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
+                        }
+                    }
+
+                });
+    }
+
+    /**
+     * Registers all the action listeners to respond to Add, Edit and Delete for
+     * the SceneList
+     */
+    private void registerSceneActionListeners() {
+        sceneList.addAddActionListener(
+                new BusinessObjectListViewAddActionListener<Scene>() {
+
+                    @Override
+                    public void onAddActionPerformed(BusinessObjectListViewAddEvent<Scene> event) {
+                        
+                        SceneMenu newSceneMenu = new SceneMenu(null, database, script, null);
+                        newSceneMenu.setVisible(true);
+                    }
+
+                });
+
+        sceneList.addEditActionListener(
+                new BusinessObjectListViewEditActionListener() {
+
+                    @Override
+                    public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
+                        SceneMenu sceneMenu = new SceneMenu(null, 
+                                database, script, (Scene)event.getObjectBeingEdited());
+                        sceneMenu.setVisible(true);
+                    }
+
+                });
+
+        sceneList.addDeleteActionListener(
+                new BusinessObjectListViewDeleteActionListener<Scene>() {
+
+                    @Override
+                    public void onDeleteActionPerformed(BusinessObjectListViewDeleteEvent<Scene> event) {
+
+                        if (!(event.getObjectBeingDeleted() instanceof Scene)) {
+                            return;
+                        }
+
+                        int confirm = JOptionPane.showOptionDialog(
+                                ResourcePanel.this,
+                                "Are you sure you wish to delete " + event.getObjectBeingDeleted().toString(),
+                                "Are you sure?",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE,
+                                null, null, null);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            deleteScene((Scene) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
+                        }
+                    }
+
+                });
+    }
+
+    /**
+     * Method which handles deleting of a volunteer
+     *
+     * @param volunteerToDelete::Volunteer ~ The Volunteer to be deleted
+     * @param volunteers::BusinessObjectList<Volunteer> ~ The list of Volunteers
+     * for the System
+     */
+    private void deleteVolunteer(Volunteer volunteerToDelete,
+            BusinessObjectList<Volunteer> volunteers) {
+        DeleteVolunteerAction deleteVolunteerAction = new DeleteVolunteerAction(
+                database, volunteerToDelete.getEmail()
+        );
+
+        deleteVolunteerAction.run();
+
+        if (deleteVolunteerAction.wasSuccessful()) {
+            volunteers.remove(volunteerToDelete);
+        } else {
+            JOptionPane.showMessageDialog(this, "Could not delete Volunteer"
+                    + " with message " + deleteVolunteerAction.lastErrorMessage());
+        }
+    }
+
+    /**
+     * Method which handles deleting of a scene
+     * @param sceneToDelete::Scene ~ The scene to delete
+     * @param scenes::BusinessObjectList<Scene> ~ The master list of Scenes
+     */
+    private void deleteScene(Scene sceneToDelete,
+            BusinessObjectList<Scene> scenes)
+    {
+        DeleteSceneAction deleteSceneAction = new DeleteSceneAction
+            (database, sceneToDelete.getName());
+        
+        deleteSceneAction.run();
+        
+        if(deleteSceneAction.wasSuccessful())
+            scenes.remove(sceneToDelete);
+        else
+        {
+             JOptionPane.showMessageDialog(this, "Could not delete Scene"
+                    + " with message " + deleteSceneAction.lastErrorMessage());           
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
