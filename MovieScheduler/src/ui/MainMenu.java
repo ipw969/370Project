@@ -77,10 +77,10 @@ public class MainMenu extends javax.swing.JFrame {
         schedulePanel.setSript(theScript);
         schedulePanel.setDatabase(database);
         scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
-        
+
         ResourcePanel resourcePanel = new ResourcePanel(theScript, database);
         resourceTabPanel.add(resourcePanel);
-        
+
     }
 
     /**
@@ -394,29 +394,26 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_removeSceneButtonActionPerformed
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
-        try {
+
             SceneMenu newSceneMenu = new SceneMenu(this, database, theScript, (Scene) sceneComboBox.getSelectedItem());
             newSceneMenu.setVisible(true);
             this.setVisible(false);
             this.dispose();
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+
     }//GEN-LAST:event_editSceneButtonActionPerformed
 
     private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
-        try {
+
             SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
             sceneMenu.setVisible(true);
             this.setVisible(false);
             this.dispose();
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_addSceneButtonActionPerformed
 
     private void sceneComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sceneComboBoxActionPerformed
-        if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene)) {
+        if (sceneComboBox.getSelectedItem() != null && (sceneComboBox.getSelectedItem() instanceof Scene)) 
+        {
             Scene selectedScene = (Scene) sceneComboBox.getSelectedItem();
             toString.setText(selectedScene.toString());
             toDescriptiveString.setText(selectedScene.toDescriptiveString());
@@ -443,10 +440,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
         {
             VolunteerForm volunteerForm = new VolunteerForm(
-                    theScript, 
+                    theScript,
                     database, new Volunteer());
             volunteerForm.setVisible(true);
-        }                      
+        }
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     private void equipmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipmentComboBoxActionPerformed
@@ -501,31 +498,32 @@ public class MainMenu extends javax.swing.JFrame {
             }//GEN-LAST:event_editVolunteerButtonActionPerformed
 
     private void editEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEquipmentButtonActionPerformed
-       EquipmentForm equipmentForm = new EquipmentForm(theScript, database, (Equipment) equipmentComboBox.getSelectedItem());
-       equipmentForm.setVisible(true);
-       this.setVisible(false);
+        EquipmentForm equipmentForm = new EquipmentForm(theScript, database, (Equipment) equipmentComboBox.getSelectedItem());
+        equipmentForm.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_editEquipmentButtonActionPerformed
 
-    /**Makes a dialogue popup that asks the user whether they really want to remove the selected item.
+    /**
+     * Makes a dialogue popup that asks the user whether they really want to
+     * remove the selected item.
+     *
      * @return true if they click yes, false if not.
      */
-    private boolean ensureUserWantsRemoved()
-    {
-       String[] options = new String[]{"Cancel", "Yes"};
-         int choice = JOptionPane.showOptionDialog(this, "Are you sure you want to delete? " , "Error",
-                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                        null, options, options[1]);
-               
+    private boolean ensureUserWantsRemoved() {
+        String[] options = new String[]{"Cancel", "Yes"};
+        int choice = JOptionPane.showOptionDialog(this, "Are you sure you want to delete? ", "Error",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, options[1]);
+
         if (choice == 0) // pressing OK button
         {
             return false;
-        }
-        else if (choice == 1)
-        {
-           return true;
+        } else if (choice == 1) {
+            return true;
         }
         return false;
     }
+
     /**
      * @param args the command line arguments
      */

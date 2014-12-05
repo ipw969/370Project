@@ -60,16 +60,20 @@ public class SceneMenu extends javax.swing.JDialog {
      *
      * @author Ryan La Forge
      */
-    public SceneMenu(java.awt.Frame parent, Database database, Script script, Scene scene) throws CloneNotSupportedException {
+    public SceneMenu(java.awt.Frame parent, Database database, Script script, Scene scene) {
         super(parent, true);
         this.parent = parent;
         this.database = database;
         this.script = script;
         originalScene = scene;
-        if (scene != null) {
-            clonedScene = (Scene) scene.clone();
-        } else {
-            clonedScene = new Scene("enter scene name here", "Enter scene description here");
+        try {
+            if (scene != null) {
+                clonedScene = (Scene) scene.clone();
+            } else {
+                clonedScene = new Scene("enter scene name here", "Enter scene description here");
+            }
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.getMessage());
         }
 
         currentVolunteerList = new BusinessObjectList<Volunteer>();
@@ -380,8 +384,7 @@ public class SceneMenu extends javax.swing.JDialog {
 
             if (this.getParent() != null) {
                 this.setVisible(false);
-                if (parent instanceof MainMenu)
-                {
+                if (parent instanceof MainMenu) {
                     MainMenu newMainMenu = new MainMenu(script, database);
                     newMainMenu.setVisible(true);
                 }
@@ -475,16 +478,12 @@ public class SceneMenu extends javax.swing.JDialog {
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {
         //May replace later with a more effecient way of doing this.
         SceneMenu newSceneMenu;
-        try {
 
-            this.setVisible(false);
-            newSceneMenu = new SceneMenu(parent, database, script, originalScene);
+        this.setVisible(false);
+        newSceneMenu = new SceneMenu(parent, database, script, originalScene);
 
-            newSceneMenu.setVisible(true);
-            this.dispose();
-        } catch (CloneNotSupportedException ex) {
-            throw new RuntimeException("Refresh of the SceneMenu failed.");
-        }
+        newSceneMenu.setVisible(true);
+        this.dispose();
 
     }
 
@@ -520,18 +519,16 @@ public class SceneMenu extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    SceneMenu dialog = new SceneMenu(new javax.swing.JFrame(), null, null, null);
-                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                        @Override
-                        public void windowClosing(java.awt.event.WindowEvent e) {
-                            System.exit(0);
-                        }
-                    });
-                    dialog.setVisible(true);
-                } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(SceneMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+                SceneMenu dialog = new SceneMenu(new javax.swing.JFrame(), null, null, null);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+
             }
         });
     }
