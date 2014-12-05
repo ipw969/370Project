@@ -69,6 +69,7 @@ public class SaveVolunteerAction extends BaseAction {
             volunteer().setIsNew(false);
             volunteer().setHasChanged(false);
         }
+        volunteer.setIsNew(false);
         
     }    // Private Methods
 

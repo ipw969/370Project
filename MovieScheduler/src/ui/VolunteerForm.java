@@ -140,7 +140,7 @@ public class VolunteerForm extends javax.swing.JFrame
 
     private void save() 
     {
-        controller.saveBusinessObject(originalVolunteer, volunteerToEdit);
+        controller.saveBusinessObject(volunteerToEdit, originalVolunteer);
     }
 
     private boolean confirmClose() {

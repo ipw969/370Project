@@ -1,22 +1,15 @@
 package ui;
 
-import actions.DeleteEquipmentAction;
-import actions.DeleteSceneAction;
-import actions.DeleteVolunteerAction;
 import businessobjects.Equipment;
 import businessobjects.Scene;
-import businessobjects.Script;
 import businessobjects.Volunteer;
-import database.Database;
 import database.JdbcDatabase;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import moviescheduler.MovieSchedulerController;
 
 /**
  *
@@ -24,8 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    private final Script theScript;
-    private final Database database;
+    private final MovieSchedulerController controller;
 
     /**
      *
@@ -33,53 +25,38 @@ public class MainMenu extends javax.swing.JFrame {
      * @param database
      * @throws SQLException
      */
-    public MainMenu(Script theScript, Database database) {
+    public MainMenu(MovieSchedulerController controller) {
         initComponents();
-        this.database = database;
+        this.controller = controller;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //this.setExtendedState(Frame.MAXIMIZED_BOTH);
-        this.theScript = theScript;
         this.setMaximumSize(new Dimension(1000, 600));
         this.setMinimumSize(new Dimension(1000, 600));
 
         //   theScript.addVolunteer(new Volunteer("kyle", "west", "raeagaeg", "phonenumber"));
         volunteerComboBox.removeAllItems();
-        if (theScript.hasVolunteers()) {
-
-            Iterator<Volunteer> iter = theScript.volunteerIterator();
-            while (iter.hasNext()) {
-                volunteerComboBox.addItem(iter.next());
-            }
-
-        } else {
-            String noVolunteers;
-            noVolunteers = "No volunteers currently in script";
-            volunteerComboBox.addItem(noVolunteers);
+        for (Volunteer volunteerToAdd: controller.getVolunteers())
+        {
+            volunteerComboBox.addItem(volunteerToAdd);
         }
-
-        sceneComboBox.removeAllItems();
-        if (theScript.hasScenes()) {
-            Iterator<Scene> iter = theScript.sceneIterator();
-            while (iter.hasNext()) {
-                sceneComboBox.addItem(iter.next());
-            }
-        } else {
-            volunteerComboBox.addItem(new String("There are no scenes in the script"));
+        
+        for (Scene sceneToAdd: controller.getScenes())
+        {
+            sceneComboBox.addItem(sceneToAdd);
         }
-
-        equipmentComboBox.removeAllItems();
-        if (theScript.hasEquipment()) {
-            for (Equipment equipmentToAdd : theScript.getEquipment()) {
-                equipmentComboBox.addItem(equipmentToAdd);
-            }
+        
+        for(Equipment equipmentToAdd: controller.getEquipment())
+        {
+            equipmentComboBox.addItem(equipmentToAdd);
         }
+        
         SchedulePanel schedulePanel = new SchedulePanel();
-        schedulePanel.setSript(theScript);
-        schedulePanel.setDatabase(database);
+        schedulePanel.setSript(controller.getScript());
+        schedulePanel.setDatabase(controller.getDatabase());
         scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
 
-        ResourcePanel resourcePanel = new ResourcePanel(theScript, database);
-        resourceTabPanel.add(resourcePanel);
+       // ResourcePanel resourcePanel = new ResourcePanel(controller.getScript(), controller.getDatabase());
+        //resourceTabPanel.add(resourcePanel);
 
     }
 
@@ -379,36 +356,15 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_exitForm
 
     private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
-        if (ensureUserWantsRemoved()) {
-            Scene sceneToDelete = (Scene) sceneComboBox.getSelectedItem();
-            DeleteSceneAction deleteSelectedScene = new DeleteSceneAction(database, sceneToDelete.getName());
-            deleteSelectedScene.run();
-            if (deleteSelectedScene.wasSuccessful()) {
-                theScript.removeScene(sceneToDelete);
-                sceneComboBox.removeItem(sceneToDelete);
-            } else {
-                ErrorDisplay displayError = new ErrorDisplay(this, "The delete scene action failed.");
-            }
-        }
-
+        controller.deleteBusinessObject((Scene) sceneComboBox.getSelectedItem());
     }//GEN-LAST:event_removeSceneButtonActionPerformed
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed
-
-            SceneMenu newSceneMenu = new SceneMenu(this, database, theScript, (Scene) sceneComboBox.getSelectedItem());
-            newSceneMenu.setVisible(true);
-            this.setVisible(false);
-            this.dispose();
-
-
+        controller.displaySceneMenu((Scene) sceneComboBox.getSelectedItem());
     }//GEN-LAST:event_editSceneButtonActionPerformed
 
     private void addSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSceneButtonActionPerformed
-
-            SceneMenu sceneMenu = new SceneMenu(this, database, theScript, null);
-            sceneMenu.setVisible(true);
-            this.setVisible(false);
-            this.dispose();
+        controller.displaySceneMenu(null);
     }//GEN-LAST:event_addSceneButtonActionPerformed
 
     private void sceneComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sceneComboBoxActionPerformed
@@ -421,11 +377,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_sceneComboBoxActionPerformed
 
     private void addEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipmentButtonActionPerformed
-        this.setVisible(false);
-        this.dispose();
-        EquipmentForm equipmentForm = new EquipmentForm(theScript, database);
-        equipmentForm.setVisible(true);
-        this.repaint();
+        controller.displayEquipmentMenu(null);
     }//GEN-LAST:event_addEquipmentButtonActionPerformed
 
     private void volunteerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerComboBoxActionPerformed
@@ -438,12 +390,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_volunteerComboBoxActionPerformed
 
     private void addVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerButtonActionPerformed
-        {
-            VolunteerForm volunteerForm = new VolunteerForm(
-                    theScript,
-                    database, new Volunteer());
-            volunteerForm.setVisible(true);
-        }
+        controller.displayVolunteerMenu(null);
     }//GEN-LAST:event_addVolunteerButtonActionPerformed
 
     private void equipmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipmentComboBoxActionPerformed
@@ -455,74 +402,26 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_equipmentComboBoxActionPerformed
 
     private void removeVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeVolunteerButtonActionPerformed
-
-        if (ensureUserWantsRemoved()) {
-            Volunteer volunteerToDelete = (Volunteer) volunteerComboBox.getSelectedItem();
-            DeleteVolunteerAction deleteSelectedvolunteer = new DeleteVolunteerAction(database, volunteerToDelete.getEmail());
-            deleteSelectedvolunteer.run();
-            if (deleteSelectedvolunteer.wasSuccessful()) {
-                theScript.removeVolunteer(volunteerToDelete);
-                volunteerComboBox.removeItem((Volunteer) volunteerComboBox.getSelectedItem());
-                volunteerComboBox.removeItem(volunteerToDelete);
-                toString.setText(null);
-                toDescriptiveString.setText(null);
-
-            } else {
-                ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove volunteer action failed.");
-            }
-
+        controller.deleteBusinessObject((Volunteer) volunteerComboBox.getSelectedItem());
+        if (false)
+        {
+            
         }    }//GEN-LAST:event_removeVolunteerButtonActionPerformed
 
     private void removeEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEquipmentButtonActionPerformed
-        if (ensureUserWantsRemoved()) {
-            Equipment equipmentToDelete = (Equipment) equipmentComboBox.getSelectedItem();
-            DeleteEquipmentAction deleteSelectedEquipment = new DeleteEquipmentAction(database, equipmentToDelete.getOwnerEmail());
-            deleteSelectedEquipment.run();
-            if (deleteSelectedEquipment.wasSuccessful()) {
-                theScript.removeEquipment(equipmentToDelete);
-                equipmentComboBox.removeItem((Equipment) equipmentComboBox.getSelectedItem());
-                equipmentComboBox.removeItem(equipmentToDelete);
-                toString.setText(null);
-                toDescriptiveString.setText(null);
-            } else {
-                ErrorDisplay displayError = new ErrorDisplay(this, "The delete remove equipment action failed.");
-            }
-
-
+        controller.deleteBusinessObject((Equipment) equipmentComboBox.getSelectedItem());
+        if (false)
+        {
+            
         }    }//GEN-LAST:event_removeEquipmentButtonActionPerformed
 
     private void editVolunteerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editVolunteerButtonActionPerformed
-
-        VolunteerForm newVolunteerForm = new VolunteerForm(theScript, database, (Volunteer) volunteerComboBox.getSelectedItem());
-        newVolunteerForm.setVisible(true);
+        controller.displayVolunteerMenu((Volunteer) volunteerComboBox.getSelectedItem());
             }//GEN-LAST:event_editVolunteerButtonActionPerformed
 
     private void editEquipmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEquipmentButtonActionPerformed
-        EquipmentForm equipmentForm = new EquipmentForm(theScript, database, (Equipment) equipmentComboBox.getSelectedItem());
-        equipmentForm.setVisible(true);
-        this.setVisible(false);
+        controller.displayEquipmentMenu((Equipment) equipmentComboBox.getSelectedItem());
     }//GEN-LAST:event_editEquipmentButtonActionPerformed
-
-    /**
-     * Makes a dialogue popup that asks the user whether they really want to
-     * remove the selected item.
-     *
-     * @return true if they click yes, false if not.
-     */
-    private boolean ensureUserWantsRemoved() {
-        String[] options = new String[]{"Cancel", "Yes"};
-        int choice = JOptionPane.showOptionDialog(this, "Are you sure you want to delete? ", "Error",
-                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, options, options[1]);
-
-        if (choice == 0) // pressing OK button
-        {
-            return false;
-        } else if (choice == 1) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * @param args the command line arguments
@@ -551,7 +450,6 @@ public class MainMenu extends javax.swing.JFrame {
                     return;
                 }
 
-                new MainMenu(null, testDatabase).setVisible(true);
 
                 JOptionPane.showMessageDialog(null, "Could not load main"
                         + " menu.");

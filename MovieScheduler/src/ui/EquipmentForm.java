@@ -4,6 +4,7 @@ import actions.SaveEquipmentAction;
 import businessobjects.*;
 import database.Database;
 import database.JdbcDatabase;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -27,9 +28,10 @@ public class EquipmentForm extends javax.swing.JFrame {
     /**
      * Creates new form EquipmentForm
      */
-    public EquipmentForm(MovieSchedulerController controller) {
+    public EquipmentForm(Equipment originalEquipment, MovieSchedulerController controller) {
         this.controller = controller;
         initComponents();
+        
     }
     
     /**
@@ -40,20 +42,39 @@ public class EquipmentForm extends javax.swing.JFrame {
         this.equipmentToEdit = equipmentToEdit;
         this.originalEquipment = originalEquipment;
         initComponents();
+        equipmentName.setPreferredSize(new Dimension(equipmentName.getSize()));
+        ownerFirstName.setPreferredSize(new Dimension(ownerFirstName.getSize()));
+        ownerLastName.setPreferredSize(new Dimension(ownerLastName.getSize()));
+        ownerEmail.setPreferredSize(new Dimension(equipmentName.getSize()));
         PopulateFormForEdit(equipmentToEdit);
+        
     }
 
     
     //method to populate the form with previously entered information
     private void PopulateFormForEdit(Equipment equipmentToEdit)
     {
-        ownerFirstName.setText(equipmentToEdit.getOwnerFirstName());
-        ownerLastName.setText(equipmentToEdit.getOwnerLastName());
-        ownerEmail.setText(equipmentToEdit.getOwnerEmail());
-        equipmentName.setText(equipmentToEdit.getEquipmentName());
+        if (equipmentToEdit.getOwnerFirstName() != null)
+        {
+           ownerFirstName.setText(equipmentToEdit.getOwnerFirstName()); 
+        }
+        if (equipmentToEdit.getOwnerLastName() != null)
+        {
+           ownerLastName.setText(equipmentToEdit.getOwnerLastName()); 
+        }
+        if (equipmentToEdit.getOwnerEmail() != null)
+        {
+            ownerEmail.setText(equipmentToEdit.getOwnerEmail());
+        }
+        if (equipmentToEdit.getEquipmentName() != null)
+        {
+           equipmentName.setText(equipmentToEdit.getEquipmentName()); 
+        }
+        
         for (TimeInterval availability: equipmentToEdit.getAvailability())
         {
             currentAvailabilities.addItem(availability);
+            availabilityList.add(availability);
         }
         
     }
@@ -270,7 +291,12 @@ public class EquipmentForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        controller.saveBusinessObject(originalEquipment, equipmentToEdit);
+        equipmentToEdit.setAvailability(availabilityList);
+        equipmentToEdit.setOwnerEmail(ownerEmail.getText());
+        equipmentToEdit.setOwnerFirstName(ownerFirstName.getText());
+        equipmentToEdit.setOwnerLastName(ownerLastName.getText());
+        equipmentToEdit.setEquipmentName(equipmentName.getText());
+        controller.saveBusinessObject(equipmentToEdit, originalEquipment);
 
             this.dispose();    }//GEN-LAST:event_submitActionPerformed
 

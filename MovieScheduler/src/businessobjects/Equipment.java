@@ -118,9 +118,11 @@ public class Equipment extends BaseBusinessObject {
     @Override
     public void merge(BaseBusinessObject mergeObject) {
         if (mergeObject == null) {
-            throw new RuntimeException("The given mergeObject was null for the volunteer merge.");
-        } else if (!(mergeObject instanceof Scene)) {
-            throw new RuntimeException("The given mergeObject is not an instance of volunteer for the volunteer merge");
+            throw new RuntimeException("The given mergeObject was null for the equipment merge.");
+        } 
+        else if (!(mergeObject instanceof Equipment)) 
+        {
+            throw new RuntimeException("The given mergeObject is not an instance of equipment for the equipment merge");
         }
 
         Equipment mergeEquipment = (Equipment) mergeObject;
@@ -129,5 +131,6 @@ public class Equipment extends BaseBusinessObject {
         this.setOwnerLastName(mergeEquipment.getOwnerLastName());
         this.setOwnerFirstName(mergeEquipment.getOwnerFirstName());
         this.setOwnerEmail(mergeEquipment.getOwnerEmail());
+        this.setAvailability(mergeEquipment.getAvailability());
     }
 }

@@ -13,6 +13,7 @@ import actions.SaveSceneAction;
 import actions.SaveSceneFilmingDateAction;
 import actions.SaveVolunteerAction;
 import businessobjects.BaseBusinessObject;
+import businessobjects.BusinessObjectList;
 import businessobjects.Equipment;
 import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
@@ -124,8 +125,7 @@ public class MovieSchedulerController {
             boolean wasNew = volunteerToSave.isNew();
             saveVolunteerAction.run();
             if (saveVolunteerAction.wasSuccessful()) 
-            {
-                
+            { 
                 if (wasNew) 
                 {
                     script.getVolunteers().add(volunteerToReplace);
@@ -159,7 +159,7 @@ public class MovieSchedulerController {
             SaveEquipmentAction saveEquipmentAction;
             if (equipmentToReplace != null)
             {
-                saveEquipmentAction = new SaveEquipmentAction(database, equipmentToSave, equipmentToReplace.getEquipmentName());
+                saveEquipmentAction = new SaveEquipmentAction(database, equipmentToSave, equipmentToReplace);
             }
             else
              {
@@ -328,9 +328,16 @@ public class MovieSchedulerController {
         {
             sceneToEdit = new Scene("insert name here.", "insert description here.");
         }
-        
-        SceneMenu sceneMenu = new SceneMenu(sceneToEdit, sceneToEdit.clone(), this);
-        sceneMenu.setVisible(true);
+        try
+        {
+            SceneMenu sceneMenu = new SceneMenu(sceneToEdit, (Scene) sceneToEdit.clone(), this);
+            sceneMenu.setVisible(true);
+        }
+        catch(CloneNotSupportedException e)
+        {
+            throw new RuntimeException("The Scene is not currently not implmenting the cloneable interface");
+        }
+
     }
     
     public void displayVolunteerMenu(Volunteer volunteerToEdit)
@@ -339,19 +346,37 @@ public class MovieSchedulerController {
         {
             volunteerToEdit = new Volunteer();
         }
-       VolunteerForm volunteerForm = new VolunteerForm(volunteerToEdit, (Volunteer) volunteerToEdit.clone(), this);
-       volunteerForm.setVisible(true);
+
+            VolunteerForm volunteerForm = new VolunteerForm(volunteerToEdit, (Volunteer) volunteerToEdit.clone(), this);
+            volunteerForm.setVisible(true);          
+
+
     }
     
     public void displayEquipmentMenu(Equipment equipmentToEdit)
     {
-        if (equipmentToEdit == null)
+        try
         {
-            equipmentToEdit = new Equipment();
+            Equipment clonedEquipment;
+            if (equipmentToEdit == null)
+            {
+             equipmentToEdit = new Equipment();
+             clonedEquipment = (Equipment) equipmentToEdit.clone();
+             clonedEquipment.setIsNew(false);
+             }
+            else
+            {
+                clonedEquipment = (Equipment) equipmentToEdit.clone();
+            }
+            EquipmentForm equipmentForm = new EquipmentForm(equipmentToEdit, (Equipment) equipmentToEdit.clone(), this);
+            equipmentForm.setVisible(true);            
         }
- 
-        EquipmentForm equipmentForm = new EquipmentForm(equipmentToEdit, (Equipment) equipmentToEdit.clone(), this);
-        equipmentForm.setVisible(true);
+        
+        catch(CloneNotSupportedException e)
+        {
+            throw new RuntimeException("The Equipment class is not implementing the Cloneable interface. It needs to.");
+        }
+
     }
     
     public void displayError(String errorMessage)
@@ -367,9 +392,29 @@ public class MovieSchedulerController {
         }
     }
     
+    public BusinessObjectList<Volunteer> getVolunteers()
+    {
+        return script.getVolunteers();
+    }
+    public BusinessObjectList<Equipment> getEquipment()
+    {
+        return script.getEquipment();
+    }
+    public BusinessObjectList<Scene> getScenes()
+    {
+        return script.getScenes();
+    }
+    public Database getDatabase()
+    {
+        return database;
+    }
+    public Script getScript()
+    {
+        return script;
+    }
     public void displayStartMenu()
     {
-        StartMenu startMenu = new StartMenu(database);
+        StartMenu startMenu = new StartMenu(this);
         startMenu.setVisible(true);
     }
 }

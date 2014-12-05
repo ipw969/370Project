@@ -5,6 +5,7 @@ import businessobjects.Script;
 import database.Database;
 import database.JdbcDatabase;
 import java.awt.Dimension;
+import moviescheduler.MovieSchedulerController;
 
 /**
  *
@@ -12,13 +13,13 @@ import java.awt.Dimension;
  */
 public class StartMenu extends javax.swing.JFrame {
 
-    Database database;
+    MovieSchedulerController controller;
 
     /**
      * Creates new form CreateScript
      */
-    public StartMenu(Database database) {
-        this.database = database;
+    public StartMenu(MovieSchedulerController controller) {
+        this.controller = controller;
         initComponents();
         scriptNameField.setMinimumSize(new Dimension(50, 23));
     }
@@ -159,7 +160,7 @@ public class StartMenu extends javax.swing.JFrame {
         } else {
 
             this.setVisible(false);
-            MainMenu mainMenu = new MainMenu(script, database);
+            MainMenu mainMenu = new MainMenu(controller);
             mainMenu.setVisible(true);
 
         }
@@ -217,7 +218,7 @@ public class StartMenu extends javax.swing.JFrame {
                             + ex.getMessage());
                     return;
                 }
-                new StartMenu(testDatabase).setVisible(true);
+               // new StartMenu().setVisible(true);
             }
         });
     }

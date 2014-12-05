@@ -1,16 +1,11 @@
 package ui;
 
-import actions.SaveSceneAction;
 import businessobjects.BusinessObjectList;
 import businessobjects.Equipment;
 import businessobjects.Scene;
-import businessobjects.Script;
 import businessobjects.Volunteer;
-import database.Database;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import moviescheduler.MovieSchedulerController;
 
 
 /*
@@ -19,25 +14,23 @@ import java.util.logging.Logger;
  */
 public class SceneMenu extends javax.swing.JDialog {
 
-    private Scene clonedScene;
-    private Frame parent;
-    private Database database;
-    private Script script;
-    private Scene originalScene;
+    private final Scene clonedScene;
+    private final Scene originalScene;
+    private MovieSchedulerController controller;
     BusinessObjectList<Volunteer> currentVolunteerList;
     BusinessObjectList<Equipment> currentEquipmentList;
     BusinessObjectList<Volunteer> availableVolunteerList;
     BusinessObjectList<Equipment> availableEquipmentList;
     // Variables declaration - do not modify                     
-    private BusinessObjectListView availableEquipment;
+    private final BusinessObjectListView availableEquipment;
     private javax.swing.JButton availableToCurrentEquipmentButton;
     private javax.swing.JButton availableToCurrentVolunteerButton;
-    private BusinessObjectListView availableVolunteers;
+    private final BusinessObjectListView availableVolunteers;
     private javax.swing.JButton cancelButton;
-    private BusinessObjectListView currentEquipment;
+    private final BusinessObjectListView currentEquipment;
     private javax.swing.JButton currentToAvailableEquipment;
     private javax.swing.JButton currentToAvailableVolunteerButton;
-    private BusinessObjectListView currentVolunteers;
+    private final BusinessObjectListView currentVolunteers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -57,25 +50,16 @@ public class SceneMenu extends javax.swing.JDialog {
 
     /**
      * Creates new form SceneMenu
-     *
+     * @param originalScene the original scene from which the sceneToEdit was derived.
+     * @param sceneToEdit the scene to edit in which the scene was derived.
+     * @param controller the controller for this application
      * @author Ryan La Forge
      */
-    public SceneMenu(java.awt.Frame parent, Database database, Script script, Scene scene) {
-        super(parent, true);
-        this.parent = parent;
-        this.database = database;
-        this.script = script;
-        originalScene = scene;
-        try {
-            if (scene != null) {
-                clonedScene = (Scene) scene.clone();
-            } else {
-                clonedScene = new Scene("enter scene name here", "Enter scene description here");
-            }
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
+    public SceneMenu(Scene originalScene, Scene sceneToEdit, MovieSchedulerController controller) {
+        this.setModal(true);
+        this.originalScene = originalScene;
+        this.clonedScene = sceneToEdit;
+        
         currentVolunteerList = new BusinessObjectList<Volunteer>();
         currentVolunteerList.addAll(clonedScene.getVolunteers());
 
@@ -83,9 +67,9 @@ public class SceneMenu extends javax.swing.JDialog {
         currentEquipmentList.addAll(clonedScene.getEquipment());
 
         availableVolunteerList = new BusinessObjectList<Volunteer>();
-        availableVolunteerList.addAll(script.getVolunteers());
+        availableVolunteerList.addAll(controller.getVolunteers());
         availableEquipmentList = new BusinessObjectList<Equipment>();
-        availableEquipmentList.addAll(script.getEquipment());
+        availableEquipmentList.addAll(controller.getEquipment());
 
         availableVolunteers = new BusinessObjectListView(availableVolunteerList);
         //NOTE ALSO THAT THIS NAME MUST CHANGE WHEN DECLARED ELSEWHERE FROM DEFAULT
@@ -341,21 +325,6 @@ public class SceneMenu extends javax.swing.JDialog {
      * @param evt
      */
     private void saveSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        for (Scene tempScene : script.getScenes()) {
-            if ((tempScene.getName().equals(clonedScene.getName())) && (!tempScene.equals(originalScene))) {
-                ErrorDisplay displayError = new ErrorDisplay(parent, "The script already contains a scene with that name");
-                displayError.setVisible(true);
-                return;
-            }
-        }
-
-        if (!clonedScene.isValid()) {
-            ErrorDisplay errorDisplay = new ErrorDisplay(parent, "The scene is currently not in a valid state. Unable to save it.\n Error: \n" + clonedScene.getErrorMessage());
-            errorDisplay.setVisible(true);
-            return;
-        } else {
-
-        }
         clonedScene.setName(sceneNameField.getText());
         clonedScene.setDescription(sceneDescriptionField.getText());
         clonedScene.getVolunteers().clear();
@@ -363,40 +332,7 @@ public class SceneMenu extends javax.swing.JDialog {
         clonedScene.getVolunteers().addAll(currentVolunteerList);
         clonedScene.getEquipment().addAll(currentEquipmentList);
 
-        //build the saveSceneAction and attempt to save the scene.
-        SaveSceneAction saveClonedScene;
-        if (originalScene != null) {
-            saveClonedScene = new SaveSceneAction(database, clonedScene, originalScene.getName(), script);
-        } else {
-            saveClonedScene = new SaveSceneAction(database, clonedScene, null, script);
-        }
-
-        saveClonedScene.run();
-        if (saveClonedScene.wasSuccessful()) {
-            if (originalScene != null) {
-                //If this is editing a scene we need to merge the clone into the original.
-                originalScene.setHasChanged(false);
-                originalScene.merge(clonedScene);
-                originalScene.setHasChanged(true);
-            } else {
-                script.addScene(clonedScene);
-            }
-
-            if (this.getParent() != null) {
-                this.setVisible(false);
-                if (parent instanceof MainMenu) {
-                    MainMenu newMainMenu = new MainMenu(script, database);
-                    newMainMenu.setVisible(true);
-                }
-            } else {
-                System.exit(0);
-            }
-        } else {
-            ErrorDisplay errorDisplay = new ErrorDisplay(null, "The scene failed to save to the database and the following error was returned:\n " + saveClonedScene.lastErrorMessage());
-            errorDisplay.setVisible(true);
-            return;
-        }
-
+       controller.saveBusinessObject(originalScene, clonedScene);
     }
 
     /**
@@ -460,13 +396,10 @@ public class SceneMenu extends javax.swing.JDialog {
     /**
      * Cancels all changes and exists the form. The scene is not saved.*
      */
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) 
+    {
         this.setVisible(false);
-        if (this.getParent() != null) {
-            this.getParent().setVisible(true);
-        } else {
-            System.exit(0);
-        }
+        this.dispose();
     }
 
     /**
@@ -478,10 +411,8 @@ public class SceneMenu extends javax.swing.JDialog {
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {
         //May replace later with a more effecient way of doing this.
         SceneMenu newSceneMenu;
-
         this.setVisible(false);
-        newSceneMenu = new SceneMenu(parent, database, script, originalScene);
-
+        newSceneMenu = new SceneMenu(originalScene, clonedScene, controller);
         newSceneMenu.setVisible(true);
         this.dispose();
 
@@ -520,14 +451,14 @@ public class SceneMenu extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                SceneMenu dialog = new SceneMenu(new javax.swing.JFrame(), null, null, null);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                //SceneMenu dialog = new SceneMenu(new javax.swing.JFrame(), null, null, null);
+               // dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                  //  @Override
+                  //  public void windowClosing(java.awt.event.WindowEvent e) {
+                      //  System.exit(0);
+                    //}
+                //});
+               // dialog.setVisible(true);
 
             }
         });

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class SaveEquipmentAction extends BaseAction {
 
     //equipmentToReplace is the email address of the equipment that needs to be edited
-    private String equipmentToReplace;
+    private Equipment equipmentToReplace;
     private Equipment equipment;
 
     //general constructor for equpiment not in the database
@@ -30,7 +30,7 @@ public class SaveEquipmentAction extends BaseAction {
     }
 
     //used if you want to replace equpiment in the database
-    public SaveEquipmentAction(Database database, Equipment equipment, String equipmentToReplace) {
+    public SaveEquipmentAction(Database database, Equipment equipment, Equipment equipmentToReplace) {
         super(database);
         this.equipment = equipment;
         this.equipmentToReplace = equipmentToReplace;
@@ -46,13 +46,19 @@ public class SaveEquipmentAction extends BaseAction {
         }
         getDatabase().clearCommandList();
         if (equipmentToReplace != null) {
-            getDatabase().addCommand("delete from t_equipmentavailability where eav_equipmentname = '" + equipmentToReplace + "';");
-            getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace + "';");
+            getDatabase().addCommand("delete from t_equipmentavailability where eav_equipmentname = '" + equipmentToReplace.getEquipmentName() + "';");
+            getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace.getOwnerEmail() + "';");
+            if (equipmentToReplace.getOwnerFirstName().equals(equipment.getOwnerFirstName())
+                    && equipmentToReplace.getOwnerLastName().equals(equipment.getOwnerLastName())
+                    && equipmentToReplace.getOwnerEmail().equals(equipment.getOwnerEmail()))
+            {
+                getDatabase().addCommand("delete from t_equipmentowner where own_firstname = '" + equipmentToReplace.getOwnerFirstName() + "' and own_surname = '" + equipmentToReplace.getOwnerLastName() + "' and own_emailaddress = '" + equipmentToReplace.getOwnerEmail() + "';");
+            }
         }
 
+        
         getDatabase().addCommand("insert into t_equipmentowner(own_firstname, own_surname, own_emailaddress) VALUES('" + equipment.getOwnerFirstName() + "','" + equipment.getOwnerLastName() + "','" + equipment.getOwnerEmail() + "');");
         getDatabase().addCommand(buildInsertQueryString());
-        getDatabase().addCommand(buildUpdateQueryString());
 
         for (TimeInterval interval : equipment.getAvailability()) {
             getDatabase().addCommand("insert into t_equipmentavailability(eav_equipmentname, eav_availability_start, eav_availability_end) VALUES('"
@@ -73,7 +79,7 @@ public class SaveEquipmentAction extends BaseAction {
             this.setWasSuccessful(false);
             System.out.println("failed to save the equipment.\n Error:" + ex.getMessage());
         }
-
+        equipment.setIsNew(false);
     }  
 
     /**
