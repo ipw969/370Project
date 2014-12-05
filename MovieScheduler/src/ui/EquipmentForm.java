@@ -7,6 +7,7 @@ import database.JdbcDatabase;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import moviescheduler.MovieSchedulerController;
 
 /**
  *
@@ -15,10 +16,9 @@ import java.util.GregorianCalendar;
 public class EquipmentForm extends javax.swing.JFrame {
 
     BusinessObjectList<TimeInterval> availabilityList = new BusinessObjectList();
-    private Database database;
-    private Script theScript;
+    private final MovieSchedulerController controller;
     private Equipment equipmentToEdit;
-
+    private Equipment originalEquipment;
     @Override
     public void setDefaultCloseOperation(int operation) {
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
@@ -27,19 +27,18 @@ public class EquipmentForm extends javax.swing.JFrame {
     /**
      * Creates new form EquipmentForm
      */
-    public EquipmentForm(Script theScript, Database database) {
-        this.database = database;
-        this.theScript = theScript;
+    public EquipmentForm(MovieSchedulerController controller) {
+        this.controller = controller;
         initComponents();
     }
     
     /**
      * Creates a volunteer form and populates it with previous volunteer info
      */    
-    public EquipmentForm(Script theScript, Database database, Equipment equipmentToEdit) {
-        this.database = database;
-        this.theScript = theScript;
+    public EquipmentForm(Equipment originalEquipment, Equipment equipmentToEdit, MovieSchedulerController controller) {
+        this.controller = controller;
         this.equipmentToEdit = equipmentToEdit;
+        this.originalEquipment = originalEquipment;
         initComponents();
         PopulateFormForEdit(equipmentToEdit);
     }
@@ -271,40 +270,8 @@ public class EquipmentForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+        controller.saveBusinessObject(originalEquipment, equipmentToEdit);
 
-        //create a new equipment and populate it with all of the information
-        Equipment equipment = new Equipment(equipmentName.getText().toString(),
-                ownerFirstName.getText().toString(),
-                ownerLastName.getText().toString(),
-                ownerEmail.getText().toString(),
-                availabilityList);
-
-        //create a query to the database that will send the equipment data there
-        SaveEquipmentAction saveEquipmentAction;
-        if (equipmentToEdit != null)
-        {
-            saveEquipmentAction = new SaveEquipmentAction(database, equipment, equipmentToEdit.getEquipmentName());
-        }
-       else
-        {
-            saveEquipmentAction = new SaveEquipmentAction(database, equipment);
-        }
-        saveEquipmentAction.run();
-
-        //check to see if the equipment was successfully added to the database
-        //if not give an error message
-        if (!saveEquipmentAction.wasSuccessful()) {
-            System.out.println("fail" + saveEquipmentAction.lastErrorMessage());
-        }
-
-        //add the equipment to the script so it appears in the main menu
-        theScript.addEquipment(equipment);
-        MainMenu mainMenu;
-
-        mainMenu = new MainMenu(theScript, database);
-        mainMenu.setVisible(true);
-
-        this.setVisible(false);
             this.dispose();    }//GEN-LAST:event_submitActionPerformed
 
     /**
@@ -312,12 +279,7 @@ public class EquipmentForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        MainMenu mainMenu;
-
-        mainMenu = new MainMenu(theScript, database);
-        mainMenu.setVisible(true);
-
-        this.setVisible(false);
+        controller.displayMainMenu();
         this.dispose();       }//GEN-LAST:event_cancelActionPerformed
 
     /**

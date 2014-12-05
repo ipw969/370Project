@@ -251,6 +251,10 @@ public class MovieSchedulerController {
             if (deleteSelectedVolunteer.wasSuccessful()) 
             {
                 script.removeVolunteer(volunteerToDelete);
+                for(Scene tempScene: script.getScenes())
+                {
+                    tempScene.removeVolunteer(volunteerToDelete);
+                }
             } 
             else 
             {
@@ -265,6 +269,10 @@ public class MovieSchedulerController {
             if (deleteSelectedEquipment.wasSuccessful()) 
             {
                 script.removeEquipment(equipmentToDelete);
+                for(Scene tempScene: script.getScenes())
+                {
+                    tempScene.removeEquipment(equipmentToDelete);
+                }
             } 
             else 
             {
@@ -331,7 +339,7 @@ public class MovieSchedulerController {
         {
             volunteerToEdit = new Volunteer();
         }
-       VolunteerForm volunteerForm = new VolunteerForm(volunteerToEdit, volunteerToEdit.clone(), this);
+       VolunteerForm volunteerForm = new VolunteerForm(volunteerToEdit, (Volunteer) volunteerToEdit.clone(), this);
        volunteerForm.setVisible(true);
     }
     
@@ -342,7 +350,7 @@ public class MovieSchedulerController {
             equipmentToEdit = new Equipment();
         }
  
-        EquipmentForm equipmentForm = new EquipmentForm(equipmentToEdit, equipmentToEdit.clone(), this);
+        EquipmentForm equipmentForm = new EquipmentForm(equipmentToEdit, (Equipment) equipmentToEdit.clone(), this);
         equipmentForm.setVisible(true);
     }
     

@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import moviescheduler.MovieSchedulerController;
 
 /**
  * A ui class for editing or adding Volunteers
@@ -27,21 +28,19 @@ public class VolunteerForm extends javax.swing.JFrame
         implements BusinessObjectListener {
 
     BusinessObjectList<TimeInterval> availabilityList = new BusinessObjectList();
-    private final Database database;
-    private final Script script;
+    private final MovieSchedulerController controller;
     private final Volunteer originalVolunteer;
     private final Volunteer volunteerToEdit;
    
     /**
      * Creates a volunteer form and populates it with previous volunteer info
      */
-    public VolunteerForm(Volunteer originalVolunteer) {
+    public VolunteerForm(Volunteer originalVolunteer, Volunteer volunteerToEdit, MovieSchedulerController controller) {
+        
 
-        this.database = database;
-        this.script = theScript;
-        this.originalVolunteer = volunteer;
-        this.volunteerToEdit = (Volunteer) volunteer.clone();
-
+        this.originalVolunteer = originalVolunteer;
+        this.volunteerToEdit = volunteerToEdit;
+        this.controller = controller;
         initComponents();
         BusinessObjectListView<TimeInterval> availabilitiesListView
                 = new BusinessObjectListView<>(volunteerToEdit.getAvailabilities());
@@ -139,26 +138,9 @@ public class VolunteerForm extends javax.swing.JFrame
         okayButton.setEnabled(sender.isValid() && newState);
     }
 
-    private void save() {
-        SaveVolunteerAction saveVolunteerAction
-                = new SaveVolunteerAction(database, volunteerToEdit, volunteerToEdit.getEmail());
-        boolean wasNew = originalVolunteer.isNew();
-
-        saveVolunteerAction.run();
-
-        if (saveVolunteerAction.wasSuccessful()) {
-            originalVolunteer.merge((Volunteer) volunteerToEdit);
-            if (wasNew) {
-                script.getVolunteers().add(originalVolunteer);
-            }
-        } else {
-            //Show error message
-            JOptionPane.showMessageDialog(null, "Could not save volunteer "
-                    + "with message: "
-                    + saveVolunteerAction.lastErrorMessage(),
-                    "Error Saving Volunteer!", 0);
-        }
-
+    private void save() 
+    {
+        controller.saveBusinessObject(originalVolunteer, volunteerToEdit);
     }
 
     private boolean confirmClose() {
@@ -490,8 +472,7 @@ public class VolunteerForm extends javax.swing.JFrame
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         if (confirmClose()) {
             volunteerToEdit.removeListener(this);
-            
-            this.setVisible(false);
+            this.dispose();
         } 
     }//GEN-LAST:event_formWindowClosing
 
