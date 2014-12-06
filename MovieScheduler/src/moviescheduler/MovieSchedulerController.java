@@ -347,7 +347,8 @@ public class MovieSchedulerController {
     /**Following are methods for displaying the ui elements in our project*/
     public void displayMainMenu()
     {
-             MainMenu mainMenu = new MainMenu(this);      
+             MainMenu mainMenu = new MainMenu(this);  
+             mainMenu.setVisible(true);
     }
     
     public void displaySceneMenu(Scene sceneToEdit)
