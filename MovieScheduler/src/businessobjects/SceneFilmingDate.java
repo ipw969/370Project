@@ -252,7 +252,8 @@ public class SceneFilmingDate extends BaseBusinessObject
 
         super.merge(mergeObject);
         SceneFilmingDate otherFilmingDate = (SceneFilmingDate) mergeObject;
-        this.setSceneShootingInterval(otherFilmingDate.getSceneShootingInterval());
+        TimeInterval sceneShootingInterval = otherFilmingDate.getSceneShootingInterval();
+        this.setSceneShootingInterval(sceneShootingInterval);
         setHasChanged(false);
     }
 
