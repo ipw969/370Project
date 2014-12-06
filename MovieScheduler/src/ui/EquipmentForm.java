@@ -317,7 +317,7 @@ public class EquipmentForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        controller.displayMainMenu();
+        
         this.dispose();       }//GEN-LAST:event_cancelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
