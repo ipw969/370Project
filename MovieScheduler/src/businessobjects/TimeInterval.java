@@ -161,8 +161,16 @@ public class TimeInterval
      * this.end is strictly greater than date
      */
     public boolean overlaps(GregorianCalendar date) {
-        return (start.compareTo(date) <= 0
+        if(start != null && end != null)
+        {
+            return (start.compareTo(date) <= 0
                 && end.compareTo(date) > 0);
+        }
+        else 
+        {
+                return false;
+        }
+
     }
 
     /**

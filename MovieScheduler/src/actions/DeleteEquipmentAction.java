@@ -3,6 +3,7 @@
  */
 package actions;
 
+import businessobjects.Equipment;
 import database.Database;
 import java.sql.SQLException;
 
@@ -16,7 +17,7 @@ public class DeleteEquipmentAction extends BaseAction {
      * This is the ****EMAIL**** of the owner of the equipment to delete in the
      * database *
      */
-    private String equipmentToDelete;
+    private Equipment equipmentToDelete;
 
     /**
      * The constructor for this action
@@ -25,7 +26,7 @@ public class DeleteEquipmentAction extends BaseAction {
      * @param equipmentToDelete -The name of the equipment to delete from the
      * database
      */
-    public DeleteEquipmentAction(Database database, String equipmentToDelete) {
+    public DeleteEquipmentAction(Database database, Equipment equipmentToDelete) {
         super(database);
         this.equipmentToDelete = equipmentToDelete;
     }
@@ -42,12 +43,13 @@ public class DeleteEquipmentAction extends BaseAction {
             setErrorMessage("The given equipment to delete was null ");
         }
         getDatabase().clearCommandList();
-        getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToDelete + "';");
+        getDatabase().addCommand("delete from t_equipmentAvailability where eav_equipmentName = '" + equipmentToDelete.getEquipmentName() + "';" );
+        getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToDelete.getOwnerEmail() + "';");
 
       // unsure if i am supposed to delete the equipment from anywhere else
         // will it automatically delete the equipment from any scenes it is in already
       //database().addCommand("delete from t_scenevolunteer where snv_scenename = '" + sceneToDelete + "';");
-        //database().addCommand("delete from t_sceneequipment where sne_scenename = '" + sceneToDelete + "';");
+        getDatabase().addCommand("delete from t_sceneequipment where sne_equipmentname = '" + equipmentToDelete.getEquipmentName() + "';");
         try {
             getDatabase().executeCommandList();
             this.setWasSuccessful(true);

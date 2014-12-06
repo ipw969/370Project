@@ -97,7 +97,7 @@ public class JdbcDatabase extends Database {
         {
             statement = connection.createStatement();
             int updatedResults = statement.executeUpdate(queryText);
-            if(updatedResults == 0)
+            if(updatedResults < 0)
                 throw new SQLException("Update failed to alter any data");
             
         }

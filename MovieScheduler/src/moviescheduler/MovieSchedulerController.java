@@ -6,6 +6,7 @@
 package moviescheduler;
 
 import actions.DeleteEquipmentAction;
+import actions.DeleteSceneAction;
 import actions.DeleteSceneFilmingDateAction;
 import actions.DeleteVolunteerAction;
 import actions.SaveEquipmentAction;
@@ -17,6 +18,7 @@ import businessobjects.BusinessObjectList;
 import businessobjects.Equipment;
 import businessobjects.Scene;
 import businessobjects.SceneFilmingDate;
+import businessobjects.Schedule;
 import businessobjects.Script;
 import businessobjects.Volunteer;
 import database.Database;
@@ -122,11 +124,10 @@ public class MovieSchedulerController {
             }
             
             SaveVolunteerAction saveVolunteerAction = new SaveVolunteerAction(database, volunteerToSave, volunteerToReplace.getEmail());
-            boolean wasNew = volunteerToSave.isNew();
             saveVolunteerAction.run();
             if (saveVolunteerAction.wasSuccessful()) 
             { 
-                if (wasNew) 
+                if (volunteerToReplace.isNew()) 
                 {
                     script.getVolunteers().add(volunteerToReplace);
                 }
@@ -175,7 +176,7 @@ public class MovieSchedulerController {
             }
             else
             {
-                if (equipmentToSave.isNew())
+                if (equipmentToReplace.isNew())
                 {
                     script.addEquipment(equipmentToSave);
                 }
@@ -221,17 +222,16 @@ public class MovieSchedulerController {
                 saveClonedScene.run();
                 if (saveClonedScene.wasSuccessful()) 
                 {
-                    if (sceneToReplace != null) 
-                    {
-                        //If this is editing a scene we need to merge the clone into the original.
-                        sceneToReplace.setHasChanged(false);
-                        sceneToReplace.merge(sceneToSave);
-                        sceneToReplace.setHasChanged(true);
-                    } 
-                    else 
-                    {
-                        script.addScene(sceneToSave);
-                    }
+                   
+                  
+                        if (sceneToReplace == null || sceneToReplace.isNew())
+                        {
+                             script.addScene(sceneToSave);
+                        }
+                        else
+                        {
+                            sceneToReplace.merge(sceneToSave);
+                        }
                 }  
             }
     }
@@ -264,7 +264,7 @@ public class MovieSchedulerController {
         else if (objectToDelete instanceof Equipment)
         {
             Equipment equipmentToDelete = (Equipment) objectToDelete;
-            DeleteEquipmentAction deleteSelectedEquipment = new DeleteEquipmentAction(database, equipmentToDelete.getOwnerEmail());
+            DeleteEquipmentAction deleteSelectedEquipment = new DeleteEquipmentAction(database, equipmentToDelete);
             deleteSelectedEquipment.run();
             if (deleteSelectedEquipment.wasSuccessful()) 
             {
@@ -278,8 +278,27 @@ public class MovieSchedulerController {
             {
                 this.displayError(deleteSelectedEquipment.lastErrorMessage());
             }
+           
 
-
+        }
+        else if(objectToDelete instanceof Scene)
+        {
+            Scene sceneToDelete = (Scene) objectToDelete;
+            SceneFilmingDate sceneFilmingDateToRemove = script.getSchedule().getScenesFilmingDate(sceneToDelete);
+            DeleteSceneAction deleteSceneAction = new DeleteSceneAction(this.getDatabase(),sceneToDelete.getName());
+            deleteSceneAction.run();
+            if (deleteSceneAction.wasSuccessful())
+            {
+                Schedule tempSchedule = new Schedule();
+                tempSchedule.addAll(script.getSchedule());
+                tempSchedule.remove(sceneFilmingDateToRemove);
+                script.setSchedule(tempSchedule);
+                script.getScenes().remove(sceneToDelete);
+            }
+            else
+            {
+                displayError(deleteSceneAction.lastErrorMessage());
+            }
         }
         else if (objectToDelete instanceof SceneFilmingDate)
         {
@@ -324,13 +343,18 @@ public class MovieSchedulerController {
     
     public void displaySceneMenu(Scene sceneToEdit)
     {
+        SceneMenu sceneMenu;
+         try
+        {
         if (sceneToEdit == null)
         {
-            sceneToEdit = new Scene("insert name here.", "insert description here.");
+            sceneToEdit = new Scene("name here.", "insert description here.");
+            sceneMenu = new SceneMenu(sceneToEdit, null, this);
         }
-        try
+        else
         {
-            SceneMenu sceneMenu = new SceneMenu(sceneToEdit, (Scene) sceneToEdit.clone(), this);
+            sceneMenu = new SceneMenu(sceneToEdit, (Scene) sceneToEdit.clone(), this);
+        }
             sceneMenu.setVisible(true);
         }
         catch(CloneNotSupportedException e)

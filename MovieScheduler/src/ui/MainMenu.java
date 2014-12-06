@@ -35,6 +35,8 @@ public class MainMenu extends javax.swing.JFrame {
 
         //   theScript.addVolunteer(new Volunteer("kyle", "west", "raeagaeg", "phonenumber"));
         volunteerComboBox.removeAllItems();
+        sceneComboBox.removeAllItems();
+        equipmentComboBox.removeAllItems();
         for (Volunteer volunteerToAdd: controller.getVolunteers())
         {
             volunteerComboBox.addItem(volunteerToAdd);
@@ -357,6 +359,8 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void removeSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSceneButtonActionPerformed
         controller.deleteBusinessObject((Scene) sceneComboBox.getSelectedItem());
+        controller.displayMainMenu();
+        this.dispose();
     }//GEN-LAST:event_removeSceneButtonActionPerformed
 
     private void editSceneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSceneButtonActionPerformed

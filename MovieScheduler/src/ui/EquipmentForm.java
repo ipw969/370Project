@@ -104,6 +104,7 @@ public class EquipmentForm extends javax.swing.JFrame {
         add = new javax.swing.JButton();
         submit = new javax.swing.JToggleButton();
         cancel = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,6 +161,13 @@ public class EquipmentForm extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("removeAvailability");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,10 +196,12 @@ public class EquipmentForm extends javax.swing.JFrame {
                                     .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(end, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(add))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(currentAvailabilities, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton1)
+                        .addComponent(currentAvailabilities, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -225,10 +235,11 @@ public class EquipmentForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(end, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(end, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(53, 53, 53)
                 .addComponent(add)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submit)
                     .addComponent(cancel))
@@ -250,8 +261,7 @@ public class EquipmentForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        //display the availability in the drop down box currentavailabilities
-        currentAvailabilities.addItem(start.getValue() + " to " + end.getValue());
+
 
         //parse the values to date values
         Date sDate, eDate;
@@ -267,6 +277,8 @@ public class EquipmentForm extends javax.swing.JFrame {
         endDate.setTime(eDate);
         TimeInterval timeInterval = new TimeInterval(startDate, endDate);
 
+        //display the availability in the drop down box currentavailabilities
+        currentAvailabilities.addItem(timeInterval);
         availabilityList.add(timeInterval);
         /* 
           
@@ -307,6 +319,16 @@ public class EquipmentForm extends javax.swing.JFrame {
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         controller.displayMainMenu();
         this.dispose();       }//GEN-LAST:event_cancelActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (currentAvailabilities.getSelectedItem() != null)
+        {
+            
+            availabilityList.remove(currentAvailabilities.getSelectedItem());
+            currentAvailabilities.removeItem(currentAvailabilities.getSelectedItem());
+           
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,6 +390,7 @@ public class EquipmentForm extends javax.swing.JFrame {
     private javax.swing.JComboBox currentAvailabilities;
     private javax.swing.JSpinner end;
     private javax.swing.JTextField equipmentName;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

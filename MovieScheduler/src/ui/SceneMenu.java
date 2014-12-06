@@ -57,9 +57,18 @@ public class SceneMenu extends javax.swing.JDialog {
      */
     public SceneMenu(Scene originalScene, Scene sceneToEdit, MovieSchedulerController controller) {
         this.setModal(true);
-        this.originalScene = originalScene;
-        this.clonedScene = sceneToEdit;
+        if (sceneToEdit == null)
+        {
+            this.clonedScene = originalScene;
+            this.originalScene = null;
+        }
+        else
+        {
+           this.originalScene = originalScene;
+           this.clonedScene = sceneToEdit; 
+        }
         
+        this.controller = controller;
         currentVolunteerList = new BusinessObjectList<Volunteer>();
         currentVolunteerList.addAll(clonedScene.getVolunteers());
 
@@ -80,16 +89,17 @@ public class SceneMenu extends javax.swing.JDialog {
 
         currentEquipment = new BusinessObjectListView(currentEquipmentList);
         initComponents();
-
+        
         jScrollPane1.setPreferredSize(new Dimension(150, 150));
         jScrollPane2.setPreferredSize(new Dimension(150, 150));
         jScrollPane3.setPreferredSize(new Dimension(150, 150));
         jScrollPane4.setPreferredSize(new Dimension(150, 150));
+        /**
         currentEquipment.setPreferredSize(new Dimension(150, 150));
         currentVolunteers.setPreferredSize(new Dimension(150, 150));
         availableEquipment.setPreferredSize(new Dimension(150, 150));
         availableVolunteers.setPreferredSize(new Dimension(150, 150));
-
+**/
         //Make all of the lists proper
         //That is, make sure the current lists have all of the volunteers and equipment currently in the scene
         //and ensure the available equipment and volunteer lists only have ones not listed in the scenes list.
@@ -332,7 +342,8 @@ public class SceneMenu extends javax.swing.JDialog {
         clonedScene.getVolunteers().addAll(currentVolunteerList);
         clonedScene.getEquipment().addAll(currentEquipmentList);
 
-       controller.saveBusinessObject(originalScene, clonedScene);
+       controller.saveBusinessObject(clonedScene, originalScene);
+       this.dispose();
     }
 
     /**

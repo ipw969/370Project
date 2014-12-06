@@ -33,7 +33,15 @@ public class SaveEquipmentAction extends BaseAction {
     public SaveEquipmentAction(Database database, Equipment equipment, Equipment equipmentToReplace) {
         super(database);
         this.equipment = equipment;
-        this.equipmentToReplace = equipmentToReplace;
+        if (equipmentToReplace == null || equipmentToReplace.getEquipmentName() == null || equipmentToReplace.getOwnerFirstName() == null || equipmentToReplace.getOwnerLastName() == null)
+        {
+            this.equipmentToReplace = null;
+        }
+        else
+        {
+             this.equipmentToReplace = equipmentToReplace;
+        }
+       
         setBusinessObject(equipment);
     }
 
@@ -44,18 +52,13 @@ public class SaveEquipmentAction extends BaseAction {
             setWasSuccessful(false);
             return;
         }
+        
         getDatabase().clearCommandList();
         if (equipmentToReplace != null) {
             getDatabase().addCommand("delete from t_equipmentavailability where eav_equipmentname = '" + equipmentToReplace.getEquipmentName() + "';");
             getDatabase().addCommand("delete from t_equipment where eqp_emailaddress_owner = '" + equipmentToReplace.getOwnerEmail() + "';");
-            if (equipmentToReplace.getOwnerFirstName().equals(equipment.getOwnerFirstName())
-                    && equipmentToReplace.getOwnerLastName().equals(equipment.getOwnerLastName())
-                    && equipmentToReplace.getOwnerEmail().equals(equipment.getOwnerEmail()))
-            {
-                getDatabase().addCommand("delete from t_equipmentowner where own_firstname = '" + equipmentToReplace.getOwnerFirstName() + "' and own_surname = '" + equipmentToReplace.getOwnerLastName() + "' and own_emailaddress = '" + equipmentToReplace.getOwnerEmail() + "';");
-            }
         }
-
+         getDatabase().addCommand("delete from t_equipmentowner where own_firstname = '" + equipment.getOwnerFirstName() + "' and own_surname = '" + equipment.getOwnerLastName() + "' and own_emailaddress = '" + equipment.getOwnerEmail() + "';");
         
         getDatabase().addCommand("insert into t_equipmentowner(own_firstname, own_surname, own_emailaddress) VALUES('" + equipment.getOwnerFirstName() + "','" + equipment.getOwnerLastName() + "','" + equipment.getOwnerEmail() + "');");
         getDatabase().addCommand(buildInsertQueryString());
