@@ -236,7 +236,8 @@ public class MovieSchedulerController {
                 Schedule tempSchedule = new Schedule();
                 tempSchedule.addAll(script.getSchedule());
                 tempSchedule.remove(sceneFilmingDateToRemove);
-                script.setSchedule(tempSchedule);
+                script.getSchedule().clear();
+                script.getSchedule().addAll(tempSchedule);
                 script.getScenes().remove(sceneToDelete);
             } else {
                 displayError(deleteSceneAction.lastErrorMessage());
