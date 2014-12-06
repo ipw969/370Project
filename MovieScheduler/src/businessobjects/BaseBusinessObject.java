@@ -251,11 +251,18 @@ public abstract class BaseBusinessObject implements Cloneable {
     }
 
     private void notifyListenersOfChangedStateAltered() {
+       for (int index = 0; index < listeners.size(); index++)
+       {
+           listeners.get(index).changedStateAltered(hasChanged, this);
+       }
+       
+        /**
         for (BusinessObjectListener listener : listeners) {
             if (listener != null) {
+                
                 listener.changedStateAltered(hasChanged, this);
             }
-        }
+        }**/
     }
 
     // Private Member Variables
