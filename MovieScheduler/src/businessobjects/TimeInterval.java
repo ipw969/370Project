@@ -161,7 +161,7 @@ public class TimeInterval
      * this.end is strictly greater than date
      */
     public boolean overlaps(GregorianCalendar date) {
-        if(start != null && end != null)
+        if(start != null && end != null && date!= null)
         {
             return (start.compareTo(date) <= 0
                 && end.compareTo(date) > 0);
@@ -186,7 +186,9 @@ public class TimeInterval
      */
     public boolean isOnThisDate(GregorianCalendar date) {
 
-        return (overlaps(date)
+        if (date != null && start != null && end != null)
+        {
+                    return (overlaps(date)
                 || (date.get(Calendar.YEAR) == start.get(Calendar.YEAR)
                 && date.get(Calendar.MONTH) == start.get(Calendar.MONTH)
                 && date.get(Calendar.DAY_OF_MONTH) == start.get(Calendar.DAY_OF_MONTH))
@@ -195,6 +197,12 @@ public class TimeInterval
                 && date.get(Calendar.DAY_OF_MONTH) == end.get(Calendar.DAY_OF_MONTH))
                 || (start.compareTo(date) < 0
                 && end.compareTo(date) > 0));
+        }
+        else
+        {
+                return false;
+        }
+
     }
 
     /**

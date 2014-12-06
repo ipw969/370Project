@@ -271,24 +271,13 @@ public class MovieSchedulerController {
         }
         return false;
     }
-<<<<<<< HEAD
     
     /**Following are methods for displaying the ui elements in our project*/
     public void displayMainMenu()
     {
              MainMenu mainMenu = new MainMenu(this);  
              mainMenu.setVisible(true);
-=======
-
-    /**
-     * Following are methods for displaying the ui elements in our project
-     */
-    public void displayMainMenu() {
-        MainMenu mainMenu = new MainMenu(this);
-        mainMenu.setVisible(true);
->>>>>>> 35c224b7bd3ed3f43e3801067be53135dc6d2a69
     }
-
     public void displaySceneMenu(Scene sceneToEdit) {
         SceneMenu sceneMenu;
         try {
