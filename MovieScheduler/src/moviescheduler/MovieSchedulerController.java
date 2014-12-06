@@ -44,7 +44,11 @@ public class MovieSchedulerController {
         this.script = script;
         this.database = database;
     }
-    
+    /**Saves the given Business object.
+     * @param objectToSave the object to save
+     * @param objectToReplace the object to replace(can be null)
+     * @postcon the object is saved to the database and the script.
+     */
     public void saveBusinessObject(BaseBusinessObject objectToSave, BaseBusinessObject objectToReplace)
     {
         if (objectToSave instanceof Volunteer)
@@ -93,6 +97,7 @@ public class MovieSchedulerController {
         }
     }
       
+    /**Following are helper methods to assist in deleting the individual objects.*/
     private void saveSceneFilmingDate(SceneFilmingDate filmingDateToSave, SceneFilmingDate filmingDateToReplace)
     {
             SaveSceneFilmingDateAction saveAction = new SaveSceneFilmingDateAction(database, filmingDateToSave);
@@ -236,7 +241,10 @@ public class MovieSchedulerController {
             }
     }
     
-    
+    /**Deletes the given BaseBusinessObject from the database and the script.
+     * @postcon the object was removed from the database adn the script.
+     * @param objectToDelete 
+     */
     public void deleteBusinessObject(BaseBusinessObject objectToDelete)
     {
         if(!userWantsDeleted())
@@ -316,6 +324,7 @@ public class MovieSchedulerController {
         }
     }
     
+    /**A quick popup menu to ensure the user wants the selected item deleted.*/
     protected boolean userWantsDeleted()
     {
         
@@ -335,10 +344,10 @@ public class MovieSchedulerController {
         return false;
     }
     
+    /**Following are methods for displaying the ui elements in our project*/
     public void displayMainMenu()
     {
-             MainMenu mainMenu = new MainMenu(this);      //want to remove datbase from this soon. All the Main Menu should have is the script.
-             mainMenu.setVisible(true);
+             MainMenu mainMenu = new MainMenu(this);      
     }
     
     public void displaySceneMenu(Scene sceneToEdit)
