@@ -363,6 +363,7 @@ public class ResourcePanel extends javax.swing.JPanel {
         itemBriefTextField.setEditable(false);
         itemBriefTextField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         itemBriefTextField.setToolTipText("");
+        itemBriefTextField.setBorder(null);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -383,7 +384,7 @@ public class ResourcePanel extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addComponent(itemBriefTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addComponent(descriptionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
