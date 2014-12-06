@@ -57,7 +57,7 @@ public class MainMenu extends javax.swing.JFrame {
         schedulePanel.setDatabase(controller.getDatabase());
         scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
 
-       ResourcePanel resourcePanel = new ResourcePanel(controller.getScript(), controller.getDatabase());
+       ResourcePanel resourcePanel = new ResourcePanel(controller);
         resourceTabPanel.add(resourcePanel);
 
     }

@@ -12,6 +12,7 @@ import database.Database;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import moviescheduler.MovieSchedulerController;
 
 /**
  * Ui class representing a panel of information for the different resources for
@@ -24,20 +25,17 @@ public class ResourcePanel extends javax.swing.JPanel {
     /**
      * Creates new form ResourcePanel
      *
-     * @param script::Script ~ The Script which the panel will be displaying the
-     * resources of.
-     * @param database::Database ~ The Database which will be used to update the
-     * data from the script on editing
+     * @param controller::MovieSchedulerController ~ The controller for the
+     * system
      */
-    public ResourcePanel(Script script, Database database) {
+    public ResourcePanel(MovieSchedulerController controller) {
         initComponents();
-        this.database = database;
-        this.script = script;
-        volunteerList = new EditableBusinessObjectListView<>(script.getVolunteers());
+        this.controller = controller;
+        volunteerList = new EditableBusinessObjectListView<>(controller.getVolunteers());
         registerVolunteerActionListeners();
-        equipmentList = new EditableBusinessObjectListView<>(script.getEquipment());
+        equipmentList = new EditableBusinessObjectListView<>(controller.getEquipment());
         registerEquipmentActionListeners();
-        sceneList = new EditableBusinessObjectListView<>(script.getScenes());
+        sceneList = new EditableBusinessObjectListView<>(controller.getScenes());
         registerSceneActionListeners();
         volunteerListPanel.add(volunteerList);
         equipmentListPanel.add(equipmentList);
@@ -54,9 +52,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onAddActionPerformed(BusinessObjectListViewAddEvent<Volunteer> event) {
-                        VolunteerForm volunteerForm = new VolunteerForm(
-                                script, database, new Volunteer());
-                        volunteerForm.setVisible(true);
+                        controller.displayVolunteerMenu(null);
                     }
 
                 });
@@ -66,9 +62,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
-                        VolunteerForm volunteerForm = new VolunteerForm(
-                                script, database, (Volunteer) event.getObjectBeingEdited());
-                        volunteerForm.setVisible(true);
+                        controller.displayVolunteerMenu((Volunteer) event.getObjectBeingEdited());
                     }
 
                 });
@@ -83,34 +77,26 @@ public class ResourcePanel extends javax.swing.JPanel {
                             return;
                         }
 
-                        int confirm = JOptionPane.showOptionDialog(
-                                ResourcePanel.this,
-                                "Are you sure you wish to delete " + event.getObjectBeingDeleted().toString(),
-                                "Are you sure?",
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.WARNING_MESSAGE,
-                                null, null, null);
+                        controller.deleteBusinessObject(event.getObjectBeingDeleted());
 
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            deleteVolunteer((Volunteer) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
-                        }
                     }
 
                 });
-        
-        volunteerList.addListSelectionListener(new ListSelectionListener(){
+
+        volunteerList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(volunteerList.getSelectedValue() == null)
+                if (volunteerList.getSelectedValue() == null) {
                     return;
-                
+                }
+
                 Volunteer selectedVolunteer = volunteerList.getSelectedValue();
-                
+
                 itemBriefTextField.setText(selectedVolunteer.toString());
                 itemDescriptionTextArea.setText(selectedVolunteer.toDescriptiveString());
             }
-            
+
         });
     }
 
@@ -124,9 +110,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onAddActionPerformed(BusinessObjectListViewAddEvent<Equipment> event) {
-                        EquipmentForm equipmentForm = new EquipmentForm(
-                                script, database, new Equipment());
-                        equipmentForm.setVisible(true);
+                        controller.displayEquipmentMenu(null);
                     }
 
                 });
@@ -136,9 +120,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
-                        EquipmentForm equipmentForm = new EquipmentForm(
-                                script, database, (Equipment) event.getObjectBeingEdited());
-                        equipmentForm.setVisible(true);
+                        controller.displayEquipmentMenu((Equipment) event.getObjectBeingEdited());
                     }
 
                 });
@@ -153,34 +135,26 @@ public class ResourcePanel extends javax.swing.JPanel {
                             return;
                         }
 
-                        int confirm = JOptionPane.showOptionDialog(
-                                ResourcePanel.this,
-                                "Are you sure you wish to delete " + event.getObjectBeingDeleted().toString(),
-                                "Are you sure?",
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.WARNING_MESSAGE,
-                                null, null, null);
+                        controller.deleteBusinessObject(event.getObjectBeingDeleted());
 
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            deleteEquipment((Equipment) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
-                        }
                     }
 
                 });
-        
-        equipmentList.addListSelectionListener(new ListSelectionListener(){
+
+        equipmentList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(equipmentList.getSelectedValue() == null)
+                if (equipmentList.getSelectedValue() == null) {
                     return;
-                
+                }
+
                 Equipment selectedEquipment = equipmentList.getSelectedValue();
-                
+
                 itemBriefTextField.setText(selectedEquipment.toString());
                 itemDescriptionTextArea.setText(selectedEquipment.toDescriptiveString());
             }
-            
+
         });
     }
 
@@ -194,9 +168,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onAddActionPerformed(BusinessObjectListViewAddEvent<Scene> event) {
-
-                        SceneMenu newSceneMenu = new SceneMenu(null, database, script, null);
-                        newSceneMenu.setVisible(true);
+                        controller.displaySceneMenu(null);
                     }
 
                 });
@@ -206,9 +178,7 @@ public class ResourcePanel extends javax.swing.JPanel {
 
                     @Override
                     public void onEditActionPerformed(BusinessObjectListViewEditEvent event) {
-                        SceneMenu sceneMenu = new SceneMenu(null,
-                                database, script, (Scene) event.getObjectBeingEdited());
-                        sceneMenu.setVisible(true);
+                        controller.displaySceneMenu((Scene) event.getObjectBeingEdited());
                     }
 
                 });
@@ -223,93 +193,27 @@ public class ResourcePanel extends javax.swing.JPanel {
                             return;
                         }
 
-                        int confirm = JOptionPane.showOptionDialog(
-                                ResourcePanel.this,
-                                "Are you sure you wish to delete " + event.getObjectBeingDeleted().toString(),
-                                "Are you sure?",
-                                JOptionPane.YES_NO_OPTION,
-                                JOptionPane.WARNING_MESSAGE,
-                                null, null, null);
+                        controller.deleteBusinessObject(event.getObjectBeingDeleted());
 
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            deleteScene((Scene) event.getObjectBeingDeleted(), event.getListBeingDeletedFrom());
-                        }
                     }
 
                 });
-        
-        sceneList.addListSelectionListener(new ListSelectionListener(){
+
+        sceneList.addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(sceneList.getSelectedValue() == null)
+                if (sceneList.getSelectedValue() == null) {
                     return;
-                
+                }
+
                 Scene selectedScene = sceneList.getSelectedValue();
-                
+
                 itemBriefTextField.setText(selectedScene.toString());
                 itemDescriptionTextArea.setText(selectedScene.toDescriptiveString());
             }
-            
+
         });
-    }
-
-    /**
-     * Method which handles deleting of a volunteer
-     *
-     * @param volunteerToDelete::Volunteer ~ The Volunteer to be deleted
-     * @param volunteers::BusinessObjectList<Volunteer> ~ The list of Volunteers
-     * for the System
-     */
-    private void deleteVolunteer(Volunteer volunteerToDelete,
-            BusinessObjectList<Volunteer> volunteers) {
-        DeleteVolunteerAction deleteVolunteerAction = new DeleteVolunteerAction(
-                database, volunteerToDelete.getEmail()
-        );
-
-        deleteVolunteerAction.run();
-
-        if (deleteVolunteerAction.wasSuccessful()) {
-            volunteers.remove(volunteerToDelete);
-        } else {
-            JOptionPane.showMessageDialog(this, "Could not delete Volunteer"
-                    + " with message " + deleteVolunteerAction.lastErrorMessage());
-        }
-    }
-
-    /**
-     * Method which handles deleting of a scene
-     *
-     * @param sceneToDelete::Scene ~ The scene to delete
-     * @param scenes::BusinessObjectList<Scene> ~ The master list of Scenes
-     */
-    private void deleteScene(Scene sceneToDelete,
-            BusinessObjectList<Scene> scenes) {
-        DeleteSceneAction deleteSceneAction = new DeleteSceneAction(database, sceneToDelete.getName());
-
-        deleteSceneAction.run();
-
-        if (deleteSceneAction.wasSuccessful()) {
-            scenes.remove(sceneToDelete);
-        } else {
-            JOptionPane.showMessageDialog(this, "Could not delete Scene"
-                    + " with message " + deleteSceneAction.lastErrorMessage());
-        }
-    }
-
-    private void deleteEquipment(Equipment equipmentToDelete,
-            BusinessObjectList<Equipment> equipment) {
-        DeleteEquipmentAction deleteEquipmentAction
-                = new DeleteEquipmentAction(database, equipmentToDelete.getEquipmentName());
-
-        deleteEquipmentAction.run();
-
-        if (deleteEquipmentAction.wasSuccessful()) {
-            equipment.remove(equipmentToDelete);
-        } else {
-            JOptionPane.showMessageDialog(this, "Could not delete Equipment"
-                    + " with message " + deleteEquipmentAction.lastErrorMessage());
-        }
     }
 
     /**
@@ -504,8 +408,7 @@ public class ResourcePanel extends javax.swing.JPanel {
     private javax.swing.JLabel volunteersLabel;
     private javax.swing.JPanel volunteersPanel;
     // End of variables declaration//GEN-END:variables
-    private final Script script;
-    private final Database database;
+    private final MovieSchedulerController controller;
     private final EditableBusinessObjectListView<Volunteer> volunteerList;
     private final EditableBusinessObjectListView<Equipment> equipmentList;
     private final EditableBusinessObjectListView<Scene> sceneList;
