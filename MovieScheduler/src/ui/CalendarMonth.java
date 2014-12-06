@@ -38,7 +38,7 @@ public class CalendarMonth extends javax.swing.JPanel
                 }
                 
             });
-            calendarDays.add(new CalendarDay());
+            calendarDays.add(calendarDay);
             
         }
         // Set the currentMonthStart to this month

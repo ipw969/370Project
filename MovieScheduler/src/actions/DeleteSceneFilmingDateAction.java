@@ -69,7 +69,7 @@ public class DeleteSceneFilmingDateAction extends BaseAction {
         SceneFilmingDate filmingDate = getSceneFilmingDate();
 
         String returnString = "DELETE FROM t_schedule "
-                + "WHERE shc_scenename = '" + filmingDate.getScene() + "';";
+                + "WHERE sch_scenename = '" + filmingDate.getScene() + "';";
 
         return returnString;
     }

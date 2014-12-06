@@ -121,7 +121,7 @@ public class JdbcDatabase extends Database {
     @Override
     protected void executeDeleteImplementation(String queryText) throws SQLException
     {
-        if (!queryText.contains("delete"))
+        if (!queryText.contains("delete") && !queryText.contains("DELETE"))
         {
             throw new SQLException("The given query was not a delete query");
         }

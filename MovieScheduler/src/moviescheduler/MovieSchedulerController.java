@@ -38,7 +38,7 @@ public class MovieSchedulerController {
 
     protected final Script script;
     protected final Database database;
-    protected final String errorMode = "JoptionPane";
+    protected final String errorMode = "JOptionPane";
 
     public MovieSchedulerController(Script script, Database database) {
         this.script = script;

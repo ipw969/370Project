@@ -52,9 +52,7 @@ public class MainMenu extends javax.swing.JFrame {
             equipmentComboBox.addItem(equipmentToAdd);
         }
         
-        SchedulePanel schedulePanel = new SchedulePanel();
-        schedulePanel.setSript(controller.getScript());
-        schedulePanel.setDatabase(controller.getDatabase());
+        SchedulePanel schedulePanel = new SchedulePanel(controller);
         scheduleTabPanel.add(schedulePanel, BorderLayout.CENTER);
 
        ResourcePanel resourcePanel = new ResourcePanel(controller);

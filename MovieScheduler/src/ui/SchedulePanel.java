@@ -18,6 +18,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import moviescheduler.MovieSchedulerController;
 
 /**
  * A class which represents the scene panel for display in the MainMenu
@@ -30,34 +31,11 @@ public class SchedulePanel extends javax.swing.JPanel
     /**
      * Creates new instance of a SchedulePanel
      */
-    public SchedulePanel()
+    public SchedulePanel(MovieSchedulerController controller)
     {
+        this.controller = controller;
         initComponents();
-    }
-
-    public void setDatabase(Database database)
-    {
-        if(database == null)
-            throw new RuntimeException("Schedule Panel cannot function with "
-                    + "a null database");
-        
-        this.database = database;
-    }
-    
-    /**
-     * Sets the script whose Schedule and Scenes will be displayed in the panel
-     *
-     * @param script::Script ~ The Script whose data will be displayed
-     */
-    public void setSript(Script script)
-    {
-        if (script == null)
-        {
-            throw new RuntimeException("Cannot add a null Script to a "
-                    + "SchedulePanel");
-        }
-        this.script = script;
-        sceneListView = new BusinessObjectListView<>(script.getScenes());
+                sceneListView = new BusinessObjectListView<>(controller.getScript().getScenes());
         sceneListViewScrollPane.setViewportView(sceneListView);
 
 
@@ -97,7 +75,7 @@ public class SchedulePanel extends javax.swing.JPanel
             {
                 Scene selectedScene = sceneListView.getSelectedValue();
                 SceneFilmingDate filmingDate =
-                        script.getSchedule().getScenesFilmingDate(selectedScene);
+                        controller.getScript().getSchedule().getScenesFilmingDate(selectedScene);
                 
                 if(filmingDate == null)
                 {
@@ -118,7 +96,7 @@ public class SchedulePanel extends javax.swing.JPanel
                 }
                 
                 SceneFilmingDateForm editFilmingDate = new
-                    SceneFilmingDateForm(script, filmingDate, database);
+                    SceneFilmingDateForm(controller.getScript(), filmingDate, controller.getDatabase());
                 editFilmingDate.setVisible(true);
             }
         });
@@ -150,7 +128,7 @@ public class SchedulePanel extends javax.swing.JPanel
             }
         });
         ScheduleCalendar scheduleCalendar = new ScheduleCalendar();
-        scheduleCalendar.setSchedule(script.getSchedule());
+        scheduleCalendar.setSchedule(controller.getScript().getSchedule());
         scheduleCalendar.addDeleteActionListener(
                 new DeleteFilmingDateActionListener(){
 
@@ -167,19 +145,8 @@ public class SchedulePanel extends javax.swing.JPanel
     
     private void deleteSceneFilmingDate(SceneFilmingDate sceneFilmingDate)
     {
-        DeleteSceneFilmingDateAction action = 
-                new DeleteSceneFilmingDateAction(database, sceneFilmingDate);
         
-        action.run();
-        
-        if(action.wasSuccessful())
-        {
-            this.script.getSchedule().remove(sceneFilmingDate);
-        }
-        else
-        {
-            
-        }
+        controller.deleteBusinessObject(sceneFilmingDate);
     }
     
     /**
@@ -271,13 +238,12 @@ public class SchedulePanel extends javax.swing.JPanel
 
     private void launchConflictButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_launchConflictButtonMouseClicked
         JFrame conflictFrame;
-        conflictFrame = new ConflictResolution(this.script);
+        conflictFrame = new ConflictResolution(controller.getScript());
     }//GEN-LAST:event_launchConflictButtonMouseClicked
 
     // Private Member Variables
     private BusinessObjectListView<Scene> sceneListView;
-    private Script script;
-    private Database database;
+    private final MovieSchedulerController controller;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel calendarPanel;
     private javax.swing.JButton launchConflictButton;
